@@ -1,0 +1,42 @@
+PROGRESS TRACKER
+================
+[ ] = baaki    [~] = chal raha    [x] = ho gaya
+
+
+------------------------------------------------------------
+1. WEEKLY PLAN
+------------------------------------------------------------
+  Week     Dates                      Test score   Status
+  ------   ------------------------   ----------   ------
+  week-1   23-10-2026 – 01-11-2026                 [~]
+  week-2                                           [ ]
+  week-3                                           [ ]
+  week-4                                           [ ]
+
+  Focus har hafte ka: WEEKLY-PLAN\week-N\00-week-overview.txt dekho.
+
+
+------------------------------------------------------------
+2. SKILLS (level 1-5)
+------------------------------------------------------------
+  Skill                           Level   Last updated   Notes
+  -----------------------------   -----   ------------   -----
+  PHP / Laravel
+  React / JS
+  Python
+  AI / LLM (APIs, RAG, agents)
+  Database (MySQL / Postgres)
+  DevOps / Linux / Docker
+  Git
+  System Design
+
+
+------------------------------------------------------------
+3. MILESTONES (Oct 2026 – Apr 2027)
+------------------------------------------------------------
+  [ ] Pehla AI mini project GitHub pe
+  [ ] Laravel + AI integration project
+  [ ] React + Python (FastAPI) project
+  [ ] Portfolio / resume update with new projects
+  [ ] 30 TIL entries
+  [ ] 100 TIL entries

@@ -1,0 +1,193 @@
+DAY 8 – SATURDAY 31 OCT 2026
+============================
+EduAssist capstone build – Laravel 13 + Sail, Institution & User
+Time: 2 ghante
+
+AAJ KA GOAL (ek line me):
+  Apna portfolio project "EduAssist" shuru karo: Laravel 13 Docker (Sail) me
+  chale, Postgres + Redis ke saath, Institution aur User models + tests ke
+  saath, aur GitHub pe push ho.
+
+EduAssist kya hai? Ek multi-institution LMS/education app jisme aage chal ke
+AI features (Week 5+, pgvector se search Week 11) lagenge. Aaj sirf neev.
+
+IMPORTANT: Kaam WSL Ubuntu ke andar karo (~/code), /mnt/d (Windows D: drive)
+me NAHI. Kyun? Windows drive se Docker files padhta hai to bahut slow hota
+hai; Linux file system me Sail kai guna tez chalta hai.
+
+
+============================================================
+0:00 – 0:10  START
+============================================================
+1. Docker Desktop kholo – WSL 2 backend ON hona chahiye.
+2. Ubuntu terminal kholo (Start menu > Ubuntu):
+       mkdir -p ~/code && cd ~/code
+
+
+============================================================
+0:10 – 0:35  PROJECT BANAO
+============================================================
+   curl -s "https://laravel.build/eduassist?with=pgsql,redis" | bash
+   (Ye Laravel ka project bana deta hai jisme Postgres aur Redis containers
+   pehle se configured hote hain. Pehli baar 5–10 min lag sakte hain.)
+
+   cd eduassist
+   ./vendor/bin/sail up -d          (-d = background me chalao)
+   ./vendor/bin/sail artisan migrate
+   Browser me kholo:  http://localhost   -> Laravel ka welcome page
+
+Alias (har baar ./vendor/bin/sail na likhna pade) – ~/.bashrc me add karo:
+   alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
+Phir:  source ~/.bashrc     -> ab sirf  sail ...  likh sakte ho.
+
+PGVECTOR HEADS-UP (abhi kar lo, Week 11 me migration bachegi):
+   - Project root me compose.yaml (ya docker-compose.yml) kholo
+   - pgsql service ki image dekho, e.g.  postgres:17
+   - Usko SAME major version wali pgvector image se badlo:
+         postgres:17   ->   pgvector/pgvector:pg17
+     (agar postgres:18 hai to pgvector/pgvector:pg18)
+   - Phir:  sail down && sail up -d
+   pgvector = Postgres ka extension jo AI "embeddings" (vectors) store/search
+   karta hai. Aage AI search ke liye chahiye.
+
+
+============================================================
+0:35 – 0:50  GIT + README
+============================================================
+   git init
+   cat .gitignore | grep .env      -> .env list me hona chahiye (zaroor check!)
+
+README.md me 4 section:
+   - What it is   (1 paragraph – EduAssist kya hai)
+   - Stack        (Laravel 13, PHP 8.3+, PostgreSQL + pgvector, Redis, Sail)
+   - Run locally  (wo 4 commands: clone, sail up -d, sail artisan migrate, open localhost)
+   - Roadmap      (Milestones 1–4)
+
+   git add . && git commit -m "chore: new Laravel 13 project with Sail (pgsql, redis)"
+   GitHub pe "eduassist" naam ka repo banao aur push karo.
+
+
+============================================================
+0:50 – 1:25  DOMAIN MODELS (asli kaam)
+============================================================
+Concept pehle samjho:
+   Ek INSTITUTION (school/coaching) ke bahut saare USERS hote hain.
+   Har user ka ek ROLE: admin, instructor ya student.
+   Institution  1 ---- many  User
+   (Institution hasMany Users;  User belongsTo Institution)
+
+Step A: Role enum
+   app/Enums/Role.php banao – Tuesday wala enum yahan le aao.
+   Upar:  namespace App\Enums;
+
+Step B: Institution model + migration + factory
+   sail artisan make:model Institution -mf
+     (-m = migration, -f = factory)
+   Migration me columns:
+     - name
+     - slug  (unique)               -> $table->string('slug')->unique();
+     - contact_email (nullable)     -> ->nullable()
+     - is_active (default true)     -> $table->boolean('is_active')->default(true);
+     - timestamps                   -> $table->timestamps();
+
+Step C: users table me institution + role
+   sail artisan make:migration add_institution_and_role_to_users_table --table=users
+   up() me:
+     - foreignId('institution_id')->nullable()->constrained()
+         (constrained() = foreign key institutions.id se apne aap)
+     - string('role')->default('student')
+     - index on (institution_id, role)   -> $table->index(['institution_id', 'role']);
+   down() me ulta karna mat bhoolna (index drop, foreign key drop, column drop).
+     HINT: $table->dropConstrainedForeignId('institution_id');
+   Kyun index? "Is institution ke saare students do" – ye query bahut chalegi.
+
+Step D: Relationships + cast
+   Institution model:  users()        -> hasMany(User::class)
+   User model:         institution()  -> belongsTo(Institution::class)
+   User model me role ko enum me cast karo (Laravel 11+ style):
+       protected function casts(): array
+       {
+           return [
+               // ... jo pehle se hai
+               'role' => Role::class,
+           ];
+       }
+   Ab $user->role ek string nahi, Role::Student jaisa enum milega.
+
+Step E: Factories
+   - InstitutionFactory: name, slug (unique), contact_email, is_active
+   - UserFactory me 3 "states" – ek line me role set karne ke shortcut:
+       admin(), instructor(), student()
+     Syntax hint:
+       public function admin(): static
+       {
+           return $this->state(fn (array $attributes) => ['role' => Role::Admin]);
+       }
+     Use:  User::factory()->admin()->create();
+
+
+============================================================
+1:25 – 1:45  SEEDER + TESTS
+============================================================
+DatabaseSeeder:
+   2 institutions, har ek me: 1 admin, 2 instructors, 10 students.
+   Hint: ->count(n) aur ->for($institution) factory methods docs me dekho.
+
+Tests – tests/Feature/InstitutionTest.php
+   sail artisan make:test InstitutionTest
+   (Pest install hua hai to Pest syntax milega, warna PHPUnit – dono theek.)
+   Class me  use RefreshDatabase;  (har test fresh DB pe chale)
+
+   Test 1: Institution sirf APNE users return kare, dusre institution ke nahi.
+           (2 institutions banao, dono me users, phir $inst1->users check karo)
+   Test 2: role Role enum me cast hota hai aur default 'student' hai.
+           TIP: role diye bina user banao, phir $user->fresh()->role check
+           karo – fresh() DB se dobara padhta hai, tabhi DB ka default dikhega.
+           (Agar UserFactory ki default definition me role set kar diya to ye
+           test factory ko check karega, DB default ko nahi – dhyan rakho.)
+
+Chalao:
+   sail artisan test                       -> GREEN
+   sail artisan migrate:fresh --seed       -> bina error
+
+
+============================================================
+1:45 – 1:55  AI REVIEW (is hafte ki AI skill)
+============================================================
+   git diff  (ya last commit ka diff) structured prompt ke saath AI ko do
+   (00-week-overview.txt section 6; CONTEXT line me likho:
+    "Laravel 13, PostgreSQL, Sail, Week 1 of a capstone project").
+   Har point ke liye KHUD decide: Accept ya Reject.
+   Har reject pe 1 line: kyun reject kiya.
+   (Ye sab capstone/ folder me ya PR description me rakh sakte ho.)
+
+
+============================================================
+1:55 – 2:00  WRAP UP
+============================================================
+   git add . && git commit -m "feat: institutions and user roles"
+   git push
+   learning-log.md me entry (career-2027 repo me).
+
+
+============================================================
+DEFINITION OF DONE – SATURDAY
+============================================================
+[ ] eduassist GitHub pe hai, README hai, kam se kam 2 commits; .env commit NAHI hua
+[ ] Sail me Postgres (pgvector image) + Redis chal rahe; migrate:fresh --seed chalta hai
+[ ] Institution aur User models, relationships, Role enum cast, factory states bane
+[ ] Kam se kam 2 feature tests pass
+[ ] Har AI review point pe accepted/rejected + reason likha
+
+
+============================================================
+AGAR KUCH ATKE
+============================================================
+- "port 80 / 5432 already in use" -> Windows pe Laragon/Postgres/Apache chal
+  raha hai, use band karo. Ya .env me APP_PORT=8080 / FORWARD_DB_PORT=5433.
+- sail: command not found -> alias add karke source ~/.bashrc kiya?
+- Docker ka bada problem 20 min me hal na ho -> RUKO. Is hafte Laragon +
+  local PostgreSQL pe karo, Docker kisi weekday theek karna. Saturday
+  Docker me barbaad nahi karna.
+- Saturday hi chala gaya -> Week 2 ki ek shaam sirf 0:00–0:50 wala hissa
+  (project + repo). Baaki agle Saturday.

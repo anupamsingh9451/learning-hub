@@ -1,0 +1,171 @@
+DAY 5 – WEDNESDAY 28 OCT 2026
+=============================
+Topic: Traits, Strict types, Custom exceptions
+Time: 60 min   ·   Folder: exercises/week01/03-traits-exceptions/
+
+AAJ KA GOAL (ek line me):
+  Code reuse ka teesra tareeka (trait) seekho, PHP ko "strict" banao, aur
+  galtiyon ko saaf naam wale apne exceptions se handle karna seekho.
+
+
+============================================================
+RECALL – 10 min
+============================================================
+1. Yaad se: NotificationInterface aur uska ek implementation likho.
+2. declare(strict_types=1) EXACTLY kya badalta hai? Aur ye kis file pe lagta
+   hai?  (Jawab neeche concepts me hai – pehle khud socho.)
+
+
+============================================================
+LEARN – 15 min
+============================================================
+  https://www.php.net/manual/en/language.oop5.traits.php
+  https://www.php.net/manual/en/language.exceptions.php
+     (try/catch/finally, Exception ko extend karna, $previous argument)
+  php.net pe "strict typing" (Type declarations page ka strict typing hissa)
+
+
+============================================================
+CONCEPTS – AASAN BHASHA ME
+============================================================
+1) TRAIT = "copy-paste jo PHP khud karta hai"
+   Kuch methods/properties jo alag-alag classes me chahiye, lekin un classes
+   ka koi common parent nahi hai. Trait likho, aur `use` karke class me daal do.
+       trait HasSlug {
+           public function slug(): string {
+               return strtolower(str_replace(' ', '-', $this->title));
+           }
+       }
+       class BlogPost { use HasSlug; public string $title = 'Hello World'; }
+       (new BlogPost())->slug();   // 'hello-world'
+   Laravel me bahut dikhega: use HasFactory; use Notifiable; use RefreshDatabase;
+
+   Trait vs base class vs interface – kab kya:
+     Interface  -> sirf contract ("ye methods hone chahiye")
+     Base class -> "is-a" rishta + shared state (Student IS A User)
+     Trait      -> chhoti reusable ability jo kai unrelated classes me chahiye
+                   ("has timestamps", "has slug")
+
+2) declare(strict_types=1)
+   Bina strict ke PHP "jugaad" karta hai:
+       function double(int $n): int { return $n * 2; }
+       double('5');   // strict OFF -> '5' ko 5 bana deta hai, chal jaata hai
+                      // strict ON  -> TypeError!
+   Strict ON = galat type turant pakda jaata hai, chhupe bugs nahi bante.
+
+   Kahan lagta hai? PER FILE. Aur jis file me function CALL ho raha hai, us
+   file ka setting maayne rakhta hai (jahan function define hai, wahan ka nahi).
+   Isliye rule: HAR file ki pehli line:
+       <?php
+       declare(strict_types=1);
+
+3) EXCEPTIONS – try / catch / finally
+       try {
+           // risky code
+       } catch (SpecificException $e) {
+           // sirf is tarah ki galti sambhalo
+       } finally {
+           // hamesha chalega (error ho ya na ho) – e.g. file band karna
+       }
+
+4) CUSTOM EXCEPTION – apni galti ka apna naam
+   Built-in exceptions ki family (kuch kaam ki):
+     Exception
+       ├── LogicException
+       │     ├── DomainException            (business rule toota)
+       │     └── InvalidArgumentException   (galat argument diya)
+       └── RuntimeException                 (bahar ki cheez fail – network, DB)
+   Apni class:
+       class OrderException extends DomainException {}
+   Faayda: catch (OrderException $e) sirf order wali galtiyan pakdega, baaki
+   galtiyan upar jaayengi (jahan unhe jaana chahiye).
+
+5) NAMED CONSTRUCTORS – exception banane ka saaf tareeka
+   `new` ki jagah static method jiska naam hi bata de kya hua:
+       class OrderException extends DomainException {
+           public static function outOfStock(int $productId): self {
+               return new self("Product {$productId} is out of stock.");
+           }
+       }
+       throw OrderException::outOfStock(42);
+   Message ek jagah bana, aur code padhne me English jaisa lagta hai.
+
+6) $previous – exception ki "chain"
+   Jab ek low-level error ko apne high-level error me lapet ke phenkte ho, to
+   asli error ko $previous me rakho, taaki debugging me asli wajah dikhe:
+       catch (PDOException $e) {
+           throw new OrderException('Could not save order', 0, $e);  // 3rd arg = previous
+       }
+       $e->getPrevious();   // asli PDOException milega
+   (Ye Friday ke test me ZAROOR chahiye.)
+
+7) KYUN har jagah catch (\Exception $e) BURI aadat hai?
+   - Sab kuch nigal jaata hai – jo galtiyan asli bugs hain wo bhi chup-chaap
+     pakdi jaati hain aur chhup jaati hain.
+     (Side note: TypeError "Error" family se hai, Exception se nahi – isliye
+     wo catch (\Exception) se pakda bhi nahi jaata.)
+   - Pata nahi chalta kaunsi galti expected thi aur kaunsi nahi.
+   - Sahi: sirf wahi exception pakdo jisko tum sach me sambhal sakte ho.
+
+
+============================================================
+CODE – 30 min  ->  exercises/week01/03-traits-exceptions/
+============================================================
+(Tuesday ka code copy karke shuru kar sakte ho.)
+
+Step 1: trait HasTimestamps
+  - private ?DateTimeImmutable $createdAt = null;
+      (? = nullable, matlab null bhi ho sakta hai)
+  - touch(): void  -> createdAt = new DateTimeImmutable()
+  - createdAt(): ?DateTimeImmutable
+  - User class me:  use HasTimestamps;
+
+Step 2: class Course
+  - id, title, capacity (constructor promotion se)
+
+Step 3: class EnrollmentException extends DomainException
+  - static alreadyEnrolled(int $courseId): self
+  - static courseFull(int $courseId, int $capacity): self
+
+Step 4: Student::enroll(Course $course)  (ab int nahi, poora Course object)
+  - Already enrolled -> throw EnrollmentException::alreadyEnrolled(...)
+  - Course full      -> throw EnrollmentException::courseFull(...)
+  HINT (course full ke liye): simple rakho – e.g. Course me enrolled count rakho,
+  ya capacity 0/1 wala course bana ke test karo. Logic tum decide karo.
+
+Step 5: run.php
+  - Dono exceptions trigger karo, catch (EnrollmentException $e) se pakdo,
+    $e->getMessage() print karo. Program crash nahi hona chahiye.
+  - STRICT TYPES EXPERIMENT:
+      a) ek function banao jo int leta hai, use '5' (string) do -> TypeError dekho
+      b) us file se declare(strict_types=1) hatao -> ab chal jaayega
+      c) strict_types WAPAS lagao (bhoolna mat!)
+
+
+============================================================
+DONE WHEN
+============================================================
+[ ] Har file declare(strict_types=1) se shuru hoti hai
+[ ] run.php dono exception messages print karta hai, crash nahi hota
+[ ] Tum bata sakte ho ki har jagah \Exception pakadna buri aadat kyun hai
+
+
+============================================================
+COMMON GALTIYAN
+============================================================
+- declare(strict_types=1) pehli statement nahi hai (upar kuch aur likh diya)
+  -> Fatal error. Ye <?php ke turant baad aana chahiye.
+- Trait me private property – ye theek hai, trait use karne wali class ka
+  hissa ban jaati hai.
+- Named constructor me return type `self` aur `new self(...)` – `static` bhi
+  chalta hai, abhi `self` theek hai.
+
+
+============================================================
+LOG – 5 min
+============================================================
+Log question: "Trait vs base class vs interface – har ek ke liye ek line ki
+kab use karna hai."
+
+Entry:  ## 2026-10-28 (Wed) · W1 D3 · __ min
+git add . ; git commit -m "feat(w1): 03-traits-exceptions" ; git push

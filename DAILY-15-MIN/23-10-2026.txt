@@ -1,0 +1,170 @@
+DAY 01 – FRIDAY 23 OCT 2026
+===========================
+Topic: Browser me URL daalne se page aane tak – HTTP ka safar
+Time: ~15 min
+
+------------------------------------------------------------
+1. AAJ KYUN?
+------------------------------------------------------------
+"Jab tum browser me google.com type karke Enter dabate ho, tab kya hota hai?"
+Ye duniya ka sabse famous interview sawal hai. Aur roz ki debugging me bhi
+kaam aata hai – 502 error kyun aaya, API slow kyun hai, CORS kya bala hai.
+Tum 7 saal se web bana rahe ho – aaj iska poora naksha dimaag me fit karo.
+
+
+------------------------------------------------------------
+2. CONCEPT – 7 STEPS ME POORA SAFAR
+------------------------------------------------------------
+Misaal: Tumhe kisi dost ke ghar parcel bhejna hai.
+  Naam pata hai (domain), lekin exact address (IP) nahi.
+
+STEP 1 – URL samjhna
+  https://eduassist.com:443/courses?page=2
+  |       |             |   |       |
+  scheme  domain        port path   query string
+  https = encrypted HTTP. Port na likho to https ka default 443, http ka 80.
+
+STEP 2 – DNS: naam se address (IP) nikalna
+  "eduassist.com ka IP kya hai?" Ye pooch-taach is order me hoti hai:
+    browser cache -> OS cache (hosts file bhi) -> router -> ISP ka DNS resolver
+    -> (resolver ko nahi pata to) root server -> .com server -> eduassist.com
+       ka apna (authoritative) DNS server -> jawab: 104.21.x.x
+  Jawab cache ho jaata hai (TTL tak), isliye dusri baar tez.
+  Misaal: phone me contact save hai to seedha call; nahi to directory se poocho.
+
+STEP 3 – TCP connection (3-way handshake)
+  Client: SYN         ("baat karein?")
+  Server: SYN-ACK     ("haan, ready")
+  Client: ACK         ("chalo shuru")
+  Ab dono ke beech ek reliable pipe hai – data order me aur bina kho ke jaayega.
+
+STEP 4 – TLS handshake (sirf https me)
+  - Server apna certificate bhejta hai ("main sach me eduassist.com hoon,
+    ye dekho kisi trusted authority ka stamp")
+  - Browser certificate verify karta hai
+  - Dono ek secret key pe agree karte hain -> aage ka sab data encrypted
+  Isliye public WiFi pe bhi https wala data beech me koi padh nahi sakta.
+
+STEP 5 – HTTP request jaati hai
+  GET /courses?page=2 HTTP/1.1
+  Host: eduassist.com
+  Accept: text/html
+  Cookie: laravel_session=abc123
+  (POST me neeche body bhi hoti hai – form ya JSON data)
+
+STEP 6 – Server pe kya hota hai (tumhara Laravel world)
+  Nginx/Apache (web server) -> PHP-FPM -> public/index.php -> Laravel
+  -> route -> middleware -> controller -> DB query -> response banta hai
+  (Laravel ka andar ka safar Day 03 me detail me.)
+
+STEP 7 – Response aata hai, browser dikhata hai
+  HTTP/1.1 200 OK
+  Content-Type: text/html
+  Set-Cookie: ...
+  <html>...</html>
+  Browser HTML padhta hai -> CSS, JS, images ke liye AUR requests bhejta hai
+  -> page render. Ek page = aksar 20–100 requests!
+
+
+------------------------------------------------------------
+3. ZAROORI CHEEZEIN – STATUS CODES & METHODS
+------------------------------------------------------------
+Status codes – pehla digit hi kahani bata deta hai:
+  2xx = sab theek      200 OK, 201 Created, 204 No Content
+  3xx = kahin aur jao  301 Permanent redirect, 302 Temporary, 304 Not Modified (cache use karo)
+  4xx = TUMHARI galti  400 Bad Request, 401, 403, 404 Not Found,
+                       422 Validation fail (Laravel ka favourite), 429 Too Many Requests
+  5xx = SERVER ki galti 500 code phata, 502 Bad Gateway (Nginx ko PHP-FPM se jawab
+                       nahi mila), 503 Service Unavailable (maintenance/overload)
+
+401 vs 403 (interview favourite):
+  401 = "Tum kaun ho? Login karo."            (authenticated nahi)
+  403 = "Pehchaan liya, lekin ijaazat nahi."  (authorized nahi)
+
+Methods:
+  GET    – data lao (body nahi, cache ho sakta hai)
+  POST   – naya banao
+  PUT    – poora replace karo
+  PATCH  – thoda sa update
+  DELETE – hatao
+  "Idempotent" = 1 baar karo ya 10 baar, result same. GET, PUT, DELETE
+  idempotent hain; POST nahi (10 baar POST = 10 orders!).
+
+HTTP STATELESS hai: har request apne aap me alag, server ko pichli request
+yaad nahi. Isliye cookies + session (ya token) chahiye – "ye wahi user hai".
+
+
+------------------------------------------------------------
+4. INTERVIEW ANGLE
+------------------------------------------------------------
+Q: "URL type karke Enter dabane pe kya hota hai?"
+Achha jawab ka dhaancha (2 minute):
+  DNS se IP -> TCP handshake -> TLS handshake -> HTTP request -> server
+  processing (web server, app, DB) -> response status + headers + body ->
+  browser parse & render, extra assets ke liye aur requests -> caching har
+  level pe (DNS, browser, CDN).
+Bonus point: apne kaam se jodo – "Laravel side pe request index.php se
+middleware aur controller tak jaati hai..."
+
+Q: "502 aur 504 me kya farak?"
+  502 = gateway (Nginx) ko upstream (PHP-FPM) se GALAT/koi jawab nahi mila
+        (aksar PHP-FPM down hai)
+  504 = upstream ne TIME pe jawab nahi diya (slow query/timeout)
+
+
+------------------------------------------------------------
+5. AAM GALATFEHMI
+------------------------------------------------------------
+- "https = website safe hai" -> NAHI. https sirf rasta encrypt karta hai.
+  Phishing site bhi https pe ho sakti hai.
+- "POST zyada secure hai GET se" -> Sirf itna ki data URL me nahi dikhta.
+  Bina https ke dono barabar khule hain.
+- "422 server error hai" -> Nahi, 4xx = client ne galat data bheja.
+
+
+------------------------------------------------------------
+6. 5-MIN PRACTICE
+------------------------------------------------------------
+PowerShell me (DHYAAN: Windows PowerShell me "curl" asal me
+Invoke-WebRequest ka alias hai, isliye curl.exe likho):
+
+  curl.exe -I https://laravel.com
+      -> sirf headers dekho: status code, content-type, server
+  curl.exe -v https://laravel.com -o NUL
+      -> poora safar: IP connect, TLS handshake, request, response headers
+  nslookup laravel.com
+      -> DNS ne kaunsa IP diya
+
+Aur: Chrome me F12 > Network tab > koi bhi site reload karo. Dekho kitni
+requests gayi aur har ek ka status code.
+
+
+------------------------------------------------------------
+7. SELF-CHECK (pehle khud jawab do)
+------------------------------------------------------------
+Q1. DNS ka kaam ek line me kya hai?
+Q2. Laravel form validation fail ho to API kaunsa status deta hai, aur ye
+    4xx me kyun hai?
+Q3. Kaunsa method idempotent NAHI hai: GET, PUT, POST, DELETE?
+
+
+------------------------------------------------------------
+8. EK LINE YAAD RAKHO
+------------------------------------------------------------
+"Naam se address (DNS), address se connection (TCP), connection pe taala
+(TLS), phir sawal-jawab (HTTP)."
+
+
+
+.
+.
+.
+(neeche jawab hain)
+.
+.
+.
+JAWAB:
+A1. Domain naam (eduassist.com) ko IP address me badalna.
+A2. 422 Unprocessable Content. 4xx kyunki galti client ke bheje data me hai,
+    server me nahi.
+A3. POST.

@@ -1,0 +1,163 @@
+DAY 06 – WEDNESDAY 28 OCT 2026
+==============================
+Topic: LLM basics – token, context window, temperature, hallucination
+Time: ~15 min
+
+------------------------------------------------------------
+1. AAJ KYUN?
+------------------------------------------------------------
+Tumhara 6-month plan "Full-Stack + AI" developer banne ka hai. Week 5 me
+EduAssist me AiService class aayegi. Uske pehle ye basic shabd saaf hone
+chahiye – warna AI API ka bill, slow response aur galat jawab samajh nahi
+aayenge. Aaj koi coding nahi, sirf mental model.
+
+
+------------------------------------------------------------
+2. LLM KYA HAI – EK LINE ME
+------------------------------------------------------------
+LLM (Large Language Model) = ek model jo bahut saare text se seekh ke ye
+predict karta hai ki "agla token kya aana chahiye". Ek-ek token karke poora
+jawab banata hai.
+Misaal: Phone keyboard ka next-word suggestion – bas lakhon guna bada aur
+samajhdar.
+
+
+------------------------------------------------------------
+3. TOKEN
+------------------------------------------------------------
+Model words nahi, TOKENS padhta hai – word ke tukde.
+  "Laravel"         -> shayad 1–2 tokens
+  "unbelievable"    -> "un" + "believ" + "able" jaisa kuch
+  Andaazan: English me 1 token ≈ 4 characters ≈ 3/4 word.
+  Hindi/Hinglish me aksar ZYADA tokens lagte hain (same baat ke liye).
+
+Kyun maayne rakhta hai?
+  - BILL tokens pe banta hai: input tokens + output tokens (alag rate,
+    output aam taur par mehenga)
+  - SPEED: zyada output tokens = zyada time
+  - LIMIT: context window tokens me naapi jaati hai
+
+
+------------------------------------------------------------
+4. CONTEXT WINDOW
+------------------------------------------------------------
+Model ek baar me jitna text "dekh" sakta hai – tumhara prompt + purani
+baatcheet + documents + uska jawab – sab mila ke. Tokens me naapa jaata hai.
+Misaal: Exam me ek page ki cheat sheet – jo us page pe nahi, wo model ko
+"pata" nahi (us conversation ke liye).
+
+IMPORTANT – API STATELESS hai (HTTP jaisa, Day 01 yaad karo!):
+  Model ko pichli baat yaad NAHI rehti. Chat apps "yaad" isliye rakhte hain
+  kyunki har baar POORI conversation dobara bhejte hain:
+      messages: [
+        { role: "user",      content: "Laravel kya hai?" },
+        { role: "assistant", content: "Laravel ek PHP framework..." },
+        { role: "user",      content: "Iska latest version?" }   <- naya sawal
+      ]
+  Isliye lambi chat = har message ke saath tokens badhte jaate hain = mehenga.
+
+SYSTEM PROMPT: Ek alag instruction jo model ka role/rules set karta hai
+("Tum EduAssist ke student helper ho, sirf course se jawab do").
+
+
+------------------------------------------------------------
+5. TEMPERATURE (aur randomness)
+------------------------------------------------------------
+Model har step pe kai tokens me se chunta hai. Temperature batata hai kitna
+"risk" le:
+  Kam (0 ke paas)  -> hamesha sabse sambhav token -> consistent, predictable
+                     (data extraction, classification, code)
+  Zyada            -> zyada variety -> creative (story, ideas)
+Same prompt do baar bhejo -> alag jawab aa sakta hai. Ye bug nahi, design hai.
+(Note: kuch naye models me ye setting fixed/limited hoti hai – provider ka
+doc dekhna.)
+
+
+------------------------------------------------------------
+6. HALLUCINATION
+------------------------------------------------------------
+Model kabhi-kabhi poore confidence se GALAT baat bolta hai – fake function
+naam, galat date, nakli citation. Kyun? Wo "sach" nahi, "sambhav agla token"
+predict kar raha hai.
+Bachav:
+  - Model ko sahi DATA do aur bolo "sirf isi se jawab do" (= RAG, kal ka topic)
+  - "Pata nahi to bolo pata nahi" instruction
+  - Code/facts ko verify karo – AI review karta hai, faisla TUM (week-1 ka
+    rule yaad hai?)
+
+
+------------------------------------------------------------
+7. EDUASSIST ME KAHAN AAYEGA
+------------------------------------------------------------
+  - Student ka sawal -> course content ke saath AI ko -> jawab   (token cost!)
+  - Assignment feedback generate karna
+  - Course ka summary
+Har jagah sochna padega: kitne tokens, kitna time, galat jawab ka risk kitna.
+
+
+------------------------------------------------------------
+8. INTERVIEW ANGLE
+------------------------------------------------------------
+Q: "Token aur context window kya hai?"
+  Token = text ka tukda jo model process karta hai, billing aur limits isi
+  pe. Context window = ek request me model jitne tokens dekh sakta hai
+  (input + output).
+
+Q: "Chatbot ko pichli baatein kaise yaad rehti hain?"
+  API stateless hai; app har request me history dobara bhejta hai. Lambi
+  history ko trim/summarize karna padta hai cost aur limit ke liye.
+
+Q: "Hallucination kaise kam karoge?" -> Grounding (RAG), clear instructions,
+  structured output, verification, kam temperature for factual tasks.
+
+
+------------------------------------------------------------
+9. AAM GALATFEHMI
+------------------------------------------------------------
+- "AI internet search karke jawab deta hai" -> Base model nahi; wo training
+  data se seekha hua pattern use karta hai. Search tab, jab app ne tool diya ho.
+- "Model meri conversation se seekh raha hai (train ho raha hai)" -> Ek
+  conversation ke andar sirf context me hai; model ke weights nahi badalte.
+- "Bada context window = sab daal do" -> Zyada tokens = zyada cost, zyada
+  slow, aur faltu text se jawab ki quality bhi gir sakti hai.
+
+
+------------------------------------------------------------
+10. 5-MIN PRACTICE
+------------------------------------------------------------
+Kisi bhi AI chat me:
+  1. Same sawal 2 alag nayi chats me poocho: "Laravel me N+1 problem 3 line
+     me samjhao." Dono jawab compare karo – alag kyun hain? (temperature)
+  2. Poocho: "Laravel ka Model::preventEagerLoadingBlaBla() method kya karta
+     hai?" (ye method EXIST nahi karta). Dekho kya model maan leta hai ya mana
+     karta hai – hallucination test.
+
+
+------------------------------------------------------------
+11. SELF-CHECK
+------------------------------------------------------------
+Q1. LLM API ka bill kis cheez pe banta hai?
+Q2. API stateless hai – to chat history kaise "yaad" rehti hai?
+Q3. Invoice se data nikalna (extraction) hai – temperature kam rakhoge ya zyada?
+
+
+------------------------------------------------------------
+12. EK LINE YAAD RAKHO
+------------------------------------------------------------
+"LLM = agla token guess karne wali machine; jo context me nahi, wo usse pata
+nahi; aur har baat ka bill tokens me."
+
+
+
+.
+.
+.
+(neeche jawab hain)
+.
+.
+.
+JAWAB:
+A1. Tokens pe – input tokens + output tokens (alag rate).
+A2. App har request me poori (ya trim ki hui) purani conversation dobara
+    bhejta hai.
+A3. Kam – consistent, predictable output chahiye.

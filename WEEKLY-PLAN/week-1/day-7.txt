@@ -1,0 +1,122 @@
+DAY 7 – FRIDAY 30 OCT 2026
+==========================
+TEST 1 – PHP   (30 min test + 25 min grading)
+Folder: exercises/week01/05-test1/
+
+AAJ KA GOAL (ek line me):
+  Is hafte jo seekha (interface, DI, exceptions, strict types) use 30 min me
+  bina AI ke ek naye problem pe laga ke dikhao. Pass mark: 70/100.
+
+
+============================================================
+RULES (pakke)
+============================================================
+- 30 minute ka timer. Time khatam = pen down.
+- AI BILKUL band.
+- php.net dekh sakte ho.
+- Is hafte ke exercise folders se COPY nahi karna.
+- Kaam sirf exercises/week01/05-test1/ me.
+
+Aaj recall/learn block nahi hai – seedha test.
+
+
+============================================================
+TEST ME KYA BANANA HAI (samajh ke)
+============================================================
+Scenario: Student fees online bhar raha hai. Payment gateway (jaise Razorpay)
+fail bhi ho sakta hai. Tumhe ek saaf, testable fee collection system banana hai.
+
+1) Interface
+     PaymentGatewayInterface {
+         charge(string $studentId, int $amountPaise): string
+     }
+   -> transaction ID return karta hai.
+   Note: paise me kyun (int)? Rs 499.50 = 49950 paise. Paisa ko float me
+   rakhne se rounding galtiyan hoti hain (0.1 + 0.2 != 0.3). Isliye paise =
+   hamesha integer. Ye real-world best practice hai.
+
+2) Do implementations
+   - FakeGateway    -> 'txn_' + koi random string return kare
+                       (php.net pe random_bytes / bin2hex dekh sakte ho)
+   - FailingGateway -> HAMESHA GatewayException throw kare
+
+3) Service: final class FeeCollector
+   - Gateway CONSTRUCTOR se aaye (DI!)
+   - collect(string $studentId, int $amountPaise): string
+       a) amount 0 ya kam  -> InvalidArgumentException
+       b) gateway ->charge() call karo
+       c) agar GatewayException aaye -> pakdo aur PaymentFailedException
+          phenko, jo:
+            - studentId apne paas rakhe (property + getter)
+            - asli GatewayException ko $previous me chain kare
+
+4) run.php – 3 cases, har ek ka saaf message print ho:
+   - successful payment (txn id dikhe)
+   - invalid amount (e.g. 0)
+   - failed payment (FailingGateway ke saath)
+
+5) answers.md (last 5 min) – 3 se 5 sentence:
+   - Interface kyun?
+   - Constructor injection kyun?
+   - Gateway exception ko wrap (lapet) kyun kiya?
+
+
+============================================================
+TIME PLAN (suggestion)
+============================================================
+ 0 –  2 min : poora task padho, files ke naam socho
+ 2 –  8 min : interface + 3 exception classes (GatewayException,
+              PaymentFailedException; InvalidArgumentException built-in hai)
+ 8 – 13 min : FakeGateway, FailingGateway
+13 – 21 min : FeeCollector (sabse zyada marks yahin)
+21 – 25 min : run.php
+25 – 30 min : answers.md
+YAAD RAKHO: har file me declare(strict_types=1) – 10 marks iske hain!
+
+
+============================================================
+RUBRIC – marks kaise milenge
+============================================================
+Kya check hoga                                              | Marks
+------------------------------------------------------------+------
+Bilkul waisa chalta hai jaisa bola gaya                     | 30
+Interface aur DI sahi use hua                               | 25
+Exceptions: custom class, $previous chain, specific catch   | 20
+Types har jagah + har file me strict_types                  | 10
+answers.md ki explanation sahi aur saaf                     | 15
+------------------------------------------------------------+------
+PASS MARK                                                   | 70 / 100
+
+"Specific catch" matlab: catch (GatewayException $e) – catch (\Exception $e)
+NAHI. (Wednesday yaad karo.)
+
+
+============================================================
+TEST KE BAAD – GRADING (~25 min)
+============================================================
+1. PEHLE khud ko grade karo – upar rubric se, imaandaari se. Score likho.
+2. PHIR code + rubric AI ko do, 00-week-overview.txt (section 6) wale
+   structured prompt ke saath. Bas TASK line badlo:
+      "TASK: Grade this code against the rubric below, line by line."
+   Aur rubric bhi paste karo.
+3. Log me likho:
+      Self score: __/100   AI score: __/100
+      Farak kahan aaya aur kyun: ...
+4. Agar 70 se kam:
+   Agle hafte Monday aur Tuesday ke RECALL slot me sirf wo rubric line
+   dobara practice karo jisme sabse kam marks aaye. Poora test dobara nahi.
+
+Entry:  ## 2026-10-30 (Fri) · W1 D5 · Test 1
+git add . ; git commit -m "test(w1): test 1 php" ; git push
+
+
+============================================================
+TEST SE PEHLE (Thursday raat / Friday subah) 5 MIN KA REVISION
+============================================================
+Kaagaz pe yaad se likho (dekhna nahi):
+  - Ek interface + ek class jo use implement kare
+  - Constructor promotion se private dependency
+  - Custom exception jo DomainException/RuntimeException extend kare
+  - throw new X('msg', 0, $previous);
+  - try { } catch (SpecificException $e) { }
+Bas. Zyada padhne ki zaroorat nahi.

@@ -1,0 +1,168 @@
+DAY 04 – MONDAY 26 OCT 2026
+===========================
+Topic: Git andar se – commit, branch, HEAD, merge vs rebase
+Time: ~15 min
+
+------------------------------------------------------------
+1. AAJ KYUN?
+------------------------------------------------------------
+Is hafte tum 2 repos banaoge (career-2027 aur eduassist) aur roz commit
+karoge. Git commands yaad karna aasan hai; lekin jab "detached HEAD" ya
+merge conflict aaye tab andar ka model pata ho to ghabrahat nahi hoti.
+
+
+------------------------------------------------------------
+2. CONCEPT – GIT KE 3 HISSE
+------------------------------------------------------------
+  Working directory  ->  Staging area (index)  ->  Repository (.git)
+     (tumhari files)     (agle commit ki tray)     (saare commits ka itihaas)
+        git add  ------------------>
+                               git commit ------------>
+
+Misaal: Photo studio.
+  Working dir = log idhar-udhar khade hain
+  Staging     = jinko frame me khada kiya (git add)
+  Commit      = CLICK – photo kheench li, hamesha ke liye album me
+
+
+------------------------------------------------------------
+3. COMMIT ASAL ME KYA HAI
+------------------------------------------------------------
+  - Poore project ka SNAPSHOT (sirf "diff" nahi). Jo file nahi badli, uska
+    purana copy reuse hota hai, isliye space bachti hai.
+  - Har commit ki ek ID (hash) e.g. a1b2c3d...
+  - Har commit apne PARENT commit ko point karta hai -> ek chain banti hai:
+        A <- B <- C <- D
+
+BRANCH kya hai?
+  Sirf ek CHHOTI SI FILE jisme ek commit ka hash likha hai. Bas!
+  .git/refs/heads/main  ->  "d4e5f6..."
+  Isliye branch banana instant aur free hai.
+  Naya commit karo -> branch ka pointer aage khisak jaata hai.
+
+HEAD kya hai?
+  "Tum abhi kahan khade ho" – aam taur pe kisi branch ko point karta hai.
+  Agar seedha kisi purane commit pe checkout karo -> "detached HEAD"
+  (tum kisi branch pe nahi ho; naye commits kho sakte hain jab tak branch
+  na banao:  git switch -c rescue-branch ).
+
+
+------------------------------------------------------------
+4. MERGE vs REBASE
+------------------------------------------------------------
+Situation: main pe A-B-C. Tumne feature branch banayi B se, usme X-Y.
+Is beech main pe C aa gaya.
+
+MERGE (git switch main; git merge feature):
+        A - B - C - M      (M = merge commit, 2 parents)
+             \     /
+              X - Y
+  + Itihaas jaisa hua waisa ka waisa (safe)
+  - Graph me bahut saare merge commits
+
+REBASE (git switch feature; git rebase main):
+        A - B - C - X' - Y'
+  Tumhare commits ko C ke upar "dobara chala ke" naye commits X', Y' banata
+  hai (naye hash!). Seedhi line, saaf history.
+  - History REWRITE hoti hai
+
+GOLDEN RULE: Jo branch dusre log bhi use kar rahe hain (push ho chuki,
+shared), uspe rebase MAT karo. Unki history aur tumhari history alag ho
+jaayegi. Rebase sirf apni local/private branch pe.
+
+
+------------------------------------------------------------
+5. COMMIT MESSAGE – CONVENTIONAL COMMITS
+------------------------------------------------------------
+Week 1 plan me tum ye style use karoge:
+  feat:     naya feature        feat: institutions and user roles
+  fix:      bug fix             fix: prevent duplicate enrollment
+  chore:    setup/maintenance   chore: new Laravel 13 project with Sail
+  docs:     documentation       docs: baseline scores
+  test:     tests               test: add InstitutionTest
+  refactor: behaviour same, code behtar
+Faayda: history padhne me aasan, aur tools isse changelog bana lete hain.
+Interviewer GitHub dekhe to "update", "changes", "final final" wale messages
+bura asar daalte hain.
+
+
+------------------------------------------------------------
+6. ROZ KAAM AANE WALI COMMANDS
+------------------------------------------------------------
+  git status                       – kya badla, kya staged
+  git log --oneline --graph --all  – poora tree ek nazar me
+  git switch -c feature/x          – nayi branch bana ke us pe jao
+  git restore --staged file.php    – staging se hatao (file ka change rahega)
+  git restore file.php             – file ka change PHENK do (savdhaan!)
+  git stash / git stash pop        – adhoora kaam side me rakho, baad me lao
+  git commit --amend               – last commit theek karo (SIRF push se pehle)
+  git diff --staged                – jo commit hone wala hai wo dekho
+
+
+------------------------------------------------------------
+7. INTERVIEW ANGLE
+------------------------------------------------------------
+Q: "Merge aur rebase me farak? Kab kya?"
+  Merge history preserve karta hai aur merge commit banata hai; rebase
+  commits ko naye base pe dobara likhta hai, linear history. Shared branch
+  pe merge, apni feature branch ko update/saaf karne ke liye rebase.
+
+Q: "git reset vs git revert?"
+  revert = ek NAYA commit jo purane ka ulta karta hai (shared branch pe safe)
+  reset  = branch pointer ko peeche le jaata hai (history badalti hai –
+           sirf local pe)
+
+
+------------------------------------------------------------
+8. AAM GALATFEHMI
+------------------------------------------------------------
+- "Branch = code ki copy" -> Nahi, sirf ek pointer (hash wali chhoti file).
+- "git pull bas download hai" -> pull = fetch + merge (ya rebase). Isliye
+  pull se bhi conflict aa sakta hai.
+- ".env galti se commit ho gaya, delete karke dobara commit kar diya, ab
+  safe" -> NAHI, purane commit me abhi bhi hai. Keys turant badlo (rotate).
+
+
+------------------------------------------------------------
+9. 5-MIN PRACTICE
+------------------------------------------------------------
+PowerShell me ek temp folder:
+  mkdir $env:TEMP\gitplay; cd $env:TEMP\gitplay
+  git init
+  "a" > a.txt; git add .; git commit -m "feat: a"
+  Get-Content .git\HEAD                 -> "ref: refs/heads/main" (ya master)
+  Get-Content .git\refs\heads\main      -> ek hash! Yahi branch hai.
+  git switch -c test
+  "b" > b.txt; git add .; git commit -m "feat: b"
+  git log --oneline --graph --all
+(Agar branch ka naam master hai to main ki jagah master likho.)
+
+
+------------------------------------------------------------
+10. SELF-CHECK
+------------------------------------------------------------
+Q1. Branch asal me kya hai?
+Q2. Push ho chuki shared branch pe rebase kyun nahi karna chahiye?
+Q3. Galti se push hua commit undo karna hai, shared branch pe – reset ya revert?
+
+
+------------------------------------------------------------
+11. EK LINE YAAD RAKHO
+------------------------------------------------------------
+"Commit = snapshot + parent ka pointer. Branch = ek commit ka pointer.
+HEAD = tum kahan ho."
+
+
+
+.
+.
+.
+(neeche jawab hain)
+.
+.
+.
+JAWAB:
+A1. Ek chhoti file/pointer jisme ek commit ka hash likha hota hai.
+A2. Rebase naye hash wale commits banata hai; dusron ke paas purane commits
+    hain – history alag ho jaati hai, conflicts aur duplicate commits.
+A3. revert.

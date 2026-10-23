@@ -1,0 +1,157 @@
+DAY 1 – SATURDAY 24 OCT 2026
+============================
+Phase 0: Tools check + career-2027 repo + Baseline test
+Time: ~1 ghanta 45 min
+
+AAJ KA GOAL (ek line me):
+  Saare tools ready karo, apna learning repo banao, aur imaandaari se naapo ki
+  abhi tum PHP, Laravel, SQL aur React me kahan khade ho.
+
+AAJ KE END TAK YE HONA CHAHIYE:
+  [ ] Saare tools install aur sahi version me
+  [ ] D:\credentials\career-2027 repo GitHub pe (private) push
+  [ ] learning-log.md me 4 baseline scores (1–5)
+  [ ] Decide: normal track ya fast track (PHP score 4/5 = fast track)
+
+
+============================================================
+STEP 1 – TOOL CHECK (0:00 – 0:15)
+============================================================
+PowerShell kholo aur ek-ek command chalao:
+
+Command            | Kya check karta hai              | Kya aana chahiye
+-------------------+----------------------------------+--------------------------
+php -v             | PHP installed hai? version?      | 8.3 ya usse naya
+composer -V        | Composer (PHP package manager)   | Koi bhi version (2.x)
+git --version      | Git                              | Koi bhi version
+docker version     | Docker Desktop chal raha hai?    | Client + Server dono dikhe
+wsl -l -v          | WSL me Ubuntu hai? version 2?    | Ubuntu ... VERSION 2
+
+Kuch missing ho to AAJ hi theek karo. Kyun? Saturday 31 ko 2 ghante ka build
+hai – usme install karne ka time nahi hoga.
+
+Agar kuch missing hai:
+  - PHP 8.3+ : Laragon install karo (laragon.org) ya php.net se Windows zip.
+               PATH me add karna mat bhoolna. Laravel 13 ko PHP 8.3+ chahiye.
+  - Composer : getcomposer.org se Windows installer.
+  - WSL      : PowerShell (Admin) me:  wsl --install -d Ubuntu
+               Agar version 1 dikhe:  wsl --set-version Ubuntu 2
+  - Docker   : Docker Desktop install karo, Settings > General me
+               "Use the WSL 2 based engine" ON, aur Settings > Resources >
+               WSL Integration me Ubuntu ON.
+
+Samjho: Weekday exercises (Mon–Fri) Windows wale PHP pe chalengi. Saturday ka
+Laravel project Docker (Sail) ke andar chalega – wahan PHP container me hota
+hai. Isliye dono chahiye.
+
+
+============================================================
+STEP 2 – career-2027 REPO BANAO (0:15 – 0:30)
+============================================================
+Ye repo tumhari 6 mahine ki "diary + practice copy" hai.
+
+Banana hai:
+  D:\credentials\career-2027\
+    ├── notes\
+    ├── exercises\week01\
+    ├── capstone\           (sirf EduAssist ke notes/decisions – code NAHI)
+    ├── learning-log.md
+    └── .gitignore          (andar 2 line:  vendor/   aur   .env )
+
+PowerShell me:
+  mkdir D:\credentials\career-2027
+  cd D:\credentials\career-2027
+  mkdir notes, exercises\week01, capstone
+  New-Item learning-log.md, .gitignore
+
+  .gitignore file me likho:
+      vendor/
+      .env
+
+  TIP: Git khaali folders ko track NAHI karta. Har khaali folder me ek
+  ".gitkeep" naam ki khaali file daal do, warna wo GitHub pe nahi dikhega.
+
+  git init
+  git add .
+  git commit -m "chore: initial career-2027 structure"
+
+GitHub pe private repo:
+  - Website se: github.com > New repository > naam career-2027 > Private
+    phir jo commands dikhaye (git remote add origin ... / git push -u origin main)
+  - Ya gh CLI ho to:  gh repo create career-2027 --private --source=. --push
+
+Kyun vendor/ aur .env ignore? vendor/ = composer ki downloaded libraries
+(bahut badi, dobara download ho sakti hain). .env = passwords/keys –
+GitHub pe kabhi nahi jaane chahiye.
+
+EduAssist ka code yahan NAHI aayega – uska alag repo Saturday 31 ko banega.
+
+
+============================================================
+STEP 3 – BASELINE TEST (0:30 – 1:30) – 60 min, AI BILKUL NAHI
+============================================================
+Baseline test kya hai? Ye "pass/fail" wala test nahi hai. Ye ek naap hai ki
+AAJ tum kahan ho, taaki 6 mahine baad compare kar sako. Isliye imaandaar raho.
+
+Rules:
+  - Har task ke liye 15 minute, timer lagao. Time khatam = ruk jao.
+  - Official docs allowed (php.net, laravel.com, react.dev). AI NAHI.
+  - Code likhna zaroori hai; chala ke dekh liya to bonus.
+  - Har task alag file/folder me likho (e.g. notes\baseline\task1.php)
+
+----- Task 1: PHP (15 min) -----
+  interface Shape jisme area(): float method.
+  Do classes: Circle aur Rectangle jo Shape implement karein.
+  Size 0 ya negative ho to InvalidArgumentException throw karo.
+  -> Ye check karta hai: interface, class, constructor, types, exception.
+
+----- Task 2: Laravel (15 min) -----
+  POST /api/courses route.
+  Validation: title required, max 120 characters; fee integer, min 0.
+  Success pe 201 status ke saath bana hua course JSON me return karo.
+  -> Ye check karta hai: routes/api.php, controller, $request->validate(),
+     model create, response()->json(..., 201).
+
+----- Task 3: SQL (15 min) -----
+  Tables: students, courses, enrollments(student_id, course_id, fee_paid).
+  Har course ke saath: kitne students aur total fees.
+  Sirf wo courses jinme 5 ya zyada students hain. Sabse zyada total pehle.
+  -> Ye check karta hai: JOIN, GROUP BY, COUNT, SUM, HAVING (WHERE nahi!),
+     ORDER BY ... DESC.
+     Yaad rakho: WHERE rows ko group banane se PEHLE filter karta hai,
+     HAVING groups ko BAAD me filter karta hai.
+
+----- Task 4: React (15 min) -----
+  Email ka form. Submit pe ek fake API call karo (setTimeout 1 second;
+  agar email me 'fail' likha ho to error de).
+  3 states dikhao: loading, error, success.
+  -> Ye check karta hai: useState, form onSubmit, preventDefault, Promise,
+     async/await, conditional rendering.
+
+
+============================================================
+STEP 4 – SCORE DO AUR DECIDE KARO (1:30 – 1:45)
+============================================================
+Har task ko 1 se 5 score do, learning-log.md me likho:
+
+Score | Matlab
+------+---------------------------------------------------------------
+5     | Bina docs ke likha, chalta hai, aur har line samjha sakte ho
+4     | Chalta hai; 1–2 baar docs dekhne pade
+3     | Chalta hai, lekin bahut zyada docs dekhne pade
+2     | Aadha chalta hai ya saaf bug hai
+1     | Shuru hi nahi kar paaye
+
+log me aise likho:
+  ## 2026-10-24 (Sat) · Phase 0 · Baseline
+  PHP: _/5   Laravel: _/5   SQL: _/5   React: _/5
+  Kya mushkil laga: ...
+
+DECISION:
+  PHP score 4 ya 5  ->  is hafte FAST TRACK (00-week-overview.txt, section 7)
+  PHP score 1–3     ->  normal plan (day-3 se day-6 jaisa likha hai)
+
+Laravel score bhi yaad rakhna – Day-9 (Sun 1 Nov) ko Week 2 decide karne me
+kaam aayega.
+
+Last step:  git add . ; git commit -m "docs: baseline scores" ; git push

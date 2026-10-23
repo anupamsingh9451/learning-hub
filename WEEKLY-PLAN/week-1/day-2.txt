@@ -1,0 +1,91 @@
+DAY 2 – SUNDAY 25 OCT 2026
+==========================
+Phase 0: Planning (calendar, tracker, LinkedIn, notice period)
+Time: ~45 min
+
+AAJ KA GOAL (ek line me):
+  Padhai ka time calendar me "lock" karo aur job-switch ki chhoti taiyaariyan
+  abhi se kar lo, taaki baad me bhaag-daud na ho.
+
+AAJ KE END TAK YE HONA CHAHIYE:
+  [ ] Calendar me 22 Nov tak study slots block
+  [ ] Job-Application-Tracker.xlsx bani hui (khaali chalegi)
+  [ ] LinkedIn headline update
+  [ ] Notice period ke din learning-log.md me likhe
+
+
+============================================================
+1. CALENDAR BLOCK KARO (~10 min)
+============================================================
+  - Weekdays (Mon–Fri): roz 1 ghanta, e.g. 9:15 PM – 10:15 PM
+  - Saturday: 2 ghante, e.g. 10:00 AM – 12:00 PM
+  - Kab tak: 22 November tak (ye Phase 1 ka end hai)
+
+Google Calendar me "Repeat: Weekly on Mon–Fri" wala event banao, end date
+22 Nov. Reminder 10 min pehle.
+
+KYUN? Jo time calendar me nahi hota, wo time "baad me karunga" me chala jaata
+hai. Fixed slot = aadat.
+
+
+============================================================
+2. JOB APPLICATION TRACKER SHEET (~10 min)
+============================================================
+Excel file banao:  Job-Application-Tracker.xlsx
+Columns (Row 1 me):
+  Company | Role | Salary range | Referral | Date applied | Stage | Feedback | Next step
+
+Column ka matlab:
+  Company      – kaunsi company
+  Role         – kaunsi post (Senior Full-Stack, etc.)
+  Salary range – unka range / tumhara expected
+  Referral     – kisne refer kiya (ya "none")
+  Date applied – kab apply kiya
+  Stage        – Applied / HR call / Tech round / Offer / Rejected
+  Feedback     – unhone kya bola
+  Next step    – ab kya karna hai, kab
+
+Ye Week 12 tak KHAALI rahegi. Bas abhi bana ke rakh do, taaki jab time aaye to
+system ready ho.
+
+Kahan rakhein: D:\credentials\career-2027\notes\ me rakh sakte ho. (Note:
+.xlsx binary file hai, git me chalegi, bas diff nahi dikhega.)
+
+
+============================================================
+3. LINKEDIN HEADLINE (~10 min)
+============================================================
+Headline resume se match karni chahiye. Example:
+  Senior Full-Stack Developer · Laravel · React · TypeScript ·
+  7+ years building ERP, CRM and LMS products
+
+IMPORTANT: Abhi "AI" word headline me MAT daalo. AI tab add karna jab
+Milestone 2 (Week 8) ho jaaye aur dikhane ke liye kuch real ho. Recruiter
+"AI" dekh ke pooche aur dikhane ko kuch na ho = credibility kharab.
+
+
+============================================================
+4. NOTICE PERIOD CHECK (~10 min)
+============================================================
+Appointment letter / offer letter / HR policy dekho: notice period kitne din
+ka hai? (30 / 60 / 90 din?)
+
+learning-log.md me likho:
+  ## 2026-10-25 (Sun) · Phase 0 · Planning
+  Notice period: __ din
+  Calendar blocked till 22 Nov: yes
+  Tracker sheet: created
+  LinkedIn headline: updated
+
+KYUN zaroori hai? Plan ke hisaab se April me offer aayega. Agar notice 90 din
+ka hai to joining July me hogi – iska asar plan ki timing pe padta hai.
+Isliye ye number abhi se pata hona chahiye.
+
+
+============================================================
+AAJ KI LAST CHEEZ
+============================================================
+  git add . ; git commit -m "docs: phase 0 planning" ; git push
+
+Kal (Monday) se asli padhai: day-3.txt khol ke rakh lo, aur docs ke 2 links
+bookmark kar lo.

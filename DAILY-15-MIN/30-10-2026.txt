@@ -1,0 +1,254 @@
+DAY 08 – FRIDAY 30 OCT 2026
+===========================
+Topic: REST API design – naming, status codes, versioning, pagination
+Time: ~15 min
+
+------------------------------------------------------------
+1. AAJ KYUN?
+------------------------------------------------------------
+EduAssist ka React frontend (aur kal ko mobile app, ya kisi institution ka
+apna system) Laravel se sirf API ke through baat karega. API ek baar bahar
+chali gayi to wo ek "contract" ban jaati hai – baad me naam ya response
+badla to sab clients toot jaate hain. 7 saal me tumne bahut APIs banayi
+hongi; aaj unhe "senior wali nazar" se dekhna hai – kyunki interview me
+"ye endpoint design karo" lagbhag pakka aata hai.
+
+
+------------------------------------------------------------
+2. CONCEPT – RESTAURANT KA MENU CARD
+------------------------------------------------------------
+Socho API ek restaurant ka menu card hai:
+  - Menu pe DISHES ke naam hote hain (nouns) – "Paneer Tikka", "Dal".
+    Tum "banao", "lao" jaise kaam (verbs) menu pe nahi likhte.
+  - Kaam ka tareeka alag hai: order dena, cancel karna, badalna.
+  - Waiter ka jawab saaf hota hai: "aa raha hai", "khatam ho gaya",
+    "ye aapne order hi nahi kiya".
+  - Menu badle to purane customers confuse na hon – naya menu, naya version.
+  - 500 dishes ek saath table pe nahi aati – ek baar me ek page.
+
+REST me bhi bilkul yahi:
+  URL      = dish ka naam (RESOURCE, noun)       -> /courses, /students
+  Method   = kya karna hai (VERB)                -> GET, POST, PATCH, DELETE
+  Status   = waiter ka jawab                     -> 200, 201, 404, 422 ...
+  Version  = menu ka edition                     -> /api/v1/...
+  Page     = ek baar me thoda data               -> ?page=2  ya  ?cursor=...
+
+
+------------------------------------------------------------
+3. NAMING – URL KAISE BANAYEIN
+------------------------------------------------------------
+Rules:
+  - Noun, plural, lowercase:  /courses   (na ki /getCourses, /Course)
+  - Kaam HTTP method batata hai, URL nahi:
+      GET    /api/v1/courses            -> list
+      POST   /api/v1/courses            -> naya banao
+      GET    /api/v1/courses/42         -> ek course
+      PATCH  /api/v1/courses/42         -> kuch fields badlo
+      PUT    /api/v1/courses/42         -> poora replace
+      DELETE /api/v1/courses/42         -> hatao
+  - Rishta dikhana ho to nesting – lekin 1 level tak hi:
+      GET /api/v1/courses/42/enrollments      (theek)
+      GET /api/v1/institutions/3/courses/42/enrollments/9/grades  (bahut gehra)
+  - Filter/sort query string me:
+      GET /api/v1/courses?status=published&sort=-created_at
+  - Koi "action" jo CRUD me fit nahi baithta (publish, enroll)? Usse
+    sub-resource ki tarah likho:  POST /api/v1/courses/42/publish
+    Ye accepted practice hai – bas har cheez ko verb mat banao.
+
+Laravel me:  Route::apiResource('courses', CourseController::class);
+  -> index, store, show, update, destroy – 5 routes ek line me
+     (create/edit form wale routes nahi, kyunki API me form nahi hota).
+
+Idempotent ka matlab: same request 2 baar bhejo to result wahi rahe.
+  GET, PUT, DELETE  -> idempotent
+  POST              -> NAHI (2 baar bheja = 2 course ban sakte hain)
+  PATCH             -> depend karta hai ("title = X" haan, "count + 1" nahi)
+
+
+------------------------------------------------------------
+4. STATUS CODES – WAITER KA SAHI JAWAB
+------------------------------------------------------------
+  200 OK              – sab theek, data saath me
+  201 Created         – naya bana (POST ke baad); Location header bhi de sakte ho
+  204 No Content      – ho gaya, body khaali (DELETE ke baad common)
+  400 Bad Request     – request hi tooti hui (galat JSON vagairah)
+  401 Unauthorized    – "tum KAUN ho?" – login/token hi nahi hai
+  403 Forbidden       – "pata hai kaun ho, par IJAZAT nahi"
+  404 Not Found       – resource nahi mila
+  409 Conflict        – state ka jhagda (e.g. student pehle se enrolled)
+  422 Unprocessable   – validation fail (Laravel ka default)
+  429 Too Many Req.   – rate limit cross (iska alag topic aayega)
+  500 Server Error    – humari galti (bug)
+  503 Unavailable     – maintenance / service down
+
+Seedha rule: 2xx = sab theek, 4xx = client ki galti, 5xx = server ki galti.
+Kabhi bhi error ko "200 + { success: false }" me mat chhupao – monitoring,
+caching, frontend ka error handling sab status code pe chalte hain.
+
+Laravel ye sab free me deta hai:
+  - $request->validate() fail      -> 422 + { "message": ..., "errors": {...} }
+  - Route model binding nahi mila  -> 404
+  - Policy/Gate fail               -> 403
+  - auth:sanctum fail              -> 401
+  - response()->json($data, 201) / response()->noContent()  -> 201 / 204
+  (Shart: client "Accept: application/json" header bheje – warna kuch
+   errors JSON ki jagah redirect/HTML ban sakte hain.)
+
+
+------------------------------------------------------------
+5. VERSIONING – MENU KA NAYA EDITION
+------------------------------------------------------------
+Breaking change = jisse purana client toot jaaye: field ka naam badalna,
+field hatana, type badalna (id string se number). Naya OPTIONAL field
+jodna breaking nahi hai.
+
+Tareeke:
+  URL me       /api/v1/courses        -> sabse common, dikhta hai, test easy
+  Header me    Accept: application/vnd.eduassist.v2+json  -> URL saaf, par
+               browser/curl se test thoda mushkil
+  Query me     ?version=2             -> kam use hota hai
+
+Laravel me (routes/api.php – jo by default /api prefix ke saath load hoti hai):
+  Route::prefix('v1')->group(function () {
+      Route::apiResource('courses', CourseController::class);
+  });
+
+Practical tip: version sirf breaking change pe badhao. v2 aane ke baad v1
+ko turant band mat karo – deprecation ka time do (e.g. 3–6 mahine).
+
+
+------------------------------------------------------------
+6. PAGINATION – EK BAAR ME EK PAGE
+------------------------------------------------------------
+Ek institution ke 50,000 students ek response me = slow API, bhaari JSON,
+browser hang. Isliye pagination.
+
+A) OFFSET (page number) – ?page=3&per_page=20
+   SQL:  LIMIT 20 OFFSET 40
+   + Simple, "page 7 pe jao" possible, total count de sakte ho
+   - Gehre page pe slow (DB ko 40,000 rows padh ke phenkni padti hain)
+   - Beech me naya record aaya to item repeat/skip ho sakta hai
+   Laravel:  Course::paginate(20)        (total ke liye extra COUNT query)
+             Course::simplePaginate(20)  (sirf next/prev, COUNT nahi)
+
+B) CURSOR – ?cursor=eyJpZCI6NDB9...
+   SQL:  WHERE id > 40 ORDER BY id LIMIT 20   (index use hota hai – Day 02!)
+   + Har page utna hi tez, data badle to bhi stable (infinite scroll ke
+     liye best)
+   - "Page 7 pe jao" nahi, total count nahi
+   Laravel:  Course::orderBy('id')->cursorPaginate(20)
+             (ORDER BY kisi unique column pe hona chahiye)
+
+Response shape (CourseResource::collection($courses->paginate(20))):
+  {
+    "data":  [ { "id": 1, "title": "..." }, ... ],
+    "links": { "first": "...", "last": "...", "prev": null, "next": "..." },
+    "meta":  { "current_page": 1, "per_page": 20, "total": 312, ... }
+  }
+
+Do zaroori safety:
+  - per_page ki upper limit: min((int) $request->per_page ?: 20, 100)
+    warna koi ?per_page=1000000 bhej ke DB bitha dega.
+  - Multi-institution EduAssist: list me hamesha logged-in user ki
+    institution ka filter – URL me aaye institution_id pe bharosa mat karo.
+
+
+------------------------------------------------------------
+7. INTERVIEW ANGLE
+------------------------------------------------------------
+Q: "401 aur 403 me fark?"
+  401 = authentication nahi hua (token missing/invalid) – "kaun ho tum?"
+  403 = authenticated ho, par is kaam ki permission nahi – "ijazat nahi".
+
+Q: "PUT vs PATCH?"
+  PUT = poora resource replace (jo field nahi bheji wo khaali/default ho sakti
+  hai); PATCH = sirf bheje gaye fields update. PUT idempotent hai.
+
+Q: "Lakhon rows ki listing API kaise design karoge?"
+  Pagination zaroor; deep/infinite scroll ke liye cursor pagination (index
+  wale column pe), per_page cap, sirf zaroori columns (API Resource), filter
+  ke columns pe index, aur zaroorat ho to caching.
+
+Q: "API version kab badhaoge?"
+  Sirf breaking change pe. Naye optional fields bina version badle. Purana
+  version deprecate karke kuch time chalao, phir band.
+
+
+------------------------------------------------------------
+8. AAM GALATFEHMI
+------------------------------------------------------------
+- "Har error pe 200 + success:false bhej do, frontend sambhal lega" -> Nahi.
+  HTTP clients, logs, monitoring, retries sab status code dekhte hain.
+- "401 = permission nahi" -> Wo 403 hai. 401 = pehchaan hi nahi hui.
+  (Naam "Unauthorized" confusing hai – asal matlab "Unauthenticated".)
+- "REST = JSON over HTTP" -> JSON sirf format hai. REST ka asal = resources
+  (nouns), sahi methods, sahi status codes, stateless requests.
+- "Model ko seedha return kar do" -> return $course; se saare columns
+  (internal fields bhi) bahar chale jaate hain. API Resource se shape control
+  karo – wahi tumhara contract hai.
+
+
+------------------------------------------------------------
+9. 5-MIN PRACTICE
+------------------------------------------------------------
+Apne EduAssist (Sail) project me. Note: Laravel 11 se routes/api.php by
+default nahi hoti – "sail artisan install:api" se aati hai (Sanctum bhi
+install hota hai). Laravel 13 me bhi yahi expect karo; alag lage to docs
+dekh lena.
+
+1) Kuch users banao:
+     sail artisan tinker
+     >>> App\Models\User::factory()->count(5)->create();   (phir: exit)
+
+2) routes/api.php me (demo – practice ke baad hata dena):
+     Route::prefix('v1')->group(function () {
+         Route::get('/users', fn () => App\Models\User::select('id', 'name')->paginate(2));
+         Route::get('/users-cursor', fn () => App\Models\User::select('id', 'name')->orderBy('id')->cursorPaginate(2));
+         Route::post('/ping', fn (Illuminate\Http\Request $r) => $r->validate(['name' => 'required']));
+     });
+
+3) PowerShell se (dhyan do: "curl" PowerShell 5.1 me Invoke-WebRequest ka
+   alias hai – isliye "curl.exe" likho):
+     curl.exe -i "http://localhost/api/v1/users?page=2"
+     curl.exe -i "http://localhost/api/v1/users-cursor"
+     curl.exe -i -X POST "http://localhost/api/v1/ping" -H "Accept: application/json"
+   Dekho: pehle me meta.total/links, doosre me next_cursor, teesre me 422 +
+   errors. Bonus: teesra Accept header ke BINA chalao – status kya aaya?
+
+4) sail artisan route:list --path=api   -> saare API routes ek nazar me.
+
+
+------------------------------------------------------------
+10. SELF-CHECK
+------------------------------------------------------------
+Q1. Student ne bina token ke /api/v1/courses maanga, aur ek doosre teacher
+    ne aisa course delete karna chaaha jo uska nahi hai – dono me status
+    code kya aayega?
+Q2. "POST /api/v1/getAllCourses" me kya galat hai? Sahi kya hoga?
+Q3. Mobile app me infinite scroll hai aur naye courses lagatar judte rehte
+    hain – offset ya cursor pagination? Kyun?
+
+
+------------------------------------------------------------
+11. EK LINE YAAD RAKHO
+------------------------------------------------------------
+"URL me noun, method me verb, status code me sach, breaking change pe naya
+version, aur list hamesha page me."
+
+
+
+.
+.
+.
+(neeche jawab hain)
+.
+.
+.
+JAWAB:
+A1. Bina token = 401 (pehchaan nahi). Doosre ka course delete = 403
+    (pehchaan hai, ijazat nahi). (Multi-tenant me kabhi-kabhi 404 bhi dete
+    hain taaki doosri institution ke record ka hona bhi pata na chale.)
+A2. URL me verb ("get") hai aur list laane ke liye POST galat method hai.
+    Sahi:  GET /api/v1/courses
+A3. Cursor – naye records judne pe bhi item repeat/skip nahi hote, har page
+    utna hi tez, aur infinite scroll ko "page 7" pe jump nahi chahiye.

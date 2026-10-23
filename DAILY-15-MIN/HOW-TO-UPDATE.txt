@@ -1,0 +1,82 @@
+DAILY 15-MIN – NEXT DIN KI FILE KAISE AATI HAI
+==============================================
+Short me: KUCH NAHI KARNA. Roz subah 7:00 baje us din ki file
+(e.g. 31-10-2026.txt) apne aap ban jaati hai. Bas folder kholo aur padho.
+
+
+------------------------------------------------------------
+1. ROZ KA FLOW
+------------------------------------------------------------
+  7:00 AM   Windows task "Daily15Min" chalta hai
+            (laptop band tha to jab khulega tab chalega)
+     |
+     v
+  Claude README.txt ki "AAGE KE TOPICS" list ka SABSE UPAR wala topic leta hai
+     |
+     v
+  Aaj ki date wali file banata hai:  DD-MM-YYYY.txt
+     |
+     v
+  Wo topic "HO CHUKE TOPICS" me chala jaata hai
+  (list me 5 se kam topic bache to Claude naye khud jod deta hai)
+
+
+------------------------------------------------------------
+2. APNA TOPIC CHAHIYE?
+------------------------------------------------------------
+README.txt kholo -> "AAGE KE TOPICS" ke SABSE UPAR ek line me topic likh do.
+  e.g.  Laravel Octane – kya hai aur kab use karein
+Agle din wahi aayega. Kisi topic ko hatana ho to wo line delete kar do.
+Order badalna ho to lines upar-neeche kar do.
+
+
+------------------------------------------------------------
+3. AAJ KI FILE NAHI BANI? (laptop band tha / internet nahi tha)
+------------------------------------------------------------
+Option A – PowerShell me ye chalao (2 min lagte hain):
+  powershell -ExecutionPolicy Bypass -File "D:\learning-hub\DAILY-15-MIN\_automation\generate-today.ps1"
+
+Option B – Kisi purani date ki file chahiye:
+  powershell -ExecutionPolicy Bypass -File "D:\learning-hub\DAILY-15-MIN\_automation\generate-today.ps1" -Date 05-11-2026
+
+Option C – Claude ko bolo:  "aaj ki daily file nahi bani"
+
+Kya hua tha ye dekhna ho:  _automation\log.txt  kholo
+  "done: ..."      = file ban gayi
+  "FAILED: ..."    = nahi bani (neeche error likha hoga)
+  "skipped"        = file pehle se thi
+
+
+------------------------------------------------------------
+4. SETTINGS BADALNI HO
+------------------------------------------------------------
+Time badalna (e.g. 6 AM):
+  Start > "Task Scheduler" > Task Scheduler Library > Daily15Min
+  > double click > Triggers tab > Edit > time badlo > OK
+
+Kuch din band karna (chhutti pe):
+  Task Scheduler > Daily15Min > right click > Disable
+  (wapas: right click > Enable)
+
+Hamesha ke liye band:
+  PowerShell:  Unregister-ScheduledTask -TaskName Daily15Min -Confirm:$false
+
+Har file banane me Claude ka thoda usage lagta hai (roz ek baar).
+
+
+------------------------------------------------------------
+5. FILES KAHAN KYA HAI
+------------------------------------------------------------
+DAILY-15-MIN\
+  ├── HOW-TO-UPDATE.txt         (ye file)
+  ├── README.txt                (topic list – upcoming + ho chuke)
+  ├── 23-10-2026.txt ...        (roz ki files)
+  └── _automation\
+        ├── generate-today.ps1  (file banane wali script)
+        ├── prompt.txt          (Claude ko kya instructions jaati hain)
+        └── log.txt             (har run ka record)
+
+_automation folder ki files ko mat chhedo, jab tak kuch badalna na ho.
+
+Weekly learning plan (week-2, week-3 ...) ke liye dekho:
+  D:\learning-hub\ROADMAP\HOW-TO-NEXT-WEEK.txt

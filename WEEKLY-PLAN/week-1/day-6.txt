@@ -1,0 +1,185 @@
+DAY 6 – THURSDAY 29 OCT 2026
+============================
+Topic: Dependency Injection (DI) + pehle Unit Tests (PHPUnit)
+Time: 60 min   ·   Folder: exercises/week01/04-di/
+
+AAJ KA GOAL (ek line me):
+  Samjho ki class ko uski zaroorat ki cheezein BAHAR se dene (DI) se code
+  testable kaise ban jaata hai – aur apna pehla green PHPUnit test chalao.
+
+Ye hafte ka sabse IMPORTANT din hai. Interview me DI + testing + SOLID
+lagbhag hamesha pucha jaata hai.
+
+
+============================================================
+RECALL – 10 min
+============================================================
+1. Yaad se: EnrollmentException with ek named constructor.
+2. SOLID ke 5 letters – har ek ka 1 line matlab. (Neeche table hai, pehle
+   khud likho, phir milao.)
+
+
+============================================================
+LEARN – 15 min
+============================================================
+  https://laravel.com/docs/13.x/container
+     -> SIRF "Introduction" aur "Zero Configuration Resolution" padhna
+  https://docs.phpunit.de/
+     -> "Writing Tests" ka pehla page
+
+
+============================================================
+CONCEPTS – AASAN BHASHA ME
+============================================================
+1) DEPENDENCY kya hai?
+   Jis cheez ke bina class apna kaam nahi kar sakti. EnrollmentService ko
+   course dhundhna hai (repository) aur notification bhejna hai (notifier) –
+   ye dono uski dependencies hain.
+
+2) DEPENDENCY INJECTION = cheezein BAHAR se do, andar `new` mat karo
+   Example: Chef (class) khud khet me sabzi nahi ugaata. Supplier sabzi DE
+   jaata hai. Kal supplier badalna ho to chef ko kuch nahi badalna.
+
+   BURA (tightly coupled):
+       class ReportService {
+           public function send(): void {
+               $mailer = new SmtpMailer();      // andar hi new – fasa hua
+               $mailer->mail('report');
+           }
+       }
+   ACHHA (DI):
+       class ReportService {
+           public function __construct(private MailerInterface $mailer) {}
+           public function send(): void { $this->mailer->mail('report'); }
+       }
+       new ReportService(new SmtpMailer());    // production me asli
+       new ReportService(new FakeMailer());    // test me nakli!
+
+   Bas yahi DI ka jaadu hai: test me asli email nahi bhejna padta.
+
+3) FAKE (test double)
+   Ek nakli class jo interface implement kare, lekin asli kaam ki jagah bas
+   yaad rakhe kya hua. E.g. FakeMailer jo bheje hue messages ek array me
+   rakh le. Test me baad me check karo: count($fake->sent) === 1.
+
+4) REPOSITORY
+   Data kahan se aata hai (DB, file, memory) – ye chhupane wali class.
+   Aaj InMemoryCourseRepository = bas ek PHP array. Kal ko Postgres wala aa
+   jaaye, service ko farak nahi padega (kyunki wo interface jaanti hai).
+
+5) COMPOSER + PSR-4 AUTOLOAD
+   Ab tak require_once likh rahe the. Composer ka autoload ye khud karta hai:
+   "namespace Exercises\  ->  src/ folder". Class Exercises\Course apne aap
+   src/Course.php se load ho jaayegi.
+
+6) PHPUnit – test ka dhaancha
+       <?php
+       declare(strict_types=1);
+
+       use PHPUnit\Framework\TestCase;
+
+       final class CalculatorTest extends TestCase
+       {
+           public function test_it_adds_two_numbers(): void
+           {
+               // Arrange (taiyaari)
+               $calc = new Calculator();
+               // Act (kaam karo)
+               $result = $calc->add(2, 3);
+               // Assert (check karo)
+               $this->assertSame(5, $result);
+           }
+       }
+   - Method ka naam "test" se shuru ho (ya #[Test] attribute lagao).
+   - Exception expect karna:  $this->expectException(SomeException::class);
+     DHYAAN: expectException ke baad, exception wali line ke aage ka code
+     NAHI chalta. To "exception aaya AUR notification nahi gaya" dono check
+     karne hain to try/catch me pakdo aur catch ke baad assert karo.
+
+7) SOLID – ek jagah (aaj ki exercise se jod ke)
+   S – Single Responsibility : ek class ka ek hi kaam  (EnrollmentService sirf
+                               enroll karti hai)
+   O – Open/Closed           : naya channel = nayi class, Notifier ko chhedna nahi
+   L – Liskov Substitution   : koi bhi NotificationInterface lagao, sab chale
+   I – Interface Segregation : chhote interfaces (repository me sirf 2 methods)
+   D – Dependency Inversion  : service interfaces pe depend kare, Email/SMS
+                               jaisi concrete classes pe nahi
+
+
+============================================================
+CODE – 30 min  ->  exercises/week01/04-di/
+============================================================
+Step 1 (5 min): Composer setup
+  cd exercises\week01\04-di
+  composer init
+     -> package name e.g. anupam/w1-di, baaki Enter-Enter
+     -> PSR-4 autoload pooche to:  Exercises\  ->  src/
+  composer require --dev phpunit/phpunit
+
+  composer.json me ye hona chahiye (nahi hai to khud add karo):
+      "autoload":     { "psr-4": { "Exercises\\": "src/" } },
+      "autoload-dev": { "psr-4": { "Tests\\": "tests/" } }
+  Phir:  composer dump-autoload
+
+  Pichle din ki classes (User, Student, Course, NotificationInterface,
+  exceptions...) src/ me copy karo aur sabke upar:  namespace Exercises;
+
+Step 2: Repository
+  interface CourseRepositoryInterface {
+      public function find(int $id): ?Course;
+      public function save(Course $course): void;
+  }
+  InMemoryCourseRepository – andar ek private array, id ke hisaab se rakho.
+
+Step 3: final class EnrollmentService
+  - Constructor me: CourseRepositoryInterface + NotificationInterface
+  - enroll(Student $student, int $courseId): void
+      1. repository se course dhundho
+      2. nahi mila -> throw CourseNotFoundException  (nayi exception class)
+      3. student ko enroll karo
+      4. notification bhejo
+  - Andar KAHIN bhi `new` nahi (dependencies ke liye).
+
+Step 4: tests/FakeNotifier.php
+  - NotificationInterface implement kare
+  - send() asli kuch na bheje, bas message ek public array me daal de,
+    true return kare
+
+Step 5: tests/EnrollmentServiceTest.php – 2 tests
+  Test 1: successful enrollment -> EXACTLY 1 notification gaya
+  Test 2: unknown course id -> CourseNotFoundException aaya AUR 0 notification
+
+  Chalao:  vendor\bin\phpunit tests
+  (Windows pe vendor\bin\phpunit, ya  php vendor/bin/phpunit tests)
+
+
+============================================================
+DONE WHEN
+============================================================
+[ ] vendor/bin/phpunit GREEN (sab pass)
+[ ] EnrollmentService apni dependencies ke liye kabhi `new` nahi karti
+[ ] SOLID map log me likha (upar section 7 jaisa, apne shabdon me)
+
+
+============================================================
+COMMON GALTIYAN
+============================================================
+- "Class not found" -> namespace galat hai ya composer dump-autoload nahi
+  chalaya. File naam = class naam hona chahiye (Course.php me class Course).
+- vendor/ git me chala gaya -> .gitignore check karo.
+- Test 2 me expectException laga ke uske baad assert likha -> wo assert
+  kabhi chalega hi nahi (upar concept 6 dekho).
+
+
+============================================================
+LOG – 5 min
+============================================================
+Log question: "Fake notifier ne test ko aasaan kyun banaya, aur DI ke bina
+kya mushkil hota?"
+
+Sochne ka hint: Agar service ke andar `new EmailNotification()` hota, to har
+test asli email bhejne ki koshish karta, aur ye check karna mushkil hota ki
+kitne message gaye.
+
+Entry:  ## 2026-10-29 (Thu) · W1 D4 · __ min  + SOLID map
+git add . ; git commit -m "feat(w1): 04-di with phpunit tests" ; git push

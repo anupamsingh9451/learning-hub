@@ -1,0 +1,168 @@
+DAY 4 – TUESDAY 27 OCT 2026
+===========================
+Topic: Interfaces, Polymorphism, Enums
+Time: 60 min (+5 min optional AI drill)   ·   Folder: exercises/week01/02-interfaces/
+
+AAJ KA GOAL (ek line me):
+  Samjho ki "interface ke against code likhna" kyun powerful hai, aur enum se
+  fixed values (roles) ko safe kaise banate hain.
+
+
+============================================================
+RECALL – 10 min (kuch dekhna nahi)
+============================================================
+1. Kal ki User/Student classes 5 minute me yaad se dobara likho.
+2. Abstract class aur interface me 3 farak likho.
+   (Agar 3 nahi aaye, to "Concepts" section padhne ke baad wapas aana.)
+
+
+============================================================
+LEARN – 15 min
+============================================================
+  https://www.php.net/manual/en/language.oop5.interfaces.php   (Object Interfaces)
+  https://www.php.net/manual/en/language.enumerations.php      (Enumerations:
+                                     backed enums, cases(), from(), tryFrom())
+
+
+============================================================
+CONCEPTS – AASAN BHASHA ME
+============================================================
+1) INTERFACE = CONTRACT / PROMISE
+   Interface sirf batata hai "kaunse methods HONE chahiye", kaise kaam karein
+   ye nahi batata.
+   Example: Mobile charger ka socket (USB-C). Socket ko farak nahi padta
+   charger Samsung ka hai ya Mi ka – bas USB-C hona chahiye.
+       interface PaymentMethod {
+           public function pay(int $amount): bool;
+       }
+       class UpiPayment implements PaymentMethod {
+           public function pay(int $amount): bool { /* ... */ return true; }
+       }
+
+   Abstract class vs Interface – 3 bade farak:
+     1. Interface me property/state nahi hoti; abstract class me ho sakti hai.
+     2. Interface me (normally) method ki body nahi; abstract class me common
+        code likh sakte ho.
+     3. Class sirf 1 class extend kar sakti hai, lekin KAI interfaces
+        implement kar sakti hai.
+
+2) POLYMORPHISM = "ek naam, kai roop"
+   Code sirf interface jaanta hai, asli object koi bhi ho sakta hai:
+       function checkout(PaymentMethod $method) { $method->pay(500); }
+       checkout(new UpiPayment());
+       checkout(new CardPayment());   // checkout() ko badalna nahi pada!
+
+3) VARIADIC PARAMETER  (...$items)
+   "Jitne chahe utne arguments do" – andar wo array ban jaate hain.
+       function total(int ...$prices): int { return array_sum($prices); }
+       total(10, 20, 30);  // 60
+   Typed bhi ho sakta hai:  PaymentMethod ...$methods
+
+4) ENUM (PHP 8.1+) – fixed options ki list
+   Jab value sirf kuch fixed options me se ho sakti hai (role, status, size).
+   String 'admn' jaisi typo galti enum se bach jaati hai.
+       enum Size: string {          // ": string" = BACKED enum (har case ki value)
+           case Small = 's';
+           case Large = 'l';
+
+           public function label(): string {
+               return match ($this) {
+                   Size::Small => 'Small size',
+                   Size::Large => 'Large size',
+               };
+           }
+       }
+   Kaam ke methods:
+     Size::cases()        -> saare cases ka array
+     Size::from('s')      -> Size::Small
+     Size::from('xl')     -> ValueError THROW (galat value!)
+     Size::tryFrom('xl')  -> null (error nahi, bas null)
+   Kab kaun? Value pakka sahi honi chahiye -> from(). User input / shaq ho ->
+   tryFrom() aur null check.
+
+5) OPEN/CLOSED PRINCIPLE (SOLID ka "O")
+   "Code EXTENSION ke liye open, MODIFICATION ke liye closed."
+   Matlab: naya feature = nayi class add karo, purani class mat chhedo.
+   Aaj ki exercise me: WhatsApp channel add karna ho to sirf nayi class –
+   Notifier class ko haath bhi nahi lagana.
+
+6) LISKOV SUBSTITUTION (SOLID ka "L")
+   "Interface ka koi bhi implementation dusre ki jagah daalo, program
+   theek chalna chahiye."
+   Agar SmsNotification ka send() achanak exception phenk de jab Email wala
+   nahi phenkta, ya bool ki jagah kuch aur de – to Liskov tootta hai.
+
+
+============================================================
+CODE – 30 min  ->  exercises/week01/02-interfaces/
+============================================================
+(Kal ka User/Student code yahan copy karke start kar sakte ho.)
+
+Step 1: enum Role: string
+  - Cases: Admin, Instructor, Student (values e.g. 'admin', 'instructor', 'student')
+  - label(): string method (e.g. 'Administrator')
+  - User::role() ab string ki jagah Role return kare.
+    displayName() me role ki value chahiye to ->value ya ->label() use karo.
+
+Step 2: interface NotificationInterface
+      interface NotificationInterface {
+          public function send(User $to, string $message): bool;
+      }
+
+Step 3: Do implementations
+  - EmailNotification -> print kare:  [EMAIL to <email>] <message>
+  - SmsNotification   -> message ko 160 characters tak kaat de, phir print
+    HINT: substr() ya mb_substr()
+
+Step 4: final class Notifier
+  - Constructor: NotificationInterface ...$channels  (variadic!)
+  - notify(User $to, string $message): int
+    -> har channel pe send() chalao, jitne true aaye wo count return karo
+
+Step 5: run.php
+  - Student ko dono channels (Email + SMS) se welcome message bhejo
+  - kitne channels successful hue, print karo
+
+
+============================================================
+DONE WHEN
+============================================================
+[ ] Soch ke dekho (ya sach me bana ke): WhatsAppNotification class add karni
+    ho to Notifier me KOI change nahi lagta  (= Open/Closed)
+[ ] Role::from('teacher') -> ValueError aata hai, aur tum jaante ho kyun
+    ('teacher' koi case ki value nahi hai)
+[ ] Role::tryFrom('teacher') -> null deta hai
+
+
+============================================================
+COMMON GALTIYAN
+============================================================
+- Interface ka method public na likhna -> interface methods hamesha public.
+- Implementation me method signature alag kar dena (e.g. return type bool ki
+  jagah void) -> Fatal error "Declaration must be compatible".
+- Enum ko string se compare karna:  $role === 'admin'  -> false!
+  Sahi:  $role === Role::Admin   ya   $role->value === 'admin'
+
+
+============================================================
+LOG – 5 min
+============================================================
+Log question: "NotificationInterface ko example le kar Liskov substitution ka
+matlab kya hai?"
+
+Sochne ka hint: Notifier ko Email do, SMS do, ya kal WhatsApp – wo bina jaane
+sab ke saath sahi chalna chahiye. Agar koi implementation "contract" tod de
+(alag behaviour, alag return), to Notifier toot jaayega.
+
+Entry:  ## 2026-10-27 (Tue) · W1 D2 · __ min   (template overview file me)
+git add . ; git commit -m "feat(w1): 02-interfaces" ; git push
+
+
+============================================================
+AI DRILL (+5 min, OPTIONAL)
+============================================================
+00-week-overview.txt (section 6) wala structured review prompt use karke
+02-interfaces ka code AI ko do.
+  - AI ka koi suggestion APPLY MAT karo.
+  - Sirf compare karo: jo AI ne bola, kya tum bhi wahi bolte? Kya chhoot gaya?
+  - 1 line log me likho.

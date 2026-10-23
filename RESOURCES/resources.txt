@@ -1,0 +1,61 @@
+RESOURCES
+=========
+Format:  Naam – link – kya hai – status: todo / doing / done
+
+
+------------------------------------------------------------
+1. PHP / LARAVEL
+------------------------------------------------------------
+  - Laravel Docs   – https://laravel.com/docs   – official docs – doing
+  - Laracasts      – https://laracasts.com      – video courses
+
+
+------------------------------------------------------------
+2. REACT / JAVASCRIPT
+------------------------------------------------------------
+  - React Docs      – https://react.dev/learn      – official docs
+  - javascript.info – https://javascript.info      – JS deep dive
+
+
+------------------------------------------------------------
+3. PYTHON
+------------------------------------------------------------
+  - Python Tutorial – https://docs.python.org/3/tutorial/ – official
+  - FastAPI Docs    – https://fastapi.tiangolo.com        – Python APIs
+
+
+------------------------------------------------------------
+4. AI / LLM
+------------------------------------------------------------
+  - Anthropic Docs      – https://docs.anthropic.com    – Claude API, tool use, agents
+  - Hugging Face Course – https://huggingface.co/learn  – NLP / LLM basics
+
+
+------------------------------------------------------------
+5. DATABASE
+------------------------------------------------------------
+  - Use The Index, Luke – https://use-the-index-luke.com – SQL indexing
+
+
+------------------------------------------------------------
+6. DEVOPS / LINUX / DOCKER
+------------------------------------------------------------
+  - Docker Get Started – https://docs.docker.com/get-started/
+
+
+------------------------------------------------------------
+7. GIT
+------------------------------------------------------------
+  - Pro Git book – https://git-scm.com/book/en/v2 – free
+
+
+------------------------------------------------------------
+8. SYSTEM DESIGN
+------------------------------------------------------------
+  - System Design Primer – https://github.com/donnemartin/system-design-primer
+
+
+------------------------------------------------------------
+9. BOOKS / YOUTUBE
+------------------------------------------------------------
+  -

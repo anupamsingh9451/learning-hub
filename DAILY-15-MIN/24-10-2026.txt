@@ -1,0 +1,157 @@
+DAY 02 – SATURDAY 24 OCT 2026
+=============================
+Topic: Database Index – query tez kaise hoti hai
+Time: ~15 min
+
+------------------------------------------------------------
+1. AAJ KYUN?
+------------------------------------------------------------
+Tumhare ERP/CRM me jab data lakhon rows ka ho jaata hai, page slow hone lagta
+hai. 90% baar ilaaj = sahi index. Aur 31 Oct ko EduAssist me tum
+index(['institution_id', 'role']) lagane wale ho – aaj samjho ki wo kyun aur
+kaise kaam karega.
+
+
+------------------------------------------------------------
+2. CONCEPT
+------------------------------------------------------------
+Misaal: 800 page ki kitaab me "Polymorphism" dhundhna hai.
+  Bina index: page 1 se 800 tak har page palto  -> FULL TABLE SCAN
+  Index ke saath: peeche ka index dekho "Polymorphism ... page 312"
+                  -> seedha page 312               -> INDEX SCAN
+
+Database index bhi yahi hai: ek alag, SORTED structure jo batata hai ki koi
+value kis row me hai.
+
+B-TREE (default index type):
+  Sorted ped jaisa structure. 10 lakh rows me bhi ek value dhundhne me
+  sirf ~20 steps (log n). Bina index 10 lakh steps.
+  Sorted hai isliye ye bhi tez: =, <, >, BETWEEN, ORDER BY, LIKE 'abc%'
+
+Index ki KEEMAT (free nahi hai):
+  - Har INSERT/UPDATE/DELETE pe index bhi update hota hai -> writes slow
+  - Disk space leta hai
+  Isliye "har column pe index" galat hai. Sirf wahan jahan READ query
+  usko use karti hai.
+
+
+------------------------------------------------------------
+3. KAHAN INDEX LAGAO
+------------------------------------------------------------
+  - WHERE me baar-baar aane wale columns     (email, slug, status)
+  - JOIN wale columns (foreign keys)         (institution_id, course_id)
+  - ORDER BY wale columns                    (created_at)
+  - UNIQUE chahiye to unique index           ($table->string('slug')->unique())
+
+POSTGRES TIP (EduAssist ke liye zaroori!):
+  MySQL (InnoDB) foreign key pe index KHUD bana deta hai.
+  PostgreSQL NAHI banata. foreignId()->constrained() sirf constraint banata
+  hai. JOIN tez chahiye to index alag se lagao.
+  (31 Oct wala composite index institution_id se SHURU hota hai, isliye wo
+  institution_id ki zaroorat bhi poori kar dega – neeche dekho kyun.)
+
+
+------------------------------------------------------------
+4. COMPOSITE INDEX – LEFTMOST PREFIX RULE
+------------------------------------------------------------
+Index (institution_id, role) = phone directory jaisa jo pehle SHEHAR se
+sorted hai, phir shehar ke andar NAAM se.
+
+  WHERE institution_id = 5                    -> index kaam karega
+  WHERE institution_id = 5 AND role = 'admin' -> index poora kaam karega
+  WHERE role = 'admin'                        -> aam taur par NAHI
+     (directory me sirf naam se dhundhna – har shehar ka section dekhna
+      padega. Postgres 18 ka "skip scan" kuch cases me madad karta hai,
+      lekin us pe bharosa karke design mat karo.)
+
+Rule: Column order = query ka pattern. Jo column hamesha WHERE me hota hai
+(aur zyada filter karta hai) wo pehle.
+
+
+------------------------------------------------------------
+5. INDEX KAB KAAM NAHI KARTA (common jaal)
+------------------------------------------------------------
+  WHERE LOWER(email) = 'a@b.com'   -> column pe function = normal index bekaar
+                                     (expression index chahiye)
+  WHERE name LIKE '%kumar'         -> shuru me % = B-tree bekaar
+  WHERE is_active = true           -> sirf 2 values (low cardinality) –
+                                     DB aksar index ignore karke scan karega
+  Chhoti table (kuch sau rows)     -> DB seedha scan karega, wahi tez hai
+
+
+------------------------------------------------------------
+6. KAISE PATA KAREIN INDEX LAGA YA NAHI – EXPLAIN
+------------------------------------------------------------
+  EXPLAIN ANALYZE SELECT * FROM users WHERE email = 'a@b.com';
+  Output me dekho:
+    Seq Scan on users          -> poori table padhi (index nahi laga)
+    Index Scan using ...       -> index use hua
+  "ANALYZE" query ko sach me chalata hai aur asli time batata hai.
+  (MySQL me bhi EXPLAIN hai – "type: ALL" = full scan.)
+
+
+------------------------------------------------------------
+7. INTERVIEW ANGLE
+------------------------------------------------------------
+Q: "Ek query slow hai, kaise debug karoge?"
+  1. Slow query log / Telescope / Debugbar se query pakdo
+  2. EXPLAIN ANALYZE chalao – Seq Scan dikha?
+  3. WHERE/JOIN/ORDER BY columns pe sahi (composite) index
+  4. Dobara EXPLAIN – farak naapo
+  5. Index ke alawa: N+1 (Day 05), SELECT * ki jagah zaroori columns,
+     pagination
+
+Q: "Har column pe index kyun nahi laga dete?" -> writes slow + space +
+   optimizer confuse. Index = read ke liye trade-off.
+
+
+------------------------------------------------------------
+8. 5-MIN PRACTICE
+------------------------------------------------------------
+Postgres me (agar abhi nahi hai to 31 Oct ke baad  sail psql  me karna):
+
+  CREATE TABLE demo_users (id serial PRIMARY KEY, email text, city text);
+  INSERT INTO demo_users (email, city)
+    SELECT 'user' || g || '@test.com', 'city' || (g % 100)
+    FROM generate_series(1, 200000) g;
+
+  EXPLAIN ANALYZE SELECT * FROM demo_users WHERE email = 'user150000@test.com';
+     -> Seq Scan, time note karo
+
+  CREATE INDEX idx_demo_email ON demo_users (email);
+  EXPLAIN ANALYZE SELECT * FROM demo_users WHERE email = 'user150000@test.com';
+     -> Index Scan, time dobara dekho (kai guna kam!)
+
+  DROP TABLE demo_users;
+
+
+------------------------------------------------------------
+9. SELF-CHECK
+------------------------------------------------------------
+Q1. Index ki 2 keemat (nuksaan) kya hain?
+Q2. Index (institution_id, role) hai. Query  WHERE role = 'student'  –
+    is index ka poora faayda milega?
+Q3. Postgres me foreignId()->constrained() se kya index apne aap banta hai?
+
+
+------------------------------------------------------------
+10. EK LINE YAAD RAKHO
+------------------------------------------------------------
+"Index = kitaab ka index: padhna tez, likhna thoda slow. Composite index
+baayein se daayein padha jaata hai."
+
+
+
+.
+.
+.
+(neeche jawab hain)
+.
+.
+.
+JAWAB:
+A1. Writes (insert/update/delete) slow + extra disk space.
+A2. Nahi (aam taur par). Leftmost column institution_id hai; sirf role se
+    filter karne pe index ka sorted order kaam nahi aata.
+A3. Nahi. Postgres sirf constraint banata hai, index alag se lagana padta hai.
+    (MySQL InnoDB khud bana deta hai.)

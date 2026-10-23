@@ -1,0 +1,58 @@
+SETUP – GITHUB AUR GOOGLE DRIVE
+==============================
+Folder pe git init ho chuka hai (branch: main). Bas remote jodna hai.
+
+
+------------------------------------------------------------
+1. GITHUB PE DAALNA (ek baar)
+------------------------------------------------------------
+  a) https://github.com/new pe jao
+       Name: learning-hub
+       Private ya Public – tumhari marzi (Public = portfolio ke liye achha)
+       README / .gitignore tick MAT karna (yahan pehle se hai)
+
+  b) PowerShell me:
+       cd D:\learning-hub
+       git remote add origin https://github.com/<tumhara-username>/learning-hub.git
+
+  c) PUSH.bat pe double-click.
+     Pehli baar browser me GitHub login maangega – ek baar login, phir yaad
+     rahega. Uske baad roz bas PUSH.bat.
+
+  Note: is repo me commit author personal gmail hai
+  (anupamsingh9451@gmail.com), office wala nahi. Badalna ho to:
+       git config user.email "naya@email.com"
+
+
+------------------------------------------------------------
+2. GOOGLE DRIVE PE BACKUP (optional)
+------------------------------------------------------------
+  Option A – Google Drive for Desktop (sabse aasaan):
+    1. Google Drive for Desktop install karo
+    2. Settings -> "Add folder" -> D:\learning-hub -> "Sync with Google Drive"
+    3. Bas. Har change apne aap Drive pe chala jayega.
+
+  Option B – Sirf zip backup:
+       Compress-Archive D:\learning-hub "$env:USERPROFILE\Downloads\learning-hub-$(Get-Date -f yyyy-MM-dd).zip"
+    Phir zip ko Drive pe upload kar do.
+
+  GitHub = history + portfolio.  Drive = backup.  Dono saath chal sakte hain.
+
+
+------------------------------------------------------------
+3. DAILY 15-MIN AUTOMATION
+------------------------------------------------------------
+  Task Scheduler ka "Daily15Min" job roz 7 AM ye chalata hai:
+       D:\learning-hub\DAILY-15-MIN\_automation\generate-today.ps1
+  (pehle D:\credentials\PERSONAL\... tha). Nayi file roz yahin banegi;
+  PUSH.bat chalao to wo bhi GitHub pe chali jayegi.
+
+
+------------------------------------------------------------
+4. ROZ AUTO-PUSH CHAHIYE? (optional)
+------------------------------------------------------------
+  Raat 10 baje sync.ps1 chalane ke liye (Admin PowerShell):
+
+       $a = New-ScheduledTaskAction -Execute "powershell.exe" -Argument '-ExecutionPolicy Bypass -File "D:\learning-hub\_scripts\sync.ps1"'
+       $t = New-ScheduledTaskTrigger -Daily -At 10pm
+       Register-ScheduledTask -TaskName "LearningHubSync" -Action $a -Trigger $t -Settings (New-ScheduledTaskSettingsSet -StartWhenAvailable)

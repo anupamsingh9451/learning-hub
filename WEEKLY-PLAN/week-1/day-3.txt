@@ -1,0 +1,188 @@
+DAY 3 – MONDAY 26 OCT 2026
+==========================
+Topic: Classes, Abstract classes, Inheritance
+Time: 60 min   ·   Folder: exercises/week01/01-classes/
+
+AAJ KA GOAL (ek line me):
+  Class, constructor, visibility (public/protected/private), abstract aur final
+  ko itna samajh lo ki bina dekhe likh sako aur samjha sako.
+
+
+============================================================
+SESSION FLOW
+============================================================
+Recall (10) -> Learn (15) -> Code (30) -> Log (5)
+
+
+============================================================
+RECALL – 10 min (khaali kaagaz, kuch dekhna nahi)
+============================================================
+1. Yaad se likho: ek class jisme constructor, ek private property aur uska
+   getter ho.
+2. Apne shabdon me samjhao: public, protected, private me kya farak hai?
+3. abstract aur final ka matlab kya hai?
+Jo yaad nahi aaya uspe nishaan lagao – wahi aaj ka focus hai.
+
+
+============================================================
+LEARN – 15 min (sirf ye docs)
+============================================================
+  https://www.php.net/manual/en/language.oop5.decon.php     (Constructors,
+                                                    "constructor promotion" padhna)
+  https://www.php.net/manual/en/language.oop5.abstract.php  (Class Abstraction)
+  php.net pe "readonly properties" bhi search karke padho.
+
+
+============================================================
+CONCEPTS – AASAN BHASHA ME
+============================================================
+(Examples jaan-boojh ke dusre topic – "Vehicle/Shop" – pe hain, taaki
+exercise tum khud likho.)
+
+1) CLASS aur OBJECT
+   Class = naksha (blueprint). Object = us naksha se bana asli ghar.
+   Ek "Car" class -> bahut saare car objects ($swift, $creta).
+
+2) CONSTRUCTOR
+   Object bante hi jo function apne aap chalta hai: __construct().
+   Iska kaam: object ko shuruaati values dena.
+
+3) CONSTRUCTOR PROMOTION (PHP 8.0+) – shortcut
+   Purana tareeka:
+       class Car {
+           private string $model;
+           public function __construct(string $model) {
+               $this->model = $model;
+           }
+       }
+   Naya tareeka (same kaam, ek line):
+       class Car {
+           public function __construct(private string $model) {}
+       }
+   Parameter ke aage visibility (private/public/protected) likh do = property
+   apne aap ban jaati hai aur value set ho jaati hai.
+
+4) READONLY (PHP 8.1+)
+   readonly property sirf EK baar set ho sakti hai (constructor me). Uske baad
+   badalne ki koshish = Error.
+       public function __construct(public readonly int $id) {}
+       $car->id = 5;   // Error: Cannot modify readonly property
+   Kab use karein? Jo cheez kabhi nahi badalni chahiye – jaise id, email.
+
+5) VISIBILITY – kaun access kar sakta hai
+   public    – koi bhi (bahar se bhi)            -> ghar ka darwaza
+   protected – class khud + uske child classes   -> ghar ke andar family
+   private   – SIRF wahi class                   -> tumhari apni almirah
+   Default soch: sab private rakho, zaroorat ho tabhi khol do.
+
+6) INHERITANCE (extends)
+   Child class parent ki properties/methods le leti hai.
+       class Vehicle { public function wheels(): int { return 4; } }
+       class Bike extends Vehicle { public function wheels(): int { return 2; } }
+   Bike ne wheels() ko "override" kiya.
+
+7) ABSTRACT CLASS
+   "Adhoora naksha". Iska DIRECT object nahi ban sakta.
+   Kuch methods abstract hote hain = sirf naam/signature, body nahi. Child
+   class ko wo method ZAROOR likhna padega.
+       abstract class Vehicle {
+           abstract public function fuelType(): string;     // body nahi
+           public function describe(): string {             // normal method
+               return 'Runs on ' . $this->fuelType();
+           }
+       }
+       new Vehicle();   // Error: Cannot instantiate abstract class Vehicle
+   Faayda: common code parent me ek jagah, aur "ye method har child me hona hi
+   chahiye" ki guarantee.
+
+8) FINAL CLASS
+   final class = isse koi aur class extend nahi kar sakti.
+       final class ElectricCar extends Vehicle { ... }
+       class Tesla extends ElectricCar {}   // Error
+   Kyun? "Is class ko aage badalne ka plan nahi hai" – design saaf rehta hai,
+   galti se inheritance ki lambi chain nahi banti.
+
+9) TYPES HAR JAGAH
+   Har property, parameter aur return ka type likho:
+       public function enroll(int $courseId): void
+   void = kuch return nahi karta. array = array return karta hai.
+
+
+============================================================
+CODE – 30 min  ->  exercises/week01/01-classes/
+============================================================
+Banana kya hai (step by step):
+
+Step 1: abstract class User
+  - Constructor promotion se: readonly int $id, string $name, string $email
+  - abstract method role(): string   (body nahi – child likhega)
+  - displayName(): string  ->  e.g. 'Asha (student)'
+    HINT: name + ' (' + role() + ')'.  Parent, child ka role() call kar sakta hai!
+
+Step 2: final class Student extends User
+  - private array $courseIds   (shuru me khaali array)
+  - enroll(int $courseId): void  -> courseIds me add kare
+    (abhi duplicate ignore karo; Wednesday ko isko exception throw karwana hai)
+  - courses(): array -> courseIds return kare
+  - role() -> 'student'
+
+Step 3: final class Instructor extends User
+  - teach(int $courseId): void
+  - courses(): array
+  - role() -> 'instructor'
+
+Step 4: run.php
+  - Ek Student aur ek Instructor banao
+  - Dono ka displayName() print karo
+  - Student ko SAME course me 2 baar enroll karo
+  - courses() print karo (print_r ya var_dump)
+  - Terminal me:  php run.php
+
+Files kaise rakhein? Simple rakho – ek file per class (User.php, Student.php,
+Instructor.php) aur run.php me require_once. Composer/autoload Thursday ko
+aayega.
+
+
+============================================================
+DONE WHEN (teeno tick = aaj ka kaam poora)
+============================================================
+[ ] php run.php bina kisi warning ke chalta hai
+[ ] run.php me ek baar  new User(...)  likh ke chalao -> error aayega, use
+    PADHO aur samjho, phir wo line hata do
+[ ] Har property, parameter aur return value ka type likha hai
+
+
+============================================================
+COMMON GALTIYAN
+============================================================
+- Child class me role() likhna bhool gaye -> "Class Student contains 1 abstract
+  method and must therefore be declared abstract..." error. Matlab: abstract
+  method implement karo.
+- private property ko child class me access karna -> nahi milega. Parent ki
+  property child ko chahiye to protected karo (ya getter banao).
+- readonly property ko constructor ke baad badalna -> Error.
+
+
+============================================================
+LOG – 5 min
+============================================================
+Log question: "Main interface ki jagah abstract class kab use karunga?"
+
+Sochne ka hint (jawab apne shabdon me likhna):
+  - Abstract class: jab child classes me COMMON CODE/state share karna ho
+    (jaise displayName() sabke liye same). Ek class sirf EK parent extend kar
+    sakti hai.
+  - Interface: jab sirf "contract" chahiye (kaunse methods honge), code nahi.
+    Ek class KAI interfaces implement kar sakti hai. (Kal detail me.)
+
+Entry:
+  ## 2026-10-26 (Mon) · W1 D1 · __ min
+  Recall:   ...
+  Learned:  ...
+  Built:    exercises/week01/01-classes – done when list passed? yes/no
+  Stuck on: ...
+  Log question: ...
+  Explain-it score (1–5): ...
+  Tomorrow: interfaces + enums
+
+  git add . ; git commit -m "feat(w1): 01-classes" ; git push

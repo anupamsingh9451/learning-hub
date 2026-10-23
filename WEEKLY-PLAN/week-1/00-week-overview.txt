@@ -1,0 +1,179 @@
+WEEK 1 – OVERVIEW (Pehle ye file padho)
+=======================================
+Dates : Sat 24 Oct 2026 – Sun 1 Nov 2026 (9 din)
+Topic : Phase 0 setup + PHP OOP & SOLID + EduAssist project ki shuruaat
+Time  : ~7 ghante padhai/coding + ~2.5 ghante ek-baar ka setup
+Ye 6-Month Career & AI Plan (Oct 2026 – Apr 2027) ka pehla hafta hai.
+
+
+------------------------------------------------------------
+1. IS HAFTE KA GOAL – SIMPLE BHASHA ME
+------------------------------------------------------------
+Sunday 1 Nov tak tumhare paas ye 5 cheezein honi chahiye:
+
+  1. career-2027 naam ka Git repo, jisme tumhare 4 "baseline scores" likhe hon
+     (baseline = abhi tum kitna jaante ho, uska imaandaar number).
+  2. PHP OOP ki 5 exercises – KHUD likhi hui, AI se nahi.
+  3. Test 1 pass (100 me se 70 ya zyada).
+  4. EduAssist naam ka Laravel 13 project chal raha ho, jisme Institution aur
+     User models hon aur unke tests pass hote hon.
+  5. Pehla weekly scorecard bhara hua.
+
+Kyun? Interview me senior developer se OOP, SOLID, DI, testing pucha jaata
+hai. Aur EduAssist tumhara "capstone" (portfolio project) hai jisme aage chal ke
+AI features lagenge. Is hafte uski neev (foundation) rakhni hai.
+
+
+------------------------------------------------------------
+2. KAUNSE DIN KYA – FILE MAP
+------------------------------------------------------------
+File        | Din / Date   | Time        | Kya karna hai
+------------+--------------+-------------+-------------------------------------
+day-1.txt   | Sat 24 Oct   | ~1 h 45 min | Tools check, career-2027 repo, baseline test
+day-2.txt   | Sun 25 Oct   | ~45 min     | Calendar, job tracker sheet, LinkedIn, notice period
+day-3.txt   | Mon 26 Oct   | 60 min      | Classes, abstract class, inheritance
+day-4.txt   | Tue 27 Oct   | 60 min      | Interface, polymorphism, enum
+day-5.txt   | Wed 28 Oct   | 60 min      | Traits, strict types, custom exceptions
+day-6.txt   | Thu 29 Oct   | 60 min      | Dependency Injection + pehle unit tests (PHPUnit)
+day-7.txt   | Fri 30 Oct   | 60 min      | TEST 1 – PHP (30 min test + 25 min grading)
+day-8.txt   | Sat 31 Oct   | 2 h         | EduAssist: Laravel 13 + Sail, Institution & User
+day-9.txt   | Sun 1 Nov    | 15 min      | Weekly review + Week 2 ka focus decide
+
+Day-1 aur Day-2 = "Phase 0" (ek baar ka setup). Day-3 se asli padhai.
+
+
+------------------------------------------------------------
+3. HAR WEEKDAY (Mon–Fri) KA SESSION KAISE CHALEGA – 60 MIN
+------------------------------------------------------------
+Block   | Minute | Rule (aur KYUN)
+--------+--------+-----------------------------------------------------------
+Recall  | 10     | Khali file ya kaagaz. Na notes, na AI, na docs. Jo yaad hai
+        |        | likho, phir jo bhool gaye uspe nishaan lagao.
+        |        | KYUN: Dimaag se "nikaalna" (retrieval) hi memory pakki karta
+        |        | hai. Padhne se lagta hai aata hai; likhne se pata chalta hai.
+--------+--------+-----------------------------------------------------------
+Learn   | 10–15  | Sirf us din ke diye hue docs pages padho. Official docs
+        |        | (php.net, laravel.com). Video/blog nahi.
+        |        | KYUN: Docs padhne ki aadat senior dev ki pehchaan hai, aur
+        |        | videos me time zyada jaata hai.
+--------+--------+-----------------------------------------------------------
+Code    | 25–30  | Us din ki exercise khud banao. AI sirf tab review kar sakta
+        |        | hai jab "Done when" wali list poori pass ho jaaye.
+        |        | KYUN: Interview me AI nahi hoga. Haath se likhna = asli skill.
+--------+--------+-----------------------------------------------------------
+Log     | 5      | learning-log.md me aaj ki entry + aaj ka "log question" ka
+        |        | jawab apne shabdon me.
+        |        | KYUN: Apne shabdon me samjhana = sach me samajh aaya ya nahi
+        |        | ka test.
+
+
+------------------------------------------------------------
+4. learning-log.md – ENTRY KA TEMPLATE (har din copy karo)
+------------------------------------------------------------
+## 2026-10-26 (Mon) · W1 D1 · 55 min
+Recall:   yaad tha … / bhool gaya …
+Learned:  1–2 line apne shabdon me
+Built:    exercises/week01/01-classes – "done when" list pass hui? yes/no
+Stuck on: …
+Log question: …
+Explain-it score (1–5): …   (kisi ko samjha paoge? 5 = bilkul, 1 = bilkul nahi)
+Tomorrow: …
+
+Note: "W1 D1" ka matlab Week 1 ka pehla PADHAI wala din (Monday). Saturday/
+Sunday setup ko bhi log karo, bas heading me "Phase 0" likh do.
+
+
+------------------------------------------------------------
+5. HAFTE KE END TAK FOLDER STRUCTURE AISA DIKHEGA
+------------------------------------------------------------
+D:\credentials\career-2027\
+  ├── .gitignore              (vendor/ aur .env)
+  ├── learning-log.md         (roz ki diary)
+  ├── notes\
+  ├── capstone\               (sirf EduAssist ke notes/decisions, code nahi)
+  └── exercises\week01\
+        ├── 01-classes\               (Mon)
+        ├── 02-interfaces\            (Tue)
+        ├── 03-traits-exceptions\     (Wed)
+        ├── 04-di\                    (Thu – composer + phpunit)
+        └── 05-test1\                 (Fri – test)
+
+WSL Ubuntu ke andar (Windows D: drive me NAHI):
+~/code/eduassist/              (Sat 31 – Laravel 13 project, alag GitHub repo)
+
+
+------------------------------------------------------------
+6. AI SKILL OF THE WEEK – STRUCTURED PROMPT
+------------------------------------------------------------
+Is hafte AI se code LIKHWANA nahi hai, sirf REVIEW karwana hai. Achha prompt
+5 hisson me hota hai:
+
+  ROLE        – AI kaun hai (e.g. senior PHP reviewer)
+  TASK        – kya karna hai (review karna)
+  CONTEXT     – background (PHP 8.3, learning exercise, no framework)
+  CONSTRAINTS – hadd (code rewrite mat karo, max 5 points)
+  ACCEPTANCE  – jawab kaisa dikhna chahiye (problem, kyun, chhota fix, score)
+
+Flow: Tum code likho  ->  AI review kare  ->  FAISLA TUM karo (accept/reject).
+
+=== Copy-paste wala review prompt ===
+ROLE: You are a senior PHP reviewer.
+TASK: Review the code below for OOP design, SOLID and error handling.
+CONTEXT: PHP 8.3+, strict_types, a Week 1 learning exercise, no framework.
+CONSTRAINTS: Do not rewrite the code. At most 5 points, most important first.
+  Quote the line each point refers to. Say so when you are unsure.
+ACCEPTANCE CRITERIA: Each point has the problem, why it matters and the smallest
+  fix. End with a score out of 10 and one thing done well.
+
+[yahan apna code paste karo]
+=====================================
+
+Ye prompt English me hi rakhna – AI ke liye clear rehta hai.
+
+
+------------------------------------------------------------
+7. FAST TRACK – agar Day-1 baseline me PHP score 4 ya 5 aaye
+------------------------------------------------------------
+Matlab tumhe basic OOP pehle se achha aata hai, to time waste mat karo:
+
+Din              | Normal plan ki jagah ye karo
+-----------------+------------------------------------------------------------
+Mon              | Speed run: Mon+Tue+Wed teeno exercises EK folder me, ek hi
+                 | 45-min session me bana do.
+Tue              | PHP 8.x ke wo features jo roz use nahi karte: readonly class,
+                 | enum jo interface implement kare, match, first-class callable
+                 | syntax (strlen(...)), named arguments, `never` return type.
+Wed              | Thursday wali exercise (DI + PHPUnit).
+Thu              | Laravel container gehraai se: service provider me interface ko
+                 | implementation se bind karna, contextual binding. (Week 5 ke
+                 | AiService class ki taiyaari.)
+Fri / Sat / Sun  | Normal plan jaisa hi.
+
+
+------------------------------------------------------------
+8. JAB HAFTA BIGAD JAAYE (aur bigdega, normal hai)
+------------------------------------------------------------
+- Busy din: sirf 20 min recall + log entry. Log KABHI skip mat karo.
+- Ek din chhoot gaya: agle din double MAT karo. Priority:
+      Saturday build  >  Friday test  >  baaki weekdays
+- Saturday chala gaya: Week 2 ki kisi shaam sirf 0:00–0:50 wala hissa karo
+  (project + repo). Sunday aaram. Baaki agle Saturday.
+- 15 min se zyada atke: exact likho kya fail ho raha hai, phir AI se ERROR
+  SAMJHANE ko bolo – solution likhne ko NAHI.
+- Sail/WSL ki problem: Saturday usme barbaad mat karo. Is hafte Laragon +
+  local PostgreSQL use karo, Docker kisi weekday pe theek karna.
+
+
+------------------------------------------------------------
+9. POORE HAFTE KI CHECKLIST (tick karte jao)
+------------------------------------------------------------
+[ ] Sat 24: tools check · career-2027 repo push · baseline scores log me
+[ ] Sun 25: calendar 22 Nov tak block · tracker sheet bani · LinkedIn headline
+            update · notice period likha
+[ ] Mon 26: 01-classes done + log
+[ ] Tue 27: 02-interfaces done + log
+[ ] Wed 28: 03-traits-exceptions done + log
+[ ] Thu 29: 04-di, 2 green tests + SOLID map log me
+[ ] Fri 30: Test 1 done, self-score aur AI score log me
+[ ] Sat 31: eduassist push, Saturday ki "definition of done" poori
+[ ] Sun 1 : scorecard bhara, Week 2 focus likha

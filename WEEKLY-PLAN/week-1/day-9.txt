@@ -1,0 +1,77 @@
+DAY 9 – SUNDAY 1 NOV 2026
+=========================
+Weekly Review (15 min)
+
+AAJ KA GOAL (ek line me):
+  Hafte ka imaandaar hisaab lagao aur data dekh ke decide karo ki Week 2 me
+  kis cheez pe zyada dhyaan dena hai.
+
+
+============================================================
+1. SCORECARD BHARO (~8 min)
+============================================================
+learning-log.md me ye table copy karo aur "Tumhara result" bharo:
+
+Metric               | Week 1 target                                  | Tumhara result
+---------------------+------------------------------------------------+---------------
+Weekday sessions     | 5 me se 4–5                                    |
+Saturday build       | 1 session, commit push hua                     |
+Independent coding   | 3 exercises bina AI-written code (Mon–Wed)     |
+Explain it (1–5)     | Interfaces, DI, exceptions pe 4 ya zyada       |
+Tests                | Kam se kam 1 naya test (Thu + Sat se 4 milte)  |
+Test 1               | 70/100 ya zyada                                |
+Job track            | Abhi nahi (Week 12 se); tracker sheet bani hai |
+
+Har metric ka matlab:
+  - Weekday sessions  : kitne din 60-min session hua (busy-day wala 20-min
+                        recall bhi aadha gin sakte ho, imaandaari se)
+  - Independent coding: Mon/Tue/Wed ka code TUMNE likha, AI ne nahi
+  - Explain it        : bina dekhe kisi junior ko samjha paoge? 1–5
+  - Tests             : Thursday ke 2 + Saturday ke 2 = 4 possible
+  - Job track         : abhi sirf sheet exist karni chahiye
+
+
+============================================================
+2. WEEK 2 KA FOCUS CHUNO (~5 min)
+============================================================
+Do cheezein dekho:
+  a) Test 1 ki sabse KAMZOR rubric line (jisme sabse kam marks aaye)
+     -> Week 2 ke Monday/Tuesday recall slot me iski practice
+        (agar Test 1 me 70 se kam aaya tha)
+  b) Day-1 ka Laravel baseline score
+     -> Laravel score 4 ya 5: Week 2 ke weekday topics ek revision session
+        me nipta do, bacha time FEATURE TESTS likhne me lagao.
+     -> Laravel score 1–3: Week 2 normal plan follow karo.
+
+Log me likho:
+  ## 2026-11-01 (Sun) · W1 Review
+  Scorecard: (upar wali table)
+  Sabse achha kya gaya: ...
+  Sabse mushkil kya laga: ...
+  Week 2 focus: ...
+
+
+============================================================
+3. CALENDAR CHECK (~2 min)
+============================================================
+Week 2 (2 Nov – 8 Nov) ke calendar blocks abhi bhi lage hain? Koi meeting/
+function to nahi aa gaya? Clash ho to slot abhi shift karo.
+
+
+============================================================
+4. WEEK 1 KI FINAL CHECKLIST
+============================================================
+[ ] Sat 24: tools check · career-2027 repo push · baseline scores log me
+[ ] Sun 25: calendar 22 Nov tak block · tracker sheet · LinkedIn · notice period
+[ ] Mon 26: 01-classes done + log
+[ ] Tue 27: 02-interfaces done + log
+[ ] Wed 28: 03-traits-exceptions done + log
+[ ] Thu 29: 04-di, 2 green tests + SOLID map log me
+[ ] Fri 30: Test 1 done, self-score aur AI score log me
+[ ] Sat 31: eduassist push, Saturday definition of done poori
+[ ] Sun 1 : scorecard bhara, Week 2 focus likha
+
+   git add . ; git commit -m "docs: week 1 review" ; git push
+
+Shabaash – pehla hafta poora! Sab tick na hue hon to bhi theek hai; jo
+chhoota wo "Week 2 focus" me daal do aur aage badho.

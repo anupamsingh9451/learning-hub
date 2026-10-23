@@ -1,0 +1,34 @@
+# Secrets - kabhi commit nahi
+*.pem
+*.key
+*.env
+.env*
+*credentials*
+*.pfx
+*.ppk
+id_rsa*
+backup-codes*
+
+# OS / editor
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+.idea/
+
+# Office temp files
+~$*
+
+# Code practice ke build/deps
+node_modules/
+vendor/
+__pycache__/
+*.pyc
+.next/
+*.tmp
+.venv/
+venv/
+dist/
+build/
+*.log
+DAILY-15-MIN/_automation/log.txt
