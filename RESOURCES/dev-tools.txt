@@ -1,0 +1,438 @@
+DEV TOOLS DIRECTORY – KAAM KI WEBSITES
+=====================================
+Topic: resources
+Date: 24-10-2026
+Time: ~10 min (poora ek baar, phir zaroorat pe category dekho)
+Status: reference
+Source: "Best Websites for VibeCoders" (Google Doc) + extra tools mere stack ke liye
+
+
+------------------------------------------------------------
+1. YEH FILE KYA HAI
+------------------------------------------------------------
+    App banate waqt kaam aane wali websites aur tools ki directory,
+    category ke hisaab se. "Mujhe icons chahiye / payment lagana hai /
+    deploy kahan karun" – seedha us section pe jao.
+
+    Vibe coding = AI (Claude, Cursor, v0) ke saath tezi se app banana.
+    Isme sabse zyada time "kaunsa tool lun" me jaata hai. Yeh list wahi
+    time bachati hai.
+
+    Kaise padhein:
+    - Har section me: Naam, Link, Kis kaam ka.
+    - (+) = original Google Doc me nahi tha, maine joda (Laravel, Indian
+      payments, Claude, dev utilities ke liye).
+    - Section ke neeche "Tip" = kab kya chunna hai.
+    - Saare links 24-10-2026 ko check kiye. Original doc ke 5 links ka
+      address badal gaya tha (Origin UI, Lenis, Neon, Railway, Godly),
+      yahan naye address hain. Backlit UI band ho gaya, isliye hata diya.
+
+
+------------------------------------------------------------
+2. UI COMPONENTS
+------------------------------------------------------------
+    Naam                 Link                       Kis kaam ka
+    -------------------  -------------------------  --------------------
+    shadcn/ui            https://ui.shadcn.com      Ready React components, code tumhare project me aata hai
+    21st.dev             https://21st.dev           AI ke saath use hone layak React components
+    Magic UI             https://magicui.design     Animated SaaS components (landing page)
+    Aceternity UI        https://ui.aceternity.com  Premium animated UI blocks
+    React Bits           https://www.reactbits.dev  Copy-paste animated React components
+    Kokonut UI           https://kokonutui.com      Modern Tailwind components
+    coss UI (Origin UI)  https://coss.com/ui        SaaS aur dashboard UI (Origin UI ka naya ghar)
+    HyperUI              https://www.hyperui.dev    Free Tailwind components, plain HTML
+    Flowbite             https://flowbite.com       Tailwind components + JS (Blade/PHP me bhi)
+    daisyUI (+)          https://daisyui.com        Tailwind ke upar btn/card classes, React zaroori nahi
+
+    Tip: React/Next = shadcn base, upar se Magic UI/Aceternity. Laravel Blade
+    ya CodeIgniter = Flowbite, daisyUI, HyperUI.
+
+
+------------------------------------------------------------
+3. ANIMATION
+------------------------------------------------------------
+    Naam         Link                     Kis kaam ka
+    -----------  -----------------------  --------------------
+    Motion       https://motion.dev       React animations (pehle Framer Motion)
+    GSAP         https://gsap.com         Advanced animations, scroll effects
+    Anime.js     https://animejs.com      Halki JS animations
+    Lenis        https://lenis.dev        Smooth scrolling
+    Rive         https://rive.app         Interactive animations (state ke saath)
+    LottieFiles  https://lottiefiles.com  Ready-made animations (JSON)
+
+    Tip: React me Motion, bina framework ke GSAP. Chhoti icon animation = Lottie.
+
+
+------------------------------------------------------------
+4. ICONS
+------------------------------------------------------------
+    Naam              Link                       Kis kaam ka
+    ----------------  -------------------------  --------------------
+    Lucide            https://lucide.dev         Saaf modern icons (shadcn default)
+    Phosphor Icons    https://phosphoricons.com  Badi library, 6 weights
+    Iconify           https://iconify.design     2 lakh+ icons ek jagah
+    Hugeicons         https://hugeicons.com      Modern UI icons
+    Heroicons         https://heroicons.com      Tailwind team ke icons
+    Tabler Icons      https://tabler.io/icons    5000+ free UI icons
+    Simple Icons (+)  https://simpleicons.org    Brand logos (GitHub, Laravel, React...)
+
+    Tip: Ek project me ek hi icon set. Mix karoge toh UI ajeeb lagega.
+
+
+------------------------------------------------------------
+5. BACKGROUNDS
+------------------------------------------------------------
+    Naam            Link                             Kis kaam ka
+    --------------  -------------------------------  --------------------
+    Haikei          https://haikei.app               SVG waves, blobs, layered shapes
+    MagicPattern    https://www.magicpattern.design  Patterns aur gradients
+    fffuel          https://fffuel.co                SVG generators (noise, blob, gradient)
+    BGJar           https://bgjar.com                Free SVG backgrounds
+    Gradient Magic  https://www.gradientmagic.com    CSS gradients
+
+
+------------------------------------------------------------
+6. IMAGES
+------------------------------------------------------------
+    Naam              Link                    Kis kaam ka
+    ----------------  ----------------------  --------------------
+    Unsplash          https://unsplash.com    Free achhi photos
+    Pexels            https://www.pexels.com  Free photos aur videos
+    Lummi             https://www.lummi.ai    AI/design style visuals
+    Placehold (+)     https://placehold.co    Placeholder image URL (600x400)
+    Lorem Picsum (+)  https://picsum.photos   Random placeholder photos
+
+    Tip: Free image ka license ek baar padh lo, client project me zaroor.
+
+
+------------------------------------------------------------
+7. ILLUSTRATIONS
+------------------------------------------------------------
+    Naam      Link                     Kis kaam ka
+    --------  -----------------------  --------------------
+    unDraw    https://undraw.co        Apne brand color me illustrations
+    Storyset  https://storyset.com     Animated illustrations
+    DrawKit   https://www.drawkit.com  Illustrations aur graphics
+
+
+------------------------------------------------------------
+8. 3D
+------------------------------------------------------------
+    Naam               Link                       Kis kaam ka
+    -----------------  -------------------------  --------------------
+    Spline             https://spline.design      Browser me 3D banao, site me lagao
+    Three.js           https://threejs.org        Web pe 3D ki main library
+    React Three Fiber  https://r3f.docs.pmnd.rs   React me Three.js
+    Drei               https://drei.docs.pmnd.rs  React Three Fiber ke ready helpers
+
+
+------------------------------------------------------------
+9. CHARTS
+------------------------------------------------------------
+    Naam      Link                        Kis kaam ka
+    --------  --------------------------  --------------------
+    Recharts  https://recharts.org        React charts, aasan
+    Nivo      https://nivo.rocks          Sundar data visualization
+    Tremor    https://www.tremor.so       SaaS dashboard components
+    ECharts   https://echarts.apache.org  Advanced charts, bada data (bina React bhi)
+    D3.js     https://d3js.org            Poora custom visualization
+
+    Tip: Dashboard jaldi = Tremor/Recharts. Blade page = ECharts. Kuch anokha = D3.
+
+
+------------------------------------------------------------
+10. MAPS
+------------------------------------------------------------
+    Naam           Link                           Kis kaam ka
+    -------------  -----------------------------  --------------------
+    Mapbox         https://www.mapbox.com         Interactive maps (paid, free tier)
+    Leaflet        https://leafletjs.com          Halki open-source maps
+    OpenStreetMap  https://www.openstreetmap.org  Free map data
+
+
+------------------------------------------------------------
+11. FONTS AUR COLORS (+)
+------------------------------------------------------------
+    Naam                 Link                            Kis kaam ka
+    -------------------  ------------------------------  --------------------
+    Google Fonts (+)     https://fonts.google.com        Free fonts
+    Fontshare (+)        https://www.fontshare.com       Free premium jaise fonts
+    Realtime Colors (+)  https://www.realtimecolors.com  Palette ko asli page pe dekho
+    UI Colors (+)        https://uicolors.app            Ek rang se Tailwind ke 50-950 shades
+
+
+------------------------------------------------------------
+12. AI MODELS AUR APIs
+------------------------------------------------------------
+    Naam                 Link                         Kis kaam ka
+    -------------------  ---------------------------  --------------------
+    Claude Platform (+)  https://platform.claude.com  Claude API console + docs
+    OpenRouter           https://openrouter.ai        Ek API se bahut saare AI models
+    Hugging Face         https://huggingface.co       Open models aur datasets
+    Replicate            https://replicate.com        AI models API se chalao
+    fal.ai               https://fal.ai               Image/video AI APIs
+    Groq                 https://groq.com             Bahut tez AI inference
+    Vercel AI SDK        https://ai-sdk.dev           JS/Next.js me AI apps (chat, streaming)
+
+    Tip: Sirf Claude chahiye toh seedha Claude Platform (5.5% OpenRouter fee nahi).
+    OpenRouter vs Anthropic vs Bedrock, Claude Code setup: NOTES/ai/claude-code/
+
+
+------------------------------------------------------------
+13. AI FRAMEWORKS
+------------------------------------------------------------
+    Naam        Link                       Kis kaam ka
+    ----------  -------------------------  --------------------
+    LangChain   https://www.langchain.com  AI agents aur workflows
+    LlamaIndex  https://www.llamaindex.ai  RAG, apne data se AI
+
+    Tip: Pehle seedha API (Claude SDK) se banao. Framework tab jab sach me
+    bahut steps/tools jodne hon.
+
+
+------------------------------------------------------------
+14. AI CODING TOOLS (+)
+------------------------------------------------------------
+    Naam        Link                Kis kaam ka
+    ----------  ------------------  --------------------
+    Cursor (+)  https://cursor.com  AI code editor
+    v0 (+)      https://v0.app      Prompt se UI/React app
+    Bolt (+)    https://bolt.new    Browser me prompt se full-stack app
+
+
+------------------------------------------------------------
+15. AUTH (LOGIN)
+------------------------------------------------------------
+    Naam         Link                         Kis kaam ka
+    -----------  ---------------------------  --------------------
+    Clerk        https://clerk.com            Ready login UI + user management (paid)
+    Better Auth  https://www.better-auth.com  Open-source TypeScript auth
+    Auth.js      https://authjs.dev           Next.js/web apps ke liye auth
+
+    Tip: Laravel me starter kit + Sanctum kaafi hai, bahar ki service zaroori nahi.
+
+
+------------------------------------------------------------
+16. BACKEND / DATABASE
+------------------------------------------------------------
+    Naam      Link                         Kis kaam ka
+    --------  ---------------------------  --------------------
+    Supabase  https://supabase.com         Postgres + Auth + Storage ek saath
+    Neon      https://neon.com             Serverless Postgres
+    Convex    https://www.convex.dev       Reactive backend (live data)
+    Firebase  https://firebase.google.com  Google ka poora backend
+    Turso     https://turso.tech           Edge database (SQLite)
+
+    Detail: NOTES/database/database-types.txt
+
+
+------------------------------------------------------------
+17. LARAVEL ECOSYSTEM (+)
+------------------------------------------------------------
+    Naam                 Link                           Kis kaam ka
+    -------------------  -----------------------------  --------------------
+    Laravel Herd (+)     https://herd.laravel.com       Windows/Mac pe PHP + Laravel local setup
+    Filament (+)         https://filamentphp.com        Admin panel jaldi
+    Livewire (+)         https://livewire.laravel.com   Bina JS likhe dynamic UI
+    Inertia.js (+)       https://inertiajs.com          Laravel + React/Vue bina alag API
+    Laravel Reverb (+)   https://reverb.laravel.com     Laravel ka WebSocket server
+    Spatie packages (+)  https://spatie.be/open-source  Permission, backup, media jaise packages
+
+    Repos: NOTES/php/laravel-repos.txt
+
+
+------------------------------------------------------------
+18. REALTIME (+)
+------------------------------------------------------------
+    Naam        Link                Kis kaam ka
+    ----------  ------------------  --------------------
+    Pusher (+)  https://pusher.com  Hosted WebSockets (Laravel broadcasting)
+    Ably (+)    https://ably.com    Realtime messaging, bada scale
+
+
+------------------------------------------------------------
+19. FILE STORAGE (+)
+------------------------------------------------------------
+    Naam               Link                                     Kis kaam ka
+    -----------------  ---------------------------------------  --------------------
+    Cloudflare R2 (+)  https://www.cloudflare.com/products/r2/  S3 jaisa storage, download fees nahi
+    UploadThing (+)    https://uploadthing.com                  Next.js me file upload aasan
+
+
+------------------------------------------------------------
+20. HEADLESS CMS (+)
+------------------------------------------------------------
+    Naam         Link                    Kis kaam ka
+    -----------  ----------------------  --------------------
+    Sanity (+)   https://www.sanity.io   Content platform, editor achha
+    Strapi (+)   https://strapi.io       Open-source headless CMS (Node)
+    Payload (+)  https://payloadcms.com  Next.js ke andar chalne wala CMS
+
+
+------------------------------------------------------------
+21. PAYMENTS
+------------------------------------------------------------
+    Naam           Link                          Kis kaam ka
+    -------------  ----------------------------  --------------------
+    Razorpay       https://razorpay.com          Indian payments (UPI, cards)
+    Cashfree (+)   https://www.cashfree.com      Indian payments, payouts
+    Stripe         https://stripe.com            Global payments
+    Lemon Squeezy  https://www.lemonsqueezy.com  SaaS/digital products, tax khud sambhale
+
+    Tip: India ke customers = Razorpay/Cashfree. Videsh me SaaS = Stripe/Lemon Squeezy.
+
+
+------------------------------------------------------------
+22. EMAIL
+------------------------------------------------------------
+    Naam          Link                     Kis kaam ka
+    ------------  -----------------------  --------------------
+    Resend        https://resend.com       Developer email API
+    React Email   https://react.email      React se email templates
+    Mailtrap (+)  https://mailtrap.io      Testing me fake inbox (asli user ko mail na jaaye)
+    Mailgun (+)   https://www.mailgun.com  Transactional email API
+
+
+------------------------------------------------------------
+23. SEARCH
+------------------------------------------------------------
+    Naam         Link                         Kis kaam ka
+    -----------  ---------------------------  --------------------
+    Algolia      https://www.algolia.com      Tez hosted search (paid)
+    Meilisearch  https://www.meilisearch.com  Open-source search, Laravel Scout ke saath
+    Typesense    https://typesense.org        Typo-tolerant open-source search
+
+
+------------------------------------------------------------
+24. TESTING
+------------------------------------------------------------
+    Naam        Link                    Kis kaam ka
+    ----------  ----------------------  --------------------
+    Playwright  https://playwright.dev  Browser/E2E testing
+    Vitest      https://vitest.dev      JS unit testing (Vite ke saath)
+    Cypress     https://www.cypress.io  E2E testing
+
+
+------------------------------------------------------------
+25. API TESTING AUR DEV UTILITIES (+)
+------------------------------------------------------------
+    Naam                 Link                     Kis kaam ka
+    -------------------  -----------------------  --------------------
+    Hoppscotch (+)       https://hoppscotch.io    Postman jaisa, browser me, open-source
+    Postman (+)          https://www.postman.com  API testing
+    ngrok (+)            https://ngrok.com        Localhost ko public URL (webhook test)
+    regex101 (+)         https://regex101.com     Regex banao aur samjho
+    crontab.guru (+)     https://crontab.guru     Cron time samjho
+    JSON Crack (+)       https://jsoncrack.com    JSON ko graph me dekho
+    transform.tools (+)  https://transform.tools  JSON -> TypeScript, SQL -> ... badlo
+    Excalidraw (+)       https://excalidraw.com   Haath se bane jaise diagrams
+    Carbon (+)           https://carbon.now.sh    Code ka sundar screenshot
+
+
+------------------------------------------------------------
+26. ERRORS AUR MONITORING (+)
+------------------------------------------------------------
+    Naam              Link                     Kis kaam ka
+    ----------------  -----------------------  --------------------
+    Sentry (+)        https://sentry.io        Live errors pakdo (Laravel, React, Node)
+    Better Stack (+)  https://betterstack.com  Uptime, logs, status page
+
+
+------------------------------------------------------------
+27. ACCESSIBILITY
+------------------------------------------------------------
+    Naam    Link                     Kis kaam ka
+    ------  -----------------------  --------------------
+    WebAIM  https://webaim.org       Accessibility guides, contrast checker
+    WAVE    https://wave.webaim.org  Page ka accessibility test
+
+
+------------------------------------------------------------
+28. PERFORMANCE AUR SEO (+)
+------------------------------------------------------------
+    Naam                    Link                       Kis kaam ka
+    ----------------------  -------------------------  --------------------
+    PageSpeed Insights (+)  https://pagespeed.web.dev  Speed aur Core Web Vitals
+    Can I use (+)           https://caniuse.com        Kaunsa CSS/JS feature kaunse browser me
+
+
+------------------------------------------------------------
+29. ANALYTICS
+------------------------------------------------------------
+    Naam       Link                  Kis kaam ka
+    ---------  --------------------  --------------------
+    PostHog    https://posthog.com   Product analytics, session replay, feature flags
+    Plausible  https://plausible.io  Simple, privacy-friendly analytics
+    Umami (+)  https://umami.is      Open-source, self-host analytics
+
+
+------------------------------------------------------------
+30. DEPLOY
+------------------------------------------------------------
+    Naam                  Link                                        Kis kaam ka
+    --------------------  ------------------------------------------  --------------------
+    Vercel                https://vercel.com                          Next.js/frontend deploy
+    Netlify               https://www.netlify.com                     Frontend deploy
+    Cloudflare Pages (+)  https://www.cloudflare.com/products/pages/  Static/frontend deploy, free tier bada
+    Railway               https://railway.com                         Backend/full-stack deploy (DB ke saath)
+    Render                https://render.com                          Full-stack deploy
+    Laravel Cloud (+)     https://cloud.laravel.com                   Laravel ke liye managed hosting
+    Laravel Forge (+)     https://forge.laravel.com                   Apne VPS pe Laravel server setup
+    Coolify (+)           https://www.coolify.io                      Apne server pe Vercel/Heroku jaisa (self-host)
+    DigitalOcean (+)      https://www.digitalocean.com                VPS, managed DB
+
+    Tip: Next.js = Vercel. Laravel = Laravel Cloud/Forge ya Coolify + VPS.
+
+
+------------------------------------------------------------
+31. DATASETS
+------------------------------------------------------------
+    Naam                   Link                             Kis kaam ka
+    ---------------------  -------------------------------  --------------------
+    Kaggle                 https://www.kaggle.com           Datasets aur notebooks
+    Hugging Face Datasets  https://huggingface.co/datasets  AI datasets
+    UCI ML Repository      https://archive.ics.uci.edu      Classic ML datasets
+
+
+------------------------------------------------------------
+32. FREE APIs (PRACTICE KE LIYE)
+------------------------------------------------------------
+    Naam         Link                                        Kis kaam ka
+    -----------  ------------------------------------------  --------------------
+    Public APIs  https://github.com/public-apis/public-apis  Free APIs ki badi list
+    RapidAPI     https://rapidapi.com                        API marketplace
+    Open-Meteo   https://open-meteo.com                      Free weather API (key nahi chahiye)
+    DummyJSON    https://dummyjson.com                       Fake data API (products, users)
+
+
+------------------------------------------------------------
+33. INSPIRATION
+------------------------------------------------------------
+    Naam                   Link                      Kis kaam ka
+    ---------------------  ------------------------  --------------------
+    Mobbin                 https://mobbin.com        Real apps ki UI screens
+    Awwwards               https://www.awwwards.com  Award wali premium sites
+    recent.design (Godly)  https://recent.design     Creative sites (godly.website ab yahan aata hai)
+    Lapa Ninja             https://www.lapa.ninja    Landing pages
+    SaaSFrame              https://www.saasframe.io  SaaS UI screens
+    Refero                 https://refero.design     Product UI inspiration
+
+    Aur: NOTES/html/ui-styles.txt (38 UI styles)
+
+
+------------------------------------------------------------
+34. GITHUB / LISTS
+------------------------------------------------------------
+    Naam                 Link                                     Kis kaam ka
+    -------------------  ---------------------------------------  --------------------
+    Awesome              https://github.com/sindresorhus/awesome  Har topic ki "awesome" lists
+    Best of JS           https://bestofjs.org                     Trending JS projects
+    Free for Developers  https://free-for.dev                     Developers ke liye free services
+    MDN (+)              https://developer.mozilla.org            HTML/CSS/JS ka sabse bharosemand docs
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    Tool kam, kaam zyada. Har category se ek chuno, poora project
+    usi se banao, phir zaroorat pe badlo.

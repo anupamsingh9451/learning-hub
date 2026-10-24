@@ -1,0 +1,262 @@
+RUFLO – CLAUDE CODE KE SAATH AI AGENTS KI TEAM
+=============================================
+Topic: ai
+Date: 24-10-2026
+Time: ~20 min padhna, ~15 min setup
+Status: learning
+Version: ruflo 3.61 (npm), Node 20+ chahiye
+Source: "Guide to Use Ruflo Github" (Google Doc) + official README se check kiya
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    Ruflo ek open-source tool hai jo Claude Code ke upar baith ke kai AI
+    agents ki "team" chalata hai: koi plan banata hai, koi code likhta
+    hai, koi test aur review karta hai. Pehle iska naam Claude Flow tha.
+
+    Misaal: Claude Code akela ek achha developer hai. Ruflo usko ek poori
+    team de deta hai: architect, coder, tester, reviewer. Aur ek manager
+    (console) jahan dikhta hai kaun kya kar raha hai.
+
+    README ki line: "Agent = Model + Harness". Model (Claude) likhta hai,
+    harness (Ruflo) use tools, memory, loops aur controls deta hai.
+
+
+------------------------------------------------------------
+2. KYUN / KAB USE KAREIN
+------------------------------------------------------------
+    Kab lo:
+    - Bada kaam jo kai hisson me bant sakta hai (naya module: migration +
+      API + UI + tests).
+    - Jab planning, coding aur review alag-alag "dimaag" se karwana ho.
+    - Agentic AI seekhna ho (swarm, memory, multi-agent) – tumhare AI
+      developer goal ke liye achha practice.
+
+    Kab mat lo:
+    - Chhota kaam (ek bug, ek function). Seedha Claude Code kaafi hai,
+      Ruflo sirf time aur tokens badhayega.
+    - Client ke secret code/data wala project, jab tak tum Ruflo ka code
+      aur permissions samajh na lo.
+
+
+------------------------------------------------------------
+3. SETUP – STEP BY STEP (WINDOWS)
+------------------------------------------------------------
+    STEP 1 – Node.js 20 ya naya install karo
+        node -v
+        (20 se purana ho toh nvm se: nvm install 22, nvm use 22)
+
+    STEP 2 – Claude Code install karo (tumhare laptop pe pehle se hai)
+        irm https://claude.ai/install.ps1 | iex
+        (ya: npm install -g @anthropic-ai/claude-code)
+        claude --version
+
+    STEP 3 – Project folder me jao aur pehle git commit karo
+        cd D:\projects\eduassist
+        git add -A; git commit -m "before ruflo"
+        Kyun? Ruflo project me files banata/badalta hai (.claude/,
+        .claude-flow/, CLAUDE.md). Pasand na aaye toh git se wapas.
+
+    STEP 4 – Ruflo setup wizard chalao (project folder ke andar)
+        npx ruflo@latest init wizard
+        Wizard sawal poochega, apne project ke hisaab se jawab do.
+        (bina sawal ke: npx ruflo@latest init)
+
+    STEP 5 – Ruflo ko Claude Code se jodo (MCP server)
+        claude mcp add claude-flow -- npx ruflo@latest mcp start
+        MCP = ek standard tareeka jisse Claude Code bahar ke tools use
+        kar sake. Isse Ruflo ke tools Claude ko milte hain.
+
+    STEP 6 – Claude Code band karke dobara kholo
+        Naya MCP server aur settings restart ke baad hi load hote hain.
+        Check: Claude Code me /mcp chalao, claude-flow dikhna chahiye.
+
+    STEP 7 – Normal tarah kaam shuru karo
+        claude
+        Ab Claude jab zaroorat ho, Ruflo ke agents/tools use kar sakta hai.
+
+    Windows note: README ka "curl ... | bash" wala install sirf Git-Bash/
+    WSL me chalta hai. PowerShell me npx wali line hi lo.
+
+
+------------------------------------------------------------
+4. DOOSRA RAASTA – SIRF PLUGINS (HALKA)
+------------------------------------------------------------
+    Poora install nahi chahiye, bas try karna hai? Claude Code ke andar:
+        /plugin marketplace add ruvnet/ruflo
+        /plugin install ruflo-core@ruflo
+        /plugin install ruflo-console@ruflo
+        /reload-plugins
+        /ruflo
+
+    Farak:
+        Plugins             project me koi file nahi, kuch commands/agents
+        CLI (npx init)      poora system: 90+ agents, MCP, hooks, memory,
+                            project me files banti hain
+
+    Pehli baar: plugins se try karo. Pasand aaye toh CLI install.
+    (Plugins ke liye naya Claude Code chahiye, README me version likha hai)
+
+
+------------------------------------------------------------
+5. PARDE KE PEECHE KYA HOTA HAI
+------------------------------------------------------------
+        Tum -> Claude Code -> Ruflo (MCP) -> Router -> Swarm -> Agents
+                                                        |
+                                                     Memory
+
+    - Router:  task dekh ke tay karta hai kis agent/model ko dena hai.
+    - Swarm:   agents ki team jo ek saath ya ek ke baad ek kaam karti hai.
+    - Agents:  coder, tester, reviewer, architect, security jaise roles.
+    - Memory:  pichle kaam se seekha hua yaad rakhta hai, agli baar kaam
+               aata hai (project ke folder me save hota hai).
+    - Hooks:   Claude Code ke events pe Ruflo ka code chalta hai.
+
+    Seedhi baat: tum ek bada kaam do, Ruflo use tukdon me baant ke
+    alag-alag agents ko deta hai.
+
+
+------------------------------------------------------------
+6. RUFLO CONSOLE – AGENTS KO DEKHNA
+------------------------------------------------------------
+    Claude Code ke andar:
+        /ruflo
+
+    Console me dikhta hai:
+    - Kaun se agents chal rahe hain, kya kar rahe hain
+    - Missions (bade goals) aur unka status
+    - Tokens aur cost
+    - Logs, results, failed runs
+
+    Control setting (zaroori):
+        Settings -> Claude control -> "write + ask" rakho.
+        Matlab Claude kuch bhi banane/badalne se pehle tumse poochega.
+        "Take back control" button se Claude ke console tools turant rok
+        sakte ho.
+
+    Terminal UI (Claude Code ke bina bhi):
+        npx ruflo tui
+        npx ruflo tui --plain      (script ke liye ek baar print)
+
+
+------------------------------------------------------------
+7. AGENTS KO ACHHA TASK KAISE DEIN
+------------------------------------------------------------
+    Galat (bahut khula):
+        "Mera app achha bana do"
+
+    Sahi (goal + limits + kaise check karein):
+        "Laravel project me 'Fee Reminder' feature banao.
+         - Migration: fee_reminders table (student_id, due_date, sent_at)
+         - Har roz subah 8 baje due fees wale parents ko email (queue job)
+         - Pest tests: reminder ban-ta hai, duplicate nahi jaata
+         - Pehle plan dikhao, meri haan ke baad code likho
+         - Sirf app/, database/, tests/ me badlav, .env mat chhuna
+         - Done tab jab: php artisan test pass ho"
+
+    Rules:
+    - Ek baar me ek feature.
+    - "Done" ka matlab saaf likho (tests pass, route chal raha).
+    - Kahan haath lagana hai aur kahan nahi, yeh batao.
+    - Pehle plan maango, phir code.
+
+
+------------------------------------------------------------
+8. AGENTS KO KAAM KARTE DEKHO
+------------------------------------------------------------
+    - Console (/ruflo) me agents aur missions dekho.
+    - Beech me galat disha me jaaye toh rok do, saaf instruction do.
+    - Token/cost pe nazar rakho. Kai agents = kai guna tokens.
+    - git diff se dekho kaun si files badli.
+
+
+------------------------------------------------------------
+9. AI KA KAAM BHI CHECK KARNA PADTA HAI
+------------------------------------------------------------
+    README khud kehta hai: mission banana ka matlab feature ban gaya,
+    aisa nahi hai. Agent "done" bole toh bhi check karo.
+
+    Har baar:
+    [ ] git diff padho, har badli file samjho
+    [ ] Tests khud chalao (php artisan test / npm test)
+    [ ] App chala ke feature haath se try karo
+    [ ] Secrets, .env, passwords kahin code me toh nahi aaye
+    [ ] Galat lage toh git se wapas (git restore / git reset)
+
+    Rule: tum reviewer ho. AI ne likha, par zimmedari tumhari.
+
+
+------------------------------------------------------------
+10. EXTRA FEATURES – SIRF ZAROORAT PE
+------------------------------------------------------------
+    Ruflo me 30+ plugins hain. Sab ek saath mat daalo. Kuch kaam ke:
+
+        ruflo-swarm          agents ko team ki tarah chalana
+        ruflo-rag-memory     smart memory / search
+        ruflo-testgen        missing tests dhoondh ke banana
+        ruflo-security-audit vulnerabilities scan
+        ruflo-cost-tracker   token budget aur alerts
+        ruflo-docs           documentation banana
+
+    Install (Claude Code me):  /plugin install ruflo-testgen@ruflo
+    Console me:                /ruflo market  (saare plugins ki list)
+
+    Rule: ek plugin daalo, use karo, samjho. Phir agla.
+
+
+------------------------------------------------------------
+11. SAFETY – YEH ZAROOR PADHO
+------------------------------------------------------------
+    - Ruflo third-party tool hai (Anthropic ka nahi). npx ruflo@latest har
+      baar naya code download karke chalata hai.
+    - README ke hisaab se mods tumhare account ki permissions se chalte
+      hain aur sandbox me nahi hote. Install se pehle repo dekho.
+    - Pehli baar test project pe try karo, client project pe nahi.
+    - Install se pehle git commit, taaki sab wapas ho sake.
+    - Pehle se CLAUDE.md hai? init use badal sakta hai. Commit ke baad
+      git diff se dekho kya badla.
+    - Permissions bypass karne wale flags (--dangerously-skip-permissions)
+      mat lagao, chahe koi guide bole.
+    - Token kharcha jaldi badhta hai. Cost tracker ya console pe nazar.
+
+
+------------------------------------------------------------
+12. POORA FLOW EK NAZAR ME
+------------------------------------------------------------
+    Node 20+  ->  Claude Code  ->  project me git commit  ->
+    npx ruflo@latest init wizard  ->  claude mcp add claude-flow ...  ->
+    Claude Code restart  ->  /ruflo console (write + ask)  ->
+    saaf task do (goal + limits + done kab)  ->  agents ko dekho  ->
+    git diff + tests se khud check  ->  zaroorat pe hi naye plugins
+
+
+------------------------------------------------------------
+13. GALTIYAN / GOTCHAS
+------------------------------------------------------------
+    - Git commit ke bina init chala diya, CLAUDE.md badal gayi, purani
+      wapas nahi mili.
+    - MCP add karke restart nahi kiya, "Ruflo ke tools nahi dikh rahe".
+    - Chhote kaam ke liye poora swarm chala diya, tokens ud gaye.
+    - "Sab kuch bana do" jaisa khula task, agents ne aadha-adhoora bana ke
+      done bol diya.
+    - Saare plugins ek saath install, kuch samajh nahi aaya.
+    - PowerShell me curl | bash wali line chalayi – "bash not recognized".
+      npx wali line lo.
+
+
+------------------------------------------------------------
+14. LINKS
+------------------------------------------------------------
+    - Repo                   https://github.com/ruvnet/ruflo
+    - npm package            https://www.npmjs.com/package/ruflo
+    - User guide             https://github.com/ruvnet/ruflo/blob/main/docs/USERGUIDE.md
+    - "RuFlo Explained"      https://github.com/ruvnet/ruflo/blob/main/docs/ruflo-explained.md
+    - Claude Code docs       https://code.claude.com/docs/en/overview
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    Pehle git commit, phir Ruflo. Task saaf do, aur agent "done" bole toh
+    bhi khud check karo.

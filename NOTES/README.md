@@ -26,9 +26,20 @@ NOTES/
 │   └── ui-repos.txt
 ├── python/
 │   └── python-repos.txt
+├── career/
+│   └── high-paying-skills.txt 5 skills, 90 din plan, pehla client/job
 ├── git/
 │   └── gitkeep.txt            .gitkeep kya hai, khaali folder kaise rakhein
-├── ai/                        (abhi khaali, .gitkeep)
+├── ai/
+│   ├── 20-ai-agents-blueprint.txt  20 business agents + mere 14 Claude Code agents
+│   ├── ai-3d-product-website.txt  AI se exploded-view 3D product site (frames + canvas)
+│   ├── claude-code/           Claude Code ka setup aur providers
+│   │   ├── openrouter-claude.txt   OpenRouter se Claude, kab use karein, behtar options
+│   │   └── two-editors-setup.txt   Antigravity = original, VS Code = OpenRouter
+│   ├── rea-reverse-engineering.txt  REA: agent se kisi app ka feature samajhna (MCP)
+│   ├── ruflo.txt              Claude Code ke saath AI agents ki team (setup + safe use)
+│   ├── saas-15-layer-playbook.txt AI se asli SaaS: 15 layers + Laravel mapping
+│   └── vibecoding-prompts.txt 20 prompts: PRD se final audit tak
 ├── database/
 │   ├── database-types.txt     SQL vs NoSQL, ACID, CAP, saare DB types (shuru yahin se)
 │   ├── sql.txt                MySQL + Postgres dono ka common SQL (JOIN, index, transaction)
@@ -53,6 +64,7 @@ NOTES/
 | MySQL, PostgreSQL, Redis, indexing | `database/` |
 | Docker, Linux, WSL, Nginx, CI/CD, cloud | `devops/` |
 | Git, GitHub | `git/` |
+| Career, skills, interview, freelancing | `career/` |
 | Scaling, caching, queues, architecture | `system-design/` |
 
 - Kisi topic ke kaam ke repos: `<topic>-repos.txt` usi folder me (jaise `php/laravel-repos.txt`).

@@ -1,0 +1,319 @@
+OPENROUTER SE CLAUDE – KYA HAI, KAISE USE KAREIN, AUR BEHTAR OPTIONS
+==================================================================
+Topic: ai
+Date: 24-10-2026
+Time: ~30 min
+Status: learning
+Source: openrouter.ai docs (quickstart, Claude Code guide, FAQ, pricing),
+        openrouter.ai/api/v1/models (live prices), Anthropic docs, aur mere
+        laptop ka check (24-10-2026)
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    OpenRouter ek "AI models ka bazaar" hai: ek account, ek API key, aur
+    usse 469 models (Claude, GPT, Gemini, Llama, DeepSeek...) ek hi API se.
+
+    Misaal: Mobile recharge app. Jio, Airtel, Vi sab ek app se recharge.
+    OpenRouter wahi app hai – Anthropic, OpenAI, Google sab ek jagah se.
+    Par Claude ke liye seedha Anthropic "official dukaan" bhi hai (section 9).
+
+
+------------------------------------------------------------
+2. OPENROUTER KAISE KAAM KARTA HAI
+------------------------------------------------------------
+    Tumhara app / Claude Code
+            |
+            |  ek key: Authorization: Bearer <OPENROUTER_API_KEY>
+            v
+    OpenRouter  (https://openrouter.ai/api/v1)
+            |  model dekh ke sahi provider chunta hai,
+            |  provider down ho toh doosre pe fallback
+            v
+    Anthropic / AWS Bedrock / Google Vertex / OpenAI / ...
+
+    - API OpenAI jaisi hai (OpenAI SDK ka base URL badlo, chal jaata hai).
+    - Claude Code ke liye Anthropic-compatible endpoint bhi hai:
+      https://openrouter.ai/api
+    - Model naam "provider/model" format me:
+          anthropic/claude-opus-5.5
+          anthropic/claude-sonnet-5.5
+          ~anthropic/claude-sonnet-latest   (~ = hamesha latest wala)
+    - Prompt/answer by default log NAHI hote (opt-in karo toh 1% discount).
+
+
+------------------------------------------------------------
+3. PAISA – KITNA LAGTA HAI
+------------------------------------------------------------
+    Model ka rate: Anthropic jitna hi, OpenRouter upar se markup nahi
+    lagata. Par credit KHARIDTE waqt fee lagti hai.
+
+    Claude ke rate OpenRouter pe (per 1M tokens, 24-10-2026 live API se):
+
+    Model                       Context   Input   Output   :batch (aadha)
+    --------------------------  --------  ------  -------  ---------------
+    anthropic/claude-fable-5.1  1M        $10     $50      $5 / $25
+    anthropic/claude-opus-5.5   1M        $4      $20      $2 / $10
+    anthropic/claude-opus-4.6   1M        $5      $25      $2.5 / $12.5
+    anthropic/claude-sonnet-5.5 1M        $2      $10      $1 / $5
+    anthropic/claude-haiku-5.5  1M        $0.10   $0.50    $0.05 / $0.25
+
+    Yeh wahi rates hain jo Anthropic ki apni API pe hain.
+
+    OpenRouter ki fees:
+    - Credit kharidne pe: Standard plan 5.5%, Business plan 8%.
+      ($100 ke credit = ~$105.5 dene padenge)
+    - BYOK (apni Anthropic key jodo): har mahine $25,000 tak koi fee nahi,
+      uske upar 5%.
+    - Free models: 50 requests/din (kam se kam $10 ke credit lene ke baad
+      1,000/din). Claude free nahi hai.
+
+    Hisaab ka misaal (Sonnet 5.5): 10 lakh input + 2 lakh output tokens
+    = $2 + $2 = $4, credit fee ke saath ~ $4.22.
+
+
+------------------------------------------------------------
+4. KAB OPENROUTER LO, KAB NAHI
+------------------------------------------------------------
+    Kab lo:
+    - Kai companies ke models try/compare karne hon (Claude vs GPT vs
+      Gemini vs open models) ek hi key se.
+    - Ek provider down ho toh automatic fallback chahiye.
+    - Alag-alag billing accounts nahi banane, ek jagah se credit.
+    - Hermes, Cline jaise tools jo OpenRouter pehle se support karte hain.
+
+    Kab NAHI (seedha Anthropic behtar):
+    - App sirf Claude use karega – 5.5% fee bekaar, aur Anthropic ke
+      naye features (Managed Agents, Files API, citations, server tools,
+      fast mode) sabse pehle aur poore wahin milte hain.
+    - Roz Claude Code se coding – Claude subscription (fixed monthly)
+      aksar token ke hisaab se sasta padta hai.
+    - Company/client ka data jahan contract chahiye – AWS Bedrock /
+      Google Vertex / Anthropic enterprise.
+
+
+------------------------------------------------------------
+5. SETUP – EK BAAR
+------------------------------------------------------------
+    STEP 1 – https://openrouter.ai pe account banao.
+    STEP 2 – Credits kharido (card/crypto). Pehle chhota amount.
+    STEP 3 – Key banao: https://openrouter.ai/keys
+             Key pe credit LIMIT zaroor lagao (jaise $10), taaki galti se
+             bill na phate.
+    STEP 4 – Privacy settings dekho: https://openrouter.ai/settings/privacy
+    STEP 5 – Claude ke liye provider order me "Anthropic" sabse upar
+             (Claude Code ke liye OpenRouter khud yahi bolta hai).
+             https://openrouter.ai/docs/guides/routing/provider-selection
+    STEP 6 – Kharch dekhna: https://openrouter.ai/activity
+
+    Key kabhi git me nahi, kabhi notes me nahi (learning-hub ka rule).
+
+
+------------------------------------------------------------
+6. USE 1 – SEEDHI API CALL (CURL / KISI BHI LANGUAGE SE)
+------------------------------------------------------------
+    PowerShell me key sirf is window ke liye:
+        $env:OPENROUTER_API_KEY = "<openrouter-key>"
+
+    Bash/WSL:
+        curl https://openrouter.ai/api/v1/chat/completions -H "Content-Type: application/json" -H "Authorization: Bearer $OPENROUTER_API_KEY" -d '{"model": "anthropic/claude-sonnet-5.5", "messages": [{"role": "user", "content": "Laravel queue ek line me samjhao"}]}'
+
+    Laravel (Http client):
+        $res = Http::withToken(config('services.openrouter.key'))
+            ->timeout(60)
+            ->post('https://openrouter.ai/api/v1/chat/completions', [
+                'model' => 'anthropic/claude-sonnet-5.5',
+                'messages' => [['role' => 'user', 'content' => $question]],
+            ])->throw()->json();
+
+        $answer = $res['choices'][0]['message']['content'];
+
+    Optional headers (OpenRouter leaderboard ke liye): HTTP-Referer (site
+    URL), X-OpenRouter-Title (app naam).
+
+    Dhyan: yeh OpenAI jaisa format hai. Agar app sirf Claude ka hai, toh
+    Anthropic ka official SDK (anthropic / @anthropic-ai/sdk) + Anthropic
+    key behtar hai – saare Claude features usi me (section 9).
+
+
+------------------------------------------------------------
+7. USE 2 – CLAUDE CODE KO OPENROUTER SE CHALANA
+------------------------------------------------------------
+    Claude Code ke liye OpenRouter ye variables maangta hai:
+
+        ANTHROPIC_BASE_URL   = https://openrouter.ai/api
+        ANTHROPIC_AUTH_TOKEN = <openrouter-key>
+        ANTHROPIC_API_KEY    = ""      (khaali hona ZAROORI)
+
+    Optional:
+        CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY = 1   (/model me picker)
+        ANTHROPIC_DEFAULT_OPUS_MODEL   = anthropic/claude-opus-5.5
+        ANTHROPIC_DEFAULT_SONNET_MODEL = anthropic/claude-sonnet-5.5
+        ANTHROPIC_DEFAULT_HAIKU_MODEL  = anthropic/claude-haiku-5.5
+        CLAUDE_CODE_SUBAGENT_MODEL     = anthropic/claude-haiku-5.5
+        (1M context ke liye model ke aage [1m] laga sakte ho, OpenRouter
+        use hata deta hai)
+
+    Tareeka A – sirf ek project ke liye: project me .claude/settings.local.json
+        {
+            "env": {
+                "ANTHROPIC_BASE_URL": "https://openrouter.ai/api",
+                "ANTHROPIC_AUTH_TOKEN": "<openrouter-key>",
+                "ANTHROPIC_API_KEY": ""
+            }
+        }
+        settings.local.json git me nahi jaati, par key plain text me hai.
+        Project ka .env file Claude Code ka native installer NAHI padhta.
+
+    Tareeka B – PowerShell window ke liye:
+        $env:ANTHROPIC_BASE_URL = "https://openrouter.ai/api"
+        $env:ANTHROPIC_AUTH_TOKEN = $env:OPENROUTER_API_KEY
+        claude
+        (PowerShell 5.1 me $env:X = "" variable ko hata deta hai – agar
+        ANTHROPIC_API_KEY kahin set hi nahi hai toh theek hai)
+
+    Check:
+        Claude Code me /status – auth token "ANTHROPIC_AUTH_TOKEN" aur base
+        URL OpenRouter ka dikhna chahiye.
+
+    Zaroori baatein:
+    - OpenRouter ke hisaab se agar pehle Anthropic account se login kiya
+      hai toh /logout karke dobara kholo. Yeh tumhare normal Claude Code
+      (subscription) login ko bhi hata dega – baad me dobara login karna
+      padega. Isliye pehle /status se dekho kaunsa auth chal raha hai.
+    - Claude Code sirf Anthropic provider ke saath "guaranteed" chalta hai;
+      doosre models (GPT, Gemini) ke saath kuch features toot sakte hain.
+    - Har token ka paisa credit se katega. Lambi coding sessions me bill
+      jaldi badhta hai – key pe limit rakho.
+    - /fast tabhi kaam karega jab Opus model ka exact ID diya ho (alias
+      ~...-latest se nahi) aur CLAUDE_CODE_SKIP_FAST_MODE_ORG_CHECK=1 ho.
+
+
+------------------------------------------------------------
+8. USE 3 – TOOLS JO TUMHARE LAPTOP PE HAIN
+------------------------------------------------------------
+    Hermes Agent (v0.21.4, %LOCALAPPDATA%\hermes):
+    - config.yaml me pehle se: base_url = https://openrouter.ai/api/v1,
+      model = anthropic/claude-opus-4.6.
+    - Par .env me OPENROUTER_API_KEY comment (#) me hai – yaani KEY SET
+      NAHI hai. Abhi Hermes OpenRouter se baat nahi kar payega.
+    - Karna:
+        1) %LOCALAPPDATA%\hermes\.env me "# OPENROUTER_API_KEY=" ki line
+           me # hatao aur key daalo.
+        2) config.yaml me model ko anthropic/claude-opus-5.5 karo – naya
+           bhi hai aur sasta bhi ($4/$20 vs 4.6 ke $5/$25).
+
+    Cline (npm global, v3.0.64):
+    - Abhi provider "cline" (Cline ka apna account) set hai.
+    - Settings me API Provider = OpenRouter chuno, key daalo, model
+      anthropic/claude-sonnet-5.5.
+
+    Claude Code (v2.1.309):
+    - Pehle se login hai (koi ANTHROPIC_API_KEY env me nahi), yaani
+      Claude account/subscription se chal raha hai. Roz ki coding ke liye
+      ise waise hi rehne do.
+
+    Codex CLI (OpenAI ka): OpenAI models ke liye, Claude ke liye nahi.
+
+
+------------------------------------------------------------
+9. ISSE BEHTAR KYA HO SAKTA HAI (CLAUDE KE LIYE)
+------------------------------------------------------------
+    1) Seedha Anthropic API  (Claude-only app ke liye BEST)
+       - Console: https://platform.claude.com  (key, billing, usage)
+       - Wahi rates, 5.5% fee nahi.
+       - Saare features sabse pehle: prompt caching, Batch API (50% sasta),
+         Files API, citations, web search/fetch tools, Managed Agents,
+         fast mode (Opus), task budgets.
+       - Official SDKs: Python "anthropic", JS "@anthropic-ai/sdk", PHP,
+         Java, Go, Ruby, C#.
+
+    2) Claude subscription (Pro/Max) – Claude Code ke liye
+       - Fixed monthly plan, token ginne ki tension kam.
+       - Roz coding karte ho toh aksar API/OpenRouter se sasta.
+       - Tum abhi isi tarah use kar rahe ho.
+       - Plans: https://claude.com/pricing
+
+    3) AWS Bedrock / Google Vertex / Microsoft Foundry – company ke liye
+       - Company ka cloud account, credits, data residency, contracts.
+       - Model naam alag (Bedrock: anthropic.claude-opus-5-5).
+       - Claude Code bhi inse chal sakta hai (code.claude.com docs).
+       - Tumhare laptop pe boto3 (AWS SDK) pehle se hai.
+
+    4) Doosre gateways (OpenRouter jaise):
+       - Vercel AI Gateway – Next.js/Vercel wale projects ke liye
+       - Cloudflare AI Gateway – caching, rate limit, logs (apni key)
+       - LiteLLM – open-source proxy, KHUD host karo (Docker), apni keys,
+         koi beech ki fee nahi, team ke liye budgets
+       - Portkey – gateway + observability
+
+    5) Local/free (offline, chhote models): LM Studio, Ollama. Claude
+       local nahi chalta – sirf open models.
+
+
+------------------------------------------------------------
+10. EK NAZAR ME – KAUN KAB
+------------------------------------------------------------
+    Option            Claude rate   Extra fee        Best for
+    ----------------  ------------  ---------------  ----------------------------
+    Anthropic API     list price    nahi             Claude wala app (EduAssist)
+    Claude plan       fixed/mahina  -                Claude Code se roz coding
+    OpenRouter        list price    5.5% credit pe   kai models, ek key, fallback
+    OpenRouter BYOK   apni key      $25k/mahina free  OpenRouter routing + apni key
+    Bedrock/Vertex    partner rate  -                company cloud, compliance
+    LiteLLM (self)    list price    nahi (server)    team, kai keys, budgets
+
+    Tumhare liye seedhi salah:
+    - Claude Code: subscription waise hi rakho.
+    - EduAssist (Laravel) me Claude feature: seedha Anthropic API + SDK.
+    - Models compare/experiment, Hermes/Cline: OpenRouter (key + limit).
+
+
+------------------------------------------------------------
+11. SAFETY CHECKLIST
+------------------------------------------------------------
+    [ ] Har key pe credit/spend limit
+    [ ] Key .env ya OS keychain me, git/notes/screenshot me kabhi nahi
+    [ ] Alag kaam = alag key (Hermes, Cline, app) – leak ho toh sirf woh
+        band karo
+    [ ] Activity page hafte me ek baar
+    [ ] Client ka data bhejne se pehle privacy/provider settings check
+    [ ] Leak ka shak ho toh turant key delete karke nayi banao
+
+
+------------------------------------------------------------
+12. GALTIYAN / GOTCHAS
+------------------------------------------------------------
+    - Claude Code me ANTHROPIC_API_KEY bhi set reh gaya – Claude Code ne
+      seedha Anthropic ko bhejne ki koshish ki. Khaali rakho.
+    - Shell profile me OPENROUTER_API_KEY baad me define kiya, token khaali
+      gaya, "auth failed".
+    - Purana model ID (opus-4.6) – naya opus-5.5 sasta bhi tha.
+    - Key pe limit nahi lagayi, agent loop ne raat bhar credits kha liye.
+    - Free model ke chakkar me production app – 50 requests/din pe band.
+    - "OpenRouter = sasta" maan liya – Claude ke rate same hain, upar se
+      5.5% fee.
+
+
+------------------------------------------------------------
+13. LINKS
+------------------------------------------------------------
+    - OpenRouter quickstart    https://openrouter.ai/docs/quickstart
+    - Claude Code + OpenRouter https://openrouter.ai/docs/guides/guides/claude-code-integration
+    - Models + prices          https://openrouter.ai/models
+    - Pricing / fees           https://openrouter.ai/pricing
+    - Anthropic console        https://platform.claude.com
+    - Anthropic pricing        https://platform.claude.com/docs/en/about-claude/pricing
+    - Claude Code gateways     https://code.claude.com/docs/en/llm-gateway
+    - Claude Code + Bedrock    https://code.claude.com/docs/en/amazon-bedrock
+    - LiteLLM                  https://github.com/BerriAI/litellm
+    - Hermes Agent             https://github.com/NousResearch/hermes-agent
+    - Tools list               RESOURCES/dev-tools.txt (AI section)
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    OpenRouter = ek key se sab models. Sirf Claude chahiye toh seedha
+    Anthropic sasta aur poora hai. Har key pe limit zaroor lagao.

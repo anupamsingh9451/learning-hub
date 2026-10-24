@@ -1,0 +1,214 @@
+20 AI AGENTS BLUEPRINT – NOTES + MERE CLAUDE CODE AGENTS
+=======================================================
+Topic: ai
+Date: 24-10-2026
+Time: ~25 min
+Status: learning + 14 agents bane (~/.claude/agents)
+Source: "20 AI Agents Blueprint" (Google Doc, Anushka Mimani, @aiwithanushka)
+        – apne shabdon me; agents Claude Code ke official subagent format me.
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    Business ke roz ke kaam (email, leads, meeting notes, proposals,
+    invoices, content) ke liye 20 AI agents ka blueprint. Har agent = ek
+    trigger + context + AI brain + action + insaan ki approval.
+
+    Misaal: Naye interns ki team. Har intern ka ek kaam, ek rulebook, aur
+    bada kaam bhejne se pehle tumhara sign. Agents wahi interns hain.
+
+
+------------------------------------------------------------
+2. HAR AGENT KE 5 HISSE
+------------------------------------------------------------
+    Trigger   – kab chalega (time, koi event, ya tumhara message)
+    Context   – kya jaanta hai (tumhara data, rules, achhe output ke examples)
+    Brain     – AI model (Claude) jo padhta aur sochta hai
+    Action    – tools me kya karta hai (label, draft, sheet update)
+    Approval  – bahar jaane se pehle insaan check karta hai
+
+    Doc ki sabse kaam ki line: kharab output aksar kamzor context ki wajah
+    se aata hai, model ki wajah se nahi. Rules aur examples sudhaaro.
+
+
+------------------------------------------------------------
+3. BANANE KE 4 TAREEKE
+------------------------------------------------------------
+    1) Sirf Claude (connectors + scheduled tasks) – Gmail, Calendar, Drive,
+       Slack, web. Koi coding nahi. (7 agents)
+    2) Automation tool (n8n / Make / Zapier) + Claude as brain – doosre
+       apps ke events, multi-step, zyada volume. (6 agents)
+    3) Ready-made AI tool – jo kaam koi tool pehle se achha karta hai
+       (Apollo, Opus Clip, Intercom, ManyChat). (5 agents)
+    4) Claude Code – apna software banana. (1 agent: Coding)
+
+    Shuruaat tareeka 1 se. n8n me pehle ek row pe test, phir live.
+    API keys password jaisi – chat/doc/screenshot me kabhi nahi, spend
+    limit zaroor.
+
+
+------------------------------------------------------------
+4. PROMPT KA 6 HISSON WALA FORMULA
+------------------------------------------------------------
+    Role         – agent kaun hai
+    Context      – business, rules, examples (business brain)
+    Task         – exact steps
+    Rules        – kya KABHI nahi karna
+    Output       – exact format aur length
+    Uncertainty  – shak ho toh kya kare (jaise [CHECK] likhe, guess na kare)
+
+    Mere saare 14 agents isi formula pe bane hain.
+
+
+------------------------------------------------------------
+5. BUSINESS BRAIN – EK BAAR LIKHO, HAR AGENT PADHE
+------------------------------------------------------------
+    Sections: business, offers + prices, ideal client, tone of voice (6
+    bullet), key people, rules (kya promise nahi, discount, response
+    time), links (website, booking, payment).
+
+    Mera: C:\Users\Anupam Singh\.claude\business-brain.md
+    - Template bana hai, TODO bharne baaki hain.
+    - Private – learning-hub (public repo) me nahi rakha.
+    - Jo section TODO hai, agent wahan [CHECK] likhega, guess nahi karega.
+
+
+------------------------------------------------------------
+6. TEEN TRUST LEVELS – SEEDHA AUTOPILOT NAHI
+------------------------------------------------------------
+    Level 1 Shadow    – agent sirf batata hai kya karega. 10 runs lagatar
+                        sahi -> agla level.
+    Level 2 Approve   – agent sab taiyar karta hai, tum click karke approve.
+                        2 hafte tak almost sab bina badlav approve -> agla.
+    Level 3 Autopilot – agent khud karta hai, tum daily log dekho. Sirf
+                        low-risk kaam.
+
+    Paisa, hiring aur client messages HAMESHA Level 2 pe.
+    Mere agents Level 2 pe hain: sirf draft/report, kuch bhejte nahi.
+
+
+------------------------------------------------------------
+7. 4 HAFTE KA PLAN (DOC KE HISAAB SE)
+------------------------------------------------------------
+    Hafta 1 – Inbox, Meeting Notes, Research, Data Analyst, Personal Asst
+    Hafta 2 – Lead Gen, Follow-up, Proposal, DM, Invoice
+    Hafta 3 – Content, Social Media, SEO, Competitor Watch
+    Hafta 4 – Support, Calendar, Recruiting, Onboarding, Expense, Coding
+
+    Doc ki salah: saare 20 mat banao. Sabse irritating weekly kaam hatane
+    wale 3 se shuru karo.
+
+
+------------------------------------------------------------
+8. 20 AGENTS AUR MERA CLAUDE CODE AGENT
+------------------------------------------------------------
+    #   Doc ka agent       Kya karta hai                       Mera agent (~/.claude/agents)
+    --  -----------------  ----------------------------------  -----------------------------
+    1   Inbox              email label + reply drafts          email-triage
+    2   Lead Gen           prospects ko 0-100 score            lead-scorer
+    3   Follow-up          chup leads ko nudge (WhatsApp)      followup-writer (sirf draft)
+    4   Meeting Notes      transcript -> recap + action table  meeting-notes
+    5   Support            KB se jawab, baaki human ko         support-responder
+    6   Content            1 lamba video -> 10 pieces          content-repurposer
+    7   Social Media       hafte ke posts schedule             - (Blotato/connector chahiye)
+    8   Research           sources ke saath ranked comparison  research-analyst
+    9   Invoice            invoice banao, bhejo, yaad dilao    invoice-checker (sirf check)
+    10  Recruiting         CV ko scorecard pe score            cv-screener
+    11  Calendar           slots offer, invite banao           - (Calendar connector chahiye)
+    12  SEO                keyword research + article draft    seo-writer
+    13  Data Analyst       sheet se jawab + chart + insights   data-analyst
+    14  Coding             brief se app banana                 - (Claude Code khud yahi hai)
+    15  Onboarding         welcome mail, folder, Slack         - (Slack/Drive + n8n chahiye)
+    16  Proposal           call transcript -> proposal         proposal-writer
+    17  DM                 Instagram comment/DM auto-reply     - (Instagram/ManyChat chahiye)
+    18  Competitor Watch   competitor changes ki daily report  competitor-watch
+    19  Expense            receipt -> sheet                    expense-extractor
+    20  Personal Asst      morning brief, inbox, bookings      - (Gmail+Calendar connector)
+
+
+------------------------------------------------------------
+9. MERE AGENTS KAISE CHALAYEIN
+------------------------------------------------------------
+    Kahan hain:
+        C:\Users\Anupam Singh\.claude\agents\*.md            (original Claude)
+        C:\Users\Anupam Singh\.claude-openrouter\agents\*.md (OpenRouter setup)
+        Har project me available (user-level).
+
+    Bulane ke 3 tareeke:
+        1) Seedha bolo: "research-analyst agent se Supabase vs Neon compare karo"
+        2) @ mention:   @agent-meeting-notes  (phir transcript/path do)
+        3) Poora session ek agent: claude --agent proposal-writer
+
+    Claude khud bhi sahi agent chun leta hai – har agent ki "description"
+    padh ke.
+
+    Har agent me:
+    - sirf zaroori tools (followup-writer sirf Read; data-analyst ko Bash)
+    - model: inherit (jis Claude se session chal raha, wahi) – sirf
+      expense-extractor haiku (sasta, simple kaam)
+    - kuch bhejta/delete nahi karta; file tabhi likhta hai jab path do
+
+    Badalna ho: .md file kholo, frontmatter (name, description, tools,
+    model) ya neeche ka prompt edit karo. Dono folders me same rakhna.
+
+    Pehle karo: business-brain.md ke TODO bharo – warna proposal, lead
+    scoring, email drafts [CHECK] se bhare aayenge.
+
+
+------------------------------------------------------------
+10. BAAKI 6 AGENTS KAISE CHALU HONGE
+------------------------------------------------------------
+    - Gmail / Google Calendar / Google Drive: claude.ai ke connector
+      settings me authorize karo – phir Inbox (asli mailbox), Calendar,
+      Personal Assistant ban sakte hain. Abhi in connectors ka auth
+      pending hai.
+    - WhatsApp/Instagram auto-messages: official business API, opt-in aur
+      approved templates zaroori – bina iske account band ho sakta hai.
+    - Onboarding / Invoice bhejna: n8n workflow + Claude node, Level 2
+      approval ke saath.
+
+
+------------------------------------------------------------
+11. TROUBLESHOOTING
+------------------------------------------------------------
+    Generic / brand se alag output   -> business brain + 2 achhe examples do
+    Cheezein bana leta hai           -> "sirf diye gaye data se" + uncertainty rule
+    Ek baar chala, phir fail         -> connection expire / column naam badla
+    Har baar alag format             -> strict output format (fields, JSON)
+    Workflow chala hi nahi           -> trigger timezone, webhook URL, ON hai?
+    Kharch zyada                     -> kam frequency, sirf naye items, spend limit
+    Same item do baar                -> ID / done flag save karo
+    Tool block karta hai             -> official integration ya woh step haath se
+
+
+------------------------------------------------------------
+12. HONEST LIMITS
+------------------------------------------------------------
+    - Agents galti karte hain: email galat padhna, detail banana, galat
+      time. Bahar jaane wali har cheez pe approval.
+    - WhatsApp: opt-in + approved templates, per message charge.
+      Instagram: sirf unko reply jo pehle message karein. Cold email:
+      unsubscribe option + warmed-up domain.
+    - CV, contracts, inbox jodne se pehle tool ki data settings dekho
+      (India DPDP Act, GDPR).
+    - Hiring aur paisa ke faisle insaan karega; agent sirf taiyari.
+    - Tools ka kharch judta hai – free tier se shuru, sirf time bachane
+      wale agents pe paisa.
+
+
+------------------------------------------------------------
+13. LINKS
+------------------------------------------------------------
+    - Claude Code subagents   https://code.claude.com/docs/en/sub-agents
+    - Agent folder            C:\Users\Anupam Singh\.claude\agents
+    - Business brain          C:\Users\Anupam Singh\.claude\business-brain.md
+    - Agent banane ka rule    _guidelines/agents.md
+    - Claude setups           NOTES/ai/claude-code/
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    Achha context = achha agent. Business brain bharo, Level 2 pe rakho,
+    aur 3 sabse irritating kaam se shuru karo.

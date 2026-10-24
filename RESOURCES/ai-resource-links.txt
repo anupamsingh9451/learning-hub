@@ -1,0 +1,132 @@
+AI RESOURCE LINKS – @WOKE_ENGINEER RESOURCE DROP
+================================================
+Topic: resources
+Date: 24-10-2026
+Time: ~5 min
+Status: reference (zaroorat pe kholo)
+Source: https://bit.ly/3UAZU6S  (Instagram creator @woke_engineer ka links page,
+        AWS S3 pe rakha hai)
+
+
+------------------------------------------------------------
+1. YEH KYA HAI
+------------------------------------------------------------
+    Ek Instagram creator ke reels me dikhaye gaye resources ki list:
+    Claude Code tools, AI agents, vibe-coding workflows, models. Zyada tar
+    items Google Drive PDFs hain, kuch GitHub repos aur websites.
+
+    Kaise padhein:
+    - Type: PDF/FILE (Drive), REPO (GitHub), SITE (website)
+    - [padha]  = maine khol ke note banaya hai, file ka naam diya hai
+    - [nahi]   = sirf link hai, abhi khol ke nahi dekha
+    - Repos aur sites 24-10-2026 ko check kiye (chal rahe the). Drive
+      files private/delete ho sakti hain.
+    - (!) = use karne se pehle neeche section 6 padho.
+
+
+------------------------------------------------------------
+2. CLAUDE CODE – AGENTS AUR TOKEN TOOLS
+------------------------------------------------------------
+    1)  Unlock Claude real powers – 5 Claude Code tools      PDF   [nahi]
+        https://drive.google.com/file/d/1h9J3LVGGWIUbKZxkMjnzmUYnTLpp6r-X/view
+    2)  Harvey – personal sales agent                         FILE  [nahi]
+        https://drive.google.com/file/d/1pLAmkR-bjQ3CCx_GuvgjZEbDkp8sFYtv/view
+    3)  REA – Reverse Engineer Anything                       FILE  [nahi]
+        https://drive.google.com/file/d/1Lv9cT47ttIvPzDZjYnQaE9MrfTp0NRIE/view
+    4)  OPENDOTS – open-source alternative of OpenAI DOTS     FILE  [nahi]
+        https://drive.google.com/file/d/1DHktbI7QbyOq1mCk2O_P7r5V6CU7VMR6/view
+    5)  STRATA – 125B parameter model apne system pe          FILE  [nahi]
+        https://drive.google.com/file/d/1W2AHFSIUPdCMzYqDDHsuoeZ_k3s2UWt6/view
+        (page pe do baar likha hai, same link)
+    6)  FREE LLM API – 600+ models ek API me                  FILE  [nahi]
+        https://drive.google.com/file/d/1r2HDY8WDcYu9a45OrSi44k1g1Tag0ZjF/view
+    7)  Deepseek Harness – open-source Claude Code alternative FILE [nahi]
+        https://drive.google.com/file/d/1_X2xeOI1qN9VJI__3T5SAxq4LnCYW3pd/view
+    8)  Google Map Scraper KIT (!)                            FILE  [nahi]
+        https://drive.google.com/file/d/1fiPhSDVPQQDcyvnOIg4Qajm-uNrDE9Pd/view
+    9)  Archify – codebase ka architecture diagram            FILE  [nahi]
+        https://drive.google.com/file/d/1PImoAjQEMQ1BTe9wVUIvWD10zwNkMeOu/view
+    10) 100+ DESIGN.md files for Claude Code                  SITE
+        https://designmd.ai/
+    11) GitHub 4 repos to upscale vibe-coding                 FILE  [nahi]
+        https://drive.google.com/file/d/1930Kz_hjfdlt86ye0ti96ns3f8OQNDFL/view
+    12) Agentation – vibe-coding tool                         FILE  [nahi]
+        https://drive.google.com/file/d/1Zqg65UUrYBXj6A2Bpi5-m7_zqqEfBP8H/view
+    13) Earn money from Claude Code – sponsored ads (!)       SITE
+        https://kickbacks.ai/
+    14) Claude Code – boring to amazing website (5 tools)     FILE  [nahi]
+        https://drive.google.com/file/d/1B-rtHBvRCVBKDeCUXoI7h_rgADZ464ME/view
+    15) Most useful Claude Code skills                        FILE  [nahi]
+        https://drive.google.com/file/d/1NWInUv4NHtBpk8HQreWrUk7MbHToJF5T/view
+    16) 3 YouTube videos to be AI ready                       FILE  [nahi]
+        https://drive.google.com/file/d/1YEH7N54Qmd7vmYcgEeh4YZV0t9wi0PCp/view
+    17) Claude / Codex plugins pack                           FILE  [nahi]
+        https://drive.google.com/file/d/1aOUkmZVlKXpni2sfiIn3q80GxDMCWqBr/view
+    18) Claude Code toolkit & plugins guide                   FILE  [nahi]
+        https://drive.google.com/file/d/1mT5sUwTtS1RHznyB95WWytz8xgjGB2YS/view
+    19) Strix – AI hacker agent (!)                           REPO
+        https://github.com/usestrix/strix
+    20) Headroom – Claude token usage kam karna               REPO
+        https://github.com/headroomlabs-ai/headroom
+
+
+------------------------------------------------------------
+3. AGENTS – AUTOMATION AUR SCRAPING
+------------------------------------------------------------
+    21) Agent-Reach – internet scraping (!)                   REPO
+        https://github.com/Panniantong/agent-reach
+    22) Job-hunting workflow using Claude                     FILE  [nahi]
+        https://drive.google.com/file/d/1WtR5h8rWC0DXn1mGam_Lk3sJrbfmlQdK/view
+
+
+------------------------------------------------------------
+4. VIBE CODING – DESIGN SE WEBSITE
+------------------------------------------------------------
+    23) Spec Kit – GitHub (spec se code)                      FILE  [nahi]
+        https://drive.google.com/file/d/18h_dpgwCCtF72VfqqkgBxkkc_St4xnO7/view
+        Asli repo: https://github.com/github/spec-kit
+    24) Sketch-to-website workflow                            FILE  [nahi]
+        https://drive.google.com/file/d/1YNVDboYsrKGeys9mZz8VdZ-2rnHEPrfF/view
+    25) Google's vibe-coding tools, explained                 FILE  [nahi]
+        https://drive.google.com/file/d/15u1WFzEftR1UbU7DYSR-5PFlUurao43r/view
+    26) Qwen – website builder (chat)                         SITE
+        https://chat.qwen.ai
+
+
+------------------------------------------------------------
+5. MODELS AUR DIRECTORIES
+------------------------------------------------------------
+    27) DeepSeek V4-Flash setup guide                         FILE  [nahi]
+        https://drive.google.com/file/d/1wtIHMbyjFkGwHTJP1YjXd--dJcswUDYZ/view
+    28) Google Flow – AI video tool                           SITE
+        https://flow.google
+        (page pe link ke end me galti se "." laga tha, yeh sahi link hai)
+    29) There's An AI For That – 37,000+ AI tools directory   SITE
+        https://theresanaiforthat.com
+
+    Isi creator ke jo resources maine padh ke note banaye:
+        - 3D product website (AURIX guide)  NOTES/ai/ai-3d-product-website.txt
+        - SaaS 15-layer playbook            NOTES/ai/saas-15-layer-playbook.txt
+        - 20 vibe-coding prompts            NOTES/ai/vibecoding-prompts.txt
+
+
+------------------------------------------------------------
+6. (!) WALE TOOLS – PEHLE YEH PADHO
+------------------------------------------------------------
+    - Strix (AI hacker agent): security testing sirf apne app ya jahan
+      likhit permission ho, wahin. Kisi aur ki site pe chalana gair-kanooni
+      ho sakta hai.
+    - Google Map Scraper, Agent-Reach (scraping): sites ki terms aksar
+      scraping mana karti hain. Personal data (phone, email) scrape karna
+      India ke DPDP Act me problem ban sakta hai. Official APIs pehle dekho.
+    - kickbacks.ai (sponsored ads): tumhare tool/terminal me ads dikhenge.
+      Terms aur privacy padh ke hi jodo, client ke laptop/code pe nahi.
+    - Koi bhi Drive PDF ya npx/script: chalane se pehle dekho kya karta hai.
+      Influencer ki list = suggestion, official docs se confirm karo.
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    Link milna aasan hai, kaam ka tool chunna mushkil. Ek uthao, use karo,
+    note banao, phir agla.

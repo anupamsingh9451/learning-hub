@@ -1,0 +1,200 @@
+REA – REVERSE ENGINEER ANYTHING (AI AGENT + MCP)
+===============================================
+Topic: ai
+Date: 24-10-2026
+Time: ~20 min
+Status: learning
+Version: rea-agents 6.7 (npm), MIT license
+Source: https://github.com/morluto/rea (README) + npm package info
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    REA ek MCP server + CLI hai jo tumhare AI agent (Claude Code, Codex,
+    Cursor) ko kisi app ke andar jhaankne ke tools deta hai – bina source
+    code ke. "Yeh feature kaise kaam karta hai?" ka jawab saboot ke saath,
+    phir apne project me waisa feature banwa sakte ho.
+
+    Misaal: Ek mechanic jo car ko khol ke dekhta hai ki engine kaise chalta
+    hai, aur har baat ke saath part dikha ke batata hai. REA wahi mechanic
+    hai, software ke liye.
+
+
+------------------------------------------------------------
+2. KYUN / KAB USE KAREIN
+------------------------------------------------------------
+    Kab lo:
+    - Kisi app ka feature pasand aaya (Notion ka clipboard, kisi Electron
+      app ka search) aur samajhna hai ki andar kaise bana hai.
+    - Apna purana build/binary hai jiska source kho gaya.
+    - Kisi JS bundle, .NET DLL, APK, website ka structure samajhna.
+    - Security/interoperability research (jahan permission ho).
+
+    Kab NAHI:
+    - Open-source cheez (jaise antd, Laravel) – seedha source padho, REA
+      ki zaroorat nahi.
+    - Kisi aur ka software jiska license reverse engineering mana karta
+      hai, ya jahan tumhe permission nahi.
+
+
+------------------------------------------------------------
+3. KAISE KAAM KARTA HAI
+------------------------------------------------------------
+    Tum (agent se sawaal) -> Agent -> REA (MCP tools) -> target app
+                                          |
+                                Hopper / Ghidra / IDA (native ke liye)
+                                          |
+                     findings + evidence + "kya pata nahi chala" -> Agent
+                                          |
+                     Agent samjhata hai / feature banata hai / test karta hai
+
+    - Analysis tumhare laptop pe hi hota hai (app upload nahi hoti).
+    - Par agent ko jo result milta hai woh AI provider tak jaata hai –
+      unki data policy lagti hai.
+    - Har nateeje ke saath evidence aur limitations aate hain.
+
+
+------------------------------------------------------------
+4. SETUP (WINDOWS)
+------------------------------------------------------------
+    STEP 1 – Node check karo
+        node -v
+        npm release (6.7) ko chahiye: Node 22.19+, 24.11+ ya 26+.
+        Tumhara v24.20.0 chalega.
+        (GitHub ke main branch ka unreleased code naya Node maangta hai –
+        24.22.1+. Sirf tab update karo jab main se build karo.)
+
+    STEP 2 – Agent ke saath jodo
+        npx rea-agents setup
+        Agent chuno (Claude Code), badlav padho, approve karo. Yeh MCP
+        server + workflow instructions daalta hai, purani config ka backup
+        leta hai.
+
+    STEP 3 – Claude Code restart karo, /mcp me REA dikhna chahiye.
+
+    STEP 4 – Native binaries (exe, dll) ke liye engine chahiye:
+        Ghidra (free)  https://ghidra-sre.org
+        Hopper / IDA   (paid, sirf legal license ke saath)
+        JS/Electron aur .NET ke liye koi engine nahi chahiye.
+
+    CLI regular use ke liye (optional):
+        npm install --global rea-agents
+        rea --help
+        rea update        (naye fixes jaldi aate hain, update rakho)
+
+
+------------------------------------------------------------
+5. AGENT SE KAISE POOCHHO
+------------------------------------------------------------
+    Template:
+        Understand how <feature> works in <app>, show me the evidence,
+        and build a similar feature for my project.
+
+    Misaal:
+        Understand how the clipboard paste of rich content works in this
+        Electron app at D:/apps/example, show me the evidence (files,
+        IPC calls), and suggest how to build the same in my React app.
+
+    Achha sawaal = ek feature, saaf target path, "evidence dikhao".
+
+
+------------------------------------------------------------
+6. TERMINAL SE SEEDHA
+------------------------------------------------------------
+    Electron/JS app ka folder ya .asar:
+        npx -y rea-agents@latest analyze-javascript-application "D:/apps/example" --json
+
+    Result: modules, imports, Electron boundaries (main/preload/renderer)
+    aur unka evidence.
+
+    Native ke liye pehle provider (Ghidra) set karo, phir CLI guide dekho:
+    https://github.com/morluto/rea/blob/main/docs/installation.md
+
+
+------------------------------------------------------------
+7. KYA-KYA ANALYSE KAR SAKTA HAI (MAIN WALE)
+------------------------------------------------------------
+    Target                 Kya milta hai                     Chahiye
+    ---------------------  --------------------------------  ----------------------
+    JavaScript / Electron  modules, imports, IPC, routes     sirf Node
+    Websites               page structure, scripts, network  Chrome browser
+    Native binaries        pseudocode, assembly, strings     Ghidra/Hopper/IDA
+    .NET assemblies        metadata, CIL, dependencies       kuch nahi (static)
+    Android APK            manifest, classes, methods        JADX + JDK
+    Saved network (HAR)    requests, responses, payloads     HAR file
+    SQLite database        tables, indexes, rows             Node 24.15+
+    PyInstaller exe        Python version, scripts           kuch nahi
+    Go / Rust binaries     modules, crates, versions         kuch nahi
+    Model files            GGUF/safetensors metadata         kuch nahi
+
+    Aur bhi: firmware, packet captures, Unity/Godot game files, WASM, EVM
+    bytecode. Poori list README me.
+
+    Linux pe kuch tools ke liye procps wala "ps" command chahiye.
+
+
+------------------------------------------------------------
+8. SHOWCASES (README SE)
+------------------------------------------------------------
+    - DX-Ball: game ke sound-pan function ko C me dobara banaya, original
+      se match.
+    - Notion: Electron app me clipboard bridge (renderer -> preload ->
+      IPC -> main) trace kiya.
+    - TH04: purane PC-98 game ki bullet calculation recover ki.
+    Website: https://rea.tools/showcase/
+
+
+------------------------------------------------------------
+9. LEGAL AUR SAFETY – ZAROOR PADHO
+------------------------------------------------------------
+    - Sirf apna software, open-source, ya jahan likhit permission ho.
+      Kisi ka paid app crack karna, license todna – illegal.
+    - Hopper, IDA, JEB jaise paid tools sirf legal license se. Cracked
+      copies ya chori ki keys nahi.
+    - Runtime analysis target app ko tumhari permissions se chalata hai –
+      anjaan app pehle VM/sandbox me.
+    - README chetavni deta hai: REA sirf official jagah se lo (morluto/rea,
+      rea.tools, npm "rea-agents"). Milte-julte naam wale repo/README
+      official hone ka saboot nahi.
+    - Tumhara fork/copy sirf personal seekhne ke liye. npx hamesha official
+      npm package chalata hai, fork nahi.
+    Disclaimer: https://github.com/morluto/rea/blob/main/DISCLAIMER.md
+
+
+------------------------------------------------------------
+10. TUMHARE KAAM ME KAHAN
+------------------------------------------------------------
+    - Kisi SaaS/Electron app ka UX feature samajh ke Zero UI ya EduAssist
+      me apna version banana (code copy nahi, idea + behaviour).
+    - Apne hi purane client project ka build hai, source nahi – structure
+      samajhna.
+    - Kisi website ka network/scripts dekhna (apni ya permission wali) –
+      API flow samajhne ke liye.
+
+
+------------------------------------------------------------
+11. GALTIYAN / GOTCHAS
+------------------------------------------------------------
+    - Setup ke baad agent restart nahi kiya – tools nahi dikhe.
+    - Native exe pe chalaya bina Ghidra ke – "provider nahi mila".
+    - Bade binary pe timeout – REA_GHIDRA_STARTUP_TIMEOUT_MS badhao.
+    - Purana version – bug pehle se fixed tha. Pehle "rea update".
+    - Fork ki README dekh ke install kiya – hamesha official npm se.
+
+
+------------------------------------------------------------
+12. LINKS
+------------------------------------------------------------
+    - Repo                   https://github.com/morluto/rea
+    - Website + guides       https://rea.tools/guides/
+    - Installation           https://github.com/morluto/rea/blob/main/docs/installation.md
+    - Ghidra (free)          https://ghidra-sre.org
+    - AI resources list      RESOURCES/ai-resource-links.txt (item 3)
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    REA agent ko "aankhen" deta hai app ke andar dekhne ke liye. Sirf
+    legal targets pe, aur har nateeja evidence ke saath check karo.

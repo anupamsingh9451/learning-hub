@@ -1,0 +1,310 @@
+AI SE 3D PRODUCT WEBSITE – EXPLODED VIEW WORKFLOW
+================================================
+Topic: ai
+Date: 24-10-2026
+Time: ~25 min padhna, ~2-3 ghante pehli baar banane me
+Status: learning
+Source: "AURIX AI Website Setup Guide" (Fajal Ansari, Reel ki PDF) + official
+        docs se check kiya. Original prompt yahan copy nahi kiya, apna
+        reusable template likha hai (section 7).
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    AI tools se ek premium product website banana jisme product pe hover
+    (ya scroll) karte hi woh khul ke apne parts me bikhar jaata hai
+    ("exploded view"), jaise Apple ki AirPods page pe hota hai.
+
+    Misaal: Ek flip-book. Har page pe tasveer thodi badli hui hai. Tezi
+    se palto toh lagta hai tasveer chal rahi hai. Yahan bhi video ko
+    100 tasveeron (frames) me todte hain, aur mouse/scroll se "page
+    palatte" hain.
+
+
+------------------------------------------------------------
+2. TECHNIQUE: FRAME SEQUENCE (VIDEO KYUN NAHI?)
+------------------------------------------------------------
+    Video ko seedha lagao toh:
+    - Scroll ke saath aage-peeche smooth "scrub" nahi hota, atakta hai.
+    - Hover chhodne pe ulta chalana (reverse) mushkil.
+
+    Frame sequence (JPG/WebP tasveerein + <canvas>):
+    - Har frame pe poora control: aage, peeche, beech me rukna.
+    - Mouse/scroll ki position = frame number.
+    - Apple apne product pages pe yahi tareeka use karta hai.
+
+    Flow:
+        Product image -> AI video (exploded) -> JPG frames -> canvas pe
+        frame number badalte raho
+
+
+------------------------------------------------------------
+3. TOOLS – KAUN KYA KARTA HAI
+------------------------------------------------------------
+    Tool               Kaam                                    Link
+    ----------------   -------------------------------------   ------------------------------------------------
+    Google Antigravity AI coding agent/IDE, website banata hai  https://antigravity.google
+    UI/UX Pro Max      AI ko design ki samajh deta hai (style,  https://github.com/nextlevelbuilder/ui-ux-pro-max-skill
+                       colors, fonts, UX rules)
+    21st.dev MCP       AI ko asli UI components ki library se   https://21st.dev/mcp
+                       jodta hai (har cheez zero se nahi)
+    ChatGPT            Product ki premium image banana          (ChatGPT image generation)
+    Google Flow        Image se exploded-view video banana      https://flow.google
+    EZGIF              Video ko JPG frames (ZIP) me todna       https://ezgif.com/video-to-jpg
+
+    Seedhi baat: UI/UX Pro Max = "designer ka dimaag", 21st MCP = "ready
+    components ki dukaan", Flow + EZGIF = "product ki animation".
+
+
+------------------------------------------------------------
+4. WORKFLOW – 8 STEPS
+------------------------------------------------------------
+    STEP 1 – UI/UX Pro Max install karo
+        Antigravity ke liye (project folder me):
+            npm install -g ui-ux-pro-max-cli
+            uipro init --ai antigravity
+        Claude Code ke liye (tumhare paas pehle se installed hai):
+            /plugin marketplace add nextlevelbuilder/ui-ux-pro-max-skill
+            /plugin install ui-ux-pro-max@ui-ux-pro-max-skill
+        Iske search scripts ke liye Python 3 chahiye.
+
+    STEP 2 – 21st.dev MCP jodo
+        - https://21st.dev/mcp pe sign in karo, free API key lo.
+        - Setup (naya tareeka, 21st CLI se):
+            npx @21st-dev/cli@latest init --client claude
+          (Antigravity ke liye page pe "generic MCP client" wala config
+          copy karo.)
+        - API key env variable me rakho (API_KEY_21ST). Kabhi git me
+          ya notes me mat likho.
+        - Purana "Magic MCP" (@21st-dev/magic) ab 21st MCP ban gaya hai.
+
+    STEP 3 – Product image banao (ChatGPT)
+        - Fictional product (kisi brand ki copy nahi).
+        - Saaf studio background (dark ya transparent), high resolution.
+        - Isi image ko aage har jagah reference banao, taaki design same
+          rahe.
+        - Save: public/assets/<product>/<product>-showcase.png
+
+    STEP 4 – Exploded-view video banao (Google Flow)
+        - Product image upload karo, reference ki tarah.
+        - Prompt me batao: same product, upar se neeche parts dheere-dheere
+          alag hon (shell, cushion, mesh, driver, electronics, battery,
+          frame), seedhi line me, cinematic, dark background, koi random
+          movement nahi.
+        - Chhota video (4-8 sec) kaafi hai. Camera hilna nahi chahiye.
+        - Flow ke credits/limits paid ho sakte hain, pehle check karo.
+
+    STEP 5 – Video ko JPG frames me todo (EZGIF)
+        - ezgif.com/video-to-jpg pe video upload, frame rate chuno, ZIP
+          download.
+        - Target: 60-120 frames. Zyada = smooth par page bhaari.
+        - Offline option (ffmpeg, ek line):
+            ffmpeg -i exploded.mp4 -vf "fps=20,scale=1600:-1" -q:v 3 frames/frame_%03d.jpg
+
+    STEP 6 – Assets project me rakho
+        public/
+            assets/
+                aurix/
+                    aurix-product-showcase.png
+                    exploded-frames/
+                        frame_001.jpg
+                        frame_002.jpg
+                        ...
+        Naam kuch bhi ho, bas poori sequence order me ho.
+
+    STEP 7 – AI ko website ka prompt do
+        Section 7 ka template apne product ke hisaab se bhar ke paste karo.
+
+    STEP 8 – Agent ko banane do, phir khud check karo
+        - Pehle plan/design system maango, phir code.
+        - Banne ke baad: browser me chalao, mobile size pe dekho, hover/
+          scroll smooth hai, page kitna bhaari hai (DevTools > Network).
+
+
+------------------------------------------------------------
+5. FRAME SEQUENCE KA CODE (SAMJHNE KE LIYE)
+------------------------------------------------------------
+    AI yahi type ka code likhega. Samajh loge toh check aur sudhaar
+    paoge.
+
+    Hover pe khulna, mouse hatane pe wapas (plain JS + canvas):
+        <canvas id="product" width="1600" height="900"></canvas>
+
+        const canvas = document.getElementById('product');
+        const ctx = canvas.getContext('2d');
+        const TOTAL = 96;
+        const frames = [];
+
+        for (let i = 1; i <= TOTAL; i++) {
+            const img = new Image();
+            img.src = `/assets/aurix/exploded-frames/frame_${String(i).padStart(3, '0')}.jpg`;
+            frames.push(img);
+        }
+
+        let current = 0;
+        let target = 0;
+
+        function draw(i) {
+            if (frames[i].complete) ctx.drawImage(frames[i], 0, 0, canvas.width, canvas.height);
+        }
+
+        function tick() {
+            if (current !== target) {
+                current += current < target ? 1 : -1;   // ek-ek frame aage/peeche
+                draw(current);
+            }
+            requestAnimationFrame(tick);
+        }
+
+        frames[0].onload = () => draw(0);
+        tick();
+        canvas.addEventListener('mouseenter', () => { target = TOTAL - 1; });
+        canvas.addEventListener('mouseleave', () => { target = 0; });
+
+    Scroll ke saath (GSAP ScrollTrigger):
+        gsap.registerPlugin(ScrollTrigger);
+        const state = { frame: 0 };
+
+        gsap.to(state, {
+            frame: TOTAL - 1,
+            snap: 'frame',
+            ease: 'none',
+            scrollTrigger: { trigger: '#engineering', start: 'top top', end: '+=2000', scrub: true, pin: true },
+            onUpdate: () => draw(state.frame),
+        });
+
+        scrub: true = scroll jitna, animation utni. pin = section ruka
+        rahe jab tak animation poori na ho.
+
+
+------------------------------------------------------------
+6. PERFORMANCE, MOBILE, ACCESSIBILITY
+------------------------------------------------------------
+    Bhaar ka hisaab: 96 frames x 150 KB = ~14 MB. Mobile pe bahut zyada.
+
+    [ ] Frames WebP me (JPG se ~30% chhote). Squoosh/ffmpeg se.
+    [ ] 60-90 frames, width 1280-1600px kaafi.
+    [ ] Mobile pe kam aur chhote frames (alag folder), ya sirf static
+        exploded image.
+    [ ] Frames tab load karo jab section paas aaye (IntersectionObserver),
+        page khulte hi nahi.
+    [ ] Pehla frame turant dikhe (placeholder), baaki background me.
+    [ ] Mobile pe hover hota hi nahi -> scroll ya tap se chalao.
+    [ ] prefers-reduced-motion: animation band, seedha final image.
+    [ ] Labels ("40mm Driver") asli text ho, image me nahi (screen reader
+        aur SEO ke liye).
+    [ ] Lighthouse/PageSpeed se score check karo.
+
+
+------------------------------------------------------------
+7. REUSABLE PROMPT TEMPLATE (APNE PRODUCT KE LIYE)
+------------------------------------------------------------
+    <...> wali jagah apne hisaab se bharo:
+
+        Build a premium, production-quality landing page for a fictional
+        <product type> brand called <BRAND>.
+
+        Use the installed UI/UX Pro Max skill first to decide the visual
+        style, typography, color palette, spacing, hierarchy, UX patterns,
+        responsive behaviour and motion rules. Then use the 21st.dev MCP to
+        find suitable components before writing UI code. Show me the design
+        plan before building.
+
+        Product: <NAME> – <one line description>. Tagline: "<tagline>".
+        Assets: public/assets/<brand>/<brand>-showcase.png and the frame
+        sequence in public/assets/<brand>/exploded-frames/ (an exploded-view
+        animation of the product).
+
+        Design: <dark/light>, <main colors>, original identity – do not copy
+        any real company's branding.
+
+        Sections: Hero, Product reveal, <Feature 1>, Engineering, <Feature 2>,
+        Specifications, Final CTA.
+
+        Key interaction: in the Engineering section show the normal product.
+        On hover (scroll on mobile) play the frame sequence forward so the
+        parts separate; on leave, play it back to normal. Use a canvas frame
+        sequence, not an abrupt image swap. Add a few minimal technical labels:
+        <label 1>, <label 2>, <label 3>.
+
+        Avoid generic SaaS layouts, random gradients, heavy glassmorphism,
+        repeated 3-column cards and random animations.
+
+        Requirements: responsive, accessible (respect prefers-reduced-motion,
+        real text labels), lazy-load frames near the section, WebP if possible,
+        and keep total page weight reasonable on mobile.
+
+    Prompt English me isliye ki AI tools English me sabse sahi samajhte
+    hain. Original guide ka prompt bhi isi structure pe tha: pehle design
+    system, phir components, phir product, sections, interaction aur
+    "kya nahi karna".
+
+
+------------------------------------------------------------
+8. CLAUDE CODE ME YAHI WORKFLOW
+------------------------------------------------------------
+    Antigravity zaroori nahi. Tumhare Claude Code me UI/UX Pro Max pehle
+    se hai.
+
+    STEP 1 – 21st MCP jodo:  npx @21st-dev/cli@latest init --client claude
+    STEP 2 – Claude Code restart, /mcp me 21st dikhna chahiye
+    STEP 3 – Assets public/ me rakho (step 6 jaisa)
+    STEP 4 – Section 7 ka prompt do
+    STEP 5 – Plan dekho, haan bolo, phir code review + browser me test
+
+    Laravel project me: assets public/assets/... me, page Blade me, JS
+    resources/js me (Vite se). Next.js me: public/ + ek client component.
+
+
+------------------------------------------------------------
+9. GALTIYAN / GOTCHAS
+------------------------------------------------------------
+    - 300 frames full-HD JPG daal diye, mobile pe page 40 MB ka.
+    - Flow ne har frame me product thoda badal diya (shape/color). Image
+      ko strong reference do, prompt me "same product" likho.
+    - Video me camera ghooma, frames hilte dikhe. Static camera maango.
+    - Frames ka order galat (frame_1, frame_10, frame_2). 001, 002 jaisi
+      padding do.
+    - Sirf hover banaya, mobile pe kuch hua hi nahi.
+    - 21st API key code me likh di aur GitHub pe push ho gayi.
+    - Kisi asli brand (Sony, Apple) ka naam/logo use kiya – copyright ka
+      jhanjhat. Fictional brand rakho.
+    - AI ne "done" bola, par frames load hi nahi ho rahe the (galat path).
+      Network tab me 404 dekho.
+
+
+------------------------------------------------------------
+10. QUICK CHECKLIST
+------------------------------------------------------------
+    [ ] UI/UX Pro Max installed (Antigravity ya Claude Code)
+    [ ] 21st.dev MCP connected, API key env me
+    [ ] Product image public/assets/<brand>/ me
+    [ ] Exploded video Google Flow se
+    [ ] 60-120 frames EZGIF/ffmpeg se, order sahi
+    [ ] Frames project me (WebP ho sake toh)
+    [ ] Prompt diya, pehle plan dekha
+    [ ] Desktop + mobile + reduced-motion test kiya
+    [ ] Page weight aur Lighthouse check kiya
+
+
+------------------------------------------------------------
+11. LINKS
+------------------------------------------------------------
+    - Google Antigravity     https://antigravity.google
+    - UI/UX Pro Max          https://github.com/nextlevelbuilder/ui-ux-pro-max-skill
+    - 21st.dev MCP           https://21st.dev/mcp
+    - Google Flow            https://flow.google
+    - EZGIF video to JPG     https://ezgif.com/video-to-jpg
+    - GSAP ScrollTrigger     https://gsap.com/docs/v3/Plugins/ScrollTrigger/
+    - Example (Apple)        https://www.apple.com/airpods-pro/
+    - Image compress         https://squoosh.app
+    - UI styles note         NOTES/html/ui-styles.txt
+    - Tools directory        RESOURCES/dev-tools.txt
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    Video ko frames me todo, canvas pe frame number chalao. Aur frames
+    halke rakho, warna premium site mobile pe slow site ban jaati hai.

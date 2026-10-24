@@ -1,0 +1,278 @@
+VIBE CODING KE 20 ZAROORI PROMPTS
+=================================
+Topic: ai
+Date: 24-10-2026
+Time: ~30 min (ek baar poora, phir zaroorat wala prompt nikaalo)
+Status: reference
+Source: "Important Vibecoding Prompts" (Google Doc) – templates apne
+        shabdon me chhote kiye hain, idea wahi.
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    AI coding agent (Claude Code, Codex, Cursor) ko poore project me –
+    idea se launch tak – sahi tarah chalane ke liye 20 ready prompts.
+
+    Misaal: Naye developer ko kaam dete waqt tum batate ho "kaun ho, kya
+    context hai, kya karna hai, kya nahi karna, kya dena hai". Yeh prompts
+    wahi kaam AI ke liye karte hain.
+
+
+------------------------------------------------------------
+2. HAR PROMPT KA DHAANCHA (5 HISSE)
+------------------------------------------------------------
+    ROLE     "You are a senior <product manager / engineer / reviewer>"
+    CONTEXT  project kya hai, kaunse docs padhne hain
+    TASK     bilkul kya karna hai
+    RULES    kya NAHI karna (sabse zaroori hissa)
+    OUTPUT   kya dena hai (file, list, table, verdict)
+
+    [ ] wali jagah apni details bharo: [PROJECT IDEA], [FEATURE],
+        [SERVICE NAME], [ERROR / LOG].
+
+    Prompts English me isliye ki AI tools English me sabse sahi samajhte
+    hain. Neeche ke templates chhote hain – zaroorat ho toh rules jodo.
+
+
+------------------------------------------------------------
+3. PEHLE 6 DOCUMENTS – PROJECT KI "YAADDASHT"
+------------------------------------------------------------
+    Prompt 1-6 code nahi likhte. Yeh 6 files banate hain jo aage har
+    prompt ka "source of truth" hain:
+
+        PRD.md           kya bana rahe hain, kiske liye (requirements)
+        DESIGN.md        kaisa dikhega (colors, fonts, components)
+        ARCHITECTURE.md  kaise banega (stack, folders, data flow)
+        DATABASE.md      data kaise rakhenge (tables, relations, index)
+        API.md           endpoints, request/response, errors
+        AGENTS.md        AI ke coding rules (Claude Code ke liye CLAUDE.md)
+
+    Rule: in files ke bina code shuru mat karo. AI har session me inhe
+    padh ke same faisle lega.
+
+
+------------------------------------------------------------
+4. PHASE 1 – PLANNING (PROMPT 1 SE 7)
+------------------------------------------------------------
+    PROMPT 1 – PRD banana
+        Kab   : Sabse pehle, idea ke baad.
+        Banega: PRD.md – problem, users, journeys, features, screens, roles,
+                data, integrations, states, MVP scope.
+        Template:
+            You are a senior product manager and architect. Create PRD.md
+            as the source of truth for: [PROJECT IDEA]. Cover problem, users,
+            user journeys, functional requirements, screens, roles, data,
+            integrations, edge/empty/error states and MVP scope vs later.
+            Rules: no code, no invented features, label every assumption,
+            flag decisions that need my approval. Output: Markdown only.
+
+    PROMPT 2 – DESIGN.md
+        Banega: visual direction, colors, typography, spacing, components,
+                navigation, forms, states, animation, responsive, a11y.
+        Template:
+            Read PRD.md. Create DESIGN.md: visual direction, color tokens,
+            typography scale, spacing, reusable components, navigation, form
+            patterns, loading/empty/error states, motion, responsive rules,
+            accessibility and key page layouts. Prefer usable, reusable
+            rules over generic SaaS styling. No code.
+
+    PROMPT 3 – ARCHITECTURE.md
+        Banega: stack + wajah, frontend/backend structure, data flow, folder
+                structure, auth, API design, services, AI architecture,
+                env config, errors, security, testing, deploy.
+        Template:
+            Read PRD.md. Create ARCHITECTURE.md with the simplest reliable
+            design: stack with reasons, folder structure, data flow, auth,
+            API style, external services, env config, error handling,
+            security boundaries, testing and deployment. Separate MVP from
+            future scale. No code.
+
+    PROMPT 4 – DATABASE.md
+        Banega: tables, typed columns, keys, relations + ER diagram,
+                constraints, indexes (asli queries ke hisaab se), ownership,
+                row-level security, sensitive data, migrations, seeds,
+                backups.
+        Rule  : Bekaar tables aur jaldi ki optimization nahi.
+
+    PROMPT 5 – API.md
+        Banega: endpoints, methods, auth, request/response, validation,
+                error format, pagination, webhooks (verify), rate limits,
+                env vars, privacy, failure handling.
+        Rule  : Secrets kabhi client tak nahi, permission server pe.
+
+    PROMPT 6 – AGENTS.md / coding rules
+        Banega: AI ke rules – code quality, structure, component reuse,
+                dependencies, types, errors, security, data access, tests,
+                docs, git.
+        Sabse zaroori rules:
+            - Badalne se pehle code padho (inspect first)
+            - Project docs follow karo
+            - Bina wajah rewrite nahi, bina maange badlav nahi
+        Claude Code me yahi baatein CLAUDE.md me daalo.
+
+    PROMPT 7 – Implementation plan
+        Banega: phases me plan. Har phase: goal, tasks, files, pehle kya
+                chahiye, DB/API badlav, tests, "done kab".
+        Template:
+            Read all project docs. Create a phased implementation plan. For
+            each phase list goal, tasks, affected files, prerequisites,
+            DB/API changes, tests and completion criteria. No application
+            code. End with the recommended first task.
+
+
+------------------------------------------------------------
+5. PHASE 2 – BUILDING (PROMPT 8 SE 13)
+------------------------------------------------------------
+    PROMPT 8 – Project setup
+        Kya   : ARCHITECTURE.md ke hisaab se project shuru: framework,
+                folders, config, .env structure, routing, design system ka
+                base, utilities, scripts, lint, format, typecheck, git.
+        Rules : Pehle maujood files dekho, koi feature nahi, project
+                chalne layak rahe.
+
+    PROMPT 9 – Ek feature banana
+        Template:
+            Implement this approved feature: [TASK / FEATURE]. First inspect
+            the relevant code and explain your approach. Reuse existing
+            components, handle loading/empty/error states, validate input,
+            enforce authorization, update tests, keep changes focused. If a
+            blocking question comes up, stop and ask me.
+
+    PROMPT 10 – Database + backend jodna
+        Kya   : DB secure connect, schema + migrations, data access,
+                endpoints, validation, authorization, transactions, index,
+                seed data, tests.
+        Rule  : Credentials sirf env variables me.
+
+    PROMPT 11 – Authentication & authorization
+        Kya   : signup, login, logout, session/token, password, protected
+                routes/APIs, roles, ownership check, 401/403 states, session
+                expiry, tests.
+        Rules : ARCHITECTURE.md wala tareeka, insecure storage nahi,
+                permission server pe.
+
+    PROMPT 12 – MCP connect karna
+        Template:
+            Connect this MCP server: [MCP SERVER / PURPOSE]. Find what it
+            exposes, decide which capabilities this project actually needs,
+            configure least-privilege access, verify the tools work, and list
+            any manual steps for me. Never expose credentials or enable
+            tools we don't need.
+
+    PROMPT 13 – Bahar ki API / service jodna
+        Template:
+            Integrate [SERVICE / API NAME + PURPOSE]. Secure config via env,
+            validate inputs and responses, set timeouts, respect rate limits,
+            retry only where safe, verify webhook signatures, never log
+            secrets, prevent duplicate operations, and test success and
+            failure paths.
+
+
+------------------------------------------------------------
+6. PHASE 3 – QUALITY (PROMPT 14 SE 17)
+------------------------------------------------------------
+    PROMPT 14 – Testing & QA
+        Kya   : core journeys, edge cases, galat input, auth/permissions,
+                API/DB failure, UI states, integrations, mobile. Unit +
+                integration + E2E.
+        Rule  : Test pass karane ke liye production code mat badlo.
+
+    PROMPT 15 – Debugging / root cause
+        Template:
+            PROBLEM: [ERROR / BUG / LOG / SCREENSHOT]
+            1) Reproduce it. 2) Inspect the relevant code and logs.
+            3) Find the root cause. 4) Explain it to me simply.
+            5) Apply the smallest fix. 6) Add a test and check for
+            regressions.
+            Never guess, hide errors, weaken validation or delete tests.
+
+    PROMPT 16 – Security audit
+        Kya   : auth, secrets, data access, input validation, injection, XSS,
+                CSRF, uploads, rate limiting, data exposure, dependencies,
+                errors, trust boundaries. Severity se rank.
+        Rule  : Fix karte waqt koi security control kamzor nahi.
+        Tip   : Naye session/reviewer se chalao, jisne code likha usse nahi.
+
+    PROMPT 17 – Code review & refactor
+        Kya   : architecture se hatna, bugs, dead code, galat abstractions,
+                complexity, inconsistency, dependencies, error handling,
+                tech debt, performance.
+        Rule  : Sirf saaf wajah wale safe badlav. Sirf style ke liye rewrite
+                nahi.
+
+
+------------------------------------------------------------
+7. PHASE 4 – LAUNCH AUR BAAD (PROMPT 18 SE 20)
+------------------------------------------------------------
+    PROMPT 18 – Deployment
+        Kya   : production build, hosting, secrets, prod DB, migrations,
+                domain + HTTPS, CORS, build/start commands, health check,
+                bahar ki services.
+        Rules : Secrets commit nahi, dev credentials prod me nahi, data
+                destroy karne wala kuch nahi, pehle build verify.
+
+    PROMPT 19 – Monitoring & maintenance
+        Kya   : errors, logs, DB health, uptime, performance, failed
+                integrations, background jobs, resources, business events,
+                kaam ke alerts, backup check.
+        Rules : Kam se kam data collect, shor wale alerts nahi, secrets log
+                nahi.
+
+    PROMPT 20 – Final production audit
+        Template:
+            Audit the whole app against PRD.md, DESIGN.md, ARCHITECTURE.md,
+            DATABASE.md, API.md and AGENTS.md: requirements, UI consistency,
+            correctness, auth, data integrity, integrations, security, tests,
+            performance, responsiveness, accessibility, states, deployment
+            config and monitoring. List findings by severity and give one
+            verdict: READY, READY WITH WARNINGS, or NOT READY.
+
+
+------------------------------------------------------------
+8. KAISE USE KAREIN (CLAUDE CODE ME)
+------------------------------------------------------------
+    STEP 1 – Prompt 1-6 se docs banao, khud padho, galti sudhaaro.
+    STEP 2 – Prompt 7 se plan, phir ek-ek phase.
+    STEP 3 – Har feature: prompt 9, bug pe prompt 15.
+    STEP 4 – Release se pehle: 14, 16, 17.
+    STEP 5 – Launch: 18, 19, aur aakhir me 20 (verdict).
+
+    Baar-baar wale prompts ko slash command bana lo:
+        .claude/commands/feature.md    -> /feature
+        .claude/commands/debug.md      -> /debug
+        .claude/commands/audit.md      -> /audit
+    File me prompt likho, [ ] ki jagah $ARGUMENTS likhoge toh command ke
+    saath diya text wahan aa jaayega.
+
+    Plan mode me chalao (pehle plan, phir code). Har prompt ke end me
+    "proof dikhao" wali line jodo (tests/lint ka output, badli files ki
+    list, kya skip kiya).
+
+
+------------------------------------------------------------
+9. GALTIYAN / GOTCHAS
+------------------------------------------------------------
+    - Docs ke bina seedha "app bana do" – har session me alag stack.
+    - PRD me "out of scope" nahi likha – AI features jodta raha.
+    - Ek prompt me 5 features – aadhe-adhoore, review mushkil.
+    - Debug prompt me sirf "kaam nahi kar raha" likha, error/log nahi diya.
+    - Security audit usi session se karaya jisne code likha – apni galti
+      nahi dikhi.
+    - Audit ka verdict "READY" maan liya bina khud check kiye.
+
+
+------------------------------------------------------------
+10. LINKS
+------------------------------------------------------------
+    - 15 layer playbook      NOTES/ai/saas-15-layer-playbook.txt
+    - Ruflo (agents team)    NOTES/ai/ruflo.txt
+    - Claude Code docs       https://code.claude.com/docs/en/overview
+    - Spec Kit (GitHub)      https://github.com/github/spec-kit
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    Pehle 6 docs, phir plan, phir ek-ek feature. Har prompt me "kya nahi
+    karna" aur "proof dikhao" zaroor likho.

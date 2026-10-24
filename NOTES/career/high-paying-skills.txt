@@ -1,0 +1,296 @@
+5 HIGH PAYING SKILLS – BINA DEGREE KE 90 DIN PLAN
+================================================
+Topic: career
+Date: 24-10-2026
+Time: ~20 min
+Status: reference
+Source: "5 High Paying Skills Roadmap" (PDF, @techwithsetia) – apne shabdon
+        me, links check kiye, aur section 11 me developer angle joda.
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    5 skills jo free me, ghar se, bina degree ke seekh sakte ho: Video
+    Editing, Digital Marketing, Data Analytics, Tech Sales, AI Automation.
+    Har ek ka 90 din ka plan (roz 2 ghante) aur pehla paisa kaise aayega.
+
+
+------------------------------------------------------------
+2. PEHLE SACHCHI BAAT
+------------------------------------------------------------
+    - Koi skill 90 din se kam me nahi aati.
+    - Pehla paisa chhota hota hai.
+    - Beech me chhodne wale ko kuch nahi milta. Jo 90 din tik gaya, woh
+      zyada tar logon se aage, kyunki zyada log shuru hi nahi karte.
+
+    Yeh 5 hi kyun:
+    - Free course + free software sab ke liye maujood
+    - Degree nahi, kaam aur portfolio dekha jaata hai
+    - Job aur freelancing dono raaste khule
+    - PDF ke hisaab se (India Skills Report 2026) AI aur data analytics
+      sabse zyada maang wali skills me hain. (Yeh number maine khud
+      verify nahi kiya.)
+
+
+------------------------------------------------------------
+3. KAUNSI SKILL TUMHARE LIYE
+------------------------------------------------------------
+    Tumhe yeh pasand hai              Skill              Chahiye       Pehla paisa
+    -------------------------------   ----------------   -----------   -------------
+    Reels dekh ke "isse achha bana    Video Editing      Phone         sabse jaldi
+    sakta hoon" lagta hai
+    Log kyun khareedte hain, samajhna Digital Marketing  Phone/laptop  2-3 mahine
+    Hisaab, pattern, paheli           Data Analytics     Laptop        thoda der se
+    Logon se baat, manana             Tech Sales         Phone/laptop  job lagte hi
+    Naye tools, cheezein jodna        AI Automation      Laptop        2-3 mahine
+
+    Rule: SIRF EK chuno. Ek skill, 90 din, roz 2 ghante. Paancho ek saath
+    = ek bhi nahi. "Pehla paisa" ka time andaza hai, mehnat aur sheher pe
+    depend.
+
+
+------------------------------------------------------------
+4. SKILL 1 – VIDEO EDITING
+------------------------------------------------------------
+    Kya hai : Reels, YouTube, ads ko kaat-jod ke, captions laga ke dekhne
+              layak banana. Har creator, coach, dukaan ko video chahiye,
+              time nahi hai.
+    Kiske liye: Jinhe akele baith ke creative kaam pasand. Phone se shuru.
+    Kya seekhna:
+              - Cut aur pace (video boring na lage)
+              - Captions/text (saaf, sahi time pe)
+              - Sound (saaf awaaz, music, effects)
+              - Hook (pehle 3 second me rok lo)
+              - Colour aur B-roll (professional look)
+    Free me : CapCut (phone + laptop)   https://www.capcut.com
+              DaVinci Resolve (laptop)  https://www.blackmagicdesign.com/products/davinciresolve
+              YouTube: "CapCut tutorial for beginners", "DaVinci Resolve beginner"
+    90 din  : Mahina 1 – ek software, roz 1 chhoti edit (30 din = 30 edits)
+              Mahina 2 – 5 pasand ke creators jaisi reels, 10 best ka portfolio
+              Mahina 3 – 3 chhote creators/local business ke liye 1-1 free
+                         video, review lo, phir paise maango
+    Pehla paisa:
+              - 5k-50k followers wale creators ko DM, unki hi ek reel dobara
+                edit karke bhejo
+              - Shuru me kam rate, par time pe kaam. 3 khush clients ke baad
+                rate badhao
+              - Mahine ka package (jaise 15 reels) sabse stable
+    AI ka role: Captions, rough cut AI bana deta hai. Kahani aur hook ki
+              samajh tumhe alag karegi.
+    Badi galti: Mahino tak sirf tutorials, kisi ke liye ek bhi video nahi.
+
+
+------------------------------------------------------------
+5. SKILL 2 – DIGITAL MARKETING
+------------------------------------------------------------
+    Kya hai : Instagram, Google, WhatsApp se business ke liye customers
+              laana: ads, content plan, aur paisa kahan sahi lag raha hai.
+    Kiske liye: Jinhe "log kyun khareedte hain" sochna, aur numbers +
+              creativity dono theek lagte hain.
+    Kya seekhna:
+              - Meta Ads (Instagram/Facebook)
+              - Google Ads + SEO
+              - Content (kya, kab, kyun post)
+              - Copywriting (click karwane wale words)
+              - Numbers padhna (kharch vs customers)
+    Free me : Google Skillshop      https://skillshop.withgoogle.com
+              Meta Blueprint        https://www.facebook.com/business/learn
+                                    (course free, exam ke paise)
+              HubSpot Academy       https://academy.hubspot.com
+              Semrush Academy (SEO) https://www.semrush.com/academy/
+    90 din  : Mahina 1 – Skillshop + HubSpot ka ek-ek course, roz ek brand ka
+                         page dekh ke likho woh kya sahi kar raha hai
+              Mahina 2 – apna/dost ke business ka page 30 din chalao, chhote
+                         budget ka ek ad
+              Mahina 3 – result + seekh ek page me = case study, local
+                         businesses ko dikhao
+    Pehla paisa:
+              - Gym, salon, coaching, clinic, dukaan – inke paas online koi
+                nahi hota
+              - Pehle mahine kam fees, par result dikhao
+              - Job: "Digital Marketing Executive", "Performance Marketing Intern"
+    AI ka role: Ad copy, post ideas AI deta hai. Kis customer ko kya
+              dikhana hai, yeh insaan ka faisla.
+    Badi galti: Sirf certificates jama karna. Client result dekhta hai.
+
+
+------------------------------------------------------------
+6. SKILL 3 – DATA ANALYTICS
+------------------------------------------------------------
+    Kya hai : Company ke data (sales, customers, kharch) ko saaf karke
+              batana kya ho raha hai aur aage kya karein. Excel, SQL,
+              dashboards.
+    Kiske liye: Hisaab-kitaab, pattern, paheli pasand. Laptop zaroori.
+    Kya seekhna:
+              - Excel (formulas, pivot table, charts) – shuruaat yahin se
+              - SQL (bade data se kaam ka data nikalna)
+              - Power BI (ek nazar wala dashboard)
+              - Basic statistics (average, %, growth, trend)
+              - Kahani batana (nateeja simple words me)
+    Free me : Microsoft Learn (Excel, Power BI)  https://learn.microsoft.com/en-us/training/
+              Kaggle Learn (SQL, Python + data)  https://www.kaggle.com/learn
+              freeCodeCamp                       https://www.freecodecamp.org
+              data.gov.in (asli sarkari data)    https://www.data.gov.in
+    90 din  : Mahina 1 – Excel pakka, roz formulas + pivot practice
+              Mahina 2 – SQL (Kaggle), phir Power BI ka pehla dashboard
+              Mahina 3 – asli data pe 3 projects (cricket, mausam, sales),
+                         LinkedIn pe daalo
+    Pehla paisa:
+              - Job: "Data Analyst Intern", "MIS Executive", "Junior Analyst"
+                (MIS me entry aasaan)
+              - Chhote business ki sales sheet/dashboard bhi paid kaam
+              - Paisa thoda der se, par salary aage achhi badhti hai
+    AI ka role: Formula aur SQL likhne me madad. Sahi sawaal aur jawab
+              jaanchna tumhara kaam.
+    Badi galti: Seedha Python/ML pe koodna. Pehle Excel aur SQL.
+
+
+------------------------------------------------------------
+7. SKILL 4 – TECH SALES
+------------------------------------------------------------
+    Kya hai : Software companies ke liye customers dhoondhna. Door-to-door
+              nahi – entry level (SDR) email, call, LinkedIn se leads
+              banata hai. Fixed salary + incentive.
+    Kiske liye: Baat karna achha lage, "nahi" sun ke bura na lage, kamai
+              apne kaam se badhani ho.
+    Kya seekhna:
+              - Sahi customer dhoondhna (kise zaroorat hai)
+              - Pehli baat: cold email, call, LinkedIn message
+              - Sawaal poochh ke asli problem nikalna
+              - "Mehenga hai", "baad me" ka jawab
+              - Follow-up (zyada deals yahin band hoti hain)
+    Free me : HubSpot Academy (sales courses)  https://academy.hubspot.com
+              HubSpot CRM (free)                https://www.hubspot.com/products/crm
+              YouTube: "cold calling for SDR", "cold email examples"
+              AI chatbot ko customer bana ke roz role play
+    90 din  : Mahina 1 – HubSpot sales course, ek product ke 30 sahi
+                         customers ki list, 20 cold emails
+              Mahina 2 – roz 1 mock call record, ek chhote business ke liye
+                         sach me customers dhoondho
+              Mahina 3 – list + emails + recording ek jagah, roz 10 jobs pe
+                         apply + manager ko seedha message
+    Pehla paisa:
+              - Job: "SDR", "BDR", "Inside Sales", "Business Development Executive"
+              - Chhote business ke liye commission pe customers
+              - Zero salary ya "job ke liye paise do" wali jagah se door
+    AI ka role: List aur email draft AI. Bharosa jeetna insaan ka kaam.
+    Badi galti: Sochna sales = achha bolna. Asli kaam = achha sunna + roz
+              follow-up.
+
+
+------------------------------------------------------------
+8. SKILL 5 – AI AUTOMATION
+------------------------------------------------------------
+    Kya hai : Bina (ya kam) coding ke apps jodna taaki kaam apne aap ho.
+              Jaise form bharte hi WhatsApp jaaye, sheet update ho, AI
+              jawab ka draft likhe.
+    Kiske liye: Naye tools aazmana, "yeh aasaan kaise ho" sochna pasand.
+              Laptop zaroori.
+    Kya seekhna:
+              - Prompting (AI ko saaf instructions)
+              - Automation tools (app ko app se jodna)
+              - Google Sheets/Forms (chhote business inhi pe chalte hain)
+              - Business samajhna (kaunsa kaam roz repeat hota hai)
+              - Jaanchna (automation galti na kare)
+    Free me : Make     https://www.make.com
+              Zapier   https://zapier.com
+              n8n      https://n8n.io   (thoda advanced, self-host bhi)
+              YouTube: "Make.com tutorial for beginners", "n8n beginner"
+    90 din  : Mahina 1 – roz AI chatbot use, Make/Zapier pe 10 chhote
+                         automation (form -> sheet, sheet -> email)
+              Mahina 2 – asli problems: enquiry ka turant jawab, appointment
+                         reminder, bill ki list
+              Mahina 3 – 3 automation ki screen recording, ek local business
+                         ke liye ek free me lagao
+    Pehla paisa:
+              - Coaching, clinic, real estate agent, online dukaan (roz same
+                kaam)
+              - Setup fee + mahine ki maintenance fee
+              - Marketing ya sales job me bhi tumhe alag banati hai
+    AI ka role: Yahan AI hi auzaar hai. Tools badlenge, problem samajhna
+              aur sahi hal jodna skill hai.
+    Badi galti: Tools ki ginti badhana. Client ko tool nahi, bacha hua
+              time chahiye.
+
+
+------------------------------------------------------------
+9. SKILL KE BAAD – PEHLA CLIENT YA JOB
+------------------------------------------------------------
+    1) Proof banao, certificate nahi
+       - 3 asli kaam: edited videos, ad ka result, dashboard, customer
+         list, automation
+       - Sab ek Drive link ya Instagram/LinkedIn page pe = portfolio
+    2) Pehle 3 kaam free ya saste
+       - Badle me review + result dikhane ki ijazat
+       - 3 se zyada free nahi, phir paise maangna seekho
+    3) Roz 10 logon ko message
+       - "Kaam chahiye" nahi. Unki ek problem + chhota hal bana ke bhejo
+       - 100 messages pe 3-5 jawab normal hai
+    4) Jaal se bacho
+       - Kaam dene ke liye pehle paise maange
+       - "Ghar baithe roz hazaaron" par kaam na bataye
+       - Doosre logon ko jodna pade (chain/MLM)
+       - "Iske bina kuch nahi hoga" bol ke mehenga course
+
+
+------------------------------------------------------------
+10. 12 HAFTE KA TRACKER
+------------------------------------------------------------
+    Skill chuni: ____________________     Shuru: __-__-____
+
+    Hafta  Kya seekha / banaya                      Roz 2 ghante  Kuch banaya  Agla step
+    -----  ---------------------------------------  ------------  -----------  ----------
+    1                                               [ ]           [ ]
+    2                                               [ ]           [ ]
+    3                                               [ ]           [ ]
+    4                                               [ ]           [ ]
+    5                                               [ ]           [ ]
+    6                                               [ ]           [ ]
+    7                                               [ ]           [ ]
+    8                                               [ ]           [ ]
+    9                                               [ ]           [ ]
+    10                                              [ ]           [ ]
+    11                                              [ ]           [ ]
+    12                                              [ ]           [ ]
+
+
+------------------------------------------------------------
+11. TUMHARE LIYE – DEVELOPER ANGLE (MERA JODA)
+------------------------------------------------------------
+    PDF beginners ke liye hai. Tum 7+ saal ke Laravel/React developer ho,
+    toh in skills ko seedha side income ya AI career me jod sakte ho:
+
+    AI Automation (sabse achha fit):
+    - Make/Zapier ki jagah n8n self-host karo (Docker), jo baaki log nahi
+      kar paate.
+    - n8n ke Webhook node se apne Laravel app ko jodo: form/enquiry ->
+      Laravel API -> Claude se draft -> WhatsApp/email.
+    - Jahan no-code atke, wahan custom code (Code node ya chhota Laravel
+      endpoint). Yahi tumhara "edge" hai.
+    - Yeh tumhare AI Developer goal ke saath seedha milta hai.
+
+    Data Analytics:
+    - SQL tumhe aata hai. Power BI/Metabase dashboards + client ke MySQL
+      se reports = jaldi paid kaam.
+
+    Tech Sales / Digital Marketing:
+    - Freelancing me client laane ke liye kaam aayenge (cold email,
+      case study, follow-up), bhale full-time na karo.
+
+    Rule wahi: ek chuno, 90 din, proof banao.
+
+
+------------------------------------------------------------
+12. LINKS
+------------------------------------------------------------
+    - n8n docs (self-host)   https://docs.n8n.io/hosting/
+    - n8n repo               https://github.com/n8n-io/n8n
+    - SQL notes              NOTES/database/sql.txt
+    - AI resources           RESOURCES/ai-resource-links.txt
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    Ek skill, 90 din, roz 2 ghante. Certificate nahi, 3 asli kaam ka proof.

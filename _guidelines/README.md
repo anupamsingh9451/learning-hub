@@ -8,6 +8,7 @@ writing style, tone, format, kaam karne ka tareeka. Har guideline ek alag `.md` 
 | File | Kya hai |
 |---|---|
 | `writing-style.md` | Saara content simple, natural Hinglish me kaise likhna hai |
+| `agents.md` | Recurring kaam ke liye Claude Code subagents: kaunse hain, naye kaise banane hain |
 
 ## Nayi guideline kaise add karein
 

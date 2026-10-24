@@ -1,0 +1,181 @@
+EK LAPTOP, DO EDITOR, DO CLAUDE
+===============================
+Topic: ai
+Date: 24-10-2026
+Time: ~15 min setup
+Status: Step B ke 2-3 ho gaye (24-10-2026): .claude-openrouter bana, files
+        copy hui, env block juda. Baaki: key daalna, VS Code settings, Step A.
+Setup: Antigravity = original Claude (mera account)
+       VS Code     = OpenRouter (credit se, per token)
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    Claude Code extension ki setting "claudeCode.environmentVariables" sirf
+    usi editor pe lagti hai. Isliye har editor ka Claude alag jagah se chal
+    sakta hai. Login aur settings alag rakhne ke liye CLAUDE_CONFIG_DIR se
+    OpenRouter wale ko alag folder do.
+
+    Misaal: Ek ghar, do meter. Ek room ka bill mere naam (subscription),
+    doosre room ka prepaid card (OpenRouter credit). Wiring alag, takraav
+    nahi.
+
+
+------------------------------------------------------------
+2. KAISE KAAM KARTA HAI
+------------------------------------------------------------
+    Antigravity --> Claude Code ext --> config: C:\Users\Anupam Singh\.claude
+                                        (default, mera login yahin hai)
+
+    VS Code     --> Claude Code ext --> config: C:\Users\Anupam Singh\.claude-openrouter
+                                        env: ANTHROPIC_BASE_URL = openrouter
+                                             ANTHROPIC_AUTH_TOKEN = OpenRouter key
+
+    - CLAUDE_CONFIG_DIR = woh folder jahan Claude Code login
+      (.credentials.json), settings, history, plugins rakhta hai.
+    - Default folder %USERPROFILE%\.claude hai (Antigravity yahi lega).
+    - Extension me CLAUDE_CONFIG_DIR ka path POORA (absolute) dena, "~"
+      nahi chalta.
+    - Source: code.claude.com/docs/en/vs-code (Extension settings) aur
+      installed extension ki package.json (format: [{name, value}]).
+
+
+------------------------------------------------------------
+3. MERE SYSTEM ME ABHI KYA HAI (24-10-2026 CHECK)
+------------------------------------------------------------
+    - VS Code: Claude Code extension v2.1.308 installed.
+    - VS Code settings.json me pehle se ye Claude env vars hain:
+          ANTHROPIC_BASE_URL = http://127.0.0.1:8082   (local proxy)
+          ANTHROPIC_AUTH_TOKEN = freecc                 (proxy ka dummy token)
+          CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY = 1
+          CLAUDE_CODE_AUTO_MODE_SERVER = 0
+          CLAUDE_CODE_DISABLE_ADVISOR_TOOL = 1
+          CLAUDE_CODE_AUTO_COMPACT_WINDOW = 190000
+          DISABLE_AUTOUPDATER, DISABLE_FEEDBACK_COMMAND, DISABLE_ERROR_REPORTING = 1
+      aur "claudeCode.disableLoginPrompt": true.
+      Matlab VS Code pehle kisi "free claude code" type local proxy se
+      chalane ke liye set kiya gaya tha. Check ke time port 8082 pe kuch
+      nahi chal raha tha.
+    - Antigravity: installed (%LOCALAPPDATA%\Programs\Antigravity), par
+      Claude Code extension NAHI hai.
+    - %USERPROFILE%\.claude me mera login (.credentials.json), CLAUDE.md,
+      RTK.md, settings.json (RTK hook: "rtk hook claude"), plugins, skills.
+
+
+------------------------------------------------------------
+4. STEP A – ANTIGRAVITY = ORIGINAL CLAUDE
+------------------------------------------------------------
+    STEP 1 – Antigravity kholo -> Extensions -> "Claude Code" search ->
+             Install (Anthropic ka; forks me Open VSX se aata hai).
+    STEP 2 – Antigravity ki User Settings (JSON) me koi
+             "claudeCode.environmentVariables" ya ANTHROPIC_* NAHI hona
+             chahiye. Default rehne do.
+    STEP 3 – Claude panel kholo. Login maange toh apne account se login.
+             (Login %USERPROFILE%\.claude me pehle se hai, shayad seedha
+             chal jaaye.)
+    STEP 4 – /status -> account wala login dikhna chahiye, koi custom base
+             URL nahi.
+
+
+------------------------------------------------------------
+5. STEP B – VS CODE = OPENROUTER
+------------------------------------------------------------
+    STEP 1 – OpenRouter key banao (https://openrouter.ai/keys), key pe credit
+             limit lagao (jaise $10). Detail: openrouter-claude.txt
+
+    STEP 2 – Alag config folder banao aur zaroori files copy karo
+             (PowerShell, ek-ek line):
+        New-Item -ItemType Directory -Force "$env:USERPROFILE\.claude-openrouter"
+        Copy-Item "$env:USERPROFILE\.claude\CLAUDE.md","$env:USERPROFILE\.claude\RTK.md","$env:USERPROFILE\.claude\settings.json" "$env:USERPROFILE\.claude-openrouter\"
+        (Plugins/skills copy nahi hote – zaroorat ho toh naye folder me
+        dobara install karo.)
+
+    STEP 3 – "%USERPROFILE%\.claude-openrouter\settings.json" me "env" block
+             jodo. Key SIRF yahin, ek jagah:
+        {
+            "env": {
+                "ANTHROPIC_BASE_URL": "https://openrouter.ai/api",
+                "ANTHROPIC_AUTH_TOKEN": "<openrouter-key>",
+                "ANTHROPIC_API_KEY": "",
+                "CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY": "1",
+                "ANTHROPIC_DEFAULT_OPUS_MODEL": "anthropic/claude-opus-5.5",
+                "ANTHROPIC_DEFAULT_SONNET_MODEL": "anthropic/claude-sonnet-5.5",
+                "ANTHROPIC_DEFAULT_HAIKU_MODEL": "anthropic/claude-haiku-5.5"
+            },
+            ... (copy hui baaki settings – hooks, permissions – waise hi)
+        }
+
+    STEP 4 – VS Code: Ctrl+Shift+P -> "Preferences: Open User Settings
+             (JSON)". Purane proxy wale entries HATAO (BASE_URL 8082,
+             freecc) aur ye rakho:
+        "claudeCode.disableLoginPrompt": true,
+        "claudeCode.environmentVariables": [
+            { "name": "CLAUDE_CONFIG_DIR", "value": "C:\\Users\\Anupam Singh\\.claude-openrouter" }
+        ],
+        "terminal.integrated.env.windows": {
+            "CLAUDE_CONFIG_DIR": "C:\\Users\\Anupam Singh\\.claude-openrouter"
+        }
+        Purane me se ye chahe toh rakh sakte ho: CLAUDE_CODE_AUTO_COMPACT_WINDOW,
+        DISABLE_AUTOUPDATER, DISABLE_ERROR_REPORTING.
+
+    STEP 5 – VS Code restart. Claude panel me /status:
+             base URL = https://openrouter.ai/api, token = ANTHROPIC_AUTH_TOKEN.
+             VS Code terminal me "claude" bhi OpenRouter se chalega.
+
+
+------------------------------------------------------------
+6. CHECK KARNA – DONO SAHI CHAL RAHE HAIN?
+------------------------------------------------------------
+    [ ] Antigravity /status -> mera account, koi base URL nahi
+    [ ] VS Code /status -> OpenRouter base URL
+    [ ] VS Code me ek chhota sawaal -> https://openrouter.ai/activity pe
+        request dikhe
+    [ ] Antigravity ka sawaal OpenRouter activity me NA dikhe
+    [ ] VS Code me "Usage" bars nahi dikhenge (third-party provider pe yeh
+        normal hai)
+
+
+------------------------------------------------------------
+7. WAPAS KAISE (UNDO)
+------------------------------------------------------------
+    - VS Code settings se "claudeCode.environmentVariables" aur
+      "terminal.integrated.env.windows" ki CLAUDE_CONFIG_DIR line hatao,
+      "claudeCode.disableLoginPrompt" false karo, restart -> phir se mera
+      account (%USERPROFILE%\.claude).
+    - %USERPROFILE%\.claude-openrouter folder delete kar sakte ho (usme key
+      hai, delete karna safe hai; OpenRouter pe key bhi revoke karo).
+
+
+------------------------------------------------------------
+8. GALTIYAN / GOTCHAS
+------------------------------------------------------------
+    - CLAUDE_CONFIG_DIR me "~\.claude-openrouter" likha – extension ne
+      ignore kiya, default folder use hua. Poora path do.
+    - Purana proxy (127.0.0.1:8082) settings me reh gaya – requests band
+      proxy pe gayi, "connection refused".
+    - ANTHROPIC_API_KEY kahin set reh gaya – Claude Code ne seedha Anthropic
+      ko try kiya. OpenRouter wale me khaali rakho.
+    - Naye folder me RTK hook, CLAUDE.md nahi the – copy karna bhool gaya.
+    - History alag hai: VS Code (OpenRouter) ki purani chats Antigravity me
+      nahi dikhengi, aur ulta bhi.
+    - Key plain text me settings.json me hai – folder kisi ko mat bhejo,
+      backup/screenshot me dhyan.
+    - OpenRouter wale editor me lambi agent sessions = credit jaldi khatam.
+      Roz ka bhaari kaam Antigravity (subscription) me karo.
+
+
+------------------------------------------------------------
+9. LINKS
+------------------------------------------------------------
+    - Claude Code VS Code ext   https://code.claude.com/docs/en/vs-code
+    - Claude Code settings      https://code.claude.com/docs/en/settings
+    - OpenRouter + Claude Code  https://openrouter.ai/docs/guides/guides/claude-code-integration
+    - OpenRouter note           NOTES/ai/claude-code/openrouter-claude.txt
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    Har editor ka apna CLAUDE_CONFIG_DIR. Original = default .claude,
+    OpenRouter = .claude-openrouter, aur key sirf ek jagah.

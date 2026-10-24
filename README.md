@@ -17,7 +17,7 @@
 | `CHEATSHEETS/` | 2-min quick-reference, NOTES jaise hi group folders — [CHEATSHEETS/README.md](CHEATSHEETS/README.md) |
 | `PRACTICE/` | Chhote code exercises, DSA, katas, snippets |
 | `PROJECTS/` | Learning ke liye banaye mini projects (har ek ka apna folder) |
-| `RESOURCES/` | Courses, books, videos, articles ke links |
+| `RESOURCES/` | `resources.txt` = courses, books, videos. `dev-tools.txt` = 140+ kaam ki websites/tools (UI, icons, AI, auth, payments, deploy…). `ai-resource-links.txt` = AI/Claude Code resources ki list |
 | `JOURNAL/` | Roz ka TIL (Today I Learned) + weekly review |
 | `_templates/` | Note / weekly review / project ke templates |
 | `_guidelines/` | Agents (Claude) ke liye standing rules: writing style, tone, format |

@@ -1,0 +1,645 @@
+AI SE ASLI SAAS BANANA – 15 LAYER PLAYBOOK
+=========================================
+Topic: ai
+Date: 24-10-2026
+Time: ~60 min (har layer alag se, kaam karte waqt wahi layer kholo)
+Status: learning
+Source: "Vibe Coding a Real SaaS: The 15-Layer Playbook" (PDF, @woke_engineer)
+        apne shabdon me, aur har layer me "Laravel me kaise" joda hai.
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    Ek prompt se website ban jaati hai, par SaaS (paise lene wala, kai
+    customers wala software) ke neeche 15 aur layers chahiye: database,
+    login, permissions, payments, testing, security, monitoring...
+
+    Misaal: Prompt se ghar ka "front elevation" ban gaya. Par ghar me
+    rehne ke liye neev, wiring, plumbing, taala, fire alarm bhi chahiye.
+    AI wahi banata hai jo tum maangte ho. Baaki yeh note yaad dilata hai.
+
+    Har layer me 4 cheezein:
+    - Kya hai (simple bhasha me)
+    - AI kya galti karta hai (agar tum saaf na bolo)
+    - Kaunse faisle TUMHARE hain
+    - Kya maango (prompt) + kaise check karo (verify)
+
+
+------------------------------------------------------------
+2. PART 0 – PEHLE AGENT KO TAIYAR KARO
+------------------------------------------------------------
+    Zyada tar AI-built SaaS yahin fail hote hain. Bina "project memory"
+    ke agent har session me naye, alag faisle leta hai.
+
+    2.1 Project memory file
+        Claude Code har session me repo root ki CLAUDE.md padhta hai.
+        Codex AGENTS.md padhta hai. Ek file rakho, doosri usi ki copy.
+
+        Kya likho:
+        - Product kya karta hai (2-3 line, user kaun, problem kya)
+        - Stack (bina pooche mat badalna): frontend, backend, DB, ORM,
+          auth, hosting
+        - Rules: secrets kabhi commit nahi (.env.example me naam),
+          har endpoint me validation + auth + authorization + test,
+          har DB change migration se, "done" se pehle lint/type/test,
+          nayi dependency se pehle poocho, ek feature = ek branch
+        - Commands: dev, test, lint, migrate
+        - Decisions kahan likhe hain (/docs/decisions/)
+
+        Har naya faisla = CLAUDE.md update. Agentic coding ki sabse
+        fayde wali aadat yahi hai.
+
+    2.2 Har layer ka working loop
+        STEP 1 – Pehle plan, phir code (Claude Code me plan mode)
+        STEP 2 – Plan khud padho. Galat faisla yahin sasta pakda jaata hai.
+        STEP 3 – Chhote steps me, alag branch pe implement
+        STEP 4 – Agent khud tests, lint, typecheck chala ke output dikhaye
+        STEP 5 – Merge se pehle diff khud padho
+        STEP 6 – Faisla CLAUDE.md ya /docs/decisions/ me likho
+
+    2.3 Agent ke kaam ke features
+        - Slash commands: prompts ko .claude/commands/ me file bana ke
+          rakho, phir /security-review jaisa chalao.
+        - Subagents: alag "reviewer" jo sirf kami nikaale.
+        - Hooks: har file edit ke baad linter apne aap chale.
+        - MCP: agent ko asli tools (DB, GitHub, Sentry, docs) se jodo.
+        Docs: https://code.claude.com/docs/en/overview
+
+    2.4 "Mujhe bewakoof mat banao" prompt (har bade kaam ke end me jodo)
+        Before saying done: run lint, typecheck and the full test suite and
+        show the output; list every changed file and why; list anything you
+        skipped, stubbed, mocked or hard-coded; list assumptions I should
+        confirm. Never call it complete while a test fails or is skipped.
+
+
+------------------------------------------------------------
+3. 15 LAYERS EK NAZAR ME
+------------------------------------------------------------
+    #   Layer                  Phase        Laravel me (tumhara stack)
+    --  ---------------------  -----------  ---------------------------------
+    1   System design          Plan         /docs/system-design.md
+    2   Architecture           Plan         modular monolith, app/Services
+    3   Database & storage     Foundation   migrations, tenant scope, S3
+    4   Auth & permissions     Foundation   starter kit/Sanctum, Policies
+    5   APIs & backend         Foundation   FormRequest, Resources, Jobs
+    6   Frontend               Product      Blade/Inertia + design system
+    7   CI/CD & git            Ship         GitHub Actions, Pint, Pest
+    8   Testing                Ship         Pest, RefreshDatabase, Dusk
+    9   Hosting                Ship         Laravel Cloud/Forge, alag DBs
+    10  Security               Harden       composer audit, policies
+    11  Rate limiting          Harden       RateLimiter + Redis
+    12  Caching & CDN          Harden       Cache::remember (tenant key)
+    13  Errors & logs          Operate      Log::withContext, Sentry
+    14  Monitoring & alerts    Operate      /up route, Pulse, uptime
+    15  Scaling                Grow         k6, queues, Octane, replicas
+
+    Order wahi rakho jisme banana hai (yeh table usi order me hai).
+
+
+------------------------------------------------------------
+4. LAYER 1 – SYSTEM DESIGN
+------------------------------------------------------------
+    Kya hai : Code se pehle "kya aur kitna": users kaun, kya karte hain,
+              kitna data/traffic, kya kabhi nahi tootna chahiye.
+    AI galti: Seedha code, apne aap requirements bana leta hai. Ya toy
+              banata hai (ek user) ya over-engineer (10 users ke liye
+              microservices). Multi-tenancy bhool jaata hai (ek customer
+              ka data doosre se alag kaise rahe).
+    Tumhare faisle:
+              - Customer kaun: individual, team ya company (poora data
+                model isi pe tikta hai)
+              - Pricing: free tier, per seat, usage-based
+              - Pehle saal ka asli load
+              - Kya zaroori: uptime, privacy, compliance (India me DPDP Act)
+    Kya maango:
+              a) "Interview me": koi code nahi, mujhse sawal poocho (roles,
+                 3-5 main workflows, tenancy, data kitna sensitive, scale,
+                 billing, compliance, integrations), phir
+                 /docs/system-design.md likho (out-of-scope section ke saath).
+              b) "Skeptical staff engineer" ban ke design review karo:
+                 kami, risk, over-engineering, severity se.
+              c) Capacity ka hisaab: peak requests/sec, DB size, files,
+                 background jobs. Maths dikhao, pehla bottleneck batao.
+    Verify  : [ ] system-design.md poora padha
+              [ ] Tenancy model saaf likha hai
+              [ ] "Out of scope" section hai (warna agent features jodta
+                  rahega)
+    Laravel : EduAssist me tenant = institution. Har tenant table me
+              institution_id.
+
+
+------------------------------------------------------------
+5. LAYER 2 – SYSTEM ARCHITECTURE
+------------------------------------------------------------
+    Kya hai : Building blocks: kaun si services, kaise baat karti hain,
+              data kahan, background me kya chalta hai, kaun si bahar ki
+              services.
+    AI galti: Training data me jo common hai woh stack, tumhare liye sahi
+              nahi. Dependencies bharta hai (3 date libraries). UI me
+              business logic, har route me DB calls. Background jobs bhool
+              ke sab request me karta hai.
+    Tumhare faisle:
+              - Monolith vs services -> shuru me MODULAR MONOLITH
+              - Managed vs self-hosted
+              - Language/framework: jo tum raat 2 baje debug kar sako
+    Kya maango:
+              a) Architecture proposal: Mermaid diagram, har layer ka stack +
+                 ek alternative aur kyun nahi, folder structure, background
+                 jobs kahan, third-party services ki cost, 3 sabse risky
+                 faisle. /docs/architecture.md me, code nahi.
+              b) Har bade faisle ka ADR (/docs/decisions/0001-title.md:
+                 context, decision, alternatives, consequences) + CLAUDE.md
+                 me stack summary.
+              c) Scaffold: folder structure, strict types, linter, formatter,
+                 .env.example (har variable samjhaya), README, /api/health.
+                 Features nahi. Dev server + health check chala ke dikhao.
+    Verify  : [ ] Diagram ka har box samjha sakte ho
+              [ ] Har dependency ki wajah hai
+              [ ] Business logic alag layer (services/domain) me
+    Laravel : app/Services ya app/Actions, controllers patle. Jobs ke liye
+              Redis queue + Horizon.
+
+
+------------------------------------------------------------
+6. LAYER 3 – DATABASE & STORAGE
+------------------------------------------------------------
+    Kya hai : Data kahan: structured data relational DB me, files object
+              storage (S3, R2) me, kabhi cache/queue.
+    AI galti: Migration nahi, schema seedha badalta hai. Index nahi (100
+              rows pe theek, 1 lakh pe slow). organization_id nahi = ek
+              customer ka data doosre ko. Files DB me ya public. Backup,
+              soft delete, timestamps nahi.
+    Tumhare faisle:
+              - DB: Postgres safe default
+              - Hosted provider, backup policy
+              - Account delete pe kya-kya delete hoga
+    Kya maango:
+              a) Schema: har tenant table me organization_id (FK), id (UUID),
+                 created_at/updated_at, zaroorat pe deleted_at, har FK aur
+                 filter/sort column pe index, NOT NULL/UNIQUE/CHECK
+                 constraints, paisa integer paise me (float kabhi nahi).
+                 Pehle ERD (Mermaid) + har index ki wajah, migration baad me.
+              b) Migration + seed: 2 organisations x 3 users, taaki tenant
+                 isolation test ho.
+              c) File upload: private by default, browser se seedha
+                 pre-signed URL, server pe type/size check, DB me sirf key,
+                 download ke liye chhote time ka signed URL (auth check ke
+                 baad), path me organization_id.
+              d) Query review: N+1, bina index, SELECT *, bina pagination,
+                 organization_id filter ke bina query – table me.
+              e) Backup runbook + restore ko alag DB me test karne ka script.
+    Verify  : [ ] Har schema change migration file me, git me
+              [ ] Org A ka user URL me ID badal ke Org B ka data maange –
+                  fail hona chahiye
+              [ ] Kam se kam ek baar backup restore kiya
+    Laravel : Global scope / trait (BelongsToTenant) jo har query me
+              where institution_id lagaye. Private files:
+              Storage::disk('s3')->temporaryUrl($path, now()->addMinutes(5)).
+              Detail: NOTES/database/postgresql.txt
+
+
+------------------------------------------------------------
+7. LAYER 4 – AUTH & PERMISSIONS
+------------------------------------------------------------
+    Kya hai : Authentication = tum kaun ho (login, signup, reset).
+              Authorization = tum kya kar sakte ho (roles, kis org ka data).
+    AI galti: Password hashing/session khud likhta hai. Permission sirf
+              frontend me (button chhupana). Login check karta hai par
+              "yeh record isi user ka hai?" nahi – yeh IDOR hai, SaaS ki
+              sabse common security galti. Email verify, reset expiry,
+              session revoke bhool jaata hai.
+    Tumhare faisle:
+              - Provider: Clerk, Auth0, Supabase Auth, Auth.js, WorkOS (SSO)
+              - Roles simple: Owner, Admin, Member, Viewer
+              - Login: email+password, magic link, Google, SSO
+    Kya maango:
+              a) Proven provider se auth (khud hashing nahi): signup, login,
+                 logout, verify, reset, Google, session expiry. Middleware jo
+                 har request pe current user + org jode.
+              b) Permission matrix (/docs/permissions.md, role x action), ek
+                 hi central can(user, action, resource) function, har tenant
+                 resource pe org match check, server hi source of truth.
+              c) Tests (critical): bina login 401, bina permission 403,
+                 doosri org ka resource 404 (403 nahi), har role bilkul
+                 matrix jitna – matrix se tests generate.
+              d) Team: invite (7 din me expire), accept, role change, remove
+                 (sessions turant revoke), ownership transfer, last owner
+                 leave nahi kar sakta.
+    Verify  : [ ] DevTools se request copy karke doosri org ki ID – 404
+              [ ] Viewer seedha delete API call kare – 403
+              [ ] Kahin custom password hashing code nahi
+    Laravel : Starter kit (login ready) + Sanctum (API). Policies = can().
+              Tenant scope laga ho toh doosri org ka record findOrFail()
+              se apne aap 404. spatie/laravel-permission roles ke liye.
+
+
+------------------------------------------------------------
+8. LAYER 5 – APIs & BACKEND LOGIC
+------------------------------------------------------------
+    Kya hai : Server ke rules: endpoints, validation, business logic,
+              background jobs, webhooks, payments.
+    AI galti: Input validate nahi. Har endpoint ka error format alag.
+              Slow kaam (email, bahar ki API) request ke andar. Payment/
+              webhook do baar chale toh double charge. List pe pagination
+              nahi.
+    Tumhare faisle:
+              - REST / tRPC / GraphQL (zyada tar REST kaafi)
+              - Payments: Razorpay (India), Stripe, Paddle/Lemon Squeezy
+              - Job system: Laravel queues, BullMQ, Inngest, Trigger.dev
+    Kya maango:
+              a) API conventions doc: URL style, ek error format + codes, har
+                 input pe validation, cursor pagination, auth/org context
+                 kaise padhna, status codes. Purane endpoints ko match karo.
+              b) Feature API: logic services me, route patla, har input
+                 validate, har operation pe can(), har query org filter,
+                 cursor pagination. Unit + integration tests (cross-tenant
+                 bhi).
+              c) Background jobs: idempotent (do baar chale toh bhi theek),
+                 exponential backoff, max retries, failure ka log, failed jobs
+                 dekhne ka tareeka.
+              d) Payments: subscription state ka sach webhook se (checkout
+                 redirect se nahi), signature verify, processed event IDs
+                 save (idempotent), success/fail/cancel/plan change/refund,
+                 ek hasFeature(org, feature) helper. Har webhook do baar
+                 replay karke test. Sirf test keys.
+    Verify  : [ ] Kachra JSON bhejo – saaf 400, stack trace nahi
+              [ ] Same webhook do baar – kuch duplicate nahi
+              [ ] 1 sec se lambi request – ya wajah hai ya job me gayi
+    Laravel : FormRequest (validation), API Resources (response shape),
+              ShouldQueue jobs ($tries, backoff()), Horizon. Razorpay
+              webhook signature verify + processed_events table pe unique
+              event_id.
+
+
+------------------------------------------------------------
+9. LAYER 6 – FRONTEND
+------------------------------------------------------------
+    Kya hai : Jo user dekhta/chhoota hai: pages, forms, loading, errors,
+              mobile, accessibility.
+    AI galti: Sirf "happy path" – loading, empty, error states nahi.
+              Generic "AI ne banaya" look. Labels, keyboard, contrast nahi.
+              Bade components, duplicate code. Secrets client code me.
+    Tumhare faisle:
+              - Design direction (references, screenshots do)
+              - Component library (shadcn/ui, Radix, MUI)
+              - Launch ke liye kaunsi screens zaroori
+    Kya maango:
+              a) Pehle design system: color tokens (dark mode), type scale,
+                 spacing, radius, base components (Button, Input, Select,
+                 Modal, Toast, Table, EmptyState, ErrorState, Skeleton), ek
+                 /design page jo sab states dikhaye.
+              b) Har screen 4 states: loading (skeleton), empty (message +
+                 action), error (message + retry), success. Forms: server
+                 jaise rules, submit disable while pending, inline errors.
+                 375px mobile pe bhi chale.
+              c) Accessibility (WCAG 2.1 AA) audit + axe test.
+              d) Frontend me secrets dhoondho aur hatao.
+    Verify  : [ ] Wi-Fi band karke app chalao – har screen sahi error
+              [ ] Sirf keyboard se poora app
+              [ ] Asli phone pe kholo
+    Notes   : NOTES/html/ui-styles.txt, NOTES/ai/ai-3d-product-website.txt
+
+
+------------------------------------------------------------
+10. LAYER 7 – CI/CD & VERSION CONTROL
+------------------------------------------------------------
+    Kya hai : Git = har badlav track. CI = har push pe lint/type/test
+              apne aap. CD = pass hua code apne aap staging/production.
+    AI galti: Bade commits me 10 kaam. .env commit. CI nahi. Migrations
+              haath se, kabhi chali kabhi nahi.
+    Tumhare faisle:
+              - main hamesha deployable, feature branch + PR
+              - Environments: local, staging (preview), production
+              - Production deploy apne aap ya tumhari approval se
+    Kya maango:
+              a) Git hygiene: .gitignore, pre-commit (lint/format), secret
+                 scanner (gitleaks), Conventional Commits. Poori history me
+                 secrets scan.
+              b) CI (GitHub Actions): install (cache) -> lint -> typecheck ->
+                 unit -> integration (asli Postgres container) -> build.
+                 10 min ke andar.
+              c) CD: har PR ka preview, main -> staging apne aap, production
+                 manual approval, migrations deploy ke andar (fail = deploy
+                 fail), rollback runbook.
+              d) Agent ke liye: har task nayi branch, chhote commits, PR me
+                 kya/kyun/kaise test/risk. main pe seedha push nahi.
+    Verify  : [ ] Fail hone wale test ke saath PR – CI rok de
+              [ ] Ek baar jaan-boojh ke rollback practice
+              [ ] git log kahani jaisa, "fix", "fix2" nahi
+    Laravel : CI me: composer install, Pint (--test), Larastan, Pest,
+              npm run build. Deploy me php artisan migrate --force.
+
+
+------------------------------------------------------------
+11. LAYER 8 – TESTING
+------------------------------------------------------------
+    Kya hai : Automated checks jo saabit karein ki app sahi chal rahi hai
+              aur badlav ke baad bhi chalegi. Unit (ek function),
+              integration (API + DB), end-to-end (asli browser).
+    AI galti: Mocks ko test karta hai, asli behaviour ko nahi. TEST BADAL
+              DETA HAI taaki pass ho jaaye (iska sabse zyada dhyan rakho).
+              Fail test chupchap skip/delete. Sirf happy path.
+    Tumhare faisle:
+              - Kya kabhi nahi tootna chahiye: signup, login, payment, core
+                workflow, tenant isolation -> E2E tests
+              - Coverage: business logic pe 70-80% kaafi, 100% ki zid nahi
+    Kya maango:
+              a) /docs/testing.md: services ke unit, har endpoint ke
+                 integration (asli test DB), critical flows ke Playwright
+                 E2E. Mock sirf bahar ki APIs, apna DB/auth kabhi nahi.
+              b) Purane code ke tests: happy, invalid, boundary, permission,
+                 cross-tenant. Code mat badlo; bug mile toh ruk ke batao.
+              c) Bug fix TDD: pehle fail hone wala test (dikhao), phir fix,
+                 phir poora suite green.
+              d) Test quality review: kaun se tests feature toote tab bhi
+                 pass honge, skipped, flaky, bina coverage wale paths.
+    Verify  : [ ] Business logic ki ek line todo – koi test fail ho
+              [ ] .skip / xit / markTestSkipped dhoondho, har ek ki wajah
+              [ ] Har session ke baad: test files me bina pooche badlav?
+    Laravel : Pest + RefreshDatabase, Http::fake() bahar ki APIs ke liye,
+              E2E ke liye Playwright ya Laravel Dusk.
+
+
+------------------------------------------------------------
+12. LAYER 9 – HOSTING & CLOUD
+------------------------------------------------------------
+    Kya hai : Production me app kahan chalti hai: frontend, backend, DB,
+              storage, DNS, domain, SSL, env variables.
+    AI galti: Shuru me hi Kubernetes/Terraform. Staging aur production
+              ek hi DB. URLs hard-coded. Cost bhool jaata hai, surprise bill.
+    Tumhare faisle:
+              - Platform: managed (Vercel, Railway, Render, Laravel Cloud)
+                shuru me sahi
+              - Region: users ke paas (data residency)
+              - Budget limit + billing alerts
+    Kya maango:
+              a) Hosting plan: har component ka provider, plan, cost (launch
+                 pe aur 10x pe), 10x pe kya badlega. /docs/hosting.md
+              b) Env config: .env.example (har variable samjhaya), start pe
+                 zaroori variable na ho toh app saaf error de ke ruke,
+                 local/staging/prod alag, kuch hard-coded nahi.
+              c) Production: domain + HTTPS, security headers, alag prod DB
+                 + auto backup, health check, graceful shutdown, deploy
+                 runbook.
+    Verify  : [ ] Staging aur prod ke DB aur API keys alag
+              [ ] Har provider pe billing alert
+              [ ] Zaroori env hatao – app saaf message ke saath start na ho
+    Laravel : Laravel Cloud ya Forge + VPS. Tools ki list:
+              RESOURCES/dev-tools.txt (Deploy section).
+
+
+------------------------------------------------------------
+13. LAYER 10 – SECURITY
+------------------------------------------------------------
+    Kya hai : Users ka data aur system attacks se bachana: injection, XSS,
+              broken access control, leaked secrets, purani dependencies.
+    AI galti: Attacker ki tarah nahi sochta. Input pe bharosa (queries,
+              HTML, file paths, redirects). Passwords/tokens log me.
+              Vulnerable packages. Production me debug aur lambe errors.
+    Tumhare faisle:
+              - Kaunsa data sensitive, kaise bachega
+              - Compliance
+              - Sensitive data se pehle professional pentest?
+    Kya maango:
+              a) Threat model (/docs/security/threat-model.md): assets,
+                 har entry point (endpoint, upload, webhook, form), OWASP
+                 Top 10 threats, likelihood/impact, kya hai aur kya missing.
+              b) Har release se pehle security review: access control/org
+                 scope, injection, XSS, CSRF, open redirect/SSRF, uploads,
+                 secrets/logs, security headers (CSP, HSTS), lambe errors,
+                 cookie settings. File, line, severity, exploit, fix. Abhi
+                 fix nahi.
+              c) Dependency audit + Dependabot/Renovate + CI me audit.
+              d) Data protection: sensitive fields encrypt, logs se redaction,
+                 account delete (data hatao/anonymise), data export.
+    Verify  : [ ] Review naye session ya alag reviewer subagent se (jisne
+                  likha usse nahi)
+              [ ] Har text field me <script>alert(1)</script> – kuch pop na ho
+              [ ] Logs me email/token/password dhoondho
+    Dhyan   : AI review bahut pakadta hai, par payment/health/financial data
+              ho toh professional audit ka substitute nahi.
+    Laravel : composer audit, npm audit, Blade {{ }} escaping, CSRF built-in,
+              encrypted casts ('aadhaar' => 'encrypted'). Claude Code me
+              /security-review command bhi hai.
+
+
+------------------------------------------------------------
+14. LAYER 11 – RATE LIMITING
+------------------------------------------------------------
+    Kya hai : Ek time me kitni requests – limit. Brute-force login,
+              scrapers, abuse aur bade bill (paid AI API) se bachav.
+    AI galti: Bina maange lagata hi nahi. Memory me counter (deploy pe
+              reset, kai servers pe kaam nahi). Ek hi global limit.
+    Tumhare faisle:
+              - Route ke hisaab se: login/signup sabse sakht, mehnge
+                endpoints, phir reads
+              - Plan ke hisaab se (free vs paid)
+              - Limit pe kya: block, queue, ya extra charge
+    Kya maango:
+              a) Shared store (Redis) pe rate limit: login/signup/reset (jaise
+                 15 min me 5, IP aur email dono pe), mehnge endpoints per org,
+                 general per user, public per IP. 429 + Retry-After + standard
+                 error. Plan pe configurable. Har limit todne ka test.
+              b) AI/paid API cost protection: org ka daily/monthly quota plan
+                 se, usage DB me, global hard cap (feature band), 80% pe alert,
+                 customer ke liye usage page.
+              c) Abuse review: signup spam, invite/reset email abuse, error
+                 messages se user enumeration, scraping, webhook flood.
+    Verify  : [ ] Login 20 baar loop me – block
+              [ ] Redeploy ke baad bhi limit kaam kare
+              [ ] "Galat password" aur "user nahi" ka message same
+    Laravel : RateLimiter::for('login', ...) AppServiceProvider me,
+              throttle middleware, CACHE_STORE=redis. NOTES/database/redis.txt
+
+
+------------------------------------------------------------
+15. LAYER 12 – CACHING & CDN
+------------------------------------------------------------
+    Kya hai : Caching = result yaad rakhna taaki baar-baar na banana pade.
+              CDN = static files (JS, CSS, images) user ke paas ke server se.
+    AI galti: Bahut zyada cache – purana ya DOOSRE TENANT ka data dikh
+              jaaye. Ya kuch cache nahi. Invalidation bhool jaata hai.
+              Bhaari images.
+    Tumhare faisle:
+              - Kya purana chal sakta hai, kitni der
+              - Cache store (platform CDN + Redis)
+    Kya maango:
+              a) Caching strategy doc: har cheez (static, public pages, API,
+                 bhaari queries, bahar ki API) kahan cache, TTL, key,
+                 invalidation. Rule: tenant data ki key me organization_id,
+                 login wale responses shared CDN pe kabhi nahi.
+              b) CDN: hashed filenames + lambi cache, images optimise,
+                 sahi Cache-Control (static, public, private/no-store).
+              c) Redis cache-aside, key me org id, har write pe invalidate,
+                 debug ke liye bypass. Test: update pe invalidate, do orgs
+                 ka data kabhi mix nahi.
+    Verify  : [ ] Do browsers, do alag orgs – kabhi doosre ka data nahi
+              [ ] Update ke baad nayi value turant (ya TTL ke andar)
+              [ ] Lighthouse audit
+    Laravel : Cache::remember("inst:{$id}:dashboard", 600, fn() => ...),
+              Vite hashed assets, Cache::tags() group invalidate ke liye.
+
+
+------------------------------------------------------------
+16. LAYER 13 – ERROR TRACKING & LOGS
+------------------------------------------------------------
+    Kya hai : Error tracking har crash ko stack trace + user + context ke
+              saath pakadta hai (Sentry). Logs = system ne kya kiya, search
+              karne layak record.
+    AI galti: Har jagah console.log, koi level nahi. Khaali catch blocks –
+              error chupchap gaayab. Sensitive data log me. Ek request ko
+              poore system me trace karne ka tareeka nahi.
+    Tumhare faisle:
+              - Error tool: Sentry, Rollbar...
+              - Logs kahan aur kitne din: platform, Axiom, Better Stack
+    Kya maango:
+              a) Structured logger (JSON, levels): har request ka request ID
+                 (har log line + response header me), user_id aur org_id,
+                 password/token/secret apne aap redact, production me debug
+                 off. Ek example log line dikhao.
+              b) Sentry frontend + backend: user/org/request ID (email nahi),
+                 source maps upload par public nahi, staging/prod alag,
+                 staging me test error route.
+              c) Error handling cleanup: khaali/bahut broad catch, ignored
+                 promise rejections – ya theek se handle ya report. User ko
+                 friendly message, detail tracker me.
+    Verify  : [ ] Staging me error – 1 min me tracker me, padhne layak trace
+              [ ] Response header ki request ID se saari log lines mil jaayein
+              [ ] Logs me "password" search – zero result
+    Laravel : Log::withContext(['request_id' => ..., 'institution_id' => ...])
+              middleware me, sentry/sentry-laravel package, Telescope sirf
+              local.
+
+
+------------------------------------------------------------
+17. LAYER 14 – MONITORING & ALERTS
+------------------------------------------------------------
+    Kya hai : Users ke batane se PEHLE pata ho ki app theek hai: uptime,
+              performance, business metrics, aur alerts jo sirf zaroorat pe
+              jagayein.
+    AI galti: Kuch set hi nahi. Itne alerts ki sab ignore. Sirf server
+              monitor, "user asli kaam kar pa raha hai?" nahi.
+    Tumhare faisle:
+              - "Down" ya "slow" ka matlab tumhare product ke liye
+              - Kisko, kaise (email, Slack, SMS) alert
+              - Target (jaise 99.9% uptime)
+    Kya maango:
+              a) Monitoring plan: uptime checks (home, login, health, core
+                 workflow), technical metrics (error rate, p95 latency, DB
+                 connections, job queue), business metrics (signups,
+                 payments), alert rules. Sirf woh alerts jin pe insaan ko kuch
+                 karna ho.
+              b) Asli health check: DB, cache, job system (timeouts ke saath),
+                 component-wise status + halka /live check.
+              c) Har alert ka runbook: matlab kya, asar kaise dekhein, wajah,
+                 fix steps, kab escalate.
+              d) Status page + incident process + post-incident review template.
+    Verify  : [ ] Staging me DB band karo – alert tay time me aaye
+              [ ] Har alert ka runbook
+              [ ] Hafte me ek baar dashboard dekha
+    Laravel : Laravel 11+ me /up health route pehle se (bootstrap/app.php).
+              Laravel Pulse metrics ke liye. Uptime: Better Stack.
+
+
+------------------------------------------------------------
+18. LAYER 15 – SCALING
+------------------------------------------------------------
+    Kya hai : Zyada users/data/traffic bina slow hue, bina girne aur bina
+              cost phatne ke.
+    AI galti: Jo scale hai hi nahi uske liye over-engineering (day one pe
+              sharding, Kubernetes). Ya basics bhool jaata hai jo sach me
+              pehle tootte hain: index, N+1, connection pooling, heavy kaam
+              request me.
+    Tumhare faisle:
+              - Kab scale: PEHLE NAAPO, phir asli bottleneck theek karo
+              - Budget
+    Kya maango:
+              a) Load test (k6): top 5 endpoints + core flow, N users 10 min
+                 me ramp up, staging pe. p50/p95/p99, error rate, kahan se
+                 slow, bottleneck.
+              b) Scaling readiness: app stateless hai (sessions, uploads, rate
+                 limit memory me nahi), pooling sahi, slow queries (EXPLAIN),
+                 heavy kaam jobs me, bina limit queries, bade payloads. 10x
+                 aur 100x pe pehle kya tootega.
+              c) Bottleneck ke 3 options (simple se complex, cost/effort),
+                 sabse simple wala jo target pura kare, before/after numbers.
+              d) 10x aur 100x pe monthly cost, sabse mehenga component.
+    Verify  : [ ] Load test ke asli numbers, andaaza nahi
+              [ ] Backend ke 2 instances ek saath bina tootne ke
+              [ ] Har optimisation ke before/after numbers
+    Laravel : Sessions/cache Redis me (stateless), queue workers badhao,
+              read replicas, PgBouncer, Octane sabse aakhir me.
+
+
+------------------------------------------------------------
+19. 15 KE BAAD – AUR KYA AATA HAI
+------------------------------------------------------------
+    - Emails: provider, templates, SPF/DKIM/DMARC (spam me na jaayein)
+    - Analytics: users asal me kya karte hain
+    - Feature flags: pehle kuch users ko, tootne pe turant band
+    - Legal: terms, privacy policy, cookie consent
+    - Admin panel: support ke liye internal tools + audit log
+    - Audit logs: har org me kisne kya kiya (enterprise maangte hain)
+    - Onboarding: pehli baar ka experience, sample data, help docs
+    - Internationalisation: bhasha, currency, timezone
+    - Disaster recovery: "provider down" ya "data delete" ka tested plan
+
+    Har ek ke liye wahi loop: plan -> review -> chhota implement ->
+    verify -> faisla likho.
+
+
+------------------------------------------------------------
+20. 10 GOLDEN RULES
+------------------------------------------------------------
+    1)  Tum architect ho, agent builder. Pehle faisla, phir kaam do.
+    2)  Har baar pehle plan. Plan sudharna sasta, code sudharna mehenga.
+    3)  Likh ke rakho. CLAUDE.md/AGENTS.md aur /docs agent ki yaaddasht hain.
+    4)  Chhote task, chhote diff. Ek feature ek branch.
+    5)  Agent saabit kare: tests, lint, typecheck ka output dikhaye.
+    6)  Test badal ke pass karna mana. Bug code me theek hota hai.
+    7)  Review fresh nazar se: naya session ya reviewer subagent.
+    8)  Server hi sach: validation, permission, limits backend pe.
+    9)  Har tenant query scoped: organization_id har jagah, tested.
+    10) Diff padho. Samajh na aaye toh merge se pehle agent se samjho.
+
+
+------------------------------------------------------------
+21. PRE-LAUNCH CHECKLIST
+------------------------------------------------------------
+    [ ] Cross-tenant access test kiya aur block hai
+    [ ] Auth proven provider se, custom password code nahi
+    [ ] Har endpoint server pe validate + permission check
+    [ ] Payments verified, idempotent webhooks se
+    [ ] CI fail test pe merge roke, production ka rollback hai
+    [ ] Critical flows ke E2E tests
+    [ ] Staging aur production alag (DB bhi)
+    [ ] Backups on, restore asli me test kiya
+    [ ] Security review + dependency audit
+    [ ] Login, signup, mehnge endpoints pe rate limit
+    [ ] Tenant data shared cache/CDN pe nahi
+    [ ] Errors tracker me, logs structured aur redacted
+    [ ] Uptime checks + alerts, har ek ka runbook
+    [ ] Launch traffic pe load test
+    [ ] Har provider pe billing alert
+    [ ] Terms aur privacy policy live
+
+    Code AI ne likha. Yeh 15 cheezein ab bhi tumhari zimmedari hain.
+
+
+------------------------------------------------------------
+22. LINKS
+------------------------------------------------------------
+    - Claude Code docs       https://code.claude.com/docs/en/overview
+    - 20 prompts note        NOTES/ai/vibecoding-prompts.txt
+    - Ruflo (agents team)    NOTES/ai/ruflo.txt
+    - Laravel detail         NOTES/php/laravel.txt
+    - Database detail        NOTES/database/
+    - Tools directory        RESOURCES/dev-tools.txt
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    AI tez builder hai, architect nahi. Plan tum karo, likh ke rakho, aur
+    har layer ka "verify" khud karo.
