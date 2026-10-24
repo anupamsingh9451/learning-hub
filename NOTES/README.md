@@ -32,6 +32,7 @@ NOTES/
 │   └── gitkeep.txt            .gitkeep kya hai, khaali folder kaise rakhein
 ├── ai/
 │   ├── 20-ai-agents-blueprint.txt  20 business agents + mere 14 Claude Code agents
+│   ├── agentic-awesome-skills.txt  2,700+ agent skills ki library: chuni hui install + safety
 │   ├── ai-3d-product-website.txt  AI se exploded-view 3D product site (frames + canvas)
 │   ├── claude-code/           Claude Code ka setup aur providers
 │   │   ├── openrouter-claude.txt   OpenRouter se Claude, kab use karein, behtar options

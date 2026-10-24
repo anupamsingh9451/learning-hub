@@ -1,0 +1,361 @@
+AGENTIC AWESOME SKILLS – 2,700+ SKILLS KI LIBRARY (CLAUDE CODE KE LIYE)
+=======================================================================
+Topic: ai
+Date: 24-10-2026
+Time: ~20 min padhna, ~10 min setup
+Status: learning
+Version: v19.15.0 (npm package: agentic-awesome-skills), MIT license
+Source: GitHub README + docs/users/*.md + skills_index.json (24-10-2026 ko
+        khud check kiya: 2,743 skills, 48k stars)
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    Yeh GitHub repo 2,743 "skills" ka bada collection hai. Skill = ek
+    folder jisme SKILL.md file hoti hai, jo AI agent ko batati hai ki koi
+    kaam step by step kaise karna hai. Claude Code, Cursor, Gemini CLI,
+    Codex, Antigravity, Kiro, OpenCode sab ke liye chalta hai.
+
+    Misaal: Claude Code ek naya, smart developer hai. Skill ek "recipe
+    card" hai: "bug aaye toh pehle reproduce karo, phir root cause, phir
+    fix, phir test". Claude card padhta hai aur usi tareeke se kaam karta
+    hai. Yeh repo = 2,700 recipe cards ki kitaab.
+
+    Purana naam: antigravity-awesome-skills (pehle Antigravity ke liye
+    bana tha, ab sab tools ke liye hai).
+
+
+------------------------------------------------------------
+2. SKILL ASAL ME HOTI KYA HAI
+------------------------------------------------------------
+    Ek skill ka folder:
+        skills/
+        └── systematic-debugging/
+            └── SKILL.md        (kabhi saath me scripts/, references/)
+
+    SKILL.md ka shuru (frontmatter) kuch aisa hota hai:
+        ---
+        name: systematic-debugging
+        description: Use when encountering any bug, test failure, or
+          unexpected behavior, before proposing fixes
+        ---
+        (neeche steps, rules, examples)
+
+    Kaise chalti hai:
+    - Claude ko shuru me sirf har skill ka naam + description dikhta hai.
+    - Tumhara kaam description se match kare, tabhi Claude poori file
+      kholta hai. Isliye description sabse zaroori line hai.
+    - Skill program nahi hai, sirf instructions hain. Khatra tab hai jab
+      skill Claude se shell command, file delete, network call karwaye.
+
+    Skill vs MCP vs CLAUDE.md (confuse mat hona):
+        CLAUDE.md   is project ke rules, har baar load hote hain
+        Skill       ek kaam ka tareeka (gyaan), zaroorat pe load hota hai
+        MCP         bahar ka tool (haath): DB, browser, GitHub API
+
+
+------------------------------------------------------------
+3. KYUN / KAB USE KAREIN
+------------------------------------------------------------
+    Kab lo:
+    - Jab Claude har baar ek hi galti kare (bina plan code likhna, bina
+      test "done" bolna). Ek achhi skill woh aadat theek kar deti hai.
+    - Naye area me kaam (Laravel security audit, Postgres tuning, SEO)
+      jahan tumhe khud checklist nahi pata.
+    - Apni skill likhni seekhni ho: yahan 2,700 examples hain.
+
+    Kab mat lo:
+    - "Sab install kar do" ke liye. 2,700 skills ke description Claude ke
+      context me jaate hain, tokens badhte hain aur galat skill uthne ka
+      chance bhi.
+    - Chhote kaam ke liye skill dhoondhne me 20 min lagana. Seedha bolo.
+
+
+------------------------------------------------------------
+4. REPO ME KYA KYA HAI
+------------------------------------------------------------
+    skills/<id>/SKILL.md   asli skills (2,743)
+    CATALOG.md             saari skills ki list (bahut badi file)
+    skills_index.json      har skill: id, category, description, risk
+    plugins/               ready packs (Claude Code + Codex ke liye)
+    docs/users/            setup guides (claude-code-skills.md padho)
+    data/workflows.json    workflows ka data
+
+    Bundles (30):  role ke hisaab se skills ka group (Web App Builder,
+                   Security Engineer, SaaS Launch...). Bundle khud skill
+                   nahi hai: "@web-wizard" bolne se kuch nahi hoga.
+    Workflows:     kai skills ek order me (plan -> build -> test -> ship).
+    AAS Core:      local MCP server jo Claude ko catalog search karke
+                   skills chunne deta hai. Abhi "experimental", baad me.
+    Website:       https://aaskills.tech  (catalog browse/search karo)
+
+
+------------------------------------------------------------
+5. SETUP – CLAUDE CODE (WINDOWS)
+------------------------------------------------------------
+    Teen raaste hain. Pehla ya doosra lo, teesra mat.
+
+    RAASTA 1 – PLUGIN MARKETPLACE (sabse aasan)
+        Claude Code ke andar:
+            /plugin marketplace add sickn33/agentic-awesome-skills
+            /plugin install agentic-awesome-skills
+            /reload-plugins
+        README ke hisaab se yeh "plugin-safe filtered" version hai, matlab
+        poori library nahi, chhaanti hui skills. Hatana ho toh /plugin se
+        uninstall.
+
+    RAASTA 2 – SIRF CHUNI HUI SKILLS (mera pasandeeda)
+        STEP 1 – Project folder me jao, pehle git commit
+            cd D:\projects\eduassist
+            git add -A; git commit -m "before skills"
+
+        STEP 2 – Dry run (kuch copy nahi hota, sirf dikhata hai)
+            npx agentic-awesome-skills@19.15.0 --release 19.15.0
+                --path .claude\skills
+                --skills "brainstorming,systematic-debugging,laravel-expert"
+                --dry-run
+            (yeh sab EK hi line me likhna, yahan padhne ke liye toda hai)
+
+        STEP 3 – Output theek lage toh wahi line bina --dry-run chalao.
+
+        STEP 4 – Claude Code band karke dobara kholo, phir "/" type karke
+                 dekho skills dikh rahi hain ya nahi.
+
+        Path ka farak:
+            .claude\skills                      sirf is project ke liye
+            $env:USERPROFILE\.claude\skills     har project ke liye
+
+        Sirf safe skills chahiye toh --risk "safe,none" bhi laga sakte ho.
+
+    RAASTA 3 – POORI LIBRARY (mat karo)
+            npx agentic-awesome-skills --claude
+        2,700 skills ek saath. Context bhar jaata hai, Claude confuse hota
+        hai. Docs khud bolte hain: 3-5 skills se shuru karo.
+
+    Check (PowerShell):
+        Test-Path .claude\skills
+        Test-Path "$env:USERPROFILE\.claude\skills"
+
+
+------------------------------------------------------------
+6. SKILL USE KAISE KAREIN
+------------------------------------------------------------
+    Do tareeke:
+    - Apne aap: normal baat karo ("login pe 500 error aa raha hai").
+      Description match hui toh Claude khud systematic-debugging uthayega.
+    - Naam se: Claude Code me /systematic-debugging likho, ya prompt me
+      "Use @systematic-debugging ..." (README yahi style likhta hai).
+
+    Achhe prompt (skill + file + kaam saaf):
+        /laravel-expert app/Http/Controllers/FeeController.php me N+1
+        query dhoondho aur eager loading se theek karo. Pehle plan dikhao.
+
+        /brainstorming school app me "fee reminder" feature ka design
+        banao. Abhi code nahi, sirf options aur trade-offs.
+
+        /laravel-security-audit routes/ aur app/Http me auth aur
+        validation ki kamiyan batao. Kuch badlo mat, sirf report.
+
+    Tips (repo ki usage guide se):
+    - Code se pehle brainstorming. Refactor ka time bachta hai.
+    - Ek baar me ek kaam, skills ek ke baad ek chain karo.
+    - File ka path do, taaki Claude wahin focus kare.
+
+
+------------------------------------------------------------
+7. MERE STACK KI SKILLS (YAHIN SE SHURU)
+------------------------------------------------------------
+    Sab IDs skills_index.json me check ki hain (24-10-2026). Risk label
+    ke liye section 9 dekho.
+
+    Har roz ke kaam (Essentials):
+        concise-planning               kaam ko chhoti checklist me todna
+        brainstorming                  code se pehle design
+        systematic-debugging           bug ka root cause, phir fix
+        test-driven-development        pehle failing test, phir code
+        verification-before-completion bina check "done" bolne se rokna
+
+    PHP / Laravel:
+        laravel-expert                 production-grade Laravel code
+        laravel-development-workflow   existing Laravel app me fix/build
+        laravel-security-audit         Laravel code ka security review
+        php-pro                        modern PHP (generators, SPL, OOP)
+        (CodeIgniter ki koi skill nahi mili)
+
+    Frontend:
+        react-best-practices           Vercel ka React/Next.js guide
+        nextjs-app-router-patterns     Next.js App Router
+        tailwind-patterns              Tailwind v4
+        anti-ui-slop                   generic "AI jaisa" UI se bachna
+
+    Database:
+        postgresql-optimization        query tuning, index
+        mysql                          MySQL/MariaDB admin
+        redis                          cache, persistence
+
+    AI developer goal:
+        mcp-builder                    apna MCP server banana
+        rag-engineer                   RAG system
+        ai-agents-architect            agents design karna
+        skill-creator                  apni skill likhna
+
+    SaaS / freelancing:
+        saas-mvp-launcher              MVP ka roadmap
+        api-design-principles          REST/GraphQL API design
+
+    Token bachana:
+        tokenleak                      agent ka context kharcha kam karna
+
+    Rule: pehle Essentials ki 3 skills + laravel-expert. Ek hafta use
+    karo. Kaam aaye toh agli 2-3 daalo.
+
+
+------------------------------------------------------------
+8. KAAM KE BUNDLES (30 ME SE)
+------------------------------------------------------------
+    Essentials Starter Pack     concise-planning, test-driven-development,
+                                systematic-debugging, git-pushing
+    AAS Web App Builder         frontend-developer, react-best-practices,
+                                tailwind-patterns, typescript-expert
+    AAS Backend & API Platform  api-design-principles, backend-architect,
+                                openapi-spec-generation
+    AAS Python Development      python-pro, fastapi-pro, django-pro
+    AAS Agent & MCP Builder     ai-agents-architect, mcp-builder,
+                                rag-engineer, langgraph
+    AAS SaaS Launch & Revenue   saas-mvp-launcher, pricing-strategy,
+                                launch-strategy
+    AAS Secure App Builder      api-security-best-practices,
+                                auth-implementation-patterns,
+                                secrets-management
+    OSS Maintainer Pack         commit, create-pr, changelog-automation
+    Skill Author Pack           skill-creator, writing-skills
+
+    Bundle = list. Inme se skill IDs utha ke raasta 2 se install karo.
+    Kuch bundles pe "Requires manual setup" likha hai, matlab extra config.
+
+
+------------------------------------------------------------
+9. RISK LABEL – SAMJHO, PAR BHAROSA MAT KARO
+------------------------------------------------------------
+    Har skill pe ek "risk" label hai. Index me ginti (24-10-2026):
+        safe        1,112
+        none          100
+        critical    1,351
+        offensive     146   (hacking/pentest wali, jaise hunt-laravel)
+        unknown        34
+
+    Docs ki line: label skill ka "intended capability" batata hai, yeh
+    malware check ya safety certificate nahi hai. Exact matlab docs me
+    saaf nahi likha. Mere hisaab se padho:
+    - safe/none: zyada tar sirf salah aur checklist.
+    - critical: Claude se commands, files, DB jaise kaam karwa sakti hai.
+      Brainstorming aur systematic-debugging bhi critical hain, toh yeh
+      "kharab" ka label nahi hai, "dhyan se" ka label hai.
+    - offensive: sirf apne app pe ya likhit permission ke saath.
+
+
+------------------------------------------------------------
+10. SAFETY – YEH ZAROOR PADHO
+------------------------------------------------------------
+    - Yeh community repo hai (Anthropic ka nahi). Har skill alag log ne
+      likhi hai. 48k stars matlab review nahi.
+    - Install se pehle SKILL.md khud padho. Agar woh curl, rm, .env,
+      tokens ki baat kare, toh samjho kyun.
+    - Version pin karo (@19.15.0). "latest" har baar naya code laata hai.
+    - Pehle --dry-run, phir asli install. Pehle git commit.
+    - Remote script ko seedha shell me pipe mat karo (curl ... | bash).
+    - Antivirus kisi SKILL.md ko flag kare: security wali skills me exploit
+      ke naam likhe hote hain, isliye flag aa sakta hai. Phir bhi us skill
+      ko hata do aur dekho kya likha hai, chalao mat.
+    - Client ke project me pehli baar try mat karo. Test project pe karo.
+    - Claude ki permissions bypass wale flags mat lagao, skill kuch bhi
+      bole.
+
+
+------------------------------------------------------------
+11. MERE LAPTOP KE LIYE KHAAS BAAT
+------------------------------------------------------------
+    Mere paas do Claude config folder hain (two-editors-setup.txt dekho):
+        Antigravity  ->  C:\Users\Anupam Singh\.claude
+        VS Code      ->  C:\Users\Anupam Singh\.claude-openrouter
+
+    - User-level skills (~\.claude\skills) sirf Antigravity wale Claude
+      ko dikhengi. VS Code (OpenRouter) wale ko nahi.
+    - Dono me chahiye toh project-level .claude\skills me daalo. Woh
+      project ke saath chalti hain, dono editor dekhte hain.
+    - Plugin (raasta 1) bhi har config folder me alag install hota hai.
+    - OpenRouter pe har token ka paisa lagta hai. Wahan kam skills rakho.
+
+    Antigravity ka apna agent (Gemini wala, Claude extension nahi) alag
+    path use karta hai (--antigravity flag). Windows pe bahut saari skills
+    daalne se woh "could not convert a single message before hitting
+    truncation" error ke saath restart loop me phas sakta hai. Fix:
+    docs/users/windows-truncation-recovery.md (pehle backup, phir cache
+    saaf, phir kam skills).
+
+
+------------------------------------------------------------
+12. POORA FLOW EK NAZAR ME
+------------------------------------------------------------
+    aaskills.tech pe skill dhoondho  ->  SKILL.md padho  ->
+    project me git commit  ->  npx ... --skills "..." --dry-run  ->
+    bina --dry-run install  ->  Claude Code restart  ->
+    /skill-name se try karo  ->  git diff + tests se khud check  ->
+    kaam aayi toh rakho, warna folder delete
+
+
+------------------------------------------------------------
+13. GALTIYAN / GOTCHAS
+------------------------------------------------------------
+    - Poori library (--claude) install kar di. Claude slow, galat skill
+      uthata hai, tokens udte hain. Sirf chuni hui skills rakho.
+    - PowerShell me --skills brainstorming,systematic-debugging bina quotes
+      likha. PowerShell comma ko list samajhta hai. Quotes me likho.
+    - Install ke baad Claude Code restart nahi kiya, "skill nahi dikh
+      rahi".
+    - User-level folder me daali, phir VS Code (OpenRouter) me dhoondh
+      raha tha. Woh alag config folder hai.
+    - "@essentials" ya "/web-wizard" likha. Bundle skill nahi hai.
+    - README ke bash commands (AAS_CONFIG="$HOME/...") PowerShell me paste
+      kiye. Docs khud bolte hain: PowerShell me mat chipkao.
+    - Ek hi kaam ki 3 milti-julti skills (postgresql, postgresql-devsec,
+      postgresql-optimization) ek saath. Claude ko samajh nahi aata kaunsi
+      le. Ek rakho.
+
+
+------------------------------------------------------------
+14. INTERVIEW ANGLE
+------------------------------------------------------------
+    Q: Agent skill kya hai, aur MCP se kaise alag hai?
+    A: Skill ek SKILL.md file hai jisme kaam karne ka tareeka likha hai.
+       Agent ko pehle sirf naam + description dikhta hai, zaroorat pe
+       poori file load hoti hai (isse context bachta hai). MCP ek server
+       hai jo agent ko naye tools deta hai (DB query, API call). Skill =
+       "kaise karna hai", MCP = "kis cheez se karna hai".
+
+    Q: Skill ki description itni important kyun hai?
+    A: Agent description padh ke hi tay karta hai skill kholni hai ya
+       nahi. Description dheeli ho toh skill kabhi trigger nahi hogi, ya
+       galat jagah trigger hogi.
+
+
+------------------------------------------------------------
+15. LINKS
+------------------------------------------------------------
+    - Repo                 https://github.com/sickn33/agentic-awesome-skills
+    - Catalog website      https://aaskills.tech
+    - Claude Code guide    https://github.com/sickn33/agentic-awesome-skills/blob/main/docs/users/claude-code-skills.md
+    - Bundles              https://github.com/sickn33/agentic-awesome-skills/blob/main/docs/users/bundles.md
+    - Security guide       https://github.com/sickn33/agentic-awesome-skills/blob/main/docs/users/security-and-antivirus.md
+    - Windows fix          https://github.com/sickn33/agentic-awesome-skills/blob/main/docs/users/windows-truncation-recovery.md
+    - Claude Code skills   https://code.claude.com/docs/en/skills
+    - Related note         NOTES/ai/ruflo.txt (agents ki team)
+                           NOTES/ai/claude-code/two-editors-setup.txt
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    2,700 skills ki library hai, 2,700 install karne ki nahi. 3-5 chuno,
+    SKILL.md padho, --dry-run se daalo, aur kaam aaye tabhi rakho.
