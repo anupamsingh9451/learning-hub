@@ -1,0 +1,563 @@
+CODEIGNITER 4 – DETAILED NOTES
+==============================
+Topic: php
+Date: 24-10-2026
+Time: ~45 min (roz 2-3 section padho)
+Status: learning
+Version: CodeIgniter 4.x (PHP 8.1+)
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    CodeIgniter (CI) ek halka aur tez PHP framework hai. Seekhna aasan,
+    setup chhota, aur kam server pe bhi badhiya chalta hai.
+
+    Misaal: Laravel ek bada SUV hai, sab features andar. CodeIgniter ek
+    hatchback hai, halka, sasta, shehar me jaldi pahunchata hai.
+
+
+------------------------------------------------------------
+2. KYUN ZAROORI HAI / KAB USE KAREIN
+------------------------------------------------------------
+    - Bahut saare client projects aur purane systems CI pe hain.
+    - Kam magic, code padhna aur samajhna aasan.
+    - Shared hosting pe bhi aaram se chalta hai.
+
+    Kab lo:
+    - Chhote-medium business apps, admin panel, simple API.
+    - Jahan speed aur kam dependency chahiye.
+    Kab Laravel better:
+    - Bada SaaS, queues, real-time, bahut saare packages chahiye.
+
+
+------------------------------------------------------------
+3. FOLDER STRUCTURE
+------------------------------------------------------------
+    app/
+        Config/          saari settings (Routes.php, Database.php, Filters.php)
+        Controllers/     controllers (BaseController.php yahin)
+        Models/          models
+        Views/           HTML views
+        Filters/         middleware jaisi classes
+        Entities/        row ko object banane wali classes
+        Database/
+            Migrations/  table structure
+            Seeds/       starting data
+        Helpers/         apne helper functions
+        Libraries/       apni libraries
+    public/              web root (index.php, css, js, images)
+    writable/            logs, cache, session, uploads (likhne ki permission)
+    tests/               tests
+    vendor/              Composer packages (system/ isi me)
+    .env                 settings (git me nahi)
+    spark                CLI tool
+
+    Web server ka root hamesha public/ pe rakho. Project ka root public
+    karoge toh .env aur code browser se khul sakta hai.
+
+
+------------------------------------------------------------
+4. REQUEST KA SAFAR
+------------------------------------------------------------
+    STEP 1 – Request public/index.php pe aati hai.
+    STEP 2 – Framework load hota hai, .env aur Config padhe jaate hain.
+    STEP 3 – Router URL dekh ke controller/method chunta hai.
+    STEP 4 – "before" filters chalte hain (login check, CSRF).
+    STEP 5 – Controller ka method chalta hai (model se data, view banta).
+    STEP 6 – "after" filters chalte hain (headers, toolbar).
+    STEP 7 – Response browser ko.
+
+
+------------------------------------------------------------
+5. SETUP, .ENV AUR CONFIG
+------------------------------------------------------------
+    composer create-project codeigniter4/appstarter shop
+    cd shop
+    copy env .env           (Linux: cp env .env)
+    php spark serve         -> http://localhost:8080
+
+    .env me:
+        CI_ENVIRONMENT = development
+        app.baseURL = 'http://localhost:8080/'
+        database.default.hostname = localhost
+        database.default.database = shop
+        database.default.username = root
+        database.default.password =
+        database.default.DBDriver = MySQLi
+
+    - development me errors dikhte hain aur Debug Toolbar aata hai.
+    - production me errors chhup jaate hain. Live pe hamesha production.
+    - .env ki values Config classes ko override karti hain.
+      (Jaise app.baseURL -> Config\App ka $baseURL)
+
+
+------------------------------------------------------------
+6. ROUTING (app/Config/Routes.php)
+------------------------------------------------------------
+        $routes->get('/', 'Home::index');
+        $routes->get('products', 'Product::index');
+        $routes->get('products/(:num)', 'Product::show/$1');
+        $routes->post('products', 'Product::create');
+        $routes->match(['get', 'post'], 'contact', 'Contact::form');
+
+    Placeholders:
+        (:num)       sirf number
+        (:alpha)     sirf letters
+        (:segment)   slash ke bina kuch bhi
+        (:any)       sab kuch, slash bhi
+
+    Naam aur URL banana:
+        $routes->get('profile', 'User::profile', ['as' => 'profile']);
+        url_to('profile');
+        return redirect()->route('profile');
+
+    Group + filter:
+        $routes->group('admin', ['filter' => 'auth'], static function ($routes) {
+            $routes->get('dashboard', 'Admin\Dashboard::index');
+            $routes->resource('users', ['controller' => 'Admin\Users']);
+        });
+
+    Auto routing:
+    - CI4 me default OFF hai (security ke liye). Har route khud likho.
+    - Chahiye toh "Auto Routing (Improved)" on karo, purana legacy wala
+      nahi.
+
+    Dekho:  php spark routes
+
+
+------------------------------------------------------------
+7. CONTROLLER
+------------------------------------------------------------
+        namespace App\Controllers;
+
+        use App\Models\ProductModel;
+
+        class Product extends BaseController
+        {
+            public function index()
+            {
+                $model = new ProductModel();
+
+                return view('products/index', [
+                    'products' => $model->where('active', 1)->paginate(10),
+                    'pager'    => $model->pager,
+                ]);
+            }
+
+            public function show(int $id)
+            {
+                $product = model(ProductModel::class)->find($id);
+
+                if (! $product) {
+                    throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+                }
+
+                return view('products/show', ['product' => $product]);
+            }
+        }
+
+    Request se data:
+        $this->request->getGet('page');
+        $this->request->getPost('email');
+        $this->request->getVar('q');          // GET ya POST
+        $this->request->getJSON(true);        // JSON body as array
+        $this->request->getFile('photo');
+
+    Response:
+        return redirect()->to('/products')->with('ok', 'Saved');
+        return redirect()->back()->withInput();
+        return $this->response->setJSON($data);
+        return $this->response->setStatusCode(404);
+
+    BaseController ke initController() me helpers load karo jo har jagah
+    chahiye: protected $helpers = ['url', 'form'];
+
+
+------------------------------------------------------------
+8. VIEWS, LAYOUT, VIEW CELLS
+------------------------------------------------------------
+    Layout (app/Views/layouts/main.php):
+        <html>
+        <body>
+            <?= $this->renderSection('content') ?>
+        </body>
+        </html>
+
+    Page (app/Views/products/index.php):
+        <?= $this->extend('layouts/main') ?>
+        <?= $this->section('content') ?>
+            <?php foreach ($products as $p): ?>
+                <h2><?= esc($p['name']) ?></h2>
+            <?php endforeach ?>
+            <?= $pager->links() ?>
+        <?= $this->endSection() ?>
+
+    - esc() hamesha lagao. Yeh XSS se bachata hai.
+    - Chhota repeat hone wala hissa: <?= $this->include('partials/nav') ?>
+    - View Cell = chhota widget jiska apna logic ho (jaise "latest posts"
+      box): <?= view_cell('LatestPosts', ['limit' => 5]) ?>
+
+
+------------------------------------------------------------
+9. MODEL
+------------------------------------------------------------
+        php spark make:model ProductModel
+
+        class ProductModel extends Model
+        {
+            protected $table            = 'products';
+            protected $primaryKey       = 'id';
+            protected $returnType       = 'array';   // ya Entity class
+            protected $useSoftDeletes   = true;
+            protected $allowedFields    = ['name', 'price', 'active'];
+            protected $useTimestamps    = true;
+
+            protected $validationRules  = [
+                'name'  => 'required|min_length[3]',
+                'price' => 'required|decimal',
+            ];
+        }
+
+    CRUD:
+        $m->findAll();
+        $m->find($id);
+        $m->where('price >', 100)->orderBy('id', 'DESC')->findAll(10);
+        $m->insert($data);               // naya id return
+        $m->update($id, $data);
+        $m->save($data);                 // id hai toh update, warna insert
+        $m->delete($id);                 // soft delete on hai toh soft
+        $m->errors();                    // validation errors
+
+    Model events (callbacks):
+        protected $beforeInsert = ['hashPassword'];
+
+        protected function hashPassword(array $data): array
+        {
+            if (isset($data['data']['password'])) {
+                $data['data']['password'] = password_hash(
+                    $data['data']['password'], PASSWORD_DEFAULT
+                );
+            }
+            return $data;
+        }
+
+
+------------------------------------------------------------
+10. ENTITY (ROW KO OBJECT BANANA)
+------------------------------------------------------------
+        class Product extends \CodeIgniter\Entity\Entity
+        {
+            protected $casts = ['price' => 'float', 'active' => 'boolean'];
+
+            public function getPriceText(): string
+            {
+                return '₹' . number_format($this->attributes['price'], 2);
+            }
+        }
+
+        Model me:  protected $returnType = \App\Entities\Product::class;
+        Use:       $product->price_text   // getPriceText() chalta hai
+
+    Fayda: logic ek jagah, views saaf.
+
+
+------------------------------------------------------------
+11. QUERY BUILDER
+------------------------------------------------------------
+        $db = db_connect();
+
+        $rows = $db->table('orders o')
+            ->select('o.id, o.total, u.name')
+            ->join('users u', 'u.id = o.user_id')
+            ->where('o.status', 'paid')
+            ->whereIn('o.city', ['Delhi', 'Noida'])
+            ->orderBy('o.id', 'DESC')
+            ->limit(20)
+            ->get()
+            ->getResultArray();
+
+        $db->table('users')->insert($data);
+        $db->table('users')->where('id', 5)->update(['active' => 0]);
+
+    Raw query (binding ke saath, kabhi seedha jodo mat):
+        $db->query('SELECT * FROM users WHERE email = ?', [$email]);
+
+    Transaction:
+        $db->transStart();
+        // queries
+        $db->transComplete();
+        if ($db->transStatus() === false) { /* fail */ }
+
+    Debug: $db->getLastQuery() se aakhri query dekho.
+
+
+------------------------------------------------------------
+12. MIGRATION AUR SEEDER
+------------------------------------------------------------
+        php spark make:migration CreateProducts
+
+        public function up()
+        {
+            $this->forge->addField([
+                'id'         => ['type' => 'INT', 'unsigned' => true, 'auto_increment' => true],
+                'name'       => ['type' => 'VARCHAR', 'constraint' => 150],
+                'price'      => ['type' => 'DECIMAL', 'constraint' => '10,2'],
+                'active'     => ['type' => 'TINYINT', 'default' => 1],
+                'created_at' => ['type' => 'DATETIME', 'null' => true],
+                'updated_at' => ['type' => 'DATETIME', 'null' => true],
+                'deleted_at' => ['type' => 'DATETIME', 'null' => true],
+            ]);
+            $this->forge->addKey('id', true);
+            $this->forge->createTable('products');
+        }
+
+        public function down()
+        {
+            $this->forge->dropTable('products');
+        }
+
+        php spark migrate
+        php spark migrate:rollback
+        php spark migrate:status
+        php spark db:seed ProductSeeder
+
+
+------------------------------------------------------------
+13. VALIDATION
+------------------------------------------------------------
+    Controller me:
+        $rules = [
+            'email'    => 'required|valid_email|is_unique[users.email]',
+            'password' => 'required|min_length[8]',
+            'confirm'  => 'matches[password]',
+            'photo'    => 'uploaded[photo]|is_image[photo]|max_size[photo,2048]',
+        ];
+
+        if (! $this->validate($rules)) {
+            return redirect()->back()->withInput()
+                ->with('errors', $this->validator->getErrors());
+        }
+
+        $data = $this->validator->getValidated();
+
+    View me:
+        <?= validation_show_error('email') ?>
+        <?= old('email') ?>
+
+    Apne messages:
+        $this->validate($rules, ['email' => ['is_unique' => 'Yeh email pehle se hai']]);
+
+
+------------------------------------------------------------
+14. FILTERS (MIDDLEWARE)
+------------------------------------------------------------
+        php spark make:filter AuthFilter
+
+        class AuthFilter implements FilterInterface
+        {
+            public function before(RequestInterface $request, $arguments = null)
+            {
+                if (! session()->get('user_id')) {
+                    return redirect()->to('/login');
+                }
+            }
+
+            public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
+            {
+            }
+        }
+
+    Register (app/Config/Filters.php):
+        public array $aliases = [
+            'auth' => \App\Filters\AuthFilter::class,
+            // ... baaki
+        ];
+
+    Lagao:
+        - Route pe:   ['filter' => 'auth']
+        - Sab pe:     $globals['before'] me
+        - Method pe:  $methods = ['POST' => ['csrf']]
+
+    CSRF ON karne ke liye Filters.php me globals 'before' me 'csrf' kholo,
+    aur form me <?= csrf_field() ?> lagao.
+
+
+------------------------------------------------------------
+15. SERVICES AUR HELPERS
+------------------------------------------------------------
+    Services = framework ki shared objects tak pahunchne ka tareeka.
+        service('session');   service('email');   service('cache');
+        session('user_id');   cache('key');        // short helpers
+
+    Helpers load karo:
+        helper(['form', 'url', 'text']);
+
+    Kaam ke helpers:
+        base_url('css/app.css')    site_url('products')
+        url_to('profile')          redirect()
+        form_open('products')      set_value('name')
+        esc($s)                    old('name')
+
+    Email:
+        $email = service('email');
+        $email->setTo('a@b.com')->setSubject('Hi')->setMessage('<b>Hello</b>');
+        $email->send();
+        (SMTP settings .env ya Config/Email.php me)
+
+
+------------------------------------------------------------
+16. SESSION AUR SECURITY
+------------------------------------------------------------
+        session()->set(['user_id' => 7, 'role' => 'admin']);
+        session()->get('user_id');
+        session()->setFlashdata('ok', 'Saved');
+        session()->destroy();
+        session()->regenerate();         // login ke baad
+
+    Security checklist:
+    [ ] CSRF filter ON, har form me csrf_field()
+    [ ] Output pe esc()
+    [ ] Query Builder ya bindings, raw SQL me input jodna nahi
+    [ ] password_hash / password_verify
+    [ ] CI_ENVIRONMENT = production live pe
+    [ ] writable/ public na ho, web root sirf public/
+
+
+------------------------------------------------------------
+17. LOGIN – SHIELD
+------------------------------------------------------------
+    composer require codeigniter4/shield
+    php spark shield:setup
+
+    Milta hai: register, login, logout, remember me, magic link, groups
+    (roles), permissions, API tokens.
+
+        auth()->loggedIn();
+        auth()->user();
+        auth()->user()->inGroup('admin');
+        auth()->user()->can('posts.create');
+
+    Routes protect:
+        $routes->group('admin', ['filter' => 'session'], ...);
+        $routes->group('api', ['filter' => 'tokens'], ...);
+
+    Naye project me login khud mat likho. Shield lo.
+
+
+------------------------------------------------------------
+18. REST API
+------------------------------------------------------------
+        $routes->resource('api/products', ['controller' => 'Api\Products']);
+
+        class Products extends ResourceController
+        {
+            protected $modelName = ProductModel::class;
+            protected $format    = 'json';
+
+            public function index()
+            {
+                return $this->respond($this->model->findAll());
+            }
+
+            public function create()
+            {
+                $data = $this->request->getJSON(true);
+                if (! $this->model->insert($data)) {
+                    return $this->failValidationErrors($this->model->errors());
+                }
+                return $this->respondCreated($data);
+            }
+        }
+
+    ResponseTrait ke helpers: respond(), respondCreated(), failNotFound(),
+    failUnauthorized(), failValidationErrors()
+
+    CORS chahiye toh Config/Cors.php set karo aur 'cors' filter lagao.
+
+
+------------------------------------------------------------
+19. CI3 vs CI4
+------------------------------------------------------------
+    Cheez            CI3                      CI4
+    -------------    ---------------------    --------------------------
+    PHP              5.x/7.x                  8.1+
+    Namespace        nahi                     haan (App\Controllers)
+    Composer         optional                 zaroori
+    Web root         project root             public/
+    Model            CI_Model, khali          Model class, CRUD ready
+    Middleware       hooks                    Filters
+    CLI              nahi                     spark
+    Env              config files             .env
+    Load             $this->load->model()     new Model() / model()
+
+    Purana CI3 project CI4 pe le jaana = rewrite jaisa hi kaam hai. Sab
+    ek saath nahi, module by module karo.
+
+
+------------------------------------------------------------
+20. DEPLOYMENT CHECKLIST
+------------------------------------------------------------
+    [ ] CI_ENVIRONMENT = production
+    [ ] app.baseURL sahi domain
+    [ ] composer install --no-dev --optimize-autoloader
+    [ ] php spark migrate
+    [ ] php spark optimize   (config aur file locator cache)
+    [ ] writable/ me likhne ki permission
+    [ ] Web root = public/
+    [ ] Debug toolbar band (production me khud band hota hai)
+
+
+------------------------------------------------------------
+21. GALTIYAN JO MAINE KI / GOTCHAS
+------------------------------------------------------------
+    - $allowedFields me field nahi daala toh insert/update chupchap use
+      chhod deta hai. Error nahi aata, data save nahi hota.
+    - baseURL ke end me / lagao, warna links toot sakte hain.
+    - Model ki validation fail hui toh insert() false deta hai. Hamesha
+      check karo aur $model->errors() dekho.
+    - Route me (:any) last me rakho, warna baaki routes kha jaata hai.
+    - Controller ka method public hona chahiye.
+    - writable/ ki permission na ho toh session aur logs fail hote hain,
+      blank page aata hai.
+
+
+------------------------------------------------------------
+22. INTERVIEW ANGLE
+------------------------------------------------------------
+    Q: Filters kya hain?
+    A: CI4 ka middleware. Controller se pehle (before) ya baad (after)
+       chalte hain. Auth, CSRF, CORS ke liye.
+
+    Q: Model ke $allowedFields kyun?
+    A: Mass assignment se bachav. Sirf yeh fields form se save hongi.
+
+    Q: Entity kya hai?
+    A: Table ki ek row ka object, jisme casts aur getter/setter logic.
+
+    Q: Services kya hain?
+    A: Framework ki shared classes (session, email, cache) ek jagah se
+       lena. Test me inhe mock kar sakte ho.
+
+    Q: CI4 me CSRF kaise on karte ho?
+    A: Config/Filters.php me global 'csrf' filter, form me csrf_field().
+
+    Q: CodeIgniter vs Laravel?
+    A: CI halka, tez, kam magic. Laravel me ecosystem bada: queues,
+       events, Eloquent relations, starter kits.
+
+
+------------------------------------------------------------
+23. LINKS
+------------------------------------------------------------
+    - User guide             https://codeigniter.com/user_guide/
+    - Shield docs            https://shield.codeigniter.com
+    - Forum                  https://forum.codeigniter.com
+    - Cheatsheet             CHEATSHEETS/php/codeigniter.txt
+    - Repos                  NOTES/php/codeigniter-repos.txt
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    Web root public/, output pe esc(), aur $allowedFields hamesha update.

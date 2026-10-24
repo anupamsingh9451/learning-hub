@@ -1,0 +1,424 @@
+BOOTSTRAP – DETAILED NOTES
+==========================
+Topic: html
+Date: 24-10-2026
+Time: ~40 min (roz 2-3 section padho)
+Status: learning
+Version: Bootstrap 5.3
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    Bootstrap ek CSS framework hai jisme ready classes aur components
+    (button, navbar, modal, form) milte hain. Jaldi se responsive aur
+    theek-thaak dikhne wali site ban jaati hai.
+
+    Misaal: Readymade kapde. Naap lo, pehno, kaam ho gaya. Tailor (apni
+    CSS) ki zaroorat kam.
+
+
+------------------------------------------------------------
+2. KYUN ZAROORI HAI / KAB USE KAREIN
+------------------------------------------------------------
+    - Bahut saare PHP/Laravel/CodeIgniter projects aur admin templates
+      (AdminLTE, Tabler) Bootstrap pe hain.
+    - Seekhna aasan, docs badhiya.
+    - jQuery ki zaroorat nahi (v5 se).
+
+    Kab lo:
+    - Admin panel, internal tool, jaldi prototype, purana project.
+    Kab mat lo:
+    - Unique custom design chahiye. Sab Bootstrap sites ek jaisi dikhti
+      hain. Wahan Tailwind better.
+
+
+------------------------------------------------------------
+3. SETUP
+------------------------------------------------------------
+    CDN (sabse jaldi):
+        <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        </head>
+        <body>
+            ...
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        </body>
+
+    npm + Vite (customize karna ho toh):
+        npm i bootstrap sass
+
+        // src/scss/styles.scss
+        $primary: #4f46e5;
+        @import "bootstrap/scss/bootstrap";
+
+        // main.js
+        import './scss/styles.scss';
+        import * as bootstrap from 'bootstrap';
+
+    viewport meta tag bhoola toh mobile pe responsive kaam nahi karega.
+
+
+------------------------------------------------------------
+4. GRID SYSTEM – SABSE ZAROORI
+------------------------------------------------------------
+    Ek row me 12 column ki jagah hoti hai.
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">Main</div>
+                <div class="col-md-4">Sidebar</div>
+            </div>
+        </div>
+
+    Breakpoints:
+        (none)  <576px   mobile
+        sm      >=576px
+        md      >=768px  tablet
+        lg      >=992px  laptop
+        xl      >=1200px
+        xxl     >=1400px
+
+    Mobile first: col-md-6 ka matlab "md aur usse badi screen pe 6 column,
+    chhoti screen pe poori width".
+
+        <div class="col-12 col-md-6 col-lg-4">
+
+    Containers:
+        container         har breakpoint pe fixed max-width
+        container-fluid   hamesha 100%
+        container-lg      lg tak 100%, uske baad fixed
+
+    Auto layout:
+        <div class="col">...</div><div class="col">...</div>   barabar
+        <div class="col-auto">content jitna</div>
+
+    Ek row me kitne items (cards ke liye best):
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col"><div class="card">...</div></div>
+        </div>
+
+    Offset, order, alignment:
+        offset-md-2        2 column ki khaali jagah left me
+        order-first        pehle dikhao
+        order-md-2         md pe doosre number pe
+        justify-content-center, align-items-center (row pe)
+
+    Gutter (gap):
+        g-0 ... g-5,  gx-3 (sirf horizontal),  gy-2 (sirf vertical)
+
+    Nesting: col ke andar nayi row bana sakte ho.
+
+
+------------------------------------------------------------
+5. UTILITIES – ROZ KI CLASSES
+------------------------------------------------------------
+    Spacing (property + side + size 0-5, ya auto):
+        m = margin,  p = padding
+        t top, b bottom, s start(left), e end(right), x left+right, y top+bottom
+        mt-3  px-4  mb-0  my-5  mx-auto  ms-md-2
+
+        size: 0=0, 1=0.25rem, 2=0.5rem, 3=1rem, 4=1.5rem, 5=3rem
+
+    Display:
+        d-none  d-block  d-flex  d-inline-block  d-grid
+        d-none d-md-block     mobile pe chhupao
+        d-md-none             md se upar chhupao
+
+    Flex:
+        d-flex justify-content-between align-items-center
+        flex-column  flex-wrap  gap-3  flex-grow-1
+        ms-auto       (flex me item ko right dhakelo)
+
+    Text:
+        text-center  text-md-start  text-end
+        fw-bold  fw-semibold  fst-italic
+        fs-1 ... fs-6      (font size)
+        text-truncate      (... laga ke kaato)
+        text-uppercase  small  lead
+
+    Colors:
+        text-primary  text-success  text-danger  text-secondary
+        bg-light  bg-dark  bg-primary-subtle  text-bg-warning
+        link-primary
+
+    Border, shadow, radius:
+        border  border-0  border-top  border-primary
+        rounded  rounded-3  rounded-pill  rounded-circle
+        shadow-sm  shadow  shadow-lg
+
+    Size aur position:
+        w-25 w-50 w-100  h-100  mw-100  vh-100
+        position-relative  position-absolute  top-0 end-0
+        sticky-top  fixed-bottom
+
+    Image:
+        img-fluid      (width 100%, auto height – responsive)
+        object-fit-cover
+
+
+------------------------------------------------------------
+6. COMPONENTS – JO SABSE ZYADA LAGTE HAIN
+------------------------------------------------------------
+    Button:
+        <button class="btn btn-primary">Save</button>
+        btn-outline-danger  btn-sm  btn-lg  w-100 (poori width)
+
+    Navbar (mobile pe hamburger ke saath):
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container">
+                <a class="navbar-brand" href="#">Shop</a>
+                <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="nav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+    Card:
+        <div class="card h-100">
+            <img src="..." class="card-img-top" alt="">
+            <div class="card-body">
+                <h5 class="card-title">Title</h5>
+                <p class="card-text">Text</p>
+                <a href="#" class="btn btn-primary">Open</a>
+            </div>
+        </div>
+
+    Modal:
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#m">Open</button>
+
+        <div class="modal fade" id="m" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Confirm</h5>
+                        <button class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">Pakka?</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        <button class="btn btn-danger">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    Aur kaam ke:
+        alert, badge, breadcrumb, dropdown, list-group, pagination,
+        progress, spinner-border, toast, tabs (nav-tabs), accordion,
+        offcanvas (side drawer), carousel, table table-striped table-hover
+
+
+------------------------------------------------------------
+7. FORMS AUR VALIDATION
+------------------------------------------------------------
+        <form class="needs-validation" novalidate>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" required>
+                <div class="invalid-feedback">Sahi email daalo</div>
+            </div>
+
+            <div class="mb-3">
+                <select class="form-select">
+                    <option>Delhi</option>
+                </select>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="t">
+                <label class="form-check-label" for="t">Terms maanta hoon</label>
+            </div>
+
+            <button class="btn btn-primary">Submit</button>
+        </form>
+
+    Validation JS (browser ki validation + Bootstrap style):
+        document.querySelectorAll('.needs-validation').forEach(form => {
+            form.addEventListener('submit', e => {
+                if (!form.checkValidity()) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            });
+        });
+
+    Server se aaya error dikhana: input pe is-invalid class lagao, neeche
+    invalid-feedback div.
+
+    Aur:
+        input-group      (input ke saath ₹ ya button joda)
+        form-floating    (label input ke andar tairta hai)
+        form-switch      (toggle switch)
+        row g-3 + col-md-6  (form 2 column me)
+
+
+------------------------------------------------------------
+8. JAVASCRIPT COMPONENTS
+------------------------------------------------------------
+    Do tareeke:
+    1) Data attributes (bina JS likhe):
+           data-bs-toggle="modal" data-bs-target="#m"
+    2) JS API:
+           const modal = new bootstrap.Modal('#m');
+           modal.show();
+           document.getElementById('m').addEventListener('hidden.bs.modal', () => { ... });
+
+    bootstrap.bundle.min.js me Popper (dropdown, tooltip ki positioning)
+    shaamil hai. bootstrap.min.js me nahi.
+
+    Tooltip aur popover khud se chalu nahi hote, init karna padta hai:
+        document.querySelectorAll('[data-bs-toggle="tooltip"]')
+            .forEach(el => new bootstrap.Tooltip(el));
+
+
+------------------------------------------------------------
+9. CUSTOMIZE KARNA
+------------------------------------------------------------
+    Tareeka 1 – Sass variables (sabse powerful, npm setup chahiye):
+        $primary: #4f46e5;
+        $border-radius: .75rem;
+        $font-family-sans-serif: 'Inter', sans-serif;
+        $enable-shadows: true;
+        @import "bootstrap/scss/bootstrap";
+
+        Nayi color:
+        $theme-colors: map-merge($theme-colors, ("brand": #ff6b00));
+        -> btn-brand, text-brand, bg-brand ban jaate hain
+
+    Tareeka 2 – CSS variables (CDN ke saath bhi chalta hai):
+        :root {
+            --bs-primary: #4f46e5;
+            --bs-primary-rgb: 79, 70, 229;
+            --bs-border-radius: .75rem;
+        }
+        Dhyan: kuch components (jaise .btn-primary) apne alag variables
+        rakhte hain, unke liye component ke variable badalne padte hain:
+        .btn-primary { --bs-btn-bg: #4f46e5; --bs-btn-border-color: #4f46e5; }
+
+    Tareeka 3 – apni CSS file Bootstrap ke BAAD load karo aur override.
+    !important se bacho.
+
+    Sirf zaroori parts import (size kam):
+        @import "bootstrap/scss/functions";
+        @import "bootstrap/scss/variables";
+        @import "bootstrap/scss/mixins";
+        @import "bootstrap/scss/grid";
+        @import "bootstrap/scss/buttons";
+
+
+------------------------------------------------------------
+10. DARK MODE (COLOR MODES)
+------------------------------------------------------------
+        <html data-bs-theme="dark">          poori site dark
+        <div data-bs-theme="light">          sirf yeh hissa light
+
+    Toggle:
+        const html = document.documentElement;
+        html.dataset.bsTheme = html.dataset.bsTheme === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('theme', html.dataset.bsTheme);
+
+    bg-body, text-body, bg-body-tertiary jaisi classes lo, yeh dark/light
+    me apne aap badalti hain. bg-white/bg-light fixed rehti hain.
+
+
+------------------------------------------------------------
+11. ACCESSIBILITY (SAB LOG USE KAR SAKEIN)
+------------------------------------------------------------
+    - Har input ke saath <label for="...">.
+    - Icon wale button pe aria-label="Close".
+    - visually-hidden class: screen reader ke liye text, aankh se chhupa.
+    - Color se hi meaning mat do (lal = error), text bhi likho.
+    - Modal me tabindex="-1" aur title (Bootstrap ke examples follow karo).
+
+
+------------------------------------------------------------
+12. LARAVEL / CODEIGNITER ME BOOTSTRAP
+------------------------------------------------------------
+    Laravel (Vite):
+        npm i bootstrap @popperjs/core sass
+        resources/scss/app.scss:  @import "bootstrap/scss/bootstrap";
+        resources/js/app.js:      import 'bootstrap';
+        Blade:  @vite(['resources/scss/app.scss', 'resources/js/app.js'])
+
+        Pagination Bootstrap style me (AppServiceProvider boot()):
+            Paginator::useBootstrapFive();
+
+    CodeIgniter:
+        CDN links layout view me daal do (sabse simple), ya compiled CSS
+        public/css me rakho.
+
+
+------------------------------------------------------------
+13. BOOTSTRAP vs TAILWIND
+------------------------------------------------------------
+    Cheez             Bootstrap                    Tailwind
+    ---------------   --------------------------   ------------------------
+    Soch              ready components             chhoti utility classes
+    Speed (shuru)     bahut tez                    thoda seekhna padta hai
+    Design            sab sites similar            poora custom
+    JS components     andar (modal, dropdown)      nahi, alag lib chahiye
+    HTML              saaf, kam classes            bahut classes
+    CSS size          poora framework (tree-shake  sirf use hui classes
+                      kam)
+
+    Admin panel jaldi = Bootstrap. Custom brand design = Tailwind.
+
+
+------------------------------------------------------------
+14. GALTIYAN JO MAINE KI / GOTCHAS
+------------------------------------------------------------
+    - row ke bina col likha, gutter/alignment bigad gaya.
+    - container ke bina row likha, horizontal scroll aa gaya (row ke
+      negative margin ki wajah se).
+    - bootstrap.min.js lagaya, dropdown nahi chala (Popper chahiye).
+      bundle wala lo.
+    - Tooltip init nahi kiya.
+    - Bootstrap 4 ki classes (ml-2, mr-2, float-right) v5 me nahi chalti.
+      Ab ms-2, me-2, float-end.
+    - jQuery ka $('#m').modal('show') v5 me nahi. JS API lo.
+    - Override CSS Bootstrap se pehle load ki, kuch nahi badla.
+    - Sass compile pe "@import deprecated" warning aaya. Bootstrap 5.3
+      abhi @import hi use karta hai, warning normal hai, kaam chalega.
+
+
+------------------------------------------------------------
+15. INTERVIEW ANGLE
+------------------------------------------------------------
+    Q: Bootstrap grid kaise kaam karta hai?
+    A: container > row > col. Row me 12 column. Breakpoint prefix (md, lg)
+       se screen ke hisaab se width. Flexbox pe bana hai.
+
+    Q: Mobile first ka matlab?
+    A: Bina prefix wali class sab screens pe, aur prefix wali us size se
+       upar. Pehle mobile design, phir badi screen.
+
+    Q: Bootstrap 4 se 5 me kya badla?
+    A: jQuery hata, left/right ki jagah start/end (RTL support), xxl
+       breakpoint, utilities API, CSS variables, 5.3 me dark mode.
+
+    Q: Customize kaise karoge?
+    A: Sass variables override karke compile, ya CSS variables. Seedha
+       bootstrap.css edit kabhi nahi.
+
+
+------------------------------------------------------------
+16. LINKS
+------------------------------------------------------------
+    - Official docs          https://getbootstrap.com/docs/5.3/
+    - Examples (layouts)     https://getbootstrap.com/docs/5.3/examples/
+    - Icons                  https://icons.getbootstrap.com
+    - Cheatsheet             CHEATSHEETS/html/bootstrap.txt
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    container > row > col, mobile first, aur JS ke liye bundle file.

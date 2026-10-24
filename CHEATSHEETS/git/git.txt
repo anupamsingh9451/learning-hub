@@ -1,0 +1,71 @@
+GIT CHEATSHEET
+==============
+Time: 2 min – jab bhi command bhool jao
+
+
+------------------------------------------------------------
+1. ROZ KE COMMANDS
+------------------------------------------------------------
+    Status dekho                 git status
+    Sab add                      git add -A
+    Commit                       git commit -m "msg"
+    Push                         git push
+    Latest lao                   git pull
+    History                      git log --oneline --graph -20
+    Remote dekho                 git remote -v
+
+
+------------------------------------------------------------
+2. BRANCH
+------------------------------------------------------------
+    Naya branch                  git switch -c feature/x
+    Branch badlo                 git switch main
+    Saare branch                 git branch -a
+
+
+------------------------------------------------------------
+3. GALTI SUDHARNA
+------------------------------------------------------------
+    Last commit ka msg sudharo   git commit --amend -m "naya msg"
+    (sirf push se PEHLE)
+    File ka change undo          git restore file.txt
+    Add kiya hua hatao           git restore --staged file.txt
+    Kaam side me rakho           git stash      /   git stash pop
+
+
+------------------------------------------------------------
+4. REBASE
+------------------------------------------------------------
+    Rebase = apne branch ke commits utha ke main ke latest commit
+    ke upar dobara lagana. History ek seedhi line ban jaati hai,
+    alag se merge commit nahi banta.
+
+    Main ke upar branch lao      git rebase main feature/x
+    Pull, bina merge commit      git pull --rebase
+    Conflict aaye toh            file theek karo -> git add file.txt -> git rebase --continue
+    Ye commit chhod do           git rebase --skip
+    Sab cancel, pehle jaisa      git rebase --abort
+    Last 3 commit saaf karo      git rebase -i HEAD~3
+    (editor khulega: pick / squash / reword / drop)
+    Rebase ke baad push          git push --force-with-lease
+    (sirf apne akele ke branch pe, main pe kabhi nahi)
+
+
+------------------------------------------------------------
+5. KHAALI FOLDER AUR TRACKING
+------------------------------------------------------------
+    Git sirf files track karta hai. Khaali folder rakhna ho toh usme
+    ek khaali .gitkeep file daalo (poora note: NOTES/git/gitkeep.txt).
+
+    Khaali folder rakhna         New-Item NOTES\x\.gitkeep
+    File hatao, disk pe raho     git rm --cached file.txt
+    Folder hatao, disk pe raho   git rm -r --cached ROADMAP
+    (phir uska naam .gitignore me daalo, warna agle add me wapas aayega)
+    Kaun si files track ho rahi  git ls-files
+    Ye file ignore kyun hui      git check-ignore -v file.txt
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    Push ho chuke commit ko amend/rebase mat karo – naya commit banao.

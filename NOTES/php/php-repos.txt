@@ -1,0 +1,103 @@
+PHP KE KAAM KE REPOS
+====================
+Topic: PHP libraries (Composer packages) aur seekhne ke repos
+Date: 24-10-2026
+Time: ~5 min padhne me
+Link: https://github.com/<repo naam>  (repo ka naam hi uska link hai)
+
+    Yeh sab Composer se aate hain, isliye Laravel, CodeIgniter ya plain
+    PHP, teeno me chal jaate hain.
+
+
+------------------------------------------------------------
+1. ROZ KE KAAM KI LIBRARIES
+------------------------------------------------------------
+    guzzle/guzzle
+        Kya hai : HTTP client. Doosri API ko call karne ke liye.
+        Kab lo  : Payment gateway, SMS API, koi bhi bahar ki API.
+
+    PHPMailer/PHPMailer
+        Kya hai : SMTP se email bhejna, attachment ke saath.
+        Kab lo  : Plain PHP ya CodeIgniter me mail bhejna ho.
+
+    phpdotenv/phpdotenv
+        Kya hai : .env file se settings (DB password etc.) padhna.
+        Kab lo  : Password code me likhne se bachna ho.
+
+    briannesbitt/Carbon
+        Kya hai : Date/time ka kaam aasan ("3 din pehle", add days).
+        Kab lo  : Jab bhi date ka hisaab ho.
+
+    Seldaek/monolog
+        Kya hai : Logging (file, email, Slack me log bhejna).
+        Kab lo  : Error ya important event record karna ho.
+
+    ramsey/uuid
+        Kya hai : Unique ID (UUID) banana.
+        Kab lo  : Auto-increment ID bahar dikhana safe na ho.
+
+
+------------------------------------------------------------
+2. FILES: PDF, EXCEL, IMAGE
+------------------------------------------------------------
+    dompdf/dompdf
+        Kya hai : HTML se PDF banana.
+        Kab lo  : Invoice, receipt, report download.
+
+    PHPOffice/PhpSpreadsheet
+        Kya hai : Excel file padhna aur banana.
+        Kab lo  : Data import/export Excel me.
+
+    Intervention/image
+        Kya hai : Image resize, crop, watermark.
+        Kab lo  : User ki profile photo ya product image upload.
+
+    thephpleague/flysystem
+        Kya hai : Local disk, S3, FTP sab ke liye ek hi code.
+        Kab lo  : Aaj local, kal S3 pe files rakhni hon.
+
+
+------------------------------------------------------------
+3. CODE QUALITY AUR TESTING
+------------------------------------------------------------
+    phpstan/phpstan
+        Kya hai : Code chalaye bina bugs pakadta hai (static analysis).
+        Kab lo  : Deploy se pehle galtiyan pakadni hon.
+
+    rectorphp/rector
+        Kya hai : Purana code apne aap naye PHP version me badalta hai.
+        Kab lo  : PHP 7 project ko PHP 8 pe le jaana ho.
+
+    PHP-CS-Fixer/PHP-CS-Fixer
+        Kya hai : Code formatting ek jaisi kar deta hai.
+        Kab lo  : Team me sab ka code ek style me chahiye.
+
+    sebastianbergmann/phpunit
+        Kya hai : PHP testing ka standard tool.
+        Kab lo  : Unit test likhne ho.
+
+    pestphp/pest
+        Kya hai : PHPUnit ke upar simple syntax wala testing tool.
+        Kab lo  : Test likhna aasan aur padhne layak chahiye.
+
+
+------------------------------------------------------------
+4. SEEKHNE KE LIYE
+------------------------------------------------------------
+    piotrplenik/clean-code-php
+        Kya hai : Clean code ke rules, PHP examples ke saath.
+        Kab lo  : Apna code saaf karna seekhna ho.
+
+    DesignPatternsPHP/DesignPatternsPHP
+        Kya hai : Design patterns (Factory, Strategy...) PHP me.
+        Kab lo  : Interview prep ya bade project ka design.
+
+    ziadoz/awesome-php
+        Kya hai : Achhi PHP libraries ki badi list.
+        Kab lo  : Kisi kaam ki library dhoondhni ho.
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    Koi kaam khud likhne se pehle awesome-php me dekho, library mil jaayegi.

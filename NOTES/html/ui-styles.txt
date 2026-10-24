@@ -1,0 +1,603 @@
+UI STYLES / THEMES – DETAILED NOTES
+===================================
+Topic: html
+Date: 24-10-2026
+Time: ~50 min (roz 4-5 styles padho)
+Status: learning
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    UI style = design ka "look aur feel". Wahi button, card, form, par
+    style badlo toh poori site ka mood badal jaata hai.
+
+    Misaal: Ek hi kamra. Minimal = safed deewar, kam furniture.
+    Maximal = rangeen deewar, bahut saari cheezein. Kamra wahi, feel alag.
+
+
+------------------------------------------------------------
+2. KYUN ZAROORI HAI
+------------------------------------------------------------
+    - Client bolega "Apple jaisa clean chahiye" ya "Gumroad jaisa bold".
+      Style ka naam pata hoga toh turant samajh jaoge.
+    - Designer se baat aasan: "glassmorphism card, bento layout".
+    - Sahi style chunoge toh brand aur users dono ke hisaab se UI banega.
+
+
+------------------------------------------------------------
+3. STYLE KAISE CHUNEIN – 4 SAWAL
+------------------------------------------------------------
+    1) User kaun hai?
+       Bank/hospital user -> bharosa, saaf UI (minimal, material).
+       Gen-Z / creator -> bold, playful (neubrutalism, maximal, Y2K).
+    2) Kaam kya hai?
+       Roz ka tool (dashboard) -> padhne me aasan, kam decoration.
+       Ek baar dekhne wala (landing page, portfolio) -> wow factor chalega.
+    3) Content kitna hai?
+       Bahut data -> minimal, flat. Kam content -> 3D, maximal.
+    4) Accessibility?
+       Text aur background me contrast kam se kam 4.5:1 ho. Kuch styles
+       (neumorphism, glass) me yeh mushkil hota hai.
+
+
+------------------------------------------------------------
+4. MINIMALISM (MINIMAL DESIGN)
+------------------------------------------------------------
+    Kya hai : "Kam hi zyada hai." Sirf zaroori cheezein, baaki hata do.
+    Pehchan : Bahut khaali jagah (whitespace), 1-2 colors, saaf font,
+              kam borders/shadows, ek page pe ek main message.
+    Kab lo  : SaaS, portfolio, premium brand, docs, dashboard.
+    Kab nahi: Jab brand ko masti/energy dikhani ho.
+
+    CSS ka jaadu:
+        body { font-family: Inter, system-ui, sans-serif; color: #111; }
+        section { padding: 96px 24px; max-width: 72ch; margin: auto; }
+        Tailwind: py-24 max-w-3xl mx-auto text-gray-900
+
+    Sample sites:
+        https://www.apple.com
+        https://vercel.com
+        https://minimal.gallery            (minimal sites ki gallery)
+
+    Repos / tools:
+        picocss/pico          bina class ke saaf HTML styling
+        kevquirk/simple.css   ek CSS file, simple site
+        kognise/water.css     classless CSS
+        vercel/geist-font     Vercel ka saaf font
+
+
+------------------------------------------------------------
+5. FLAT DESIGN
+------------------------------------------------------------
+    Kya hai : Bina shadow, gradient, texture ke seedhe-saade rang aur
+              shapes. 2012 ke aas-paas Windows 8 (Metro) aur iOS 7 se
+              famous hua.
+    Pehchan : Solid colors, simple icons, koi 3D effect nahi.
+    Kab lo  : Icons, illustrations, mobile apps, fast-loading sites.
+    Kab nahi: Jab button aur normal text me farak samajhna mushkil ho
+              jaaye. Isliye aaj "flat 2.0" (halki shadow) chalta hai.
+
+    CSS ka jaadu:
+        .btn { background: #2563eb; color: #fff; border: 0; border-radius: 6px; }
+
+    Sample sites:
+        https://www.duolingo.com           (flat illustrations, solid rang)
+
+    Repos / tools:
+        twbs/bootstrap        default look kaafi flat hai
+        tabler/tabler-icons   flat line icons
+
+
+------------------------------------------------------------
+6. MATERIAL DESIGN
+------------------------------------------------------------
+    Kya hai : Google ka design system. Flat + thoda depth (shadow =
+              "elevation"), clear rules sab ke liye.
+    Pehchan : Cards upar uthe hue, ripple effect on click, floating
+              action button (FAB), Material You (M3) me dynamic colors.
+    Kab lo  : Android jaisa feel, enterprise apps, jab ready rules chahiye.
+    Kab nahi: Unique brand look chahiye (sab Google app jaisa lagega).
+
+    Sample sites:
+        https://m3.material.io             (official guide + examples)
+
+    Repos / tools:
+        material-components/material-web   Google ke web components
+        mui/material-ui                     React ke liye Material
+
+
+------------------------------------------------------------
+7. SKEUOMORPHISM
+------------------------------------------------------------
+    Kya hai : UI ko asli duniya ki cheezon jaisa banana. Notes app me
+              peela kaagaz, calculator me asli button, leather texture.
+              iOS 6 tak Apple yahi karta tha.
+    Pehchan : Texture, realistic shadow, gradient, chamak (gloss).
+    Kab lo  : Music/audio apps (knobs, sliders), games, nostalgia feel.
+              Aaj "neo-skeuomorphism" (halke real effects) wapas aa raha hai.
+    Kab nahi: Data-heavy app. Bhaari lagta hai, load slow.
+
+    CSS ka jaadu:
+        .knob {
+            background: linear-gradient(145deg, #e6e6e6, #bcbcbc);
+            box-shadow: inset 0 2px 4px #fff, 0 6px 12px rgba(0,0,0,.35);
+        }
+
+    Sample:
+        https://dribbble.com/tags/skeuomorphism
+
+
+------------------------------------------------------------
+8. NEUMORPHISM (SOFT UI)
+------------------------------------------------------------
+    Kya hai : Skeuomorphism + flat ka mix. Element background se hi
+              "ubhra" ya "dabaa" hua lagta hai, jaise mitti me daba button.
+    Pehchan : Background aur element ka same rang, do shadows (ek halki
+              upar-left, ek gehri neeche-right), bahut soft.
+    Kab lo  : Chhote widgets, smart home controls, music player, concept.
+    Kab nahi: Poori app. Contrast bahut kam hota hai, buttons pehchan me
+              nahi aate. Accessibility ke liye kharab.
+
+    CSS ka jaadu:
+        body { background: #e0e5ec; }
+        .card {
+            background: #e0e5ec;
+            border-radius: 20px;
+            box-shadow: 9px 9px 16px #a3b1c6, -9px -9px 16px #ffffff;
+        }
+        .pressed { box-shadow: inset 6px 6px 10px #a3b1c6, inset -6px -6px 10px #fff; }
+
+    Sample / generator:
+        https://neumorphism.io             (shadow generator)
+        https://dribbble.com/tags/neumorphism
+
+    Repos:
+        themesberg/neumorphism-ui-bootstrap   Bootstrap pe Neumorphism UI kit
+
+
+------------------------------------------------------------
+9. GLASSMORPHISM
+------------------------------------------------------------
+    Kya hai : Dhundhla (frosted) kaanch jaisa layer. Peeche ka rang blur
+              hoke dikhta hai. macOS, Windows 11 me yahi look.
+    Pehchan : Transparent white background, backdrop blur, patla safed
+              border, peeche rangeen gradient ya photo.
+    Kab lo  : Hero section, login card, music/weather widgets, overlays.
+    Kab nahi: Peeche simple safed background ho (effect dikhega hi nahi),
+              ya bahut text ho (padhna mushkil). Purane mobile pe blur slow.
+
+    CSS ka jaadu:
+        .glass {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 16px;
+        }
+        Tailwind: bg-white/15 backdrop-blur-md border border-white/30 rounded-2xl
+
+    Sample / generator:
+        https://css.glass                  (glass CSS generator)
+        https://dribbble.com/tags/glassmorphism
+
+    Repos:
+        Library ki zaroorat nahi, upar ki 5 lines kaafi hain.
+
+
+------------------------------------------------------------
+10. LIQUID GLASS (APPLE, 2025)
+------------------------------------------------------------
+    Kya hai : Apple ki nayi design language (iOS 26 se). Glassmorphism ka
+              agla roop: kaanch jo peeche ki cheez ko modta (refract) hai,
+              chamakta hai aur hilne pe "liquid" ki tarah behave karta hai.
+    Pehchan : Transparent controls, kinaron pe chamak, halka distortion,
+              content ke upar tairte buttons/tab bars.
+    Kab lo  : Apple jaisa premium feel, floating nav/toolbar.
+    Kab nahi: Text-heavy page. Readability ka dhyan rakho.
+
+    Sample:
+        https://www.apple.com/os/ios/
+
+    Repos:
+        rdev/liquid-glass-react   React me liquid glass effect
+
+    Note: Web pe poora effect SVG filters/WebGL se banta hai, bhaari ho
+    sakta hai. Simple version = glassmorphism + chamakdaar border.
+
+
+------------------------------------------------------------
+11. CLAYMORPHISM
+------------------------------------------------------------
+    Kya hai : Mitti/clay jaise phoole hue, soft 3D shapes. Bachchon ke
+              khilone jaisa friendly look.
+    Pehchan : Bade rounded corners, pastel rang, andar ki (inner) shadow
+              + bahar ki shadow, 3D illustrations.
+    Kab lo  : Kids app, fun SaaS, onboarding screens, landing page.
+    Kab nahi: Serious finance/legal product.
+
+    CSS ka jaadu:
+        .clay {
+            background: #ffd6e0;
+            border-radius: 32px;
+            box-shadow:
+                inset -8px -8px 16px rgba(0,0,0,.08),
+                inset 8px 8px 16px rgba(255,255,255,.7),
+                12px 12px 24px rgba(0,0,0,.12);
+        }
+
+    Sample / generator:
+        https://hype4.academy/tools/claymorphism-generator
+        https://dribbble.com/tags/claymorphism
+
+    Repos:
+        codeAdrian/clay.css   claymorphism ke liye CSS
+
+
+------------------------------------------------------------
+12. BRUTALISM
+------------------------------------------------------------
+    Kya hai : Kachcha, "design kiya hi nahi" jaisa look. Default HTML,
+              system fonts, seedhe links. Jaan-boojh ke rough.
+    Pehchan : Plain text, blue underlined links, koi decoration nahi,
+              kabhi-kabhi ajeeb layout.
+    Kab lo  : Art/portfolio sites, statement dena ho, ya super-fast
+              simple site.
+    Kab nahi: Normal business site jahan bharosa dikhana ho.
+
+    Sample sites:
+        https://www.craigslist.org          (purana, simple, kaam ka)
+        https://www.berkshirehathaway.com   (bilkul plain HTML)
+        https://brutalistwebsites.com       (brutalist sites ki gallery)
+
+
+------------------------------------------------------------
+13. NEUBRUTALISM (NEO-BRUTALISM)
+------------------------------------------------------------
+    Kya hai : Brutalism ka rangeen, modern roop. Mote kaale borders, sakht
+              (hard) shadow, chamakdaar rang. Abhi bahut trending.
+    Pehchan : 2-3px black border, shadow bina blur (4px 4px 0 #000), bold
+              font, peela/gulabi/hara rang, thoda "sticker" jaisa.
+    Kab lo  : Creator tools, startup landing page, Gen-Z product, portfolio.
+    Kab nahi: Purana/serious audience (bank, govt).
+
+    CSS ka jaadu:
+        .neo {
+            background: #ffde59;
+            border: 3px solid #000;
+            box-shadow: 5px 5px 0 #000;
+            border-radius: 8px;
+            font-weight: 700;
+        }
+        .neo:hover { transform: translate(2px, 2px); box-shadow: 3px 3px 0 #000; }
+        Tailwind: border-[3px] border-black shadow-[5px_5px_0_#000] bg-yellow-300
+
+    Sample sites:
+        https://gumroad.com                 (sabse famous neubrutalism example)
+        https://www.neobrutalism.dev        (components + demo)
+        https://dribbble.com/tags/neubrutalism
+
+    Repos:
+        ekmas/neobrutalism-components   shadcn style neubrutalism components
+
+
+------------------------------------------------------------
+14. MAXIMALISM
+------------------------------------------------------------
+    Kya hai : Minimalism ka ulta. "Zyada hi mazaa hai." Bahut rang,
+              patterns, kai fonts, layers, animation, sab ek saath.
+    Pehchan : Bold colors ki takkar, bade aur alag-alag fonts, collage,
+              stickers, overlapping elements, koi khaali jagah nahi.
+    Kab lo  : Fashion, music, event, festival, art, campaign page.
+    Kab nahi: Dashboard, form-heavy app, roz use hone wala tool.
+
+    Dhyan: Maximal ka matlab bekaabu nahi. Ek grid aur ek main focus
+    phir bhi chahiye, warna user kho jaata hai.
+
+    Sample:
+        https://dribbble.com/tags/maximalism
+        https://www.awwwards.com            (award wali bold sites)
+
+
+------------------------------------------------------------
+15. BENTO GRID
+------------------------------------------------------------
+    Kya hai : Japanese bento lunch box jaisa layout. Alag-alag size ke
+              boxes ek grid me, har box me ek feature.
+    Pehchan : Rounded cards, kuch bade kuch chhote, ek saath ek screen me
+              poori kahani.
+    Kab lo  : Feature section, portfolio, "about me", product highlights.
+    Kab nahi: Lambi list ya table wala data.
+
+    CSS ka jaadu:
+        .bento { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+        .big   { grid-column: span 2; grid-row: span 2; }
+        Tailwind: grid grid-cols-4 gap-4  +  col-span-2 row-span-2
+
+    Sample sites:
+        https://www.apple.com               (product pages ke feature sections)
+        https://bentogrids.com              (bento layouts ki gallery)
+
+    Repos:
+        magicuidesign/magicui   bento grid component bhi hai
+
+
+------------------------------------------------------------
+16. DARK MODE UI
+------------------------------------------------------------
+    Kya hai : Kaala/gehra background, halka text. Aankhon ko raat me aaram,
+              premium/tech feel.
+    Pehchan : Bilkul kaala (#000) nahi, gehra gray (#0a0a0a - #1a1a1a),
+              text off-white, accent ek chamakdaar rang.
+    Kab lo  : Developer tools, dashboards, media apps. Hamesha light ke saath
+              option do.
+    Kab nahi: Lamba padhne wala content sirf dark me (kuch logon ko mushkil).
+
+    Tips:
+    - Dark me shadow kaam nahi karti. Depth ke liye halka lighter surface.
+    - Saturated rang dark pe chubhte hain, thoda halka (desaturate) karo.
+
+    Sample sites:
+        https://linear.app
+        https://github.com                  (dark theme option)
+
+    Repos:
+        pacocoursey/next-themes   Next.js me dark/light toggle
+
+
+------------------------------------------------------------
+17. GRADIENT / AURORA / MESH
+------------------------------------------------------------
+    Kya hai : Rangon ka smooth milna. Aurora = northern lights jaise
+              dhundhle rangeen glow. Mesh = kai rang kai dishaon se.
+    Pehchan : Background me chalta/hilta gradient, glowing blobs, dark
+              background pe rangeen roshni.
+    Kab lo  : SaaS/AI product ka hero section, modern tech brand.
+    Kab nahi: Har section me. Ek-do jagah hi achha lagta hai.
+
+    CSS ka jaadu:
+        .hero {
+            background:
+                radial-gradient(at 20% 20%, #7c3aed 0, transparent 50%),
+                radial-gradient(at 80% 30%, #06b6d4 0, transparent 50%),
+                #0b0b12;
+        }
+
+    Sample sites:
+        https://stripe.com                  (famous moving gradient)
+        https://linear.app                  (dark + glow)
+
+    Repos:
+        magicuidesign/magicui   aurora/glow jaise animated effects
+
+
+------------------------------------------------------------
+18. RETRO / Y2K / PIXEL
+------------------------------------------------------------
+    Kya hai : Purane computer, Windows 98/XP, 2000s ka internet, ya 8-bit
+              game ka look. Nostalgia bechna.
+    Pehchan : Pixel fonts, grey Windows boxes, chrome/metallic text,
+              neon, purane icons.
+    Kab lo  : Fun side project, game, music, event, portfolio.
+    Kab nahi: Serious product (mazaak lagega).
+
+    Sample sites:
+        https://poolsuite.net                         (retro Mac jaisa)
+        https://jdan.github.io/98.css/                (Windows 98 UI demo)
+        https://botoxparty.github.io/XP.css/          (Windows XP UI demo)
+        https://nostalgic-css.github.io/NES.css/      (8-bit game UI demo)
+
+    Repos:
+        jdan/98.css            Windows 98 jaisa CSS
+        botoxparty/XP.css      Windows XP jaisa CSS
+        nostalgic-css/NES.css  NES (8-bit) game jaisa CSS
+
+
+------------------------------------------------------------
+19. CYBERPUNK / FUTURISTIC / SCI-FI
+------------------------------------------------------------
+    Kya hai : Film/game ke future jaisa UI. Neon, kaala background, kati
+              hui (angled) corners, glitch effect.
+    Pehchan : Neon cyan/magenta/yellow, monospace font, scan lines,
+              HUD (game screen) jaise frames.
+    Kab lo  : Gaming, crypto/Web3, tech event, hackathon site.
+    Kab nahi: Normal business app.
+
+    CSS ka jaadu:
+        .neon { color: #0ff; text-shadow: 0 0 6px #0ff, 0 0 20px #0ff; }
+        .cut  { clip-path: polygon(0 0, 92% 0, 100% 25%, 100% 100%, 8% 100%, 0 75%); }
+
+    Sample sites:
+        https://www.cyberpunk.net
+
+    Repos:
+        arwes/arwes   futuristic sci-fi UI framework (React)
+
+
+------------------------------------------------------------
+20. SWISS / INTERNATIONAL TYPOGRAPHIC STYLE
+------------------------------------------------------------
+    Kya hai : 1950s Switzerland ka design. Typography hi design hai.
+              Sakht grid, bada bold text, asymmetric layout.
+    Pehchan : Helvetica jaisa font, bade headline, laal/kaala/safed,
+              left-aligned text, saaf grid lines.
+    Kab lo  : Agency, portfolio, architecture, editorial, event poster.
+    Kab nahi: Bahut images wala e-commerce.
+
+    CSS ka jaadu:
+        h1 { font: 800 clamp(3rem, 10vw, 9rem)/0.9 "Helvetica Neue", Arial, sans-serif;
+             letter-spacing: -0.04em; }
+        .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; }
+
+    Sample:
+        https://dribbble.com/tags/swiss_design
+
+
+------------------------------------------------------------
+21. EDITORIAL / MAGAZINE
+------------------------------------------------------------
+    Kya hai : Akhbaar/magazine jaisa. Padhne pe focus. Serif headings,
+              achhi line length, bade images.
+    Pehchan : Serif font (Georgia, Playfair), column layout, drop caps,
+              pull quotes, bahut whitespace.
+    Kab lo  : Blog, news, long article, case study, documentation.
+    Kab nahi: App UI (buttons, forms wala).
+
+    CSS ka jaadu:
+        article { max-width: 68ch; font: 1.125rem/1.75 Georgia, serif; }
+        article p:first-of-type::first-letter { float: left; font-size: 3.5em; line-height: 1; }
+
+    Repos:
+        tailwindlabs/tailwindcss-typography   "prose" class se article sundar
+
+
+------------------------------------------------------------
+22. HAND-DRAWN / SKETCH / DOODLE
+------------------------------------------------------------
+    Kya hai : Haath se bana hua jaisa. Tedhi lines, doodles, handwriting
+              font. Insaani aur friendly feel.
+    Pehchan : Wobbly borders, sketch illustrations, marker highlight.
+    Kab lo  : Notes/whiteboard apps, education, friendly brand, personal blog.
+    Kab nahi: Bahut formal product.
+
+    Sample sites:
+        https://www.notion.com              (haath se bane jaise illustrations)
+
+    Repos:
+        rough-stuff/rough            canvas/SVG pe sketch jaisi shapes
+        rough-stuff/wired-elements   hand-drawn jaise UI components
+
+
+------------------------------------------------------------
+23. PLAYFUL / ILLUSTRATION-HEAVY
+------------------------------------------------------------
+    Kya hai : Characters, mascots, bade illustrations, chhote animation.
+              Product ko dost jaisa banana.
+    Pehchan : Mascot (Duolingo ka ullu), bright rang, rounded fonts, mazedaar
+              text ("Oops! Kuch gadbad hui").
+    Kab lo  : Learning app, health/wellness, consumer app, onboarding.
+    Kab nahi: B2B enterprise jahan seriousness chahiye (thoda chal sakta hai).
+
+    Sample sites:
+        https://www.duolingo.com
+        https://www.headspace.com
+        https://mailchimp.com
+
+
+------------------------------------------------------------
+24. 3D / IMMERSIVE
+------------------------------------------------------------
+    Kya hai : Asli 3D objects jo ghoomte, scroll pe hilte hain. Product ko
+              har taraf se dikhana.
+    Pehchan : WebGL, scroll pe 3D animation, interactive models.
+    Kab lo  : Product launch, portfolio, gaming, car/gadget showcase.
+    Kab nahi: Slow internet wale users, data app. Page bhaari hota hai.
+
+    Sample sites:
+        https://spline.design               (3D banane ka tool, khud demo hai)
+        https://www.apple.com               (product pages pe 3D scroll)
+
+    Repos:
+        pmndrs/react-three-fiber   React me 3D (Three.js)
+
+
+------------------------------------------------------------
+25. EK NAZAR ME – COMPARISON
+------------------------------------------------------------
+    Style            Mood              Best for                Accessibility
+    --------------   ---------------   ---------------------   -------------
+    Minimalism       saaf, premium     SaaS, portfolio         achhi
+    Flat             simple, fast      apps, icons             achhi
+    Material         clear, rules      enterprise, Android     achhi
+    Skeuomorphism    real, bhaari      audio, games            theek
+    Neumorphism      soft, calm        widgets, concept        kamzor
+    Glassmorphism    modern, light     hero, overlays          dhyan se
+    Liquid Glass     premium, Apple    floating nav            dhyan se
+    Claymorphism     friendly, fun     kids, onboarding        theek
+    Brutalism        raw, bold         art, statement          theek
+    Neubrutalism     bold, young       startups, creators      achhi
+    Maximalism       energy, loud      fashion, events         dhyan se
+    Bento Grid       organized         features, portfolio     achhi
+    Dark Mode        tech, focus       dev tools, dashboard    achhi (sahi rang)
+    Gradient/Aurora  futuristic        AI/SaaS hero            theek
+    Retro/Y2K        nostalgia, fun    side projects           theek
+    Cyberpunk        edgy, neon        gaming, Web3            dhyan se
+    Swiss            sharp, bold type  agency, editorial       achhi
+    Editorial        padhne layak      blog, news              achhi
+    Hand-drawn       insaani, warm     education, notes        achhi
+    Playful          dost jaisa        consumer apps           achhi
+    3D / Immersive   wow               launch, showcase        dhyan se
+
+    Real projects me styles mix hote hain: jaise Minimal + Bento + Dark,
+    ya Neubrutalism + Playful.
+
+
+------------------------------------------------------------
+26. INSPIRATION KAHAN SE LEIN
+------------------------------------------------------------
+    https://www.awwwards.com          award jeetne wali sites
+    https://dribbble.com              designers ke shots (tags se style dhoondho)
+    https://land-book.com             landing pages
+    https://www.lapa.ninja            landing pages
+    https://onepagelove.com           one-page sites
+    https://saaslandingpage.com       SaaS landing pages
+    https://mobbin.com                mobile/web app screens (real apps)
+    https://minimal.gallery           minimal sites
+    https://brutalistwebsites.com     brutalist sites
+    https://bentogrids.com            bento layouts
+
+
+------------------------------------------------------------
+27. KAAM KE TOOLS
+------------------------------------------------------------
+    https://www.realtimecolors.com               palette ko asli page pe dekho
+    https://fonts.google.com                     free fonts
+    https://webaim.org/resources/contrastchecker/ contrast check (4.5:1)
+    https://refactoringui.com                    developer ke liye design book
+    https://www.nngroup.com/articles/            UX research articles
+    UI component repos                           NOTES/html/ui-repos.txt
+
+
+------------------------------------------------------------
+28. GALTIYAN JO MAINE KI / GOTCHAS
+------------------------------------------------------------
+    - Trend dekh ke style chuna, user nahi dekha. Bank app neubrutalism me.
+    - Glassmorphism safed background pe. Effect dikha hi nahi.
+    - Neumorphism me buttons pehchan me nahi aaye. Contrast check nahi kiya.
+    - Dark mode me #000 aur #fff. Aankh chubhi. Gehra gray + off-white lo.
+    - Ek page pe 4 styles mix. Kuch bhi consistent nahi laga.
+    - 3D/animation mobile pe bhaari. Lighthouse pe score gira.
+    - Style pe dhyan, spacing aur typography pe nahi. Asli farak wahi
+      dalte hain.
+
+
+------------------------------------------------------------
+29. INTERVIEW ANGLE
+------------------------------------------------------------
+    Q: Glassmorphism aur Neumorphism me farak?
+    A: Glass me transparent, blur kaanch jaisi layer (backdrop-filter).
+       Neumorphism me element background ka hi rang, do shadows se ubhra
+       hua lagta hai.
+
+    Q: Neumorphism kam kyun use hota hai?
+    A: Contrast kam, buttons aur normal area ka farak samajh nahi aata.
+       Accessibility kharab.
+
+    Q: Brutalism aur Neubrutalism me farak?
+    A: Brutalism kachcha, bina design ka. Neubrutalism usi soch se, par
+       rangeen, mote borders, hard shadows, jaan-boojh ke stylish.
+
+    Q: Dark mode banate waqt kya dhyan rakhoge?
+    A: Pure black/white nahi, contrast check, shadow ki jagah lighter
+       surfaces, user ko toggle aur system setting dono.
+
+    Q: Bento grid kya hai?
+    A: Alag size ke cards wala grid layout, ek screen me kai features.
+       CSS grid + span se banta hai.
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    Style user aur kaam ke hisaab se chuno, trend ke hisaab se nahi. Aur
+    koi bhi style ho, spacing, typography aur contrast pehle.

@@ -1,0 +1,140 @@
+LARAVEL KE KAAM KE REPOS
+========================
+Topic: Laravel official packages, admin panel, Spatie, debug tools
+Date: 24-10-2026
+Time: ~5 min padhne me
+Link: https://github.com/<repo naam>  (repo ka naam hi uska link hai)
+
+
+------------------------------------------------------------
+1. OFFICIAL (LARAVEL TEAM)
+------------------------------------------------------------
+    laravel/laravel
+        Kya hai : Naye project ka khaali dhaancha (skeleton).
+        Kab lo  : Dekhna ho ki fresh project me kya-kya aata hai.
+
+    laravel/framework
+        Kya hai : Laravel ka asli core code.
+        Kab lo  : Samajhna ho ki andar se kaise kaam karta hai.
+
+    laravel/react-starter-kit
+        Kya hai : Laravel + React + Inertia, login/register ready.
+        Kab lo  : Naya full stack project React ke saath.
+
+    laravel/sanctum
+        Kya hai : API token aur SPA login.
+        Kab lo  : Mobile app ya React frontend ke liye API auth.
+
+    laravel/socialite
+        Kya hai : Google, GitHub, Facebook se login.
+        Kab lo  : "Login with Google" button chahiye.
+
+    laravel/horizon
+        Kya hai : Redis queue ka dashboard.
+        Kab lo  : Background jobs dekhne aur sambhalne ho.
+
+    laravel/telescope
+        Kya hai : Debug dashboard (requests, queries, jobs, mails).
+        Kab lo  : Local me dekhna ho ki request me kya hua.
+
+    laravel/reverb
+        Kya hai : Laravel ka apna WebSocket server.
+        Kab lo  : Live chat, live notification.
+
+    laravel/pint
+        Kya hai : Code formatter.
+        Kab lo  : Commit se pehle code saaf.
+
+    laravel/sail
+        Kya hai : Docker se Laravel ka local setup.
+        Kab lo  : PHP/MySQL bina install kiye project chalana ho.
+
+
+------------------------------------------------------------
+2. ADMIN PANEL AUR UI
+------------------------------------------------------------
+    filamentphp/filament
+        Kya hai : Admin panel jaldi (CRUD, forms, tables, filters).
+        Kab lo  : Client ko backend panel dena ho, kam time me.
+
+    livewire/livewire
+        Kya hai : Bina JavaScript likhe dynamic page (sirf PHP + Blade).
+        Kab lo  : Live search, form validation bina React ke.
+
+    inertiajs/inertia-laravel
+        Kya hai : Laravel routes + React/Vue pages, alag API nahi banani.
+        Kab lo  : SPA jaisa feel chahiye, par Laravel ka simple flow.
+
+
+------------------------------------------------------------
+3. SPATIE PACKAGES (SABSE ZYADA USE HONE WALE)
+------------------------------------------------------------
+    spatie/laravel-permission
+        Kya hai : Roles aur permissions (admin, editor, user).
+        Kab lo  : Har project me jahan alag users ko alag access ho.
+
+    spatie/laravel-medialibrary
+        Kya hai : Files/images ko model se jodna, thumbnail banana.
+        Kab lo  : Product images, user documents.
+
+    spatie/laravel-backup
+        Kya hai : Database + files ka backup (S3 ya kahin bhi).
+        Kab lo  : Live project ka roz backup.
+
+    spatie/laravel-activitylog
+        Kya hai : Kisne kab kya badla, uska record.
+        Kab lo  : Audit trail chahiye.
+
+    spatie/laravel-query-builder
+        Kya hai : URL se filter/sort (?filter[name]=a&sort=-date).
+        Kab lo  : API me filters dene ho.
+
+
+------------------------------------------------------------
+4. DEBUG AUR CODE QUALITY
+------------------------------------------------------------
+    fruitcake/laravel-debugbar
+        Kya hai : Page ke neeche queries, time, memory dikhata hai.
+        Kab lo  : Page slow ho, wajah dhoondhni ho.
+
+    beyondcode/laravel-query-detector
+        Kya hai : N+1 query pakad ke warning deta hai.
+        Kab lo  : Loop me relation load ho raha ho.
+
+    barryvdh/laravel-ide-helper
+        Kya hai : VS Code me models aur facades ka autocomplete.
+        Kab lo  : Har project me, editor smart ho jaata hai.
+
+    larastan/larastan
+        Kya hai : PHPStan Laravel ke liye.
+        Kab lo  : Bina chalaye bugs pakadne ho.
+
+
+------------------------------------------------------------
+5. EXCEL AUR PDF
+------------------------------------------------------------
+    SpartnerNL/Laravel-Excel
+        Kya hai : Excel/CSV import-export (package naam maatwebsite/excel).
+        Kab lo  : Report download ya bulk data upload.
+
+    barryvdh/laravel-dompdf
+        Kya hai : Blade view se PDF.
+        Kab lo  : Invoice, certificate.
+
+
+------------------------------------------------------------
+6. SEEKHNE KE LIYE
+------------------------------------------------------------
+    alexeymezenin/laravel-best-practices
+        Kya hai : Laravel me kya karo, kya na karo, examples ke saath.
+        Kab lo  : Apna code review khud karna ho.
+
+    chiraggude/awesome-laravel
+        Kya hai : Laravel packages, tutorials ki badi list.
+        Kab lo  : Kisi kaam ka package dhoondhna ho.
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    Feature khud likhne se pehle dekho, Spatie ka package shayad bana hua hai.

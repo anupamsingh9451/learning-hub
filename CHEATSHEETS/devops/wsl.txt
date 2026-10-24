@@ -1,0 +1,63 @@
+WSL CHEATSHEET
+==============
+Time: 2 min – jab bhi command bhool jao
+Note: Yeh commands Windows PowerShell me chalte hain (section 5 chhod ke).
+
+
+------------------------------------------------------------
+1. INSTALL AUR SETUP
+------------------------------------------------------------
+    Install (Ubuntu default)     wsl --install
+    Koi aur distro               wsl --install -d Debian
+    Online distro list           wsl --list --online
+    Installed distro + version   wsl -l -v
+    Default distro set karo      wsl --set-default Ubuntu
+    WSL update                   wsl --update
+    (install ke baad PC restart karo)
+
+
+------------------------------------------------------------
+2. CHALANA AUR BAND KARNA
+------------------------------------------------------------
+    WSL kholo                    wsl
+    Specific distro kholo        wsl -d Ubuntu
+    Bina andar gaye command      wsl ls -la
+    Sab band karo (RAM free)     wsl --shutdown
+    Ek distro band karo          wsl --terminate Ubuntu
+    Status dekho                 wsl --status
+
+
+------------------------------------------------------------
+3. FILES (WINDOWS <-> LINUX)
+------------------------------------------------------------
+    D: drive, Linux ke andar se  cd /mnt/d/learning-hub
+    Linux folder Explorer me     explorer.exe .
+    Windows se Linux folder      \\wsl$\Ubuntu\home\<user>
+    VS Code me kholo             code .
+
+    Project Linux side (~/) pe rakho. /mnt/d pe npm, composer jaise
+    kaam bahut slow chalte hain.
+
+
+------------------------------------------------------------
+4. BACKUP AUR HATANA
+------------------------------------------------------------
+    Distro ka backup             wsl --export Ubuntu D:\backup\ubuntu.tar
+    Backup se wapas lao          wsl --import <naam> <folder> <file.tar>
+    Distro hatao (data bhi!)     wsl --unregister Ubuntu
+
+
+------------------------------------------------------------
+5. LINUX KE ANDAR ROZ KE COMMANDS
+------------------------------------------------------------
+    Packages update              sudo apt update && sudo apt upgrade -y
+    Kuch install karo            sudo apt install git curl
+    Abhi kahan ho                pwd
+    Disk space                   df -h
+    Folder ka size               du -sh *
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    --unregister se distro ka saara data chala jaata hai. Pehle --export karo.

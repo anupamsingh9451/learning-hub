@@ -1,0 +1,136 @@
+PYTHON KE KAAM KE REPOS
+=======================
+Topic: Python web, tools, automation, data aur AI repos
+Date: 24-10-2026
+Time: ~5 min padhne me
+Link: https://github.com/<repo naam>  (repo ka naam hi uska link hai)
+
+
+------------------------------------------------------------
+1. WEB AUR API
+------------------------------------------------------------
+    fastapi/fastapi
+        Kya hai : Fast API banane ka framework, docs page apne aap banta.
+        Kab lo  : AI model ko API ke peeche rakhna ho, ya koi REST API.
+
+    django/django
+        Kya hai : Poora framework: admin panel, ORM, auth sab andar.
+        Kab lo  : Bada web app (Laravel jaisa feel).
+
+    pallets/flask
+        Kya hai : Chhota, simple web framework.
+        Kab lo  : Chhota tool ya jaldi ek demo.
+
+    pydantic/pydantic
+        Kya hai : Data validation (type ke hisaab se check).
+        Kab lo  : API input ya LLM ka JSON output check karna ho.
+
+    sqlalchemy/sqlalchemy
+        Kya hai : Python ka sabse popular ORM.
+        Kab lo  : Database ke saath kaam, raw SQL ke bina.
+
+
+------------------------------------------------------------
+2. TOOLS
+------------------------------------------------------------
+    astral-sh/uv
+        Kya hai : pip + venv ka bahut tez replacement.
+        Kab lo  : Naya project. "uv init", "uv add requests".
+
+    astral-sh/ruff
+        Kya hai : Linter + formatter, bahut tez.
+        Kab lo  : Har project me code saaf rakhne ke liye.
+
+    pytest-dev/pytest
+        Kya hai : Python testing ka standard tool.
+        Kab lo  : Test likhne ho.
+
+    Textualize/rich
+        Kya hai : Terminal me rangeen output, table, progress bar.
+        Kab lo  : CLI script ko sundar banana ho.
+
+
+------------------------------------------------------------
+3. HTTP, SCRAPING, AUTOMATION
+------------------------------------------------------------
+    psf/requests
+        Kya hai : HTTP call karne ki sabse simple library.
+        Kab lo  : Koi bhi API call.
+
+    encode/httpx
+        Kya hai : requests jaisa, par async bhi chalta hai.
+        Kab lo  : FastAPI ke andar se API call.
+
+    scrapy/scrapy
+        Kya hai : Bade level pe website scraping.
+        Kab lo  : Bahut saare pages se data nikalna ho.
+
+    microsoft/playwright-python
+        Kya hai : Browser ko code se chalana.
+        Kab lo  : JavaScript wali site scrape, ya UI testing.
+
+    celery/celery
+        Kya hai : Background jobs aur scheduled tasks.
+        Kab lo  : Lamba kaam request se alag chalana ho.
+
+
+------------------------------------------------------------
+4. DATA
+------------------------------------------------------------
+    pandas-dev/pandas
+        Kya hai : Table jaisa data (CSV, Excel) saaf karna aur analyse.
+        Kab lo  : Excel me jo karte ho, woh code se.
+
+    numpy/numpy
+        Kya hai : Numbers aur arrays pe fast calculation.
+        Kab lo  : ML/AI ki neev, pandas bhi isi pe.
+
+    jupyterlab/jupyterlab
+        Kya hai : Browser me code + output + notes ek saath.
+        Kab lo  : Kuch try karna ho, step by step.
+
+
+------------------------------------------------------------
+5. AI / LLM (TUMHARA GOAL)
+------------------------------------------------------------
+    anthropics/anthropic-sdk-python
+        Kya hai : Claude API ka official Python SDK.
+        Kab lo  : Python se Claude ko call karna ho.
+
+    anthropics/claude-cookbooks
+        Kya hai : Claude ke ready examples (RAG, tool use, agents).
+        Kab lo  : Koi AI feature banana ho, pehle yahan example dekho.
+
+    langchain-ai/langchain
+        Kya hai : LLM apps ke building blocks (chains, RAG, agents).
+        Kab lo  : Kai tools aur data sources jodne ho.
+
+    huggingface/transformers
+        Kya hai : Open-source models chalana aur fine-tune karna.
+        Kab lo  : Apne PC/server pe model chalana ho.
+
+    streamlit/streamlit
+        Kya hai : Sirf Python se web UI.
+        Kab lo  : AI demo ya internal tool jaldi dikhana ho.
+
+    gradio-app/gradio
+        Kya hai : Model ke liye chat/upload UI jaldi.
+        Kab lo  : Model ka demo share karna ho.
+
+
+------------------------------------------------------------
+6. SEEKHNE KE LIYE
+------------------------------------------------------------
+    TheAlgorithms/Python
+        Kya hai : Saare algorithms Python me.
+        Kab lo  : DSA practice.
+
+    vinta/awesome-python
+        Kya hai : Achhi Python libraries ki badi list.
+        Kab lo  : Kisi kaam ki library dhoondhni ho.
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    AI side ke liye: FastAPI + Pydantic + Claude SDK ka combo yaad rakho.

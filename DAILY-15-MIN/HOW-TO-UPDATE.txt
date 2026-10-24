@@ -11,21 +11,21 @@ Short me: KUCH NAHI KARNA. Roz subah 7:00 baje us din ki file
             (laptop band tha to jab khulega tab chalega)
      |
      v
-    Claude README.txt ki "AAGE KE TOPICS" list ka SABSE UPAR wala topic leta hai
+    Claude README.md ki "Aage Ke Topics" list ka SABSE UPAR wala topic leta hai
      |
      v
     Aaj ki date wali file banata hai:  DD-MM-YYYY.txt
      |
      v
-    Wo topic "HO CHUKE TOPICS" me chala jaata hai
+    Wo topic "Ho Chuke Topics" table me chala jaata hai
     (list me 5 se kam topic bache to Claude naye khud jod deta hai)
 
 
 ------------------------------------------------------------
 2. APNA TOPIC CHAHIYE?
 ------------------------------------------------------------
-README.txt kholo -> "AAGE KE TOPICS" ke SABSE UPAR ek line me topic likh do.
-    e.g.  Laravel Octane – kya hai aur kab use karein
+README.md kholo -> "Aage Ke Topics" ke SABSE UPAR ek line me topic likh do.
+    e.g.  - Laravel Octane – kya hai aur kab use karein
 Agle din wahi aayega. Kisi topic ko hatana ho to wo line delete kar do.
 Order badalna ho to lines upar-neeche kar do.
 
@@ -69,7 +69,7 @@ Har file banane me Claude ka thoda usage lagta hai (roz ek baar).
 ------------------------------------------------------------
 DAILY-15-MIN\
     ├── HOW-TO-UPDATE.txt         (ye file)
-    ├── README.txt                (topic list – upcoming + ho chuke)
+    ├── README.md                 (topic list – upcoming + ho chuke)
     ├── 23-10-2026.txt ...        (roz ki files)
     └── _automation\
         ├── generate-today.ps1  (file banane wali script)
@@ -79,4 +79,4 @@ DAILY-15-MIN\
 _automation folder ki files ko mat chhedo, jab tak kuch badalna na ho.
 
 Weekly learning plan (week-2, week-3 ...) ke liye dekho:
-    D:\learning-hub\ROADMAP\HOW-TO-NEXT-WEEK.txt
+    D:\learning-hub\ROADMAP\HOW-TO-NEXT-WEEK.txt   (private, sirf is laptop pe)

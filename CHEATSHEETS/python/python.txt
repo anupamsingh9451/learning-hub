@@ -1,0 +1,63 @@
+PYTHON CHEATSHEET
+=================
+Time: 2 min – jab bhi syntax bhool jao
+
+
+------------------------------------------------------------
+1. SETUP AUR VENV
+------------------------------------------------------------
+    Version                      python --version
+    venv banao                   python -m venv .venv
+    Activate (Windows)           .venv\Scripts\activate
+    Activate (Linux/WSL)         source .venv/bin/activate
+    Package install              pip install requests
+    List save karo               pip freeze > requirements.txt
+    List se install              pip install -r requirements.txt
+    Script chalao                python app.py
+
+
+------------------------------------------------------------
+2. BASICS
+------------------------------------------------------------
+    List                         nums = [1, 2, 3];  nums.append(4)
+    Dict                         user = {"name": "Anupam"}
+    Key na ho toh default        user.get("city", "NA")
+    f-string                     f"Hello {name}, total {x:.2f}"
+    Index ke saath loop          for i, item in enumerate(items):
+    Dict loop                    for k, v in user.items():
+    List comprehension           sq = [n * n for n in nums if n > 1]
+    Function                     def add(a, b=0): return a + b
+    Type hints                   def add(a: int, b: int) -> int:
+
+
+------------------------------------------------------------
+3. FILE AUR JSON
+------------------------------------------------------------
+    File padho                   with open("a.txt", encoding="utf-8") as f: text = f.read()
+    JSON file padho              data = json.load(f)
+    String <-> dict              json.loads(s)   /   json.dumps(d, indent=2)
+
+
+------------------------------------------------------------
+4. ERROR HANDLING
+------------------------------------------------------------
+    try:
+        x = int(s)
+    except ValueError as e:
+        print("galat number:", e)
+
+
+------------------------------------------------------------
+5. KAAM KE MODULES
+------------------------------------------------------------
+    HTTP request                 requests.get(url, timeout=10).json()
+    File/folder path             Path("a.txt").exists()   (pathlib)
+    Aaj ki date/time             datetime.now()   (datetime)
+    Env variable                 os.getenv("API_KEY")
+    Main guard                   if __name__ == "__main__":
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    Har project ka apna venv banao. Global pip install se versions takrate hain.

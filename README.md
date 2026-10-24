@@ -11,15 +11,16 @@
 | Path | Purpose |
 |---|---|
 | `DAILY-15-MIN/` | Roz ka 15-min topic (`dd-MM-yyyy.txt`) — subah 7 baje auto-generate hota hai |
-| `ROADMAP/` | Career + AI roadmap, 6-month plan, `HOW-TO-NEXT-WEEK.txt` |
+| `ROADMAP/` | 🔒 Career + AI roadmap. **Private** — sirf is laptop pe, GitHub pe nahi jaata (`.gitignore` me hai) |
 | `WEEKLY-PLAN/` | Har hafte ka plan: `week-1/`, `week-2/` … (day-wise files) |
-| `NOTES/` | Topic-wise notes: `php-laravel/`, `react-js/`, `python/`, `ai-llm/`, `database/`, `devops-linux/`, `git/`, `system-design/` |
+| `NOTES/` | Detailed notes, topic ke group folder me: `php/`, `javascript/`, `html/`, `python/`, `ai/`, `database/`, `devops/`, `git/`, `system-design/` — [NOTES/README.md](NOTES/README.md) |
+| `CHEATSHEETS/` | 2-min quick-reference, NOTES jaise hi group folders — [CHEATSHEETS/README.md](CHEATSHEETS/README.md) |
 | `PRACTICE/` | Chhote code exercises, DSA, katas, snippets |
 | `PROJECTS/` | Learning ke liye banaye mini projects (har ek ka apna folder) |
-| `CHEATSHEETS/` | Ek page wale quick-reference (commands, syntax) |
 | `RESOURCES/` | Courses, books, videos, articles ke links |
 | `JOURNAL/` | Roz ka TIL (Today I Learned) + weekly review |
 | `_templates/` | Note / weekly review / project ke templates |
+| `_guidelines/` | Agents (Claude) ke liye standing rules: writing style, tone, format |
 | `_scripts/` | TIL, naya note, sync (commit + push) ke PowerShell scripts |
 | `PROGRESS.txt` | Weekly + skills + milestones tracker |
 | `PUSH.bat` | Double-click = sab commit + GitHub pe push |
@@ -41,8 +42,10 @@ cd D:\learning-hub
 ### b) Kisi topic ka proper note banana hai?
 
 ```powershell
-.\_scripts\new-note.ps1 -Topic php-laravel -Title "Eloquent Relationships"
+.\_scripts\new-note.ps1 -Topic php -Title "Eloquent Relationships"
 ```
+
+> `-Topic` = `NOTES/` ke andar ka group folder (`php`, `javascript`, `html`, `python`, `ai` …).
 
 ### c) Din ke end me sab commit + push
 
@@ -64,3 +67,5 @@ PUSH.bat  # double-click karo
 - Notes aur docs `.txt` me, isi format me (`TITLE`, `=====`, `------` sections).
 - File naam: `lowercase-with-dashes` (e.g. `eloquent-relationships.txt`).
 - `DAILY-15-MIN/` files ka naam `dd-MM-yyyy.txt` hi rahe — automation isi pe chalta hai.
+- Naya topic aaye toh pehle dekho kis group me fit hota hai (Vue → `javascript/`, MySQL → `database/`). Naya top-level folder tabhi jab koi group fit na ho.
+- `ROADMAP/` private hai. Use kabhi `git add -f` se force-add mat karna.

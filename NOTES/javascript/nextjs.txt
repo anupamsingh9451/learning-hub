@@ -1,0 +1,468 @@
+NEXT JS – DETAILED NOTES
+========================
+Topic: javascript
+Date: 24-10-2026
+Time: ~60 min (roz 2-3 section padho)
+Status: learning
+Version: Next.js 15/16, App Router
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    Next.js React ka full-stack framework hai. Routing, server rendering,
+    API, image optimization, SEO sab ek saath milta hai.
+
+    Misaal: React = engine. Next.js = poori car (engine + body + AC +
+    music). Seedha chala lo.
+
+
+------------------------------------------------------------
+2. KYUN ZAROORI HAI / KAB USE KAREIN
+------------------------------------------------------------
+    - Plain React me SEO kamzor hota hai (page JS se banta hai). Next me
+      server pe HTML ban ke aata hai, Google ko poora page dikhta hai.
+    - Frontend + backend (API, DB query) ek hi project me.
+    - React team khud naye projects ke liye framework (Next jaisa)
+      recommend karti hai.
+
+    Kab lo:
+    - Marketing site, blog, e-commerce, SaaS, dashboard, AI chat app.
+    Kab mat lo:
+    - Sirf login ke peeche wala chhota internal tool, SEO ki zaroorat
+      nahi. Vite + React simple padega.
+
+
+------------------------------------------------------------
+3. PROJECT BANANA AUR FOLDER STRUCTURE
+------------------------------------------------------------
+        npx create-next-app@latest my-app
+        cd my-app && npm run dev        -> http://localhost:3000
+
+    App Router structure:
+        app/
+            layout.tsx          poori site ka layout (html, body)
+            page.tsx            "/" page
+            globals.css
+            about/page.tsx      "/about"
+            blog/
+                page.tsx        "/blog"
+                [slug]/page.tsx "/blog/koi-bhi-slug"
+            api/
+                hello/route.ts  "/api/hello" (API endpoint)
+        public/                 images, favicon (seedha URL se)
+        next.config.ts
+        .env.local              secrets (git me nahi)
+
+    Rule: folder = URL. Folder me page.tsx ho tabhi woh URL khulta hai.
+
+
+------------------------------------------------------------
+4. SPECIAL FILES
+------------------------------------------------------------
+    page.tsx         us URL ka UI
+    layout.tsx       bachche pages ke chaaron taraf (nav, sidebar). Page
+                     badalne pe layout dobara render nahi hota.
+    loading.tsx      page load hote waqt dikhne wala (skeleton)
+    error.tsx        error aaye toh yeh dikhe ("use client" zaroori)
+    not-found.tsx    404 page
+    route.ts         API endpoint (GET, POST functions)
+    template.tsx     layout jaisa, par har navigation pe naya
+
+
+------------------------------------------------------------
+5. SERVER COMPONENT vs CLIENT COMPONENT
+------------------------------------------------------------
+    Default: har component SERVER component hai.
+    - Server pe chalta hai, uska JS browser me nahi jaata (page halka).
+    - Seedha DB query, secret keys use kar sakte ho.
+    - useState, onClick, useEffect NAHI chalte.
+
+    Client component: file ke upar "use client".
+    - Browser me chalta hai.
+    - State, events, browser APIs (localStorage) chalte hain.
+
+        // app/products/page.tsx  (server)
+        import AddToCart from './AddToCart';
+
+        export default async function ProductsPage() {
+            const products = await db.product.findMany();
+            return products.map(p => (
+                <div key={p.id}>
+                    {p.name}
+                    <AddToCart id={p.id} />
+                </div>
+            ));
+        }
+
+        // app/products/AddToCart.tsx  (client)
+        'use client';
+        import { useState } from 'react';
+
+        export default function AddToCart({ id }: { id: number }) {
+            const [added, setAdded] = useState(false);
+            return <button onClick={() => setAdded(true)}>{added ? 'Added' : 'Add'}</button>;
+        }
+
+    Rule of thumb:
+    - Zyada se zyada server pe rakho.
+    - "use client" sirf chhote interactive tukdon (button, form, modal) pe.
+    - "use client" wali file jo import karti hai, woh bhi client ban jaata
+      hai. Isliye boundary jitna neeche ho sake utna achha.
+    - Server se client ko props sirf simple data (JSON jaisa) jaa sakta
+      hai, function nahi (Server Action chhod ke).
+
+
+------------------------------------------------------------
+6. ROUTING
+------------------------------------------------------------
+    Dynamic route:
+        // app/blog/[slug]/page.tsx
+        export default async function Post({
+            params,
+        }: {
+            params: Promise<{ slug: string }>;
+        }) {
+            const { slug } = await params;     // Next 15+ me params Promise hai
+            ...
+        }
+
+    Search params (?page=2):
+        export default async function Page({ searchParams }: {
+            searchParams: Promise<{ page?: string }>;
+        }) {
+            const { page = '1' } = await searchParams;
+        }
+
+    Aur tarah ke routes:
+        [...slug]       catch-all: /docs/a/b/c
+        [[...slug]]     optional catch-all (/docs bhi)
+        (marketing)     route group: URL me nahi aata, sirf folders
+                        organize karne aur alag layout ke liye
+        _components     underscore wala folder route nahi banta
+
+    Link aur navigation:
+        import Link from 'next/link';
+        <Link href="/blog/hello">Read</Link>
+
+        'use client';
+        import { useRouter, usePathname } from 'next/navigation';
+        const router = useRouter(); router.push('/login');
+
+        Server pe redirect:
+        import { redirect, notFound } from 'next/navigation';
+        if (!user) redirect('/login');
+        if (!post) notFound();
+
+
+------------------------------------------------------------
+7. DATA FETCHING
+------------------------------------------------------------
+    Server component me seedha async/await:
+        export default async function Page() {
+            const res = await fetch('https://api.example.com/posts');
+            const posts = await res.json();
+            return <List posts={posts} />;
+        }
+
+    Ya seedha DB (Prisma/Drizzle):
+        const posts = await db.post.findMany({ take: 10 });
+
+    Caching control:
+        fetch(url, { cache: 'no-store' })            har request fresh
+        fetch(url, { next: { revalidate: 60 } })     60 sec tak cache
+        fetch(url, { next: { tags: ['posts'] } })    tag se cache
+
+    Next 15 me fetch by default cache NAHI hota (pehle hota tha). Next 16
+    me "Cache Components" aaye: "use cache" likh ke function/component ko
+    cache karte ho. Apne version ke docs ek baar zaroor dekho, yahi part
+    sabse zyada badalta hai.
+
+    Parallel fetch (waterfall se bachav):
+        const [user, posts] = await Promise.all([getUser(), getPosts()]);
+
+    Streaming (slow hissa baad me aaye, baaki page turant):
+        <Suspense fallback={<Skeleton />}>
+            <SlowReviews />
+        </Suspense>
+
+    Client component me data chahiye: TanStack Query ya SWR.
+
+
+------------------------------------------------------------
+8. RENDERING KE TAREEKE
+------------------------------------------------------------
+    Static (SSG)    build time pe HTML ban gaya. Sabse tez. Blog, docs.
+    Dynamic (SSR)   har request pe server pe banta hai. User-specific page.
+    ISR             static, par har X second baad background me refresh.
+                    revalidate se.
+    Client (CSR)    browser me bana. "use client" + useEffect/Query.
+    Streaming       page tukdon me aata hai (Suspense).
+
+    Page dynamic kab banta hai? Jab cookies(), headers(), searchParams ya
+    no-store fetch use karte ho.
+
+    generateStaticParams – dynamic route ke pages build pe hi bana do:
+        export async function generateStaticParams() {
+            const posts = await getPosts();
+            return posts.map(p => ({ slug: p.slug }));
+        }
+
+
+------------------------------------------------------------
+9. SERVER ACTIONS – FORM BINA API KE
+------------------------------------------------------------
+        // app/posts/actions.ts
+        'use server';
+
+        import { revalidatePath } from 'next/cache';
+        import { z } from 'zod';
+
+        const Schema = z.object({ title: z.string().min(3) });
+
+        export async function createPost(prev: unknown, formData: FormData) {
+            const session = await auth();
+            if (!session) return { error: 'Login karo' };
+
+            const parsed = Schema.safeParse({ title: formData.get('title') });
+            if (!parsed.success) return { error: 'Title chhota hai' };
+
+            await db.post.create({ data: parsed.data });
+            revalidatePath('/posts');
+            return { ok: true };
+        }
+
+        // form (client component)
+        'use client';
+        const [state, action, pending] = useActionState(createPost, {});
+        <form action={action}>
+            <input name="title" />
+            <button disabled={pending}>Save</button>
+        </form>
+
+    DHYAN: Server Action ek public endpoint jaisa hai. Har action me
+    login check aur validation khud karo.
+
+
+------------------------------------------------------------
+10. ROUTE HANDLERS – API ENDPOINT
+------------------------------------------------------------
+        // app/api/products/route.ts
+        import { NextResponse } from 'next/server';
+
+        export async function GET(request: Request) {
+            const { searchParams } = new URL(request.url);
+            const q = searchParams.get('q') ?? '';
+            const items = await db.product.findMany({ where: { name: { contains: q } } });
+            return NextResponse.json(items);
+        }
+
+        export async function POST(request: Request) {
+            const body = await request.json();
+            ...
+            return NextResponse.json(created, { status: 201 });
+        }
+
+    Kab Route Handler, kab Server Action?
+    - Apne hi form/button se data badalna: Server Action.
+    - Mobile app, webhook, bahar se call: Route Handler.
+
+
+------------------------------------------------------------
+11. MIDDLEWARE / PROXY
+------------------------------------------------------------
+    Har request se pehle chalta hai (login check, redirect, locale).
+    File project root me. Next 16 me iska naam middleware.ts se proxy.ts
+    ho gaya, kaam wahi hai.
+
+        import { NextResponse, type NextRequest } from 'next/server';
+
+        export function middleware(req: NextRequest) {   // 16 me: proxy
+            const token = req.cookies.get('session');
+            if (!token) return NextResponse.redirect(new URL('/login', req.url));
+            return NextResponse.next();
+        }
+
+        export const config = { matcher: ['/dashboard/:path*'] };
+
+    Yahan sirf halka check karo. Asli permission check page/action me
+    bhi karo.
+
+
+------------------------------------------------------------
+12. METADATA AUR SEO
+------------------------------------------------------------
+    Static:
+        export const metadata = {
+            title: 'Shop',
+            description: 'Best products',
+        };
+
+    Dynamic:
+        export async function generateMetadata({ params }) {
+            const { slug } = await params;
+            const post = await getPost(slug);
+            return { title: post.title, openGraph: { images: [post.cover] } };
+        }
+
+    Aur: app/sitemap.ts, app/robots.ts, opengraph-image.tsx files se
+    sitemap, robots, social share image ban jaate hain.
+
+
+------------------------------------------------------------
+13. IMAGE, FONT, SCRIPT
+------------------------------------------------------------
+    Image (resize, lazy load, webp khud):
+        import Image from 'next/image';
+        <Image src="/hero.jpg" alt="Hero" width={1200} height={600} priority />
+
+        Bahar ki image ke liye next.config.ts me remotePatterns.
+
+    Font (layout shift nahi, Google Fonts self-host):
+        import { Inter } from 'next/font/google';
+        const inter = Inter({ subsets: ['latin'] });
+        <body className={inter.className}>
+
+    Third-party script:
+        import Script from 'next/script';
+        <Script src="https://..." strategy="afterInteractive" />
+
+
+------------------------------------------------------------
+14. ENV VARIABLES
+------------------------------------------------------------
+        .env.local
+            DATABASE_URL=...
+            NEXT_PUBLIC_SITE_URL=https://mysite.com
+
+    - Bina prefix wale sirf server pe milte hain (safe).
+    - NEXT_PUBLIC_ wale browser bundle me chale jaate hain. Secret kabhi
+      NEXT_PUBLIC_ me mat daalo.
+    - Server-only code ke liye: import 'server-only'; (galti se client me
+      import hua toh build fail).
+
+
+------------------------------------------------------------
+15. AUTH AUR DATABASE
+------------------------------------------------------------
+    Auth options: Auth.js (next-auth), Better Auth, Clerk.
+    Database: Prisma ya Drizzle + Postgres/MySQL.
+
+    Pattern:
+        // lib/db.ts – ek hi client (dev me hot reload pe naye na banein)
+        // lib/auth.ts – auth() helper
+        // server component / action me:
+        const session = await auth();
+        if (!session) redirect('/login');
+
+    Data Access Layer: saari DB queries ek folder (lib/data) me, har
+    function me permission check. Components seedha DB na chhuyein.
+
+
+------------------------------------------------------------
+16. STYLING
+------------------------------------------------------------
+    - Tailwind CSS (create-next-app me option milta hai)
+    - shadcn/ui: npx shadcn@latest init, phir npx shadcn@latest add button
+    - CSS Modules: page.module.css
+    - Dark mode: next-themes
+
+
+------------------------------------------------------------
+17. DEPLOYMENT
+------------------------------------------------------------
+    Vercel (sabse aasan): GitHub repo jodo, push karo, live.
+
+    Apna server / Docker:
+        // next.config.ts
+        const nextConfig = { output: 'standalone' };
+
+        npm run build
+        node .next/standalone/server.js
+
+        (public/ aur .next/static ko standalone folder me copy karna
+        padta hai, Next ke official Docker example me yeh steps hain)
+
+    Static export (bina server, sirf HTML):
+        output: 'export'   -> out/ folder kisi bhi hosting pe.
+        (Server Actions, dynamic routes bina generateStaticParams nahi
+        chalenge)
+
+
+------------------------------------------------------------
+18. APP ROUTER vs PAGES ROUTER
+------------------------------------------------------------
+    Cheez             Pages Router (purana)        App Router (naya)
+    ---------------   --------------------------   ------------------------
+    Folder            pages/                       app/
+    Data              getServerSideProps,          async server component
+                      getStaticProps
+    Layout            _app.tsx                     layout.tsx (nested)
+    API               pages/api/*.ts               app/api/*/route.ts
+    Default           client components            server components
+
+    Naya project hamesha App Router. Purane project me dono saath chal
+    sakte hain, dheere-dheere move karo.
+
+
+------------------------------------------------------------
+19. GALTIYAN JO MAINE KI / GOTCHAS
+------------------------------------------------------------
+    - Hydration error: server aur browser ka HTML alag. Date.now(),
+      Math.random(), window check render me. Fix: useEffect me ya
+      client-only component.
+    - Server component me useState lagaya, error. "use client" chahiye.
+    - Layout me "use client" laga diya, poori site client ban gayi.
+    - Secret NEXT_PUBLIC_ me daal diya, browser me dikh gaya.
+    - Data update hua par page purana. revalidatePath/revalidateTag
+      bhool gaya.
+    - params ko await nahi kiya (Next 15+).
+    - Server Action me auth check nahi kiya. Koi bhi call kar sakta tha.
+    - <a> ki jagah <Link> nahi lagaya, poora page reload hua.
+
+
+------------------------------------------------------------
+20. INTERVIEW ANGLE
+------------------------------------------------------------
+    Q: SSR, SSG, ISR me farak?
+    A: SSR har request pe banata hai. SSG build pe ek baar. ISR static hai
+       par set time ke baad background me refresh hota hai.
+
+    Q: Server aur Client component me farak?
+    A: Server component server pe chalta hai, JS browser me nahi jaata,
+       DB seedha use kar sakta hai. Client component browser me, state aur
+       events ke liye.
+
+    Q: Hydration kya hai?
+    A: Server se aaye HTML pe React ka JS judna, taaki button click jaise
+       events chalne lagein.
+
+    Q: Server Action kya hai?
+    A: Server pe chalne wala function jise form ya button seedha call kare.
+       Alag API route nahi banana padta.
+
+    Q: next/image kyun?
+    A: Resize, lazy load, modern format, layout shift se bachav khud.
+
+    Q: Middleware kab use karte ho?
+    A: Request se pehle redirect, auth ka halka check, locale, headers.
+
+    Q: SEO kaise karte ho Next me?
+    A: Server rendering, metadata/generateMetadata, sitemap.ts, robots.ts,
+       sahi headings aur Open Graph images.
+
+
+------------------------------------------------------------
+21. LINKS
+------------------------------------------------------------
+    - Official docs          https://nextjs.org/docs
+    - Learn course (free)    https://nextjs.org/learn
+    - Examples               https://github.com/vercel/next.js/tree/canary/examples
+    - Repos                  NOTES/javascript/nextjs-repos.txt
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    Default server component, "use client" sirf jahan click/state chahiye,
+    aur har Server Action me auth + validation.

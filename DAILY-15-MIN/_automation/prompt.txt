@@ -4,7 +4,7 @@ Today is {{DAYNAME}}. The output file is {{DATE}}.txt in the current folder.
 
 Steps:
 1. If {{DATE}}.txt already exists in the current folder, stop and do nothing.
-2. Read README.txt. Take the FIRST topic listed under the heading "AAGE KE TOPICS".
+2. Read README.md. Take the FIRST bullet listed under the heading "## Aage Ke Topics".
 3. Read the two most recent dd-mm-yyyy.txt files in the current folder and copy their exact structure, tone, formatting and length.
 4. Write {{DATE}}.txt:
    - Language: Hinglish (Hindi in Roman script, technical words in English), simple and friendly, like the existing files.
@@ -12,6 +12,6 @@ Steps:
    - Header: "DAY NN - <WEEKDAY> <DD MON YYYY>" where NN = number of existing dd-mm-yyyy.txt files + 1 (two digits), then a line with the topic and "Time: ~15 min".
    - Sections, in order: Aaj kyun (connect it to his work, EduAssist or his plan); Concept with a simple everyday analogy; examples or code; Interview angle (questions with good answers); Aam galatfehmi; 5-min practice (concrete and runnable on Windows PowerShell, or in a Laravel/Sail project); Self-check with 3 questions; Ek line yaad rakho; then the answers hidden at the very end after the dotted spacer, exactly like the existing files.
    - Be technically accurate. If a detail depends on a version and you are not sure, say so instead of guessing.
-   - Do not repeat a topic listed under "HO CHUKE TOPICS".
-5. Edit README.txt: remove that topic line from "AAGE KE TOPICS" and append "{{DATE}} | <topic>" at the end of "HO CHUKE TOPICS". If fewer than 5 topics remain under "AAGE KE TOPICS", append new ones to that list (mix of: Laravel/backend, databases, React/TypeScript frontend, DevOps, security, system design, AI engineering, career/interview), never repeating done topics.
+   - Do not repeat a topic listed under "## Ho Chuke Topics".
+5. Edit README.md: remove that bullet from "## Aage Ke Topics" and append the row "| {{DATE}} | <topic> |" as the last row of the table under "## Ho Chuke Topics". If fewer than 5 bullets remain under "## Aage Ke Topics", append new "- <topic>" bullets to that list (mix of: Laravel/backend, databases, React/TypeScript frontend, DevOps, security, system design, AI engineering, career/interview), never repeating done topics.
 6. Do not create, edit or delete any other file.

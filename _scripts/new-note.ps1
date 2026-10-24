@@ -1,6 +1,7 @@
 # Template se naya note (.txt) banata hai aur VS Code me khol deta hai.
-# Usage:  .\_scripts\new-note.ps1 -Topic php-laravel -Title "Eloquent Relationships"
-# Topic = NOTES ke andar folder ka naam (naya ho to ban jayega)
+# Usage:  .\_scripts\new-note.ps1 -Topic php -Title "Eloquent Relationships"
+# Topic = NOTES ke andar group folder ka naam: php, javascript, html, python, ai,
+#         database, devops, git, system-design (naya ho to ban jayega)
 param(
     [Parameter(Mandatory)][string]$Topic,
     [Parameter(Mandatory)][string]$Title

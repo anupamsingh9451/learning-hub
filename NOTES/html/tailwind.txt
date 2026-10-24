@@ -1,0 +1,394 @@
+TAILWIND CSS – DETAILED NOTES
+=============================
+Topic: html
+Date: 24-10-2026
+Time: ~45 min (roz 2-3 section padho)
+Status: learning
+Version: Tailwind CSS v4
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    Tailwind ek "utility-first" CSS framework hai. Ready components nahi
+    deta, chhoti-chhoti classes deta hai (p-4, flex, text-lg) jinko jod
+    ke HTML me hi design banate ho.
+
+    Misaal: Bootstrap = readymade kapde. Tailwind = kapda, dhaga, button
+    sab ready, silai tum khud karo. Mehnat thodi zyada, par fitting
+    bilkul tumhari.
+
+
+------------------------------------------------------------
+2. KYUN ZAROORI HAI / KAB USE KAREIN
+------------------------------------------------------------
+    - Aaj React/Next.js/Laravel me sabse popular styling tareeka.
+    - shadcn/ui, Flowbite, daisyUI sab Tailwind pe.
+    - CSS file ka naam sochna, alag file kholna nahi padta.
+    - Final CSS chhoti: sirf use hui classes banti hain.
+
+    Kab lo:
+    - Custom design, landing page, SaaS, React/Next app.
+    Kab mat lo:
+    - Team ko HTML me lambi classes pasand nahi, ya purana Bootstrap
+      project hai jise badalna nahi.
+
+
+------------------------------------------------------------
+3. UTILITY-FIRST SOCH
+------------------------------------------------------------
+    Purana tareeka (CSS alag):
+        <div class="card">...</div>
+        .card { padding: 16px; border-radius: 8px; box-shadow: ...; }
+
+    Tailwind tareeka:
+        <div class="p-4 rounded-lg shadow-md">...</div>
+
+    "Itni classes? HTML ganda ho gaya!"
+    - Haan, par CSS file kabhi badi nahi hoti, dead CSS nahi bachti.
+    - Component (React/Blade) bana lo, classes ek hi jagah rahengi:
+          <Button>Save</Button>
+    - Ek class badlo, sirf wahi element badalta hai. Kahin aur kuch nahi
+      tootega.
+
+
+------------------------------------------------------------
+4. SETUP (V4)
+------------------------------------------------------------
+    Vite (React, Vue, plain):
+        npm i tailwindcss @tailwindcss/vite
+
+        // vite.config.js
+        import tailwindcss from '@tailwindcss/vite';
+        export default { plugins: [tailwindcss()] };
+
+        /* src/index.css */
+        @import "tailwindcss";
+
+    Next.js:
+        create-next-app me Tailwind option chuno (PostCSS plugin
+        @tailwindcss/postcss lagta hai).
+
+    Laravel (11+ me pehle se Vite ke saath aata hai):
+        resources/css/app.css me @import "tailwindcss";
+        Blade me @vite('resources/css/app.css')
+
+    CodeIgniter / plain PHP (bina Vite, CLI se):
+        npm i tailwindcss @tailwindcss/cli
+        npx @tailwindcss/cli -i ./src/input.css -o ./public/css/app.css --watch
+        input.css me @import "tailwindcss";
+
+    Jaldi test (sirf seekhne ke liye, production nahi):
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    v4 me tailwind.config.js zaroori nahi. Files khud scan hoti hain.
+    Settings CSS me @theme se hoti hain.
+
+
+------------------------------------------------------------
+5. SPACING, SIZE, TYPOGRAPHY
+------------------------------------------------------------
+    Spacing scale: 1 unit = 0.25rem = 4px
+        p-1 = 4px,  p-2 = 8px,  p-4 = 16px,  p-6 = 24px,  p-8 = 32px
+
+        p-4  px-6  py-2  pt-1  pb-0
+        m-4  mx-auto  mt-8  -mt-2 (minus)
+        space-y-4   (bachchon ke beech vertical gap)
+        gap-4       (flex/grid me)
+
+    Size:
+        w-full  w-1/2  w-64  w-screen  w-fit
+        h-12  h-screen  min-h-screen  h-dvh (mobile pe sahi full height)
+        max-w-md  max-w-7xl  (container jaisa)
+        size-10   (width + height dono)
+        aspect-video  aspect-square
+
+    Typography:
+        text-xs sm base lg xl 2xl ... 9xl
+        font-normal  font-medium  font-semibold  font-bold
+        leading-tight  leading-relaxed     (line height)
+        tracking-tight  tracking-wide      (letter spacing)
+        text-left  text-center  text-right
+        uppercase  capitalize  truncate  line-clamp-2
+        underline  underline-offset-4
+
+    Colors (har color ke shade 50 se 950):
+        text-gray-700  bg-blue-500  border-red-300
+        bg-black/50   (50% opacity)
+        text-white  bg-transparent
+
+
+------------------------------------------------------------
+6. LAYOUT – FLEX AUR GRID
+------------------------------------------------------------
+    Flex:
+        flex  flex-col  flex-wrap
+        items-center      (cross axis)
+        justify-between   (main axis)
+        gap-4
+        flex-1            (bachi jagah le lo)
+        shrink-0          (chhota mat ho)
+
+        Navbar:
+        <nav class="flex items-center justify-between px-6 py-4">
+            <a class="text-xl font-bold">Shop</a>
+            <div class="flex gap-6">...</div>
+        </nav>
+
+        Bilkul center:
+        <div class="flex min-h-screen items-center justify-center">
+
+    Grid:
+        grid  grid-cols-3  gap-6
+        col-span-2  row-span-2
+        grid-cols-[200px_1fr]   (apni value)
+
+        Cards:
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
+    Position:
+        relative  absolute  fixed  sticky top-0
+        inset-0  top-4 right-4
+        z-10  z-50
+
+
+------------------------------------------------------------
+7. RESPONSIVE – MOBILE FIRST
+------------------------------------------------------------
+    Bina prefix = sab screens. Prefix = us size aur usse badi.
+
+        sm   640px
+        md   768px
+        lg   1024px
+        xl   1280px
+        2xl  1536px
+
+        <div class="text-sm md:text-base lg:text-lg">
+        <div class="hidden md:block">       mobile pe chhupa
+        <div class="md:hidden">              sirf mobile pe
+
+    Ulta (sirf chhoti screen tak): max-md:hidden
+
+    Container queries (parent ki width ke hisaab se):
+        <div class="@container">
+            <div class="flex-col @md:flex-row">
+
+    Galti: "sm:" ko mobile samajhna. sm = 640px se UPAR. Mobile ke liye
+    koi prefix nahi lagta.
+
+
+------------------------------------------------------------
+8. STATES – HOVER, FOCUS, GROUP, PEER
+------------------------------------------------------------
+        hover:bg-blue-600
+        focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500
+        active:scale-95
+        disabled:opacity-50 disabled:cursor-not-allowed
+        first:pt-0  last:border-0  odd:bg-gray-50
+        placeholder:text-gray-400
+
+    group (parent pe hover, child badle):
+        <a class="group">
+            <span class="group-hover:underline">Read more</span>
+        </a>
+
+    peer (bhai element ki state pe):
+        <input class="peer" required />
+        <p class="hidden peer-invalid:block text-red-500">Galat value</p>
+
+    Transition:
+        transition  duration-200  ease-in-out
+        hover:-translate-y-1 hover:shadow-lg
+
+    Saath me: md:hover:bg-blue-600 (md screen + hover)
+
+
+------------------------------------------------------------
+9. DARK MODE
+------------------------------------------------------------
+    Default: system setting (prefers-color-scheme) se.
+        <div class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white">
+
+    Button se toggle karna ho (html pe .dark class):
+        /* app.css */
+        @import "tailwindcss";
+        @custom-variant dark (&:where(.dark, .dark *));
+
+        document.documentElement.classList.toggle('dark');
+
+    Next.js me next-themes isi ka kaam aasan karta hai.
+
+
+------------------------------------------------------------
+10. CUSTOMIZE – @theme (V4)
+------------------------------------------------------------
+        @import "tailwindcss";
+
+        @theme {
+            --color-brand-500: oklch(0.62 0.19 260);
+            --color-brand-600: oklch(0.55 0.2 260);
+            --font-display: "Poppins", sans-serif;
+            --breakpoint-3xl: 1920px;
+            --radius-card: 1rem;
+        }
+
+    Ab yeh classes ban gayi:
+        bg-brand-500  text-brand-600  font-display  3xl:grid-cols-6
+        rounded-card
+
+    Theme ke variables normal CSS me bhi milte hain:
+        .chart { color: var(--color-brand-500); }
+
+
+------------------------------------------------------------
+11. ARBITRARY VALUES (EK BAAR KI VALUE)
+------------------------------------------------------------
+        w-[350px]  mt-[13px]  bg-[#1da1f2]  grid-cols-[1fr_2fr]
+        text-[clamp(1rem,2vw,1.5rem)]
+        [mask-type:luminance]          (koi bhi CSS property)
+        bg-(--my-var)                  (CSS variable, v4 syntax)
+
+    Baar-baar same value? Toh @theme me daal do, naam do.
+
+
+------------------------------------------------------------
+12. APNI CLASSES – @utility, @apply, @layer
+------------------------------------------------------------
+    Apni utility:
+        @utility content-auto {
+            content-visibility: auto;
+        }
+        -> class="content-auto hover:content-auto" dono chalenge
+
+    @apply (Tailwind classes ko CSS me):
+        .btn {
+            @apply rounded-lg px-4 py-2 font-medium;
+        }
+
+    Base styles:
+        @layer base {
+            h1 { @apply text-3xl font-bold; }
+        }
+
+    Rule: @apply kam lagao. React/Blade component banana better hai.
+    @apply sirf tab jab HTML tumhare haath me nahi (CMS content, third
+    party markup).
+
+
+------------------------------------------------------------
+13. PLUGINS
+------------------------------------------------------------
+    Typography (blog/markdown content ke liye):
+        npm i -D @tailwindcss/typography
+        @plugin "@tailwindcss/typography";
+        <article class="prose lg:prose-xl dark:prose-invert">...</article>
+
+    Forms (inputs ka default style reset):
+        npm i -D @tailwindcss/forms
+        @plugin "@tailwindcss/forms";
+
+    Component plugin: daisyUI (btn, card jaisi classes Tailwind pe).
+
+
+------------------------------------------------------------
+14. CLASSES SAMBHALNA (REACT ME)
+------------------------------------------------------------
+    clsx – condition se class:
+        clsx('px-4 py-2', isActive && 'bg-blue-600', disabled && 'opacity-50')
+
+    tailwind-merge – takrati classes me last wali jeete:
+        twMerge('px-2 py-1', 'px-4')    // 'py-1 px-4'
+
+    shadcn ka cn() helper = clsx + twMerge:
+        export function cn(...inputs) { return twMerge(clsx(inputs)); }
+
+    cva (class-variance-authority) – button ke variants:
+        const button = cva('rounded px-4 py-2', {
+            variants: {
+                intent: { primary: 'bg-blue-600 text-white', ghost: 'bg-transparent' },
+                size: { sm: 'text-sm', lg: 'text-lg' },
+            },
+            defaultVariants: { intent: 'primary', size: 'sm' },
+        });
+
+        <button className={button({ intent: 'ghost' })}>
+
+    VS Code me "Tailwind CSS IntelliSense" extension aur Prettier ka
+    prettier-plugin-tailwindcss (classes khud sort) zaroor lagao.
+
+
+------------------------------------------------------------
+15. V3 vs V4 – KYA BADLA
+------------------------------------------------------------
+    Cheez               v3                          v4
+    -----------------   -------------------------   ---------------------------
+    Setup               tailwind.config.js +        @import "tailwindcss";
+                        @tailwind base/...
+    Config              JS file                     CSS me @theme
+    Content paths       config me likhne padte      khud detect
+    Dark mode class     darkMode: 'class'           @custom-variant dark (...)
+    Plugin              plugins: [require(...)]     @plugin "..."
+    Speed               tez                         bahut tez (naya engine)
+    Colors              rgb/hex                     oklch (zyada chamakdar)
+
+    Upgrade tool:  npx @tailwindcss/upgrade
+    Kuch class naam badle: shadow-sm -> shadow-xs, rounded-sm -> rounded-xs,
+    outline-none -> outline-hidden. Upgrade tool yeh khud badal deta hai.
+
+
+------------------------------------------------------------
+16. GALTIYAN JO MAINE KI / GOTCHAS
+------------------------------------------------------------
+    - Class naam string jod ke banaya:
+          `bg-${color}-500`          // KAAM NAHI KAREGA
+      Tailwind file me poora naam dhoondhta hai. Poora likho:
+          const map = { red: 'bg-red-500', blue: 'bg-blue-500' };
+    - sm: ko mobile samjha. Mobile = bina prefix.
+    - Do takrati classes (p-2 p-4) – jo CSS me baad me hai woh jeetegi,
+      HTML ka order nahi. tailwind-merge lo.
+    - CDN script production me laga diya. Slow aur bada. Build use karo.
+    - h-screen mobile pe address bar ki wajah se kat jaata hai. h-dvh lo.
+    - Har jagah @apply. Wapas purani CSS ban gayi.
+
+
+------------------------------------------------------------
+17. INTERVIEW ANGLE
+------------------------------------------------------------
+    Q: Utility-first kya hai?
+    A: Chhoti, ek kaam wali classes ko jod ke design banana, alag CSS
+       likhne ki jagah.
+
+    Q: Tailwind ki CSS chhoti kaise rehti hai?
+    A: Build ke time files scan karke sirf use hui classes generate hoti
+       hain.
+
+    Q: Dynamic class name kyun nahi chalta?
+    A: Scanner code chalata nahi, sirf text padhta hai. Poora class naam
+       file me likha hona chahiye.
+
+    Q: Responsive kaise karte ho?
+    A: Mobile first. Base class mobile ke liye, md:, lg: prefix badi
+       screen ke liye.
+
+    Q: Reusable styles kaise?
+    A: Component banake (React/Blade). Zaroorat ho toh @apply ya @utility.
+
+    Q: Tailwind vs Bootstrap?
+    A: Bootstrap ready components, jaldi par sab similar. Tailwind custom
+       design, thodi mehnat, par poora control aur chhoti CSS.
+
+
+------------------------------------------------------------
+18. LINKS
+------------------------------------------------------------
+    - Official docs          https://tailwindcss.com/docs
+    - Playground             https://play.tailwindcss.com
+    - shadcn/ui              https://ui.shadcn.com
+    - Cheatsheet             CHEATSHEETS/html/tailwind.txt
+    - UI styles note         NOTES/html/ui-styles.txt
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    Mobile pehle, poora class naam likho, aur repeat ho toh component banao.

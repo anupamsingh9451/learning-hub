@@ -1,0 +1,116 @@
+DOCKER CHEATSHEET
+=================
+Time: 2 min – jab bhi command bhool jao
+Note: Windows pe Docker Desktop (WSL 2 backend ke saath) chahiye.
+
+
+------------------------------------------------------------
+1. SHURU KARNE SE PEHLE
+------------------------------------------------------------
+    Image = recipe (ek fixed template). Container = us recipe se bana
+    chalta hua dabba. Ek image se kai container bana sakte ho.
+
+    Version                      docker --version
+    Sab theek chal raha?         docker run hello-world
+    System info                  docker info
+
+
+------------------------------------------------------------
+2. IMAGES
+------------------------------------------------------------
+    Image download karo          docker pull nginx:latest
+    Images ki list               docker images
+    Dockerfile se image banao    docker build -t my-app:1.0 .
+    Image hatao                  docker rmi my-app:1.0
+    Image ki layers dekho        docker history my-app:1.0
+
+
+------------------------------------------------------------
+3. CONTAINER CHALANA
+------------------------------------------------------------
+    Chalao (background me)       docker run -d --name web -p 8080:80 nginx
+    (-p 8080:80 matlab: tumhare PC ka port 8080 -> container ka port 80)
+    Env variable ke saath        docker run -d -e APP_ENV=local my-app
+    Apna folder jodo             docker run -d -v ${PWD}:/app my-app
+    Kaam karke khud hat jaaye    docker run --rm -it ubuntu bash
+    Chalte containers            docker ps
+    Sab (band wale bhi)          docker ps -a
+    Rokna / chalana              docker stop web   /   docker start web
+    Restart                      docker restart web
+    Hatao                        docker rm web   (chalta ho toh: docker rm -f web)
+
+
+------------------------------------------------------------
+4. ANDAR JHAANKNA (DEBUG)
+------------------------------------------------------------
+    Logs                         docker logs web
+    Live logs                    docker logs -f --tail 50 web
+    Container ke andar jao       docker exec -it web bash   (bash na ho toh sh)
+    Poori detail (IP, env)       docker inspect web
+    CPU / RAM usage              docker stats
+    Andar se file bahar lao      docker cp web:/etc/nginx/nginx.conf .
+
+
+------------------------------------------------------------
+5. DOCKERFILE (EXAMPLE: NODE APP)
+------------------------------------------------------------
+    FROM node:22-alpine
+    WORKDIR /app
+    COPY package*.json ./
+    RUN npm ci
+    COPY . .
+    EXPOSE 3000
+    CMD ["node", "app.js"]
+
+    package.json pehle copy karo, baaki code baad me. Isse code badalne pe
+    npm ci dobara nahi chalta aur build jaldi hota hai (layer cache).
+    .dockerignore file me node_modules, .git aur .env daalo.
+
+
+------------------------------------------------------------
+6. DOCKER COMPOSE
+------------------------------------------------------------
+    Kai containers (app + database) ek file compose.yaml se chalao.
+
+    services:
+        app:
+            build: .
+            ports:
+                - "3000:3000"
+            depends_on:
+                - db
+        db:
+            image: mysql:8.4
+            environment:
+                MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            volumes:
+                - db-data:/var/lib/mysql
+    volumes:
+        db-data:
+
+    (${DB_PASSWORD} usi folder ki .env file se aata hai, password file me mat likho)
+
+    Sab chalao (background)      docker compose up -d
+    Build karke chalao           docker compose up -d --build
+    Status                       docker compose ps
+    Ek service ke logs           docker compose logs -f app
+    Service ke andar jao         docker compose exec app sh
+    Sab band + hatao             docker compose down
+    Data (volume) bhi hatao      docker compose down -v
+
+
+------------------------------------------------------------
+7. SAFAI (DISK BHAR GAYI?)
+------------------------------------------------------------
+    Kitni jagah li hai           docker system df
+    Band containers hatao        docker container prune
+    Jo images use nahi ho rahi   docker image prune -a
+    Sab bekaar cheezein ek saath docker system prune
+    Bekaar volumes               docker volume prune   (inka data chala jaayega!)
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    Container hataya toh uske andar ka data bhi gaya. Database ka data hamesha
+    volume me rakho.

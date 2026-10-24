@@ -1,0 +1,79 @@
+NODE.JS CHEATSHEET
+==================
+Time: 2 min – jab bhi command bhool jao
+
+
+------------------------------------------------------------
+1. NODE AUR VERSIONS
+------------------------------------------------------------
+    Version                      node -v   /   npm -v
+    File chalao                  node app.js
+    Auto restart (file badle)    node --watch app.js
+    .env load karo               node --env-file=.env app.js
+    Versions (nvm-windows)       nvm list   /   nvm install 22
+    Version badlo                nvm use 22
+
+
+------------------------------------------------------------
+2. NPM
+------------------------------------------------------------
+    Project shuru                npm init -y
+    Sab install                  npm install          (npm i)
+    Package add                  npm i express
+    Dev package                  npm i -D nodemon
+    Package hatao                npm uninstall express
+    Script chalao                npm run dev
+    Purane packages dekho        npm outdated
+    Security check               npm audit
+    Bina install chalao          npx create-vite
+    CI/server pe exact install   npm ci
+
+
+------------------------------------------------------------
+3. MODULES
+------------------------------------------------------------
+    package.json me "type": "module" likho toh import/export chalega.
+
+    Import                       import express from 'express';
+    Export                       export function add() {}
+    Default export               export default app;
+    Purana tareeka (CommonJS)    const fs = require('fs');
+    Built-in module              import fs from 'node:fs/promises';
+
+
+------------------------------------------------------------
+4. EXPRESS SERVER
+------------------------------------------------------------
+    import express from 'express';
+    const app = express();
+    app.use(express.json());
+    app.get('/api/users', (req, res) => res.json([{ id: 1 }]));
+    app.listen(3000, () => console.log('http://localhost:3000'));
+
+    URL param (/users/:id)       req.params.id
+    Query (?page=2)              req.query.page
+    Body                         req.body   (express.json() chahiye)
+    Status ke saath              res.status(404).json({ msg: 'nahi mila' })
+
+
+------------------------------------------------------------
+5. ASYNC
+------------------------------------------------------------
+    async function getUser(id) {
+        try {
+            const res = await fetch(`https://api.example.com/users/${id}`);
+            return await res.json();
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    Kai kaam ek saath            await Promise.all([a(), b()])
+    File padho                   await fs.readFile('a.txt', 'utf8')
+    Env variable                 process.env.PORT ?? 3000
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    node_modules ko git me mat daalo, package-lock.json ko zaroor daalo.

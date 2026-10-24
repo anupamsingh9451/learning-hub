@@ -1,0 +1,64 @@
+CODEIGNITER KE KAAM KE REPOS
+============================
+Topic: CodeIgniter 4 official packages aur CI3
+Date: 24-10-2026
+Time: ~3 min padhne me
+Link: https://github.com/<repo naam>  (repo ka naam hi uska link hai)
+
+    PDF, Excel, email jaise kaam ke liye php-repos.txt wali libraries dekho.
+    Woh Composer se CodeIgniter me bhi chal jaati hain.
+
+
+------------------------------------------------------------
+1. OFFICIAL (CODEIGNITER 4)
+------------------------------------------------------------
+    codeigniter4/CodeIgniter4
+        Kya hai : Framework ka asli code.
+        Kab lo  : Samajhna ho ki andar kaise kaam karta hai, ya bug report.
+
+    codeigniter4/appstarter
+        Kya hai : Naye project ka dhaancha (composer create-project isi se).
+        Kab lo  : Naya CI4 project shuru karna ho.
+
+    codeigniter4/shield
+        Kya hai : Official login system (register, login, roles, API token).
+        Kab lo  : Har naye CI4 project me auth ke liye.
+
+    codeigniter4/settings
+        Kya hai : App settings database me save karna.
+        Kab lo  : Admin panel se site name, email jaisi settings badalni hon.
+
+    codeigniter4/tasks
+        Kya hai : Cron jobs ko code me likhna (scheduler).
+        Kab lo  : Roz raat report, har ghante cleanup.
+
+    codeigniter4/queue
+        Kya hai : Background jobs (queue).
+        Kab lo  : Email, bade import page ko slow na karein.
+
+    codeigniter4/devkit
+        Kya hai : PHPStan, Rector, CS Fixer, PHPUnit ek package me.
+        Kab lo  : Code quality tools ek baar me setup karne ho.
+
+    codeigniter4/translations
+        Kya hai : Framework ke messages alag bhashaon me.
+        Kab lo  : App Hindi ya doosri bhasha me chahiye.
+
+
+------------------------------------------------------------
+2. PURANA (CODEIGNITER 3)
+------------------------------------------------------------
+    bcit-ci/CodeIgniter
+        Kya hai : CodeIgniter 3 ka code.
+        Kab lo  : Purane client project maintain karne ho. Naya project
+                  hamesha CI4 me banao.
+
+    lonnieezell/myth-auth
+        Kya hai : CI4 ka purana auth library (Shield se pehle).
+        Kab lo  : Sirf purane project me mile toh. Naye me Shield lo.
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    CI4 me login chahiye? Khud mat likho, codeigniter4/shield lagao.

@@ -1,0 +1,80 @@
+PHP CHEATSHEET
+==============
+Time: 2 min – jab bhi syntax bhool jao
+Version: PHP 8.x
+
+
+------------------------------------------------------------
+1. CLI AUR COMPOSER
+------------------------------------------------------------
+    Version                      php -v
+    File chalao                  php index.php
+    Local server                 php -S localhost:8000
+    Syntax check                 php -l file.php
+    Extensions dekho             php -m
+    php.ini kahan hai            php --ini
+    Packages install             composer install
+    Package add                  composer require guzzlehttp/guzzle
+    Autoload refresh             composer dump-autoload
+
+
+------------------------------------------------------------
+2. BASICS
+------------------------------------------------------------
+    Variable                     $name = "Anupam";
+    String me variable           "Hello {$name}"
+    Array                        $user = ['name' => 'Anupam', 'role' => 'dev'];
+    Loop                         foreach ($users as $key => $user) { }
+    Null ho toh default          $city = $data['city'] ?? 'NA';
+    Null-safe                    $user?->profile?->city
+    Arrow function               fn($x) => $x * 2
+
+    match (switch ka naya roop):
+        $msg = match ($code) {
+            200 => 'ok',
+            404 => 'nahi mila',
+            default => 'error',
+        };
+
+
+------------------------------------------------------------
+3. ARRAY FUNCTIONS
+------------------------------------------------------------
+    Ginti                        count($arr)
+    Value hai?                   in_array('x', $arr)
+    Key hai?                     array_key_exists('name', $user)
+    Har item badlo               array_map(fn($n) => $n * 2, $arr)
+    Filter                       array_filter($arr, fn($n) => $n > 2)
+    Jodo / todo                  implode(',', $arr)   /   explode(',', $str)
+    Array <-> JSON               json_encode($arr)   /   json_decode($s, true)
+
+
+------------------------------------------------------------
+4. OOP
+------------------------------------------------------------
+    Constructor property promotion (property + constructor ek saath):
+        class User {
+            public function __construct(
+                private string $name,
+                private int $age = 0,
+            ) {}
+        }
+
+    Inherit                      class Admin extends User
+    Interface                    class Order implements Payable
+    Static call                  User::find(1)
+
+
+------------------------------------------------------------
+5. DEBUG
+------------------------------------------------------------
+    Value dekho                  var_dump($x);   /   print_r($arr);
+    Sab error dikhao (dev me)    error_reporting(E_ALL); ini_set('display_errors', '1');
+    Log me likho                 error_log('yahan tak aaya');
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    User input ko kabhi seedha SQL me mat jodo. Hamesha prepared
+    statement (PDO) use karo.

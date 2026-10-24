@@ -1,0 +1,78 @@
+REACT CHEATSHEET
+================
+Time: 2 min – jab bhi syntax bhool jao
+Version: React 19 + Vite
+
+
+------------------------------------------------------------
+1. SETUP (VITE)
+------------------------------------------------------------
+    Naya project                 npm create vite@latest my-app -- --template react
+    Dev server                   npm run dev
+    Build                        npm run build
+    Build check karo             npm run preview
+
+
+------------------------------------------------------------
+2. COMPONENT AUR JSX
+------------------------------------------------------------
+    function Card({ title, children }) {
+        return <div className="card"><h2>{title}</h2>{children}</div>;
+    }
+
+    Use karo                     <Card title="Hello">Body</Card>
+    class nahi, className        className="box"
+    Inline style                 style={{ color: 'red' }}
+    If / else                    {isLogin ? <Home /> : <Login />}
+    Sirf true pe dikhao          {error && <p>{error}</p>}
+    List                         {items.map(i => <li key={i.id}>{i.name}</li>)}
+    Fragment (bina div)          <> ... </>
+
+
+------------------------------------------------------------
+3. HOOKS
+------------------------------------------------------------
+    State                        const [count, setCount] = useState(0);
+    Pichli value se update       setCount(c => c + 1);
+    Object state update          setUser({ ...user, name: 'A' });
+    Side effect                  useEffect(() => { ... }, [id]);
+    Sirf pehli baar              useEffect(() => { ... }, []);
+    DOM element pakdo            const inputRef = useRef(null);
+    Heavy calculation bachao     useMemo(() => calc(a), [a])
+    Function bachao              useCallback(fn, [deps])
+    Context se data              const user = useContext(UserContext);
+
+
+------------------------------------------------------------
+4. DATA FETCH
+------------------------------------------------------------
+    useEffect(() => {
+        fetch('/api/posts')
+            .then(res => res.json())
+            .then(setPosts);
+    }, []);
+
+    Bade app me TanStack Query lo. Loading, error, caching khud sambhalta hai.
+
+
+------------------------------------------------------------
+5. FORM
+------------------------------------------------------------
+    <input value={name} onChange={e => setName(e.target.value)} />
+
+    Submit                       <form onSubmit={handleSubmit}>
+    Page reload roko             e.preventDefault()   (handleSubmit me)
+
+
+------------------------------------------------------------
+6. RULES
+------------------------------------------------------------
+    - Hooks sirf component ke top pe, if/loop ke andar nahi.
+    - List me key unique aur stable ho (id lo, index nahi).
+    - State ko seedha mat badlo (push nahi), naya array/object banao.
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    Render ke andar side effect (fetch, timer) mat daalo, useEffect me daalo.

@@ -1,0 +1,73 @@
+POWERSHELL CHEATSHEET
+=====================
+Time: 2 min – jab bhi command bhool jao
+
+
+------------------------------------------------------------
+1. ROZ KE COMMANDS
+------------------------------------------------------------
+    Folder ki files              Get-ChildItem          (ls)
+    Folder badlo                 Set-Location D:\x       (cd)
+    File padho                   Get-Content a.txt       (cat)
+    Last 20 lines                Get-Content a.txt -Tail 20
+    Live log dekho               Get-Content a.log -Wait -Tail 20
+    Naya folder                  New-Item -ItemType Directory x
+    Nayi file                    New-Item a.txt
+    Copy / Move                  Copy-Item a b   /   Move-Item a b
+    Folder delete                Remove-Item x -Recurse -Force
+    Screen saaf                  Clear-Host             (cls)
+
+
+------------------------------------------------------------
+2. DHOONDHNA
+------------------------------------------------------------
+    Naam se file dhoondho        Get-ChildItem -Recurse -Filter *.php
+    File ke andar text           Select-String -Path *.txt -Pattern "todo"
+    Command kahan install hai    Get-Command php
+    Kisi command ki help         Get-Help Get-ChildItem -Examples
+
+
+------------------------------------------------------------
+3. PIPE (|) SE FILTER
+------------------------------------------------------------
+    PowerShell me pipe se object jaata hai, sirf text nahi. Isliye
+    column ke naam se seedha filter kar sakte ho.
+
+    Bade files pehle             ls | Sort-Object Length -Descending
+    1MB se badi files            ls | Where-Object Length -gt 1MB
+    Sirf kuch columns            ls | Select-Object Name, Length
+    Ginti karo                   (ls).Count
+
+
+------------------------------------------------------------
+4. PROCESS AUR NETWORK
+------------------------------------------------------------
+    Chalte process               Get-Process
+    Process band karo            Stop-Process -Name node
+    Port kaun use kar raha       Get-NetTCPConnection -LocalPort 3000
+    Port khula hai?              Test-NetConnection localhost -Port 3306
+    API call                     Invoke-RestMethod https://api.github.com
+
+
+------------------------------------------------------------
+5. VARIABLE AUR ENV
+------------------------------------------------------------
+    Variable                     $naam = "Anupam"
+    Env variable padho           $env:PATH
+    Env set (sirf is window)     $env:APP_ENV = "local"
+    Script chalane do (ek baar)  Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+    Script chalao                .\_scripts\sync.ps1
+
+
+------------------------------------------------------------
+6. VERSION 5.1 KA DHYAN
+------------------------------------------------------------
+    Windows PowerShell 5.1 me && aur || nahi chalte.
+    A ke baad B (A pass ho toh)  A; if ($?) { B }
+    Version dekho                $PSVersionTable.PSVersion
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    Remove-Item -Recurse -Force ka undo nahi hai. Path do baar padho.

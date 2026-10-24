@@ -1,0 +1,67 @@
+TAILWIND CSS CHEATSHEET
+=======================
+Time: 2 min – jab bhi class bhool jao
+Version: Tailwind v4
+
+
+------------------------------------------------------------
+1. SETUP (VITE + TAILWIND)
+------------------------------------------------------------
+    Install                      npm install tailwindcss @tailwindcss/vite
+    vite.config.js me            import tailwindcss from '@tailwindcss/vite'  +  plugins: [tailwindcss()]
+    CSS file me                  @import "tailwindcss";
+    Bina build quick test        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+
+------------------------------------------------------------
+2. SPACING AUR SIZE
+------------------------------------------------------------
+    1 unit = 0.25rem = 4px. Matlab p-4 = 16px.
+
+    Padding                      p-4   px-4   py-2   pt-1
+    Margin                       m-4   mx-auto   mt-8   -mt-2
+    Width / Height               w-full   w-1/2   h-screen   max-w-md
+    Gap (flex/grid me)           gap-4   gap-x-2
+    Bachchon ke beech space      space-y-4
+    Apni value                   w-[350px]   mt-[13px]
+
+
+------------------------------------------------------------
+3. FLEX AUR GRID
+------------------------------------------------------------
+    Flex row                     flex items-center justify-between
+    Flex column                  flex flex-col gap-2
+    Wrap karo                    flex-wrap
+    Bilkul center                flex items-center justify-center
+    Grid 3 column                grid grid-cols-3 gap-4
+    Item ko 2 column do          col-span-2
+
+
+------------------------------------------------------------
+4. TEXT, COLOR, BORDER
+------------------------------------------------------------
+    Size                         text-sm   text-lg   text-2xl
+    Weight                       font-medium   font-bold
+    Color                        text-gray-700   bg-blue-500
+    Halka color (opacity)        bg-black/50
+    Border                       border   border-gray-200   rounded-lg
+    Shadow                       shadow   shadow-md
+
+
+------------------------------------------------------------
+5. RESPONSIVE AUR STATE
+------------------------------------------------------------
+    Mobile first: bina prefix wali class sab screen pe lagti hai,
+    md: wali 768px se badi screen pe.
+
+    Breakpoints                  sm 640   md 768   lg 1024   xl 1280
+    Example                      grid-cols-1 md:grid-cols-3
+    Mobile pe chhupao            hidden md:block
+    Hover / focus                hover:bg-blue-600   focus:ring-2
+    Dark mode                    dark:bg-gray-900
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    Pehle mobile ke liye likho, phir md: lg: se badi screen sambhalo.

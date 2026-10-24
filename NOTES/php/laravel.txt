@@ -1,0 +1,568 @@
+LARAVEL – DETAILED NOTES
+========================
+Topic: php
+Date: 24-10-2026
+Time: ~60 min (roz 2-3 section padho)
+Status: learning
+Version: Laravel 11+ (naya slim structure)
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    Laravel ek PHP framework hai jo routing, database, login, queue,
+    email jaise roz ke kaam pehle se ready deta hai. Tum sirf apna
+    business logic likhte ho.
+
+    Misaal: Ghar banana hai. Plain PHP = eent, cement khud lao.
+    Laravel = ready flat, bas interior apne hisaab se karo.
+
+
+------------------------------------------------------------
+2. KYUN ZAROORI HAI / KAB USE KAREIN
+------------------------------------------------------------
+    - PHP ka sabse popular framework, jobs sabse zyada isi ki.
+    - Bada ecosystem: Filament, Livewire, Inertia, Horizon, Reverb.
+    - Code saaf rehta hai (MVC), team me kaam aasan.
+
+    Kab lo:
+    - SaaS, admin panel, API, e-commerce, CRM, multi-user apps.
+    Kab mat lo:
+    - Bahut chhoti 1-2 page site (plain PHP kaafi hai).
+    - Bahut purana shared hosting jahan Composer/CLI nahi chalta.
+
+
+------------------------------------------------------------
+3. FOLDER STRUCTURE
+------------------------------------------------------------
+    app/
+        Http/Controllers/   controllers
+        Models/             Eloquent models
+        Providers/          service providers (app start pe chalte)
+    bootstrap/app.php       routing, middleware, exceptions yahin set
+    config/                 saari settings (.env se values aati hain)
+    database/
+        migrations/         tables ka structure
+        seeders/            dummy/starting data
+        factories/          test ke liye fake data
+    public/                 web root (index.php, build assets)
+    resources/views/        Blade templates
+    routes/
+        web.php             browser wale routes (session, CSRF)
+        console.php         artisan commands aur scheduler
+        api.php             "php artisan install:api" ke baad banta hai
+    storage/                logs, cache, uploads
+    tests/                  Feature aur Unit tests
+    .env                    secrets aur settings (git me kabhi nahi)
+
+    Laravel 11 se Kernel.php files hata di gayi. Middleware aur exception
+    settings ab bootstrap/app.php me hain.
+
+
+------------------------------------------------------------
+4. REQUEST LIFECYCLE (EK REQUEST KA SAFAR)
+------------------------------------------------------------
+    STEP 1 – Sab request public/index.php pe aati hai.
+    STEP 2 – bootstrap/app.php app banata hai.
+    STEP 3 – Service providers chalte hain (DB, cache, routes register).
+    STEP 4 – Request middleware se guzarti hai (session, auth, CSRF).
+    STEP 5 – Router sahi route dhoondhta hai, controller chalta hai.
+    STEP 6 – Controller response deta hai (view, JSON, redirect).
+    STEP 7 – Response middleware se wapas guzar ke browser ko.
+
+    Misaal: Office me ghusna. Gate pe guard (middleware) ID check karta
+    hai, reception (router) sahi department (controller) bhejta hai.
+
+
+------------------------------------------------------------
+5. SERVICE CONTAINER, PROVIDER, FACADE
+------------------------------------------------------------
+    Service container = ek "dabba" jo objects banana jaanta hai. Tum
+    constructor me class ka naam likho, Laravel object khud bana dega.
+    Ise Dependency Injection (DI) kehte hain.
+
+        class OrderController extends Controller
+        {
+            public function __construct(private PaymentService $pay) {}
+        }
+
+    Interface ko class se jodna (AppServiceProvider ke register() me):
+        $this->app->bind(PaymentGateway::class, RazorpayGateway::class);
+        $this->app->singleton(Cart::class, fn() => new Cart());
+
+        bind       har baar naya object
+        singleton  poori request me ek hi object
+
+    Facade = container ki class tak pahunchne ka short raasta.
+        Cache::get('key');   // asal me app('cache')->get('key')
+        Log::info('done');
+
+    Facade aur helper dono chalte hain: cache('key'), logger('done').
+
+
+------------------------------------------------------------
+6. ROUTING
+------------------------------------------------------------
+    Basic:
+        Route::get('/', fn() => view('home'));
+        Route::post('/orders', [OrderController::class, 'store']);
+
+    Parameter:
+        Route::get('/users/{id}', [UserController::class, 'show'])
+            ->whereNumber('id');
+        Route::get('/posts/{slug?}', ...);    // optional
+
+    Naam (name) – URL badle toh bhi code na toote:
+        Route::get('/profile', ...)->name('profile');
+        route('profile');                      // URL banao
+        return to_route('profile');            // redirect
+
+    Group:
+        Route::middleware(['auth'])->prefix('admin')->name('admin.')
+            ->group(function () {
+                Route::get('/dashboard', DashboardController::class)
+                    ->name('dashboard');       // admin.dashboard
+            });
+
+    Resource (CRUD ke 7 routes ek line me):
+        Route::resource('posts', PostController::class);
+        Route::apiResource('posts', PostApiController::class); // 5 routes
+
+        GET    /posts            index
+        GET    /posts/create     create
+        POST   /posts            store
+        GET    /posts/{post}     show
+        GET    /posts/{post}/edit edit
+        PUT    /posts/{post}     update
+        DELETE /posts/{post}     destroy
+
+    Route model binding (ID se model apne aap):
+        Route::get('/posts/{post}', function (Post $post) {
+            return $post;          // nahi mila toh 404 khud
+        });
+        Route::get('/posts/{post:slug}', ...);   // slug se dhoondho
+
+    Check karo:  php artisan route:list
+
+
+------------------------------------------------------------
+7. MIDDLEWARE
+------------------------------------------------------------
+    Middleware = request aur controller ke beech ka filter.
+    Misaal: Club ka bouncer. Umar kam hai toh andar nahi.
+
+        php artisan make:middleware EnsureUserIsAdmin
+
+        public function handle(Request $request, Closure $next): Response
+        {
+            if (! $request->user()?->is_admin) {
+                abort(403);
+            }
+            return $next($request);
+        }
+
+    Register (bootstrap/app.php):
+        ->withMiddleware(function (Middleware $middleware) {
+            $middleware->alias(['admin' => EnsureUserIsAdmin::class]);
+        })
+
+    Use:
+        Route::middleware('admin')->group(...);
+
+    Built-in kaam ke: auth, guest, verified, throttle:60,1, signed
+
+
+------------------------------------------------------------
+8. CONTROLLER AUR FORM REQUEST (VALIDATION)
+------------------------------------------------------------
+    php artisan make:controller PostController --resource
+    php artisan make:request StorePostRequest
+
+    StorePostRequest:
+        public function authorize(): bool
+        {
+            return $this->user()->can('create', Post::class);
+        }
+
+        public function rules(): array
+        {
+            return [
+                'title'    => ['required', 'string', 'max:255'],
+                'body'     => ['required'],
+                'category' => ['required', 'exists:categories,id'],
+                'cover'    => ['nullable', 'image', 'max:2048'],
+            ];
+        }
+
+    Controller:
+        public function store(StorePostRequest $request)
+        {
+            $post = $request->user()->posts()->create($request->validated());
+            return to_route('posts.show', $post)->with('ok', 'Post ban gaya');
+        }
+
+    - Validation fail hui toh Laravel khud pichle page pe errors ke saath
+      bhej deta hai (API me 422 JSON).
+    - $request->validated() sirf validate hua data deta hai. Kabhi
+      $request->all() seedha create() me mat do.
+
+
+------------------------------------------------------------
+9. BLADE (VIEWS)
+------------------------------------------------------------
+        {{ $name }}           escape karke chhapo (XSS safe)
+        {!! $html !!}         bina escape (sirf bharose wala HTML)
+        @if / @elseif / @else / @endif
+        @foreach ($posts as $post) ... @endforeach
+        @forelse ($posts as $post) ... @empty Koi post nahi @endforelse
+        @csrf                 form me CSRF token
+        @method('PUT')        form se PUT/DELETE bhejna
+        @error('title') <p>{{ $message }}</p> @enderror
+        {{ old('title') }}    validation fail ke baad purani value
+
+    Component (layout ka modern tareeka):
+        resources/views/components/layout.blade.php
+            <html><body>{{ $slot }}</body></html>
+
+        page me:
+            <x-layout>
+                <h1>Home</h1>
+            </x-layout>
+
+    Assets (Vite):
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+
+------------------------------------------------------------
+10. ELOQUENT ORM
+------------------------------------------------------------
+    Model:
+        class Post extends Model
+        {
+            use SoftDeletes, HasFactory;
+
+            protected $fillable = ['title', 'body', 'category_id'];
+
+            protected function casts(): array
+            {
+                return [
+                    'published_at' => 'datetime',
+                    'meta'         => 'array',
+                    'status'       => PostStatus::class,   // enum
+                ];
+            }
+        }
+
+    Query:
+        Post::all();
+        Post::find($id);  Post::findOrFail($id);
+        Post::where('status', 'live')->orderByDesc('id')->paginate(15);
+        Post::firstOrCreate(['slug' => $s], ['title' => $t]);
+        Post::updateOrCreate(['slug' => $s], ['title' => $t]);
+        Post::whereIn('id', [1, 2])->delete();
+
+    Relations:
+        hasOne         User -> Profile
+        hasMany        User -> Posts
+        belongsTo      Post -> User
+        belongsToMany  Post <-> Tags (pivot table post_tag)
+        hasManyThrough Country -> Users -> Posts
+        morphMany      Post/Video -> Comments (polymorphic)
+
+        public function user(): BelongsTo { return $this->belongsTo(User::class); }
+        public function tags(): BelongsToMany { return $this->belongsToMany(Tag::class); }
+
+    N+1 problem aur eager loading:
+        // GALAT: 100 posts = 101 queries
+        foreach (Post::all() as $p) { echo $p->user->name; }
+
+        // SAHI: 2 queries
+        foreach (Post::with('user')->get() as $p) { ... }
+
+        Local me pakadne ke liye (AppServiceProvider boot()):
+            Model::preventLazyLoading(! app()->isProduction());
+
+    Scope (baar-baar wali condition):
+        public function scopeLive(Builder $q): void
+        {
+            $q->where('status', 'live');
+        }
+        Post::live()->get();
+
+    Accessor / mutator:
+        protected function title(): Attribute
+        {
+            return Attribute::make(
+                get: fn($v) => ucfirst($v),
+                set: fn($v) => trim($v),
+            );
+        }
+
+    Bade data ke liye:
+        Post::chunkById(500, function ($posts) { ... });
+        foreach (Post::lazy() as $post) { ... }
+
+
+------------------------------------------------------------
+11. MIGRATION, SEEDER, FACTORY
+------------------------------------------------------------
+    php artisan make:model Post -mfs   (migration + factory + seeder)
+
+    Migration:
+        Schema::create('posts', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->string('title');
+            $table->string('slug')->unique();
+            $table->text('body');
+            $table->enum('status', ['draft', 'live'])->default('draft');
+            $table->timestamp('published_at')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+            $table->index(['status', 'published_at']);
+        });
+
+    Purani table badalni ho toh nayi migration banao, purani edit mat
+    karo (live DB pe woh dobara nahi chalegi).
+
+    Factory:
+        public function definition(): array
+        {
+            return [
+                'title' => fake()->sentence(),
+                'body'  => fake()->paragraphs(3, true),
+            ];
+        }
+        Post::factory()->count(50)->for(User::factory())->create();
+
+    Commands:
+        php artisan migrate
+        php artisan migrate:rollback
+        php artisan migrate:fresh --seed   (sirf local, sab data jaata hai)
+        php artisan db:seed
+
+
+------------------------------------------------------------
+12. AUTH – LOGIN, GATE, POLICY
+------------------------------------------------------------
+    Login system:
+    - Starter kits (React / Vue / Livewire) se login, register, password
+      reset, email verify sab ready mil jaata hai.
+    - API ke liye Sanctum: php artisan install:api
+          $token = $user->createToken('mobile')->plainTextToken;
+          Route::middleware('auth:sanctum')->get('/me', ...);
+
+    Helpers:
+        auth()->user();  auth()->id();  auth()->check();
+        Auth::attempt(['email' => $e, 'password' => $p]);
+
+    Policy (model ke liye permission rules):
+        php artisan make:policy PostPolicy --model=Post
+
+        public function update(User $user, Post $post): bool
+        {
+            return $user->id === $post->user_id;
+        }
+
+        Controller me:   Gate::authorize('update', $post);
+        Blade me:        @can('update', $post) ... @endcan
+
+    Roles/permissions bahut ho toh: spatie/laravel-permission
+
+
+------------------------------------------------------------
+13. API RESOURCES (JSON KA SHAPE)
+------------------------------------------------------------
+    php artisan make:resource PostResource
+
+        public function toArray(Request $request): array
+        {
+            return [
+                'id'     => $this->id,
+                'title'  => $this->title,
+                'author' => new UserResource($this->whenLoaded('user')),
+                'date'   => $this->created_at->toDateString(),
+            ];
+        }
+
+        return PostResource::collection(Post::with('user')->paginate());
+
+    Fayda: DB ka column naam badle toh bhi API ka JSON same rehta hai.
+    Password jaise fields galti se bahar nahi jaate.
+
+
+------------------------------------------------------------
+14. QUEUE, JOB, EVENT, SCHEDULER
+------------------------------------------------------------
+    Queue = slow kaam background me. User ko turant jawab milta hai.
+    Misaal: Restaurant me order lete hi token de do, khana baad me aayega.
+
+        php artisan make:job SendInvoiceMail
+
+        class SendInvoiceMail implements ShouldQueue
+        {
+            use Queueable;
+            public function __construct(public Order $order) {}
+            public function handle(): void
+            {
+                Mail::to($this->order->user)->send(new InvoiceMail($this->order));
+            }
+        }
+
+        SendInvoiceMail::dispatch($order);
+        SendInvoiceMail::dispatch($order)->delay(now()->addMinutes(5));
+
+    Worker chalao:  php artisan queue:work
+    .env me:        QUEUE_CONNECTION=database  (ya redis)
+    Fail hui jobs:  php artisan queue:failed / queue:retry all
+
+    Event + listener (ek kaam ke baad kai kaam):
+        OrderPlaced event -> SendMail, UpdateStock, NotifyAdmin listeners
+
+    Scheduler (routes/console.php):
+        Schedule::command('reports:daily')->dailyAt('07:00');
+        Schedule::job(new CleanupTemp)->hourly();
+
+    Server pe ek hi cron chahiye:
+        * * * * * cd /path && php artisan schedule:run >> /dev/null 2>&1
+
+
+------------------------------------------------------------
+15. CACHE, SESSION, REDIS
+------------------------------------------------------------
+        Cache::put('key', $value, now()->addHour());
+        $posts = Cache::remember('home.posts', 600, fn() => Post::live()->get());
+        Cache::forget('home.posts');
+
+        session(['cart' => $cart]);
+        session('cart');
+        session()->flash('ok', 'Saved');      // sirf agli request tak
+
+    Production me CACHE_STORE=redis aur SESSION_DRIVER=redis fast rehta hai.
+
+
+------------------------------------------------------------
+16. FILE STORAGE
+------------------------------------------------------------
+        $path = $request->file('cover')->store('covers', 'public');
+        Storage::disk('public')->url($path);
+        Storage::disk('s3')->put('docs/a.pdf', $content);
+        Storage::delete($path);
+
+    public disk ke liye ek baar:  php artisan storage:link
+
+
+------------------------------------------------------------
+17. TESTING
+------------------------------------------------------------
+    Pest example (tests/Feature/PostTest.php):
+        uses(RefreshDatabase::class);
+
+        it('logged-in user post bana sakta hai', function () {
+            $user = User::factory()->create();
+
+            $this->actingAs($user)
+                ->post('/posts', ['title' => 'Hi', 'body' => 'Text', ...])
+                ->assertRedirect();
+
+            expect(Post::count())->toBe(1);
+        });
+
+    Chalao:  php artisan test   (ya ./vendor/bin/pest)
+
+    Fake karne ke helpers: Mail::fake(), Queue::fake(), Storage::fake('s3'),
+    Http::fake() — bahar ki service ko asli me call nahi karte.
+
+
+------------------------------------------------------------
+18. DEPLOYMENT CHECKLIST
+------------------------------------------------------------
+    [ ] .env: APP_ENV=production, APP_DEBUG=false, sahi APP_URL
+    [ ] composer install --no-dev --optimize-autoloader
+    [ ] npm ci && npm run build
+    [ ] php artisan migrate --force
+    [ ] php artisan optimize   (config, route, view, event cache)
+    [ ] php artisan storage:link
+    [ ] Queue worker Supervisor se chalu rakho (crash pe restart)
+    [ ] Cron me schedule:run
+    [ ] storage/ aur bootstrap/cache/ likhne ki permission
+    [ ] Web root sirf public/ folder
+
+    Deploy ke baad naya code na dikhe toh:  php artisan optimize:clear
+
+
+------------------------------------------------------------
+19. PERFORMANCE TIPS
+------------------------------------------------------------
+    - Eager loading (with) se N+1 hatao.
+    - Sirf zaroori columns: Post::select('id', 'title')->get()
+    - Index lagao un columns pe jo where/orderBy me aate hain.
+    - Bhaari query Cache::remember me.
+    - Email, PDF, export queue me.
+    - Debugbar/Telescope se slow query dhoondho.
+    - Octane (Swoole/FrankenPHP) bahut zyada traffic pe app ko memory me
+      rakhta hai. Pehle normal optimization karo.
+
+
+------------------------------------------------------------
+20. GALTIYAN JO MAINE KI / GOTCHAS
+------------------------------------------------------------
+    - $fillable set nahi kiya toh create() pe MassAssignmentException.
+    - .env badla par asar nahi? config:cache laga hua hai. config:clear.
+    - Code me env('X') sirf config files ke andar lo. Config cache ke baad
+      bahar ka env() null deta hai. Code me config('app.x') lo.
+    - Route order: /posts/create ko /posts/{post} se pehle likho.
+    - Queue job me model pass hua aur baad me delete ho gaya toh job fail.
+    - Timezone config/app.php me set karo, DB me UTC hi rakho.
+    - Migration ek baar live pe chal gayi toh use edit mat karo.
+
+
+------------------------------------------------------------
+21. INTERVIEW ANGLE
+------------------------------------------------------------
+    Q: Service container kya hai?
+    A: Laravel ka object factory. Classes ki dependencies khud bana ke
+       inject karta hai. bind/singleton se batate hain kya banana hai.
+
+    Q: Facade kaise kaam karta hai?
+    A: Static jaisa dikhta hai, par andar container se asli object leke
+       uska method call karta hai. Test me fake bhi kar sakte ho.
+
+    Q: N+1 problem kya hai?
+    A: List ke har item ke liye alag query. with() se eager loading karke
+       ek-do query me sab le aate hain.
+
+    Q: Middleware kya hai? Example?
+    A: Request aur controller ke beech ka filter. auth, throttle, CSRF.
+
+    Q: Queue kab use karte ho?
+    A: Jo kaam user ko turant nahi chahiye: email, PDF, import, webhook.
+
+    Q: Gate aur Policy me farak?
+    A: Gate chhote, alag permission checks ke liye closure. Policy ek
+       model se jude saare permission rules ki class.
+
+    Q: Soft delete kya hai?
+    A: Row delete nahi hoti, deleted_at me time aa jaata hai. withTrashed()
+       se dikh sakti hai, restore() se wapas.
+
+    Q: Eloquent vs Query Builder?
+    A: Eloquent models, relations, events deta hai. Query Builder halka aur
+       tez hai, bade reports ke liye achha.
+
+
+------------------------------------------------------------
+22. LINKS
+------------------------------------------------------------
+    - Official docs          https://laravel.com/docs
+    - Laracasts (videos)     https://laracasts.com
+    - Laravel News           https://laravel-news.com
+    - Cheatsheet             CHEATSHEETS/php/laravel.txt
+    - Repos                  NOTES/php/laravel-repos.txt
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    Validation FormRequest me, logic Service me, slow kaam Queue me, aur
+    har list query me with() yaad rakho.

@@ -1,0 +1,77 @@
+CODEIGNITER CHEATSHEET
+======================
+Time: 2 min – jab bhi command bhool jao
+Version: CodeIgniter 4
+
+
+------------------------------------------------------------
+1. SETUP
+------------------------------------------------------------
+    Naya project                 composer create-project codeigniter4/appstarter app
+    Server chalao                php spark serve
+    Saare commands               php spark list
+    Env file banao               copy env .env   (andar: CI_ENVIRONMENT = development)
+    Routes dekho                 php spark routes
+
+
+------------------------------------------------------------
+2. FOLDER MAP
+------------------------------------------------------------
+    app/Config/Routes.php        URL -> controller
+    app/Controllers/             controllers
+    app/Models/                  models
+    app/Views/                   views (HTML)
+    public/                      index.php, css, js (web root)
+    writable/logs/               error logs yahan
+
+
+------------------------------------------------------------
+3. ROUTES AUR CONTROLLER
+------------------------------------------------------------
+    GET route                    $routes->get('users', 'User::index');
+    ID wala route                $routes->get('user/(:num)', 'User::show/$1');
+    POST route                   $routes->post('user/save', 'User::save');
+    REST resource                $routes->resource('photos');
+    Controller banao             php spark make:controller User
+    View bhejo                   return view('users/list', ['users' => $users]);
+    JSON bhejo                   return $this->response->setJSON($data);
+    Form ka data lo              $this->request->getPost('email')
+
+
+------------------------------------------------------------
+4. MODEL AUR DATABASE
+------------------------------------------------------------
+    Model banao                  php spark make:model UserModel
+    Model me set karo            $table, $primaryKey, $allowedFields
+    Sab lao                      $model->findAll();
+    Ek lao                       $model->find($id);
+    Where                        $model->where('status', 1)->findAll();
+    Naya save                    $model->insert($data);
+    Update                       $model->update($id, $data);
+    Delete                       $model->delete($id);
+    Query Builder                db_connect()->table('users')->where('id', 1)->get()->getRow();
+
+
+------------------------------------------------------------
+5. MIGRATION AUR SEEDER
+------------------------------------------------------------
+    Migration banao              php spark make:migration CreateUsers
+    Migrate chalao               php spark migrate
+    Wapas lo                     php spark migrate:rollback
+    Seeder banao                 php spark make:seeder UserSeeder
+    Seeder chalao                php spark db:seed UserSeeder
+
+
+------------------------------------------------------------
+6. VALIDATION (CONTROLLER ME)
+------------------------------------------------------------
+    $rules = ['email' => 'required|valid_email'];
+    if (! $this->validate($rules)) {
+        return redirect()->back()->withInput();
+    }
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    Jo field $allowedFields me nahi hai, woh insert/update me save nahi hogi.

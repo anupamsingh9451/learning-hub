@@ -1,0 +1,506 @@
+PHP – DETAILED NOTES
+====================
+Topic: php
+Date: 24-10-2026
+Time: ~45 min (ek saath nahi, roz 2-3 section padho)
+Status: learning
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    PHP ek server-side language hai. Browser request bhejta hai, server pe
+    PHP code chalta hai, aur jawab me HTML ya JSON wapas jaata hai.
+
+    Misaal: Restaurant me tum order dete ho (request), kitchen me khana
+    banta hai (PHP chalta hai), aur plate tumhare table pe aati hai
+    (response). Kitchen tumhe dikhti nahi, sirf khana dikhta hai.
+
+
+------------------------------------------------------------
+2. KYUN ZAROORI HAI / KAB USE KAREIN
+------------------------------------------------------------
+    - Duniya ki bahut badi web PHP pe chalti hai (WordPress, Laravel apps).
+    - Hosting sasti aur har jagah milti hai.
+    - Laravel aur CodeIgniter dono PHP pe hain. PHP strong toh dono aasan.
+
+    Kab lo:
+    - Website, admin panel, CRM, e-commerce, REST API.
+    Kab mat lo:
+    - Heavy real-time (game server) ya bahut CPU wala kaam. Wahan Node,
+      Go ya Python better rehte hain.
+
+
+------------------------------------------------------------
+3. PHP KAISE CHALTA HAI (REQUEST KA SAFAR)
+------------------------------------------------------------
+    STEP 1 – Browser request bhejta hai: GET /products?page=2
+    STEP 2 – Web server (Nginx/Apache) dekhta hai ki yeh .php ka kaam hai.
+    STEP 3 – Request PHP-FPM ko jaati hai. FPM ke paas PHP workers ka
+             pool hota hai, ek worker free hoke request uthata hai.
+    STEP 4 – PHP file chalti hai, DB se data laati hai, HTML/JSON banati hai.
+    STEP 5 – Jawab wapas browser ko. Worker ki memory saaf.
+
+    Sabse zaroori baat: "shared nothing".
+    - Har request bilkul fresh shuru hoti hai. Pichli request ka variable
+      agli request me nahi milta.
+    - Isliye data rakhne ke liye session, database ya Redis chahiye.
+    - Fayda: ek request crash hui toh baaki pe asar nahi.
+
+    OPcache:
+    - PHP code pehle bytecode me badalta hai. OPcache yeh bytecode memory
+      me rakh leta hai, taaki har request pe dobara na bane.
+    - Production me OPcache hamesha ON rakho. Speed kai guna badhti hai.
+
+
+------------------------------------------------------------
+4. BASICS – JALDI REVISION
+------------------------------------------------------------
+    Variable aur types:
+        $name  = "Anupam";      // string
+        $age   = 30;            // int
+        $price = 99.50;         // float
+        $isOn  = true;          // bool
+        $list  = [1, 2, 3];     // array
+        $none  = null;          // null
+
+    String:
+        "Hello $name"           // double quote me variable chalta hai
+        'Hello $name'           // single quote me nahi (as-is)
+        "Total: {$order->total}"
+        $a . " " . $b           // jodna (concatenate) dot se
+
+    Heredoc (lamba text):
+        $html = <<<HTML
+            <h1>{$title}</h1>
+            HTML;
+
+    Array (PHP ka array list bhi hai aur dictionary bhi):
+        $nums = [10, 20, 30];
+        $user = ['name' => 'Anupam', 'city' => 'Delhi'];
+        $nums[] = 40;           // end me add
+        [$a, $b] = [1, 2];      // destructuring
+        ['name' => $n] = $user;
+
+    Condition aur loop:
+        if ($age >= 18) { ... } elseif (...) { ... } else { ... }
+        foreach ($user as $key => $value) { ... }
+        for ($i = 0; $i < 10; $i++) { ... }
+        while ($row = $stmt->fetch()) { ... }
+
+    Null ke saath kaam:
+        $city = $data['city'] ?? 'NA';     // null/na ho toh default
+        $data['count'] ??= 0;              // na ho tabhi set karo
+        $zip = $user?->address?->zip;      // beech me null ho toh null
+
+    match (switch ka naya, safe roop):
+        $label = match ($status) {
+            'paid'           => 'Paid',
+            'pending', 'new' => 'Pending',
+            default          => 'Unknown',
+        };
+        - match strict (===) compare karta hai aur value return karta hai.
+        - Koi case match na ho aur default na ho toh error aata hai.
+          Isse bug chhup nahi paata.
+
+
+------------------------------------------------------------
+5. FUNCTIONS
+------------------------------------------------------------
+    Normal function, types ke saath:
+        function total(float $price, int $qty = 1): float
+        {
+            return $price * $qty;
+        }
+
+    Named arguments (order yaad nahi rakhna padta):
+        total(qty: 3, price: 50);
+
+    Kitne bhi arguments (variadic):
+        function sum(int ...$nums): int { return array_sum($nums); }
+        sum(1, 2, 3);
+
+    Closure (anonymous function). Bahar ka variable "use" se lena padta hai:
+        $tax = 0.18;
+        $withTax = function ($p) use ($tax) { return $p * (1 + $tax); };
+
+    Arrow function. Bahar ka variable apne aap mil jaata hai:
+        $withTax = fn($p) => $p * (1 + $tax);
+
+    First-class callable (function ko variable me rakhna):
+        $len = strlen(...);
+        $len('hello');          // 5
+
+    static variable (function calls ke beech value yaad rehti hai):
+        function counter() { static $n = 0; return ++$n; }
+
+
+------------------------------------------------------------
+6. STRICT TYPES AUR TYPE SYSTEM
+------------------------------------------------------------
+    Har file ke upar likho:
+        <?php
+        declare(strict_types=1);
+
+    Iske bina PHP "5" ko chupchap 5 bana deta hai. Strict mode me galat
+    type pe seedha error aata hai, toh bug jaldi pakda jaata hai.
+
+    Types jo kaam aate hain:
+        ?string          string ya null
+        int|string       union: dono me se koi bhi
+        mixed            kuch bhi
+        void             kuch return nahi karta
+        never            kabhi return nahi karta (throw ya exit)
+        static           usi class ka object (method chaining me)
+        (A&B)|null       DNF type, PHP 8.2+
+
+
+------------------------------------------------------------
+7. OOP – CLASS, INTERFACE, TRAIT, ENUM
+------------------------------------------------------------
+    Class + constructor property promotion:
+        class Product
+        {
+            public function __construct(
+                public readonly int $id,
+                private string $name,
+                protected float $price = 0,
+            ) {}
+
+            public function name(): string { return $this->name; }
+        }
+
+        $p = new Product(1, 'Pen', 10);
+
+    Visibility:
+        public      sab jagah se
+        protected   class aur uske child me
+        private     sirf usi class me
+        readonly    ek baar set, phir badal nahi sakte
+
+    Inheritance aur abstract:
+        abstract class Payment
+        {
+            abstract public function pay(float $amount): bool;
+        }
+        class UpiPayment extends Payment
+        {
+            public function pay(float $amount): bool { ... }
+        }
+
+    Interface (contract: "yeh methods hone hi chahiye"):
+        interface Notifier { public function send(string $msg): void; }
+        class SmsNotifier implements Notifier { ... }
+
+    Trait (code copy kiye bina kai classes me same methods):
+        trait HasSlug
+        {
+            public function slug(): string
+            {
+                return strtolower(str_replace(' ', '-', $this->title));
+            }
+        }
+        class Post { use HasSlug; }
+
+    Static (object banaye bina):
+        class Str { public static function upper(string $s): string { ... } }
+        Str::upper('a');
+
+    Enum (fixed values, PHP 8.1+):
+        enum Status: string
+        {
+            case Paid = 'paid';
+            case Pending = 'pending';
+
+            public function label(): string
+            {
+                return match ($this) {
+                    Status::Paid => 'Paid ho gaya',
+                    Status::Pending => 'Baaki hai',
+                };
+            }
+        }
+        Status::from('paid');        // Status::Paid
+        Status::tryFrom('xyz');      // null, error nahi
+
+    Kaam ke magic methods:
+        __construct   object bante waqt
+        __toString    object ko string me badalte waqt
+        __get/__set   na hone wali property padhne/likhne pe
+        __call        na hone wala method call hone pe
+        __invoke      object ko function ki tarah chalane pe
+
+    final:
+        final class    is class ka child nahi ban sakta
+        final method   child class ise override nahi kar sakti
+
+
+------------------------------------------------------------
+8. PHP 8.x – KIS VERSION ME KYA AAYA
+------------------------------------------------------------
+    8.0  match, nullsafe ?->, named arguments, constructor promotion,
+         union types, attributes #[...], str_contains()
+    8.1  enums, readonly properties, never type, first-class callable
+         strlen(...), fibers, array_is_list()
+    8.2  readonly classes, DNF types, true/false/null as types
+    8.3  typed class constants, #[\Override], json_validate()
+    8.4  property hooks, asymmetric visibility (public private(set)),
+         new Foo()->bar() bina extra bracket, array_find(), array_any()
+    8.5  pipe operator |>  (value ko ek ke baad ek function me bhejna)
+
+    Property hooks (8.4) example:
+        class User
+        {
+            public string $email {
+                set => strtolower($value);
+            }
+        }
+
+    Asymmetric visibility (8.4): bahar se padh sakte ho, badal nahi sakte.
+        public private(set) int $count = 0;
+
+
+------------------------------------------------------------
+9. ERRORS AUR EXCEPTIONS
+------------------------------------------------------------
+        try {
+            $order = $repo->find($id);
+        } catch (NotFoundException $e) {
+            return response('Order nahi mila', 404);
+        } catch (Throwable $e) {
+            error_log($e->getMessage());
+            throw $e;
+        } finally {
+            // hamesha chalega, error aaye ya na aaye
+        }
+
+    Apna exception:
+        class PaymentFailed extends RuntimeException {}
+        throw new PaymentFailed('UPI timeout');
+
+    Error vs Exception:
+    - Dono Throwable hain.
+    - Error = PHP ki galti (undefined function, type error).
+    - Exception = tumhare code ka bataya hua problem.
+    - "catch (Throwable $e)" dono pakadta hai.
+
+
+------------------------------------------------------------
+10. NAMESPACE, COMPOSER, AUTOLOAD
+------------------------------------------------------------
+    Namespace = code ka "folder ka pata", taaki same naam ki do class
+    takraye nahi.
+        namespace App\Services;
+        use App\Models\User;
+
+    Composer = PHP ka package manager (Node ka npm jaisa).
+        composer init
+        composer require guzzlehttp/guzzle
+        composer install           (composer.lock se exact versions)
+        composer update            (versions upgrade, dhyan se)
+
+    PSR-4 autoload (composer.json):
+        "autoload": {
+            "psr-4": { "App\\": "src/" }
+        }
+        - Matlab App\Services\Mailer ki file src/Services/Mailer.php hai.
+        - Badlav ke baad: composer dump-autoload
+        - Har entry file me sirf ek line: require 'vendor/autoload.php';
+
+    Version symbols:
+        ^2.1   2.x me koi bhi (3.0 nahi)
+        ~2.1   2.1 se 2.x tak
+        2.1.*  sirf 2.1 wale patch
+
+
+------------------------------------------------------------
+11. DATABASE – PDO
+------------------------------------------------------------
+    Connection:
+        $pdo = new PDO(
+            'mysql:host=127.0.0.1;dbname=shop;charset=utf8mb4',
+            $user,
+            $pass,
+            [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            ]
+        );
+
+    Prepared statement (SQL injection se bachav):
+        $stmt = $pdo->prepare('SELECT * FROM users WHERE email = ?');
+        $stmt->execute([$email]);
+        $user = $stmt->fetch();
+
+        $stmt = $pdo->prepare('INSERT INTO orders (user_id, total)
+                               VALUES (:uid, :total)');
+        $stmt->execute(['uid' => $uid, 'total' => $total]);
+        $id = $pdo->lastInsertId();
+
+    Transaction (sab ho ya kuch na ho):
+        $pdo->beginTransaction();
+        try {
+            // order save, stock kam, payment entry
+            $pdo->commit();
+        } catch (Throwable $e) {
+            $pdo->rollBack();
+            throw $e;
+        }
+
+
+------------------------------------------------------------
+12. FORM, SESSION, COOKIE, UPLOAD
+------------------------------------------------------------
+    Superglobals:
+        $_GET      URL ke ?a=1 wale values
+        $_POST     form ka data
+        $_FILES    upload ki gayi files
+        $_SERVER   request ki info (method, IP, headers)
+        $_SESSION  user ka data, requests ke beech
+        $_COOKIE   browser me rakhi cookies
+
+    Session:
+        session_start();
+        $_SESSION['user_id'] = $user['id'];
+        session_regenerate_id(true);   // login ke baad zaroor
+        session_destroy();             // logout
+
+    Cookie (secure options ke saath):
+        setcookie('theme', 'dark', [
+            'expires'  => time() + 86400 * 30,
+            'httponly' => true,
+            'secure'   => true,
+            'samesite' => 'Lax',
+        ]);
+
+    File upload (check karna zaroori):
+        $f = $_FILES['photo'];
+        if ($f['error'] === UPLOAD_ERR_OK && $f['size'] < 2_000_000) {
+            $mime = mime_content_type($f['tmp_name']);  // asli type
+            if (in_array($mime, ['image/jpeg', 'image/png'], true)) {
+                $name = bin2hex(random_bytes(16)) . '.jpg';
+                move_uploaded_file($f['tmp_name'], "/uploads/$name");
+            }
+        }
+
+
+------------------------------------------------------------
+13. SECURITY – YEH 6 CHEEZEIN HAMESHA
+------------------------------------------------------------
+    1) SQL Injection   -> hamesha prepared statement. Input ko SQL me
+                          kabhi seedha mat jodo.
+    2) XSS             -> output pe htmlspecialchars($s, ENT_QUOTES).
+                          User ka likha HTML seedha page pe mat chhapo.
+    3) CSRF            -> har form me hidden token, server pe match karo.
+    4) Password        -> password_hash($p, PASSWORD_DEFAULT) se save,
+                          password_verify() se check. md5/sha1 kabhi nahi.
+    5) File upload     -> asli MIME check, random naam, public folder me
+                          .php file kabhi upload na hone do.
+    6) Session         -> login pe session_regenerate_id(true), cookie
+                          httponly + secure.
+
+    Production php.ini:
+        display_errors = Off
+        log_errors = On
+        expose_php = Off
+
+
+------------------------------------------------------------
+14. PERFORMANCE
+------------------------------------------------------------
+    - OPcache ON (production me sabse bada fayda).
+    - N+1 query se bacho: loop ke andar query mat chalao, ek baar me lao.
+    - Bade data ke liye generator, poora array memory me mat bharo:
+          function rows(PDO $pdo): Generator
+          {
+              $stmt = $pdo->query('SELECT * FROM logs');
+              while ($r = $stmt->fetch()) { yield $r; }
+          }
+          foreach (rows($pdo) as $r) { ... }
+    - Baar-baar wala data Redis/APCu cache me rakho.
+    - Slow kaam (email, PDF) queue me bhejo, request me mat karo.
+    - JIT (PHP 8) maths-heavy kaam me madad karta hai, normal web app me
+      fark kam padta hai.
+
+
+------------------------------------------------------------
+15. STANDARDS (PSR)
+------------------------------------------------------------
+    PSR-4      autoload (namespace -> folder)
+    PSR-12/PER code style (spacing, braces). Tool: PHP-CS-Fixer, Pint.
+    PSR-3      logger interface (Monolog)
+    PSR-7      HTTP request/response objects
+    PSR-11     container interface
+    PSR-15     middleware
+
+    In standards ka fayda: alag frameworks ki libraries saath chal jaati hain.
+
+
+------------------------------------------------------------
+16. GALTIYAN JO MAINE KI / GOTCHAS
+------------------------------------------------------------
+    - == vs ===:  "abc" == 0 PHP 8 me false hai, par purane PHP me true
+      tha. Hamesha === use karo.
+    - "0" falsy hai. if ($value) me "0" false ho jaata hai. Check ke liye
+      $value !== '' ya isset() lo.
+    - empty() bahut cheezon ko empty maanta hai: 0, "0", "", [], null.
+    - Array copy hota hai (by value). Function me badla array bahar nahi
+      badalta, jab tak & reference na lo.
+    - foreach me reference (&$v) ke baad unset($v) karo, warna agla loop
+      last item badal deta hai.
+    - Float: 0.1 + 0.2 != 0.3. Paisa paise (int) me rakho ya bcmath lo.
+    - Timezone: php.ini ya date_default_timezone_set('Asia/Kolkata').
+    - Output se pehle header()/setcookie(). Echo ke baad header nahi jaata.
+
+
+------------------------------------------------------------
+17. INTERVIEW ANGLE
+------------------------------------------------------------
+    Q: == aur === me kya farak hai?
+    A: == type badal ke compare karta hai, === value aur type dono
+       check karta hai. Bugs se bachne ke liye === lo.
+
+    Q: include, require, require_once me farak?
+    A: File na mile toh include warning deta hai aur aage chalta hai,
+       require fatal error deta hai. _once wale file dobara load nahi
+       karte.
+
+    Q: Interface aur abstract class me farak?
+    A: Interface sirf contract hai (methods ke naam). Abstract class me
+       kuch methods ka code bhi ho sakta hai. Class kai interfaces le
+       sakti hai, par extend sirf ek class ko.
+
+    Q: Trait kyun?
+    A: PHP me multiple inheritance nahi hai. Trait se same code kai
+       classes me daal sakte ho.
+
+    Q: Session aur cookie me farak?
+    A: Cookie browser me rehti hai. Session ka data server pe rehta hai,
+       browser me sirf session ID cookie hoti hai.
+
+    Q: SQL injection kaise rokte ho?
+    A: Prepared statements (PDO). Input ko query se alag bheja jaata hai.
+
+    Q: PHP stateless kyun kehte hain?
+    A: Har request fresh shuru hoti hai, memory share nahi hoti. State
+       session/DB/Redis me rakhte hain.
+
+    Q: Late static binding kya hai?
+    A: static:: us class ko point karta hai jisse method call hua, self::
+       hamesha wahi class jahan code likha hai.
+
+
+------------------------------------------------------------
+18. LINKS
+------------------------------------------------------------
+    - Official manual        https://www.php.net/manual/en/
+    - PHP The Right Way      https://phptherightway.com
+    - Naye features          https://www.php.net/releases/
+    - PSR list               https://www.php-fig.org/psr/
+    - Repos                  NOTES/php/php-repos.txt
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    strict_types ON, === hi lo, aur user input pe kabhi bharosa mat karo.

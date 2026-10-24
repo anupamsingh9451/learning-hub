@@ -1,0 +1,520 @@
+REACT JS – DETAILED NOTES
+=========================
+Topic: javascript
+Date: 24-10-2026
+Time: ~60 min (roz 2-3 section padho)
+Status: learning
+Version: React 19 + Vite
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    React ek JavaScript library hai jisse UI ko chhote-chhote tukdon
+    (components) me banate hain. Data badla, UI apne aap update.
+
+    Misaal: LEGO. Har block (Button, Card, Navbar) alag banao, phir jod ke
+    poora page. Ek block badlo, baaki waise hi rehte hain.
+
+
+------------------------------------------------------------
+2. KYUN ZAROORI HAI / KAB USE KAREIN
+------------------------------------------------------------
+    - Frontend jobs me sabse zyada maang.
+    - Next.js, React Native (mobile) sab isi pe.
+    - Laravel ke saath Inertia se bhi chalta hai.
+
+    Kab lo:
+    - Dashboard, SaaS app, bahut interaction wala UI.
+    Kab mat lo:
+    - Simple content site ya blog. Wahan plain HTML/Blade ya Next.js
+      static kaafi hai.
+
+
+------------------------------------------------------------
+3. REACT KAISE KAAM KARTA HAI
+------------------------------------------------------------
+    STEP 1 – Tum component likhte ho jo batata hai "UI kaisa dikhe".
+    STEP 2 – React use chala ke ek virtual (memory wala) UI banata hai.
+    STEP 3 – State/props badle toh component dobara chalta hai (re-render).
+    STEP 4 – React naye aur purane UI ko compare karta hai (reconciliation).
+    STEP 5 – Sirf jo badla, wahi asli DOM me update hota hai.
+
+    Re-render kab hota hai?
+    - Component ki apni state badle.
+    - Parent re-render ho (bachche bhi chalte hain).
+    - Jis context ko use kar rahe ho, uski value badle.
+
+    Yaad rakho: re-render ka matlab DOM badalna nahi. Component function
+    dobara chalta hai, DOM sirf farak pe badalta hai.
+
+
+------------------------------------------------------------
+4. SETUP AUR FOLDER STRUCTURE
+------------------------------------------------------------
+        npm create vite@latest my-app -- --template react
+        cd my-app && npm install && npm run dev
+
+    TypeScript ke liye: --template react-ts
+
+    Achha structure (feature ke hisaab se):
+        src/
+            components/       common UI (Button, Modal)
+            features/
+                auth/         LoginForm.jsx, useAuth.js, api.js
+                products/     ProductList.jsx, ProductCard.jsx
+            hooks/            common custom hooks
+            lib/              api client, utils
+            pages/            route wale pages
+            App.jsx
+            main.jsx
+
+
+------------------------------------------------------------
+5. JSX KE RULES
+------------------------------------------------------------
+    JSX = JavaScript ke andar HTML jaisa likhna.
+
+        const name = 'Anupam';
+        return (
+            <div className="card">
+                <h1>Hello {name}</h1>
+                <img src={user.photo} alt="" />
+                <label htmlFor="email">Email</label>
+            </div>
+        );
+
+    - Ek hi parent element return karo. Extra div nahi chahiye toh <>...</>.
+    - class -> className, for -> htmlFor.
+    - Har tag band hona chahiye: <img />, <br />.
+    - { } ke andar JavaScript expression (if statement nahi, ternary chalega).
+    - style object hota hai: style={{ fontSize: 14 }}
+    - Events camelCase: onClick, onChange, onSubmit.
+
+
+------------------------------------------------------------
+6. COMPONENTS AUR PROPS
+------------------------------------------------------------
+    Component = function jo JSX return kare. Naam Capital letter se.
+
+        function Button({ label, variant = 'primary', onClick }) {
+            return (
+                <button className={`btn btn-${variant}`} onClick={onClick}>
+                    {label}
+                </button>
+            );
+        }
+
+        <Button label="Save" onClick={save} />
+
+    Props:
+    - Parent se child ko data. Read-only, child unhe badal nahi sakta.
+    - Function bhi prop me jaata hai (child -> parent baat karne ke liye).
+
+    children (beech ka content):
+        function Card({ title, children }) {
+            return <div className="card"><h2>{title}</h2>{children}</div>;
+        }
+
+        <Card title="Profile"><p>Kuch bhi andar</p></Card>
+
+    Condition aur list:
+        {isLoggedIn ? <Dashboard /> : <Login />}
+        {error && <p className="error">{error}</p>}
+        {items.map(item => <Row key={item.id} item={item} />)}
+
+    key:
+    - List me har item ki unique aur stable key do (database id).
+    - Index ko key mat banao agar list sort/delete hoti hai. Galat item
+      update ho jaata hai.
+
+
+------------------------------------------------------------
+7. STATE – useState
+------------------------------------------------------------
+        const [count, setCount] = useState(0);
+
+        <button onClick={() => setCount(count + 1)}>{count}</button>
+
+    Pichli value pe depend ho toh function do:
+        setCount(c => c + 1);
+
+    Object aur array – hamesha naya banao (immutable):
+        setUser({ ...user, name: 'Anupam' });
+        setItems([...items, newItem]);                 // add
+        setItems(items.filter(i => i.id !== id));       // delete
+        setItems(items.map(i => i.id === id ? { ...i, done: true } : i));
+
+    Kyun naya? React purane aur naye object ka reference compare karta hai.
+    items.push() se reference same rehta hai, toh UI update nahi hota.
+
+    Batching:
+    - Ek event me kai setState hon toh React ek hi baar re-render karta hai.
+    - setState ke turant baad value purani hi dikhegi. Nayi value agle
+      render me milti hai.
+
+    Derived state mat banao:
+        // GALAT: fullName ke liye alag state
+        // SAHI: render me hi nikal lo
+        const fullName = `${first} ${last}`;
+
+
+------------------------------------------------------------
+8. EVENTS AUR FORMS
+------------------------------------------------------------
+    Controlled input (value state me):
+        const [email, setEmail] = useState('');
+        <input value={email} onChange={e => setEmail(e.target.value)} />
+
+    Form submit:
+        function handleSubmit(e) {
+            e.preventDefault();          // page reload roko
+            save({ email });
+        }
+        <form onSubmit={handleSubmit}>...</form>
+
+    React 19 – form actions (kam code):
+        function Signup() {
+            const [state, formAction, isPending] = useActionState(
+                async (prev, formData) => {
+                    const res = await api.signup(formData.get('email'));
+                    return res.ok ? { ok: true } : { error: res.message };
+                },
+                {}
+            );
+
+            return (
+                <form action={formAction}>
+                    <input name="email" />
+                    <button disabled={isPending}>Signup</button>
+                    {state.error && <p>{state.error}</p>}
+                </form>
+            );
+        }
+
+    Bade forms ke liye: react-hook-form + zod (validation).
+
+
+------------------------------------------------------------
+9. useEffect – SIDE EFFECTS
+------------------------------------------------------------
+    Side effect = render ke bahar ka kaam: API call, timer, event
+    listener, document.title badalna.
+
+        useEffect(() => {
+            const id = setInterval(tick, 1000);
+            return () => clearInterval(id);     // cleanup
+        }, []);
+
+    Dependency array:
+        useEffect(fn)          har render ke baad
+        useEffect(fn, [])      sirf pehli baar (mount)
+        useEffect(fn, [id])    jab id badle
+
+    Data fetch (race condition se bachav ke saath):
+        useEffect(() => {
+            let ignore = false;
+            fetch(`/api/users/${id}`)
+                .then(r => r.json())
+                .then(data => { if (!ignore) setUser(data); });
+            return () => { ignore = true; };
+        }, [id]);
+
+    Effect ki zaroorat NAHI:
+    - Props/state se kuch calculate karna -> render me hi karo.
+    - Button click pe kuch karna -> event handler me karo.
+    - Real app me data fetch -> TanStack Query lo.
+
+    Development me StrictMode effect ko do baar chalata hai. Yeh bug
+    pakadne ke liye hai, production me ek hi baar chalega.
+
+
+------------------------------------------------------------
+10. useRef
+------------------------------------------------------------
+    1) DOM element pakadna:
+        const inputRef = useRef(null);
+        <input ref={inputRef} />
+        inputRef.current.focus();
+
+    2) Value yaad rakhna bina re-render ke (timer id, pichli value):
+        const timerRef = useRef();
+        timerRef.current = setTimeout(...);
+
+    React 19 me ref seedha prop ki tarah child ko de sakte ho,
+    forwardRef ki zaroorat nahi:
+        function Input({ ref, ...props }) { return <input ref={ref} {...props} />; }
+
+
+------------------------------------------------------------
+11. CONTEXT – PROP DRILLING SE BACHAV
+------------------------------------------------------------
+    Prop drilling = data ko 5 level neeche bhejne ke liye har level pe
+    prop pass karna. Context se seedha pahunchta hai.
+
+        const ThemeContext = createContext('light');
+
+        function App() {
+            const [theme, setTheme] = useState('light');
+            return (
+                <ThemeContext value={{ theme, setTheme }}>
+                    <Page />
+                </ThemeContext>
+            );
+        }
+
+        function Toggle() {
+            const { theme, setTheme } = useContext(ThemeContext);
+            ...
+        }
+
+    React 19 me <ThemeContext> seedha provider hai (pehle
+    <ThemeContext.Provider> likhte the, woh bhi chalta hai).
+
+    Dhyan: context value badli toh uske saare users re-render. Bahut
+    baar badalne wale data ke liye Zustand better.
+
+
+------------------------------------------------------------
+12. useReducer – BADI STATE LOGIC
+------------------------------------------------------------
+        function cartReducer(state, action) {
+            switch (action.type) {
+                case 'add':    return [...state, action.item];
+                case 'remove': return state.filter(i => i.id !== action.id);
+                case 'clear':  return [];
+                default:       return state;
+            }
+        }
+
+        const [cart, dispatch] = useReducer(cartReducer, []);
+        dispatch({ type: 'add', item });
+
+    Kab lo: ek state ke kai tarah ke updates hon (cart, multi-step form).
+
+
+------------------------------------------------------------
+13. CUSTOM HOOKS – LOGIC REUSE
+------------------------------------------------------------
+    Custom hook = "use" se shuru hone wala function jo dusre hooks use kare.
+
+        function useLocalStorage(key, initial) {
+            const [value, setValue] = useState(() => {
+                const saved = localStorage.getItem(key);
+                return saved ? JSON.parse(saved) : initial;
+            });
+
+            useEffect(() => {
+                localStorage.setItem(key, JSON.stringify(value));
+            }, [key, value]);
+
+            return [value, setValue];
+        }
+
+        const [theme, setTheme] = useLocalStorage('theme', 'light');
+
+    Hooks ke rules:
+    - Sirf component ya custom hook ke top level pe call karo.
+    - if, loop, ya nested function ke andar nahi.
+
+
+------------------------------------------------------------
+14. PERFORMANCE
+------------------------------------------------------------
+    Pehle naapo, phir sudhaaro. React DevTools ka Profiler use karo.
+
+    memo – props same toh component dobara mat chalao:
+        const Row = memo(function Row({ item }) { ... });
+
+    useMemo – bhaari calculation yaad rakho:
+        const sorted = useMemo(() => sortBig(list), [list]);
+
+    useCallback – function ka reference same rakho (memo child ke liye):
+        const onSelect = useCallback(id => setSelected(id), []);
+
+    React Compiler:
+    - Build time pe yeh memo/useMemo/useCallback khud laga deta hai.
+    - Naye project me on kar sakte ho. Haath se memo kam likhna padta hai.
+
+    Code splitting (page tabhi load ho jab chahiye):
+        const Reports = lazy(() => import('./pages/Reports'));
+        <Suspense fallback={<Spinner />}><Reports /></Suspense>
+
+    Badi list (1000+ rows): virtualization (TanStack Virtual), sirf dikhne
+    wali rows render hoti hain.
+
+    State ko neeche rakho: jis component ko chahiye, wahi rakhe. Upar
+    rakhoge toh poora page re-render.
+
+
+------------------------------------------------------------
+15. ROUTING – REACT ROUTER
+------------------------------------------------------------
+        npm i react-router
+
+        import { BrowserRouter, Routes, Route, Link, useParams } from 'react-router';
+
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/products/:id" element={<Product />} />
+                <Route path="*" element={<NotFound />} />
+            </Routes>
+        </BrowserRouter>
+
+        <Link to="/products/5">Open</Link>
+        const { id } = useParams();
+        const navigate = useNavigate(); navigate('/login');
+
+    Protected route:
+        function RequireAuth({ children }) {
+            const { user } = useAuth();
+            return user ? children : <Navigate to="/login" replace />;
+        }
+
+
+------------------------------------------------------------
+16. DATA FETCHING – TANSTACK QUERY
+------------------------------------------------------------
+        const { data, isPending, error } = useQuery({
+            queryKey: ['products', page],
+            queryFn: () => fetch(`/api/products?page=${page}`).then(r => r.json()),
+        });
+
+        const qc = useQueryClient();
+        const save = useMutation({
+            mutationFn: newProduct => api.post('/products', newProduct),
+            onSuccess: () => qc.invalidateQueries({ queryKey: ['products'] }),
+        });
+
+    Fayda: caching, loading/error state, retry, background refresh sab
+    khud. useEffect + useState se fetch karne ki jhanjhat khatam.
+
+
+------------------------------------------------------------
+17. STATE MANAGEMENT – KAB KYA
+------------------------------------------------------------
+    Local UI state (modal open)        useState
+    Kai pieces wali logic              useReducer
+    Theme, logged-in user              Context
+    Global app state (cart, filters)   Zustand
+    Bahut bada, strict team app        Redux Toolkit
+    Server ka data (API)               TanStack Query (state me copy mat karo)
+    URL me rakhne layak (page, search) URL search params
+
+
+------------------------------------------------------------
+18. STYLING OPTIONS
+------------------------------------------------------------
+    - Tailwind CSS (sabse popular aaj kal) + shadcn/ui components
+    - CSS Modules: Button.module.css, class naam takrate nahi
+    - Plain CSS / Sass
+    - Component libraries: MUI, Ant Design, Mantine
+
+    Class jodne ke liye: clsx('btn', isActive && 'btn-active')
+
+
+------------------------------------------------------------
+19. REACT 19 ME NAYA KYA
+------------------------------------------------------------
+    - Actions: form action={fn}, useActionState, useFormStatus
+    - useOptimistic: server jawab se pehle UI update (like button)
+    - use(): promise ya context ko render me padhna
+    - ref seedha prop, forwardRef ki zaroorat nahi
+    - <title>, <meta> component ke andar likh sakte ho, head me chale jaate
+    - <Context> seedha provider
+    - Server Components (Next.js jaise frameworks me): component server pe
+      chalta hai, uska JS browser me nahi jaata
+
+
+------------------------------------------------------------
+20. TYPESCRIPT KE SAATH
+------------------------------------------------------------
+        type ButtonProps = {
+            label: string;
+            variant?: 'primary' | 'danger';
+            onClick: () => void;
+        };
+
+        function Button({ label, variant = 'primary', onClick }: ButtonProps) { ... }
+
+        const [user, setUser] = useState<User | null>(null);
+        function handle(e: React.ChangeEvent<HTMLInputElement>) { ... }
+
+
+------------------------------------------------------------
+21. TESTING
+------------------------------------------------------------
+    Vitest + React Testing Library:
+        test('button click pe count badhta hai', async () => {
+            render(<Counter />);
+            await userEvent.click(screen.getByRole('button'));
+            expect(screen.getByText('1')).toBeInTheDocument();
+        });
+
+    Rule: user jaisa test karo (text, role se dhoondho), andar ka code
+    (state variable) test mat karo.
+
+
+------------------------------------------------------------
+22. GALTIYAN JO MAINE KI / GOTCHAS
+------------------------------------------------------------
+    - State ko seedha badla (push, obj.x = 1). UI update nahi hua.
+    - useEffect me dependency bhool gaya, purani value use hoti rahi.
+    - useEffect me object/array dependency, har render naya, infinite loop.
+    - {count && <p/>} me count 0 hua toh screen pe "0" chhap gaya.
+      Use: {count > 0 && <p/>}
+    - setState ke turant baad console.log me purani value. Normal hai.
+    - Component ke andar component define kiya, har render naya bana,
+      input ka focus chala gaya. Component hamesha bahar define karo.
+    - API key frontend code me daali. Frontend ka sab kuch public hai.
+
+
+------------------------------------------------------------
+23. INTERVIEW ANGLE
+------------------------------------------------------------
+    Q: Virtual DOM kya hai?
+    A: UI ki memory me copy. React naye aur purane ko compare karke sirf
+       farak asli DOM me lagata hai.
+
+    Q: Props aur state me farak?
+    A: Props bahar (parent) se aate hain, read-only. State component ki
+       apni hoti hai, badal sakti hai.
+
+    Q: key kyun zaroori hai?
+    A: React ko list items pehchanne ke liye. Isse sahi item update hota
+       hai aur performance achhi rehti hai.
+
+    Q: useEffect cleanup kab chalta hai?
+    A: Agla effect chalne se pehle aur component hatne (unmount) pe.
+
+    Q: useMemo aur useCallback me farak?
+    A: useMemo value yaad rakhta hai, useCallback function yaad rakhta hai.
+
+    Q: Controlled vs uncontrolled input?
+    A: Controlled me value React state me. Uncontrolled me value DOM me,
+       ref ya FormData se padhte hain.
+
+    Q: Prop drilling kaise hatate ho?
+    A: Context, composition (children pass karo), ya Zustand.
+
+    Q: Re-render kam kaise karoge?
+    A: State neeche rakho, memo, useMemo/useCallback, React Compiler,
+       list virtualization.
+
+
+------------------------------------------------------------
+24. LINKS
+------------------------------------------------------------
+    - Official docs          https://react.dev/learn
+    - React Router           https://reactrouter.com
+    - TanStack Query         https://tanstack.com/query
+    - Cheatsheet             CHEATSHEETS/javascript/react.txt
+    - UI repos               NOTES/html/ui-repos.txt
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    UI = function(state). State sahi rakho, naya object banao, aur effect
+    sirf bahar ki duniya se baat karne ke liye.

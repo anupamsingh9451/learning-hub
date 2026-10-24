@@ -1,0 +1,96 @@
+NEXT.JS KE KAAM KE REPOS
+========================
+Topic: Next.js official repos, auth, database, state, starters
+Date: 24-10-2026
+Time: ~4 min padhne me
+Link: https://github.com/<repo naam>  (repo ka naam hi uska link hai)
+
+    UI components (shadcn/ui, icons, charts) ke liye NOTES/html/ui-repos.txt dekho.
+
+
+------------------------------------------------------------
+1. OFFICIAL (VERCEL)
+------------------------------------------------------------
+    vercel/next.js
+        Kya hai : Next.js ka code. Iske examples/ folder me sau se zyada
+                  ready examples hain (auth, DB, CMS...).
+        Kab lo  : Koi naya feature karna ho, pehle examples/ dekho.
+
+    vercel/ai
+        Kya hai : AI SDK: chatbot, streaming jawab, tool calling.
+        Kab lo  : Next.js me Claude/LLM wala feature.
+
+    vercel/chatbot
+        Kya hai : Poora AI chatbot app (AI SDK se bana).
+        Kab lo  : Apna chatbot banana ho, ready start chahiye.
+
+    vercel/commerce
+        Kya hai : E-commerce store ka starter.
+        Kab lo  : Online store ka structure dekhna ho.
+
+    vercel/swr
+        Kya hai : Data fetch karne ke hooks, cache ke saath.
+        Kab lo  : Client side pe API data lana ho.
+
+
+------------------------------------------------------------
+2. LOGIN AUR DATABASE
+------------------------------------------------------------
+    nextauthjs/next-auth
+        Kya hai : Auth.js. Google, GitHub, email login.
+        Kab lo  : Next.js app me login.
+
+    better-auth/better-auth
+        Kya hai : Naya TypeScript auth library, features zyada.
+        Kab lo  : 2FA, organization/teams wala login chahiye.
+
+    prisma/orm
+        Kya hai : Prisma ORM. Schema file se database aur types.
+        Kab lo  : MySQL/Postgres ke saath type-safe queries.
+
+    drizzle-team/drizzle-orm
+        Kya hai : Halka TypeScript ORM, SQL jaisa likhte hain.
+        Kab lo  : SQL pe zyada control chahiye.
+
+
+------------------------------------------------------------
+3. STATE, DATA, FORM
+------------------------------------------------------------
+    TanStack/query
+        Kya hai : Server data ka fetch, cache, loading, error sab.
+        Kab lo  : Client components me bahut saari API calls.
+
+    pmndrs/zustand
+        Kya hai : Chhota aur simple global state.
+        Kab lo  : Cart, theme jaisi cheezein kai pages me share karni hon.
+
+    colinhacks/zod
+        Kya hai : Data validation, TypeScript type bhi deta hai.
+        Kab lo  : Form, API input, environment variables check karne ho.
+
+
+------------------------------------------------------------
+4. READY STARTERS
+------------------------------------------------------------
+    t3-oss/create-t3-app
+        Kya hai : Next.js + TypeScript + Prisma/Drizzle + Auth + Tailwind
+                  ek command me.
+        Kab lo  : Full stack project jaldi shuru karna ho.
+
+    ixartz/Next-js-Boilerplate
+        Kya hai : Production ke liye ready setup (testing, lint, auth).
+        Kab lo  : Dekhna ho ki pro project kaise set hota hai.
+
+
+------------------------------------------------------------
+5. SEEKHNE KE LIYE
+------------------------------------------------------------
+    unicodeveloper/awesome-nextjs
+        Kya hai : Next.js ke tools, examples, articles ki list.
+        Kab lo  : Kuch dhoondhna ho.
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    Koi feature atka? Pehle vercel/next.js ka examples/ folder dekho.

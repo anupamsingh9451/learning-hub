@@ -1,0 +1,114 @@
+.GITKEEP – KHAALI FOLDER KO GIT ME RAKHNA
+========================================
+Topic: git
+Date: 24-10-2026
+Time: ~5 min
+Status: learning
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    .gitkeep ek khaali file hai jo hum khaali folder me daalte hain, taaki
+    Git us folder ko save (track) kar le.
+
+    Misaal: Almari ka khaali khaana. Mover sirf saamaan uthata hai, khaali
+    khaana nahi. Usme ek chhoti si parchi rakh do, toh khaana bhi saath
+    jaayega. .gitkeep wahi parchi hai.
+
+
+------------------------------------------------------------
+2. KYUN ZAROORI HAI / KAB USE KAREIN
+------------------------------------------------------------
+    Git sirf FILES track karta hai, folders nahi. Folder Git ke liye bas
+    file ke path ka hissa hai (NOTES/ai/rag.txt me "NOTES/ai/").
+
+    Toh agar folder khaali hai:
+    - git add karo, kuch add nahi hoga.
+    - GitHub pe woh folder dikhega hi nahi.
+    - Doosre computer pe clone karo, folder milega hi nahi.
+
+    Kab lo:
+    - Folder abhi khaali hai par structure ka hissa hai (jaise
+      NOTES/database/, jisme baad me notes aayenge).
+    - App ko koi folder chahiye jo pehle se hona chahiye (jaise
+      storage/logs/, uploads/), par uski files git me nahi jaani chahiye.
+
+    Kab NAHI:
+    - Folder me pehle se koi file hai. Tab .gitkeep ki zaroorat nahi,
+      woh file hi folder ko zinda rakhti hai. Pehli asli file aate hi
+      .gitkeep hata sakte ho.
+
+
+------------------------------------------------------------
+3. KAISE KAAM KARTA HAI
+------------------------------------------------------------
+    STEP 1 – Khaali folder me ek khaali file banao, naam .gitkeep
+    STEP 2 – git add + commit karo
+    STEP 3 – Ab Git ke paas ek file hai jiska path us folder se guzarta
+             hai, isliye folder bhi repo me aa jaata hai
+
+    Zaroori baat: .gitkeep Git ka koi special feature NAHI hai. Bas ek
+    convention (sab log yahi naam rakhte hain). Naam kuch bhi ho sakta
+    hai, .gitkeep isliye ki dekh ke samajh aa jaaye ki file kyun hai.
+    Kuch log .keep ya README.md bhi rakhte hain.
+
+
+------------------------------------------------------------
+4. CODE EXAMPLE
+------------------------------------------------------------
+    PowerShell:
+        New-Item -ItemType File NOTES\database\.gitkeep
+        git add NOTES/database/.gitkeep
+        git commit -m "chore: keep empty database notes folder"
+
+    Bash / WSL:
+        touch NOTES/database/.gitkeep
+
+    Saare khaali folders me ek saath (Bash):
+        find . -type d -empty -not -path "./.git/*" -exec touch {}/.gitkeep \;
+
+    Folder chahiye par uski files nahi (jaise uploads/). Us folder me
+    .gitignore file banao:
+        # uploads/.gitignore
+        *
+        !.gitignore
+    Matlab: "is folder me sab ignore, sirf yeh .gitignore file rakho."
+    Laravel ke storage/ folders me yahi tareeka use hota hai.
+
+
+------------------------------------------------------------
+5. GALTIYAN JO MAINE KI / GOTCHAS
+------------------------------------------------------------
+    - Socha .gitkeep Git ka built-in feature hai. Nahi hai, bas naam hai.
+    - .gitkeep ko .gitignore se confuse kiya. .gitignore batata hai kya
+      track NAHI karna, .gitkeep sirf folder bachane ke liye.
+    - Root .gitignore me "*.keep" ya ".*" jaisa pattern tha, .gitkeep hi
+      ignore ho gaya. git status se check karo ki file add hui ya nahi.
+    - Files aane ke baad bhi .gitkeep pada raha. Nuksaan nahi, par
+      bekaar. Hata do.
+
+
+------------------------------------------------------------
+6. INTERVIEW ANGLE
+------------------------------------------------------------
+    Q: Git me khaali folder commit kyun nahi hota?
+    A: Git content (files) track karta hai. Folder sirf path ka hissa hai,
+       khaali folder ka koi content nahi, isliye Git use store nahi karta.
+
+    Q: Khaali folder repo me kaise rakhoge?
+    A: Usme ek placeholder file daal ke, jaise .gitkeep. Ya .gitignore
+       jisme "*" aur "!.gitignore" ho, agar folder ki files ignore karni hon.
+
+
+------------------------------------------------------------
+7. LINKS
+------------------------------------------------------------
+    - Git FAQ                https://git-scm.com/docs/gitfaq
+    - Git cheatsheet         CHEATSHEETS/git/git.txt
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    Git folders nahi, files yaad rakhta hai. Khaali folder = .gitkeep daalo.

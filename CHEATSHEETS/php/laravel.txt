@@ -1,0 +1,92 @@
+LARAVEL CHEATSHEET
+==================
+Time: 2 min – jab bhi command bhool jao
+Version: Laravel 11+
+
+
+------------------------------------------------------------
+1. SETUP
+------------------------------------------------------------
+    Naya project                 composer create-project laravel/laravel app
+    Server chalao                php artisan serve
+    App key banao                php artisan key:generate
+    Routes dekho                 php artisan route:list
+    Live console (tinker)        php artisan tinker
+    Saare commands               php artisan list
+
+
+------------------------------------------------------------
+2. MAKE COMMANDS
+------------------------------------------------------------
+    Model + migration + ctrl     php artisan make:model Post -mc
+    Model + sab kuch             php artisan make:model Post -a
+    CRUD controller              php artisan make:controller PostController -r
+    Validation request           php artisan make:request StorePostRequest
+    Middleware                   php artisan make:middleware CheckRole
+
+
+------------------------------------------------------------
+3. ROUTES (routes/web.php)
+------------------------------------------------------------
+    Route::get('/posts', [PostController::class, 'index'])
+        ->name('posts.index');
+
+    Route::resource('posts', PostController::class);
+
+    Route::middleware('auth')->group(function () {
+        Route::get('/dashboard', DashboardController::class);
+    });
+
+    URL banao (naam se)          route('posts.show', $post)
+
+
+------------------------------------------------------------
+4. ELOQUENT
+------------------------------------------------------------
+    Sab lao                      Post::all();
+    Ek lao (ya 404)              Post::findOrFail($id);
+    Where                        Post::where('active', 1)->latest()->get();
+    Naya banao                   Post::create($request->validated());
+    Update                       $post->update(['title' => 'Naya']);
+    Delete                       $post->delete();
+    Pagination                   Post::paginate(15);
+    Relations                    hasOne   hasMany   belongsTo   belongsToMany
+    N+1 query se bacho           Post::with('comments')->get();
+    (create() ke liye model me $fillable set karo)
+
+
+------------------------------------------------------------
+5. MIGRATION
+------------------------------------------------------------
+    Migrate                      php artisan migrate
+    Wapas lo                     php artisan migrate:rollback
+    Sab reset + seed (local)     php artisan migrate:fresh --seed
+    Seed chalao                  php artisan db:seed
+    Columns                      $table->id();  $table->string('title');  $table->foreignId('user_id')->constrained();  $table->timestamps();
+
+
+------------------------------------------------------------
+6. VALIDATION AUR REQUEST
+------------------------------------------------------------
+    $data = $request->validate([
+        'title' => 'required|max:255',
+        'email' => 'required|email|unique:users',
+    ]);
+
+    Input lo                     $request->input('name')
+    Purani value (Blade)         {{ old('name') }}
+
+
+------------------------------------------------------------
+7. CACHE AUR BAAKI
+------------------------------------------------------------
+    Sab cache clear              php artisan optimize:clear
+    Config cache (prod)          php artisan config:cache
+    Storage link                 php artisan storage:link
+    Queue chalao                 php artisan queue:work
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    .env badla aur asar nahi dikha? php artisan config:clear chalao.
