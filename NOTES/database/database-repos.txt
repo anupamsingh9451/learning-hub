@@ -1,0 +1,227 @@
+DATABASE KE KAAM KE REPOS
+=========================
+Topic: database
+Date: 24-10-2026
+Time: ~5 min padhne me
+Link: https://github.com/<repo naam>  (repo ka naam hi uska link hai)
+
+
+------------------------------------------------------------
+1. GUI CLIENTS (DATA DEKHNE KE TOOLS)
+------------------------------------------------------------
+    dbeaver/dbeaver
+        Kya hai : Free GUI jo MySQL, Postgres, SQLite, SQL Server sab
+                  se connect hota hai.
+        Kab lo  : Roz ka kaam, ek hi tool se saare databases.
+
+    beekeeper-studio/beekeeper-studio
+        Kya hai : Saaf, simple SQL editor (MySQL, Postgres, SQLite...).
+        Kab lo  : DBeaver bhaari lage, halka tool chahiye.
+
+    pgadmin-org/pgadmin4
+        Kya hai : Postgres ka official admin tool.
+        Kab lo  : Postgres ke roles, backups, server settings dekhne ho.
+
+    sqlitebrowser/sqlitebrowser
+        Kya hai : DB Browser for SQLite.
+        Kab lo  : .sqlite file kholni ho (Laravel ka local DB).
+
+    mongodb-js/compass
+        Kya hai : MongoDB ka official GUI.
+        Kab lo  : Documents dekhna, aggregation pipeline banana, explain.
+
+    redis/RedisInsight
+        Kya hai : Redis ka GUI.
+        Kab lo  : Keys, memory, slow commands dekhne ho.
+
+
+------------------------------------------------------------
+2. POSTGRES EXTENSIONS AUR TOOLS
+------------------------------------------------------------
+    pgvector/pgvector
+        Kya hai : Postgres me vector similarity search.
+        Kab lo  : RAG, AI semantic search (EduAssist).
+
+    timescale/timescaledb
+        Kya hai : Postgres ko time-series DB banata hai.
+        Kab lo  : Metrics, IoT, analytics events.
+
+    postgis/postgis
+        Kya hai : Maps aur location data.
+        Kab lo  : "Paas ke schools", delivery area, distance.
+
+    pgbouncer/pgbouncer
+        Kya hai : Connection pooler.
+        Kab lo  : PHP-FPM ke bahut workers, "too many connections".
+
+    ankane/pghero
+        Kya hai : Postgres ka performance dashboard (slow queries,
+                  unused indexes, bloat).
+        Kab lo  : DB slow ho, wajah dhoondhni ho.
+
+
+------------------------------------------------------------
+3. MYSQL TOOLS
+------------------------------------------------------------
+    github/gh-ost
+        Kya hai : Bade MySQL table pe bina downtime ALTER (online schema
+                  change).
+        Kab lo  : Crores rows wali table me column jodna ho.
+
+    vitessio/vitess
+        Kya hai : MySQL ko kai servers pe shard karne ka system.
+        Kab lo  : Bahut bada scale (YouTube jaisa). Normal app me nahi.
+
+
+------------------------------------------------------------
+4. SEARCH ENGINES
+------------------------------------------------------------
+    meilisearch/meilisearch
+        Kya hai : Tez, typo-tolerant search. Setup bahut aasan.
+        Kab lo  : Laravel Scout ke saath product/course search.
+
+    typesense/typesense
+        Kya hai : Meilisearch jaisa, open-source Algolia alternative.
+        Kab lo  : Instant search, filters, facets.
+
+    elastic/elasticsearch
+        Kya hai : Bada, powerful search + analytics engine.
+        Kab lo  : Logs (ELK), bahut bada data, complex search.
+
+    opensearch-project/OpenSearch
+        Kya hai : Elasticsearch ka open-source fork (AWS).
+        Kab lo  : AWS pe search/logs.
+
+
+------------------------------------------------------------
+5. VECTOR DATABASES (AI)
+------------------------------------------------------------
+    qdrant/qdrant
+        Kya hai : Tez vector DB, filters ke saath (Rust me).
+        Kab lo  : pgvector se zyada scale ya features chahiye.
+
+    chroma-core/chroma
+        Kya hai : Simple vector DB, Python me jaldi shuru.
+        Kab lo  : AI prototype, local RAG experiment.
+
+    weaviate/weaviate
+        Kya hai : Vector DB with built-in embedding modules.
+        Kab lo  : Hybrid search (keyword + vector).
+
+    milvus-io/milvus
+        Kya hai : Bahut bade scale ka vector DB.
+        Kab lo  : Arabon vectors.
+
+
+------------------------------------------------------------
+6. ANALYTICS, TIME-SERIES, WIDE-COLUMN, GRAPH
+------------------------------------------------------------
+    ClickHouse/ClickHouse
+        Kya hai : Column-based analytics DB, reports bahut tez.
+        Kab lo  : Dashboards, events analytics, arabon rows.
+
+    duckdb/duckdb
+        Kya hai : Laptop pe analytics (SQLite jaisa, par OLAP).
+        Kab lo  : CSV/Parquet/Excel pe seedha SQL, data analysis.
+
+    influxdata/influxdb
+        Kya hai : Time-series DB.
+        Kab lo  : Monitoring, sensor data.
+
+    apache/cassandra
+        Kya hai : Wide-column DB, bahut zyada writes.
+        Kab lo  : Huge scale logs/messages.
+
+    scylladb/scylladb
+        Kya hai : Cassandra jaisa, C++ me, zyada tez.
+        Kab lo  : Cassandra ka kaam, kam servers me.
+
+    neo4j/neo4j
+        Kya hai : Graph database (Cypher query).
+        Kab lo  : Recommendations, relations, fraud detection.
+
+
+------------------------------------------------------------
+7. DISTRIBUTED SQL AUR CLOUD
+------------------------------------------------------------
+    supabase/supabase
+        Kya hai : Postgres + auth + storage + realtime + API ek saath.
+        Kab lo  : Side project/MVP, backend jaldi chahiye.
+
+    neondatabase/neon
+        Kya hai : Serverless Postgres (branching, scale to zero).
+        Kab lo  : Har PR ke liye alag DB branch, sasta dev DB.
+
+    cockroachdb/cockroach
+        Kya hai : Distributed SQL (Postgres jaisa), kai regions.
+        Kab lo  : Global app, server gire tab bhi chalta rahe.
+
+    yugabyte/yugabyte-db
+        Kya hai : Distributed Postgres-compatible DB.
+        Kab lo  : Postgres ka code, horizontal scale.
+
+    pingcap/tidb
+        Kya hai : Distributed MySQL-compatible DB.
+        Kab lo  : MySQL app jo ek server se bada ho gaya.
+
+    tursodatabase/libsql
+        Kya hai : SQLite ka fork, server/edge pe bhi chalta hai (Turso).
+        Kab lo  : Edge apps, har user ka chhota DB.
+
+
+------------------------------------------------------------
+8. DRIVERS AUR ORM
+------------------------------------------------------------
+    mongodb/laravel-mongodb
+        Kya hai : Laravel Eloquent MongoDB ke saath (official).
+        Kab lo  : Laravel app me MongoDB collection.
+
+    Automattic/mongoose
+        Kya hai : Node.js ke liye MongoDB ODM (schema, validation).
+        Kab lo  : Node/Express + MongoDB.
+
+    prisma/orm
+        Kya hai : TypeScript ORM, schema file se types.
+        Kab lo  : Node/Next.js + Postgres/MySQL.
+
+    drizzle-team/drizzle-orm
+        Kya hai : Halka TypeScript ORM, SQL jaisa likhna.
+        Kab lo  : SQL pe zyada control chahiye.
+
+
+------------------------------------------------------------
+9. DATABASES KA APNA CODE (CURIOSITY / BUG DEKHNE)
+------------------------------------------------------------
+    postgres/postgres         PostgreSQL (GitHub mirror)
+    mysql/mysql-server        MySQL
+    mariadb/server            MariaDB
+    mongodb/mongo             MongoDB
+    redis/redis               Redis
+    valkey-io/valkey          Valkey (Redis ka open-source fork)
+    sqlite/sqlite             SQLite (GitHub mirror)
+
+
+------------------------------------------------------------
+10. SEEKHNE KE LIYE
+------------------------------------------------------------
+    dhamaniasad/awesome-postgres
+        Kya hai : Postgres tools, extensions, articles ki badi list.
+
+    shlomi-noach/awesome-mysql
+        Kya hai : MySQL tools aur resources ki list.
+
+    ramnes/awesome-mongodb
+        Kya hai : MongoDB libraries, tools, tutorials ki list.
+
+    Websites:
+        https://sqlbolt.com              SQL interactive practice
+        https://pgexercises.com          Postgres exercises
+        https://use-the-index-luke.com   index ki sabse achhi free book
+        https://db-engines.com/en/ranking  kaun sa DB kitna popular
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    Naya database lane se pehle dekho, Postgres ka koi extension (pgvector,
+    TimescaleDB, PostGIS) shayad wahi kaam kar de.

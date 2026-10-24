@@ -1,0 +1,381 @@
+DATABASE TYPES – DETAILED NOTES
+==============================
+Topic: database
+Date: 24-10-2026
+Time: ~45 min (roz 3-4 section padho)
+Status: learning
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    Database = data ko save karne, dhoondhne aur badalne ki ek
+    organized jagah, jahan bahut log ek saath safely kaam kar sakein.
+
+    Misaal: Kirana dukaan ka hisaab. Diary me likho toh dhoondhna
+    mushkil, do log ek saath likhein toh gadbad. Database ek smart munim
+    hai: turant dhoondh deta hai, galti nahi hone deta, aur sab ka
+    hisaab sambhal leta hai.
+
+
+------------------------------------------------------------
+2. FILE ME DATA KYUN NAHI?
+------------------------------------------------------------
+    users.json me bhi data rakh sakte ho. Par:
+    - 10 lakh users me ek email dhoondhna = poori file padho (slow).
+    - Do request ek saath file likhein = data kharab.
+    - Aadha kaam hua aur server band = adhoora data.
+    - "Is mahine kitne orders aaye?" jaise sawal ke liye khud code likho.
+
+    Database yeh sab deta hai: index (tez search), locking (ek saath
+    kaam), transactions (sab ya kuch nahi), query language (SQL).
+
+
+------------------------------------------------------------
+3. SQL vs NoSQL
+------------------------------------------------------------
+    Cheez            SQL (Relational)            NoSQL
+    --------------   -------------------------   ---------------------------
+    Data ka roop     tables, rows, columns       document, key-value, graph,
+                                                 wide-column
+    Schema           fixed (pehle se columns)    flexible (har record alag
+                                                 ho sakta hai)
+    Relations        JOIN se, foreign key        aksar embed karke, JOIN kam
+    Consistency      strong (ACID)               aksar eventual, par naye
+                                                 NoSQL me ACID bhi hai
+    Scale            pehle bada server           kai servers pe failana
+                     (vertical), phir replica    (horizontal) aasan
+    Query            SQL (standard)              har DB ki apni language
+    Examples         MySQL, PostgreSQL           MongoDB, Redis, Cassandra
+
+    Sach: aaj dono ka farak kam ho gaya hai. Postgres JSONB se document
+    store jaisa kaam karta hai, MongoDB transactions deta hai.
+
+    Default rule: pata nahi kya chahiye? PostgreSQL se shuru karo.
+
+
+------------------------------------------------------------
+4. ACID – TRANSACTION KE 4 VAADE
+------------------------------------------------------------
+    Misaal: Anupam se Ravi ko ₹500 bhejne hain.
+        1) Anupam ke account se 500 ghatao
+        2) Ravi ke account me 500 jodo
+
+    A – Atomicity    Dono step hon ya ek bhi nahi. Step 1 ke baad server
+                     gira toh step 1 bhi wapas (rollback).
+    C – Consistency  Rules kabhi na toote (balance minus me na jaaye,
+                     foreign key sahi ho).
+    I – Isolation    Ek saath chal rahe transactions ek doosre ka adhoora
+                     kaam na dekhein.
+    D – Durability   "Done" bola toh pakka save. Light gayi tab bhi.
+
+    BASE (kai NoSQL ka tareeka):
+        Basically Available, Soft state, Eventually consistent.
+        Matlab: hamesha jawab milega, data thodi der me sab jagah same
+        ho jaayega (jaise Instagram likes ka count turant sab ko same
+        na dikhe toh chalta hai).
+
+
+------------------------------------------------------------
+5. CAP THEOREM (SIMPLE)
+------------------------------------------------------------
+    Jab data kai servers pe ho aur network toot jaaye (Partition),
+    toh do me se ek chunna padta hai:
+
+    C – Consistency    Sab ko same, latest data. Doubt ho toh error do.
+    A – Availability   Har request ka jawab do, bhale thoda purana data.
+
+    Bank / payment   -> C chuno (galat balance se error behtar)
+    Social feed      -> A chuno (purani post dikhe, chalega)
+
+    Network theek ho tab dono mil jaate hain. Choice sirf failure ke
+    time ki hai.
+
+
+------------------------------------------------------------
+6. OLTP vs OLAP
+------------------------------------------------------------
+    OLTP (roz ka kaam)                  OLAP (analysis, reports)
+    ---------------------------------   ---------------------------------
+    Chhoti, bahut saari queries         Badi, bhaari queries
+    "Order #123 save karo"              "Pichle 3 saal ki city-wise sale"
+    Row-based (MySQL, Postgres)         Column-based (ClickHouse, BigQuery)
+    Milliseconds                        Seconds/minutes chalega
+
+    Galti: production MySQL pe bhaari report chalana. App slow ho jaata
+    hai. Report ke liye replica ya alag analytics DB lo.
+
+
+------------------------------------------------------------
+7. TYPE 1 – RELATIONAL (SQL)
+------------------------------------------------------------
+    Data kaisa dikhta hai:
+        users                         orders
+        id | name    | city           id | user_id | total
+        1  | Anupam  | Delhi          10 | 1       | 500
+        2  | Ravi    | Pune           11 | 1       | 250
+
+    Kya hai : Tables me data, tables ke beech relation (foreign key),
+              SQL se query.
+    Examples: PostgreSQL, MySQL, MariaDB, SQL Server, Oracle
+    Kab lo  : Users, orders, payments, ERP, CRM, LMS. 90% web apps.
+    Kab nahi: Bahut hi alag-alag shape ka data, ya har second lakhon
+              writes jo ek server sambhal na sake.
+    Notes   : sql.txt, mysql.txt, postgresql.txt
+
+
+------------------------------------------------------------
+8. TYPE 2 – EMBEDDED (FILE WALA SQL)
+------------------------------------------------------------
+    Kya hai : Poora database ek file me, alag server nahi chahiye. App
+              ke andar hi chalta hai.
+    Examples: SQLite (mobile, desktop, chhote sites)
+              DuckDB (laptop pe data analysis, CSV/Parquet pe SQL)
+    Kab lo  : Mobile app, testing, prototype, CLI tool, local analysis.
+              Laravel ka default local DB bhi SQLite hai.
+    Kab nahi: Bahut saare users ek saath likh rahe hon (SQLite ek time
+              pe ek hi writer).
+
+
+------------------------------------------------------------
+9. TYPE 3 – DOCUMENT
+------------------------------------------------------------
+    Data kaisa dikhta hai (JSON jaisa):
+        {
+            "_id": "u1",
+            "name": "Anupam",
+            "addresses": [{ "city": "Delhi", "pin": "110001" }],
+            "skills": ["php", "react"]
+        }
+
+    Kya hai : Har record ek JSON document. Andar list aur object rakh
+              sakte ho. Har document ka shape alag ho sakta hai.
+    Examples: MongoDB, Couchbase, Firestore, (Postgres JSONB bhi)
+    Kab lo  : Product catalog (har product ke alag features), CMS
+              content, event logs, tezi se badalta schema.
+    Kab nahi: Bahut saare relations aur JOIN, strict financial data.
+    Notes   : mongodb.txt
+
+
+------------------------------------------------------------
+10. TYPE 4 – KEY-VALUE
+------------------------------------------------------------
+    Data kaisa dikhta hai:
+        "session:abc123"   -> { user_id: 7 }
+        "cache:home.posts" -> "[...json...]"
+        "otp:9876543210"   -> "4821"   (5 min me expire)
+
+    Kya hai : Ek key do, value lo. Sabse simple aur sabse tez.
+    Examples: Redis / Valkey (memory me), Memcached, DynamoDB (AWS)
+    Kab lo  : Cache, session, OTP, rate limit, queue, leaderboard.
+    Kab nahi: "Delhi ke saare users do" jaisi search (key ke bina
+              dhoondhna mushkil).
+    Notes   : redis.txt
+
+
+------------------------------------------------------------
+11. TYPE 5 – WIDE-COLUMN
+------------------------------------------------------------
+    Kya hai : Table jaisa dikhta hai, par har row ke columns alag ho
+              sakte hain, aur data bahut saare servers pe bikhra hota
+              hai. Writes bahut tez.
+    Examples: Apache Cassandra, ScyllaDB, HBase
+    Kab lo  : Bahut bada scale: IoT sensor data, chat messages, activity
+              logs, jahan har second lakhon writes hon.
+    Kab nahi: Chhota/medium app. JOIN nahi, query pattern pehle se fix
+              karna padta hai.
+
+
+------------------------------------------------------------
+12. TYPE 6 – GRAPH
+------------------------------------------------------------
+    Data kaisa dikhta hai:
+        (Anupam) -[FRIEND]-> (Ravi) -[WORKS_AT]-> (Infosys)
+        (Anupam) -[KNOWS]-> (Laravel)
+
+    Kya hai : Data = nodes (cheezein) + edges (rishte). Rishton pe
+              query bahut tez.
+    Examples: Neo4j, Amazon Neptune, (Postgres me Apache AGE extension)
+    Kab lo  : "Dost ke dost", recommendation, fraud detection,
+              knowledge graph, network/route.
+    Kab nahi: Normal CRUD app.
+    Query   : Cypher language:
+              MATCH (a:Person {name:'Anupam'})-[:FRIEND]->(f) RETURN f.name
+
+
+------------------------------------------------------------
+13. TYPE 7 – TIME-SERIES
+------------------------------------------------------------
+    Kya hai : Time ke saath aane wala data (har second ka temperature,
+              CPU, stock price). Time pe query aur purana data compress.
+    Examples: TimescaleDB (Postgres extension), InfluxDB, Prometheus
+              (monitoring)
+    Kab lo  : Server monitoring, IoT, analytics events, stock/crypto.
+    Kab nahi: Normal business data.
+
+
+------------------------------------------------------------
+14. TYPE 8 – SEARCH ENGINE
+------------------------------------------------------------
+    Kya hai : Text search ke liye bana. Typo maaf (laptp -> laptop),
+              relevance ranking, filters, autocomplete.
+    Examples: Elasticsearch, OpenSearch, Meilisearch, Typesense, Algolia
+    Kab lo  : E-commerce search, docs search, log search (ELK stack).
+    Kab nahi: Main database ki tarah (asli data SQL me rakho, search
+              engine me sirf copy).
+    Laravel : Laravel Scout + Meilisearch/Typesense bahut aasan.
+
+
+------------------------------------------------------------
+15. TYPE 9 – COLUMNAR / ANALYTICS (OLAP)
+------------------------------------------------------------
+    Kya hai : Data column-wise save hota hai. "Sab orders ka total"
+              jaise sawal me sirf total wala column padhta hai, isliye
+              arabon rows pe bhi tez.
+    Examples: ClickHouse, BigQuery, Snowflake, Amazon Redshift, DuckDB
+    Kab lo  : Dashboards, reports, analytics, data warehouse.
+    Kab nahi: Roz ka CRUD (ek row update karna mehenga).
+
+
+------------------------------------------------------------
+16. TYPE 10 – VECTOR (AI KE LIYE)
+------------------------------------------------------------
+    Kya hai : Text/image ko numbers ki list (embedding) me badal ke save
+              karta hai, aur "milte-julte matlab" wala data dhoondhta hai.
+    Misaal  : "fees kaise bharein" search karo, "payment process" wala
+              document bhi mil jaaye, bhale shabd alag hon.
+    Examples: pgvector (Postgres extension), Qdrant, Pinecone, Weaviate,
+              Milvus, Chroma
+    Kab lo  : RAG (AI chatbot apne documents se jawab de), semantic search,
+              recommendation, duplicate detection.
+    Tip     : Pehle se Postgres hai toh pgvector se shuru karo. Alag DB
+              tabhi jab crores vectors hon. (postgresql.txt, section 15)
+
+
+------------------------------------------------------------
+17. TYPE 11 – DISTRIBUTED SQL (NewSQL)
+------------------------------------------------------------
+    Kya hai : SQL aur ACID, par data apne aap kai servers/regions me
+              bikhra. Ek server gira toh bhi chalta rahe.
+    Examples: CockroachDB, YugabyteDB (Postgres jaisa), TiDB (MySQL jaisa),
+              Vitess / PlanetScale (MySQL ko shard karna)
+    Kab lo  : Global app, bahut bada scale, zero downtime chahiye.
+    Kab nahi: Normal app. Mehenga aur complex. Ek achha Postgres/MySQL
+              bahut door tak chalta hai.
+
+
+------------------------------------------------------------
+18. TYPE 12 – MANAGED / SERVERLESS / BaaS
+------------------------------------------------------------
+    Kya hai : Database khud install mat karo, cloud company sambhale.
+              Kuch ke saath auth, storage, API bhi.
+    Examples: Supabase (Postgres + auth + storage), Neon (serverless
+              Postgres), Firebase/Firestore, PlanetScale, Turso (SQLite),
+              AWS RDS, MongoDB Atlas
+    Kab lo  : Side project, MVP, chhoti team, server sambhalna nahi.
+    Kab nahi: Bahut tight budget pe bada data, ya data apne server pe
+              rakhna zaroori ho.
+
+
+------------------------------------------------------------
+19. EK NAZAR ME – KAUN KAB
+------------------------------------------------------------
+    Type            Example               Best for                    Avoid for
+    -------------   -------------------   -------------------------   ----------------
+    Relational      Postgres, MySQL       90% web apps, payments      bahut bada write scale
+    Embedded        SQLite, DuckDB        mobile, test, local         kai writers
+    Document        MongoDB               catalog, CMS, flexible      bahut JOIN
+    Key-value       Redis, Valkey         cache, session, queue       search
+    Wide-column     Cassandra             IoT, logs, huge writes      chhota app
+    Graph           Neo4j                 relations, recommendations  normal CRUD
+    Time-series     TimescaleDB           metrics, IoT                business data
+    Search          Meilisearch, Elastic  text search                 main DB
+    Columnar        ClickHouse            reports, analytics          roz ka CRUD
+    Vector          pgvector, Qdrant      AI search, RAG              exact match
+    Distributed SQL CockroachDB, TiDB     global scale                chhota app
+
+
+------------------------------------------------------------
+20. KAISE CHUNEIN – DECISION STEPS
+------------------------------------------------------------
+    STEP 1 – Default: PostgreSQL (ya MySQL agar team/hosting wahi).
+    STEP 2 – Speed ke liye cache/session/queue chahiye? + Redis.
+    STEP 3 – Achhi text search chahiye? + Meilisearch/Typesense.
+    STEP 4 – AI semantic search? + pgvector (same Postgres me).
+    STEP 5 – Bhaari reports se app slow? + read replica, phir ClickHouse.
+    STEP 6 – Data sach me bina fixed shape ka aur JOIN kam? MongoDB socho.
+
+    Rule: naya database = naya server, backup, monitoring, seekhna.
+    Zaroorat ho tabhi jodo.
+
+
+------------------------------------------------------------
+21. POLYGLOT PERSISTENCE – EK APP, KAI DATABASE
+------------------------------------------------------------
+    Misaal: EduAssist (LMS)
+        PostgreSQL   users, courses, fees, attendance (main data)
+        pgvector     course material ke embeddings (AI doubt solver)
+        Redis        cache, session, queue, rate limit
+        S3 / disk    PDFs, videos, images (database me file mat rakho)
+        Meilisearch  (baad me) course search
+
+    Har cheez apne kaam ke tool me. Par shuruaat kam se karo.
+
+
+------------------------------------------------------------
+22. GALTIYAN JO MAINE KI / GOTCHAS
+------------------------------------------------------------
+    - "MongoDB scale karta hai" sun ke le liya, phir har jagah JOIN jaisa
+      $lookup likhna pada. Data relational tha.
+    - Images/PDF database me BLOB bana ke rakhe. DB bhaari, backup slow.
+      File storage me rakho, DB me sirf path.
+    - Redis ko main database bana diya, restart pe data gaya.
+    - Production DB pe bhaari report chala di, app ruk gaya.
+    - Backup liya par kabhi restore karke test nahi kiya.
+    - Har cheez ke liye naya DB jod diya. Sambhalna mushkil.
+
+
+------------------------------------------------------------
+23. INTERVIEW ANGLE
+------------------------------------------------------------
+    Q: SQL aur NoSQL me kab kya chunoge?
+    A: Relations, transactions, fixed structure -> SQL. Flexible shape,
+       bahut bada horizontal scale, simple access pattern -> NoSQL.
+       Default SQL, zaroorat pe NoSQL.
+
+    Q: ACID kya hai?
+    A: Atomicity (sab ya kuch nahi), Consistency (rules na toote),
+       Isolation (transactions ek doosre ko disturb na karein),
+       Durability (commit = pakka save).
+
+    Q: CAP theorem?
+    A: Network partition ke waqt Consistency ya Availability me se ek.
+       Bank C chunega, social feed A.
+
+    Q: OLTP vs OLAP?
+    A: OLTP roz ke chhote transactions (row-based DB). OLAP badi analysis
+       queries (column-based DB).
+
+    Q: Vector database kya hai?
+    A: Embeddings save karke similarity search karta hai. RAG aur semantic
+       search me kaam aata hai. Postgres me pgvector.
+
+    Q: Horizontal vs vertical scaling?
+    A: Vertical = bada server (zyada RAM/CPU). Horizontal = zyada servers.
+       SQL aksar vertical + read replicas, kai NoSQL horizontal ke liye bane.
+
+
+------------------------------------------------------------
+24. LINKS
+------------------------------------------------------------
+    - DB popularity ranking  https://db-engines.com/en/ranking
+    - Prisma Data Guide      https://www.prisma.io/dataguide
+    - SQL notes              NOTES/database/sql.txt
+    - Repos aur tools        NOTES/database/database-repos.txt
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    Postgres se shuru karo, Redis jodo, aur naya database tabhi lao jab
+    purana sach me kaam na kar sake.

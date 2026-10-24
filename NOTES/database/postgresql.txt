@@ -1,0 +1,525 @@
+POSTGRESQL – DETAILED NOTES
+===========================
+Topic: database
+Date: 24-10-2026
+Time: ~60 min (roz 3-4 section padho)
+Status: learning
+Version: PostgreSQL 18 (latest stable), 14+ sab supported
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    PostgreSQL (Postgres) sabse powerful open-source relational database
+    hai. SQL ke saath JSON, full-text search, AI vectors, maps sab ek
+    jagah, extensions se.
+
+    Misaal: Swiss Army knife. Ek hi cheez me chaaku, kainchi, screwdriver.
+    MySQL achha chaaku hai, Postgres poora toolkit.
+
+
+------------------------------------------------------------
+2. KYUN ZAROORI HAI / KAB USE KAREIN
+------------------------------------------------------------
+    - Naye startups aur SaaS ka default DB.
+    - Supabase, Neon, AWS RDS/Aurora sab Postgres dete hain.
+    - pgvector se AI/RAG same DB me (EduAssist me yahi).
+    - Strict aur standard SQL, data ki galtiyan kam.
+
+    Kab lo:
+    - Naya project, SaaS, analytics jaisi queries, JSON + SQL dono, AI.
+    Kab MySQL theek:
+    - Purana MySQL project, sirf MySQL wali hosting, team ko MySQL aata hai.
+
+
+------------------------------------------------------------
+3. INSTALL / CHALANA
+------------------------------------------------------------
+    Docker (pgvector ke saath, EduAssist ke liye):
+        docker run -d --name pg -p 5432:5432 -e POSTGRES_PASSWORD=$env:DB_PASSWORD -v pg-data:/var/lib/postgresql pgvector/pgvector:pg18
+
+    Plain Postgres image: postgres:18
+    Laravel Sail: install karte waqt pgsql chuno, phir sail up.
+    Windows: EnterpriseDB installer (pgAdmin ke saath aata hai).
+
+    Har saal ek major version (Sept me), har version 5 saal support.
+    Live server pe major upgrade = pg_upgrade ya dump/restore, plan karke.
+
+
+------------------------------------------------------------
+4. psql – ROZ KE COMMANDS
+------------------------------------------------------------
+        psql -U postgres -h localhost             login
+        psql -U postgres -d shop -f dump.sql      file chalao
+
+        \l              saare databases
+        \c shop         database badlo
+        \dt             tables
+        \d users        table ka structure, indexes
+        \di             indexes
+        \dn             schemas
+        \du             users/roles
+        \x              vertical output on/off (lambi rows ke liye)
+        \timing         har query ka time
+        \e              editor me query likho
+        \q              bahar
+
+        CREATE DATABASE shop;
+        SELECT version();
+
+
+------------------------------------------------------------
+5. ROLES, PERMISSIONS, SCHEMA
+------------------------------------------------------------
+    Postgres me user = role (login wala role).
+
+        CREATE ROLE shop_app LOGIN PASSWORD '<env se>';
+        GRANT CONNECT ON DATABASE shop TO shop_app;
+        GRANT USAGE ON SCHEMA public TO shop_app;
+        GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO shop_app;
+        ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO shop_app;
+
+    Schema = database ke andar folder (default "public").
+        CREATE SCHEMA reports;
+        SELECT * FROM reports.monthly_sales;
+    Multi-tenant me kuch log har school/tenant ka alag schema rakhte hain.
+
+
+------------------------------------------------------------
+6. DATA TYPES – POSTGRES KE KHAAS
+------------------------------------------------------------
+    ID:
+        BIGINT GENERATED ALWAYS AS IDENTITY   (naya, standard tareeka)
+        BIGSERIAL                             (purana, ab bhi chalta hai)
+        UUID                                  (Postgres 18 me uuidv7()
+                                               function: time-ordered UUID,
+                                               index friendly)
+
+    Text:
+        TEXT          koi limit nahi, VARCHAR jitna hi tez. Aksar yahi.
+        VARCHAR(n)    jab limit DB pe bhi chahiye
+
+    Number:
+        INTEGER, BIGINT, NUMERIC(10,2) (paisa), DOUBLE PRECISION
+
+    Time (bahut zaroori):
+        TIMESTAMPTZ   timezone ke saath. HAMESHA yahi lo.
+        TIMESTAMP     bina timezone – confusion ka ghar.
+        DATE, TIME, INTERVAL ('3 days')
+
+    Baaki kaam ke:
+        BOOLEAN       asli true/false
+        JSONB         binary JSON, index ho sakta hai (JSON nahi, JSONB lo)
+        TEXT[]        array: tags TEXT[] = '{php,react}'
+        ENUM          CREATE TYPE status AS ENUM ('draft', 'live');
+        INET, CIDR    IP address
+        TSVECTOR      full-text search
+        vector(1536)  pgvector extension se (AI embeddings)
+
+
+------------------------------------------------------------
+7. JSONB – SQL ME DOCUMENT STORE
+------------------------------------------------------------
+        CREATE TABLE products (
+            id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+            name TEXT NOT NULL,
+            attrs JSONB NOT NULL DEFAULT '{}'
+        );
+
+        INSERT INTO products (name, attrs)
+        VALUES ('Shirt', '{"color": "blue", "sizes": ["M", "L"], "brand": {"name": "X"}}');
+
+    Operators:
+        attrs -> 'brand'             JSON wapas (object)
+        attrs ->> 'color'            TEXT wapas ('blue')
+        attrs #>> '{brand,name}'     nested path se text
+        attrs @> '{"color":"blue"}'  "kya isme yeh hai?" (containment)
+        attrs ? 'color'              key hai?
+
+        SELECT name FROM products WHERE attrs @> '{"color": "blue"}';
+        SELECT name FROM products WHERE attrs->'sizes' ? 'M';
+
+    Index:
+        CREATE INDEX idx_products_attrs ON products USING GIN (attrs);
+        (@> aur ? wali queries tez)
+        Ek hi key baar-baar: CREATE INDEX ON products ((attrs->>'color'));
+
+    Update:
+        UPDATE products SET attrs = attrs || '{"color": "red"}' WHERE id = 1;
+        UPDATE products SET attrs = jsonb_set(attrs, '{brand,name}', '"Y"') WHERE id = 1;
+
+    Rule: jo field har row me hai aur filter/JOIN hota hai, use asli
+    column banao. JSONB sirf flexible/extra cheezon ke liye.
+
+
+------------------------------------------------------------
+8. INDEX TYPES
+------------------------------------------------------------
+    B-tree    default. =, <, >, BETWEEN, ORDER BY. 90% cases.
+    GIN       ek row me kai values: JSONB, arrays, full-text, pg_trgm.
+    GiST      ranges, geometry (PostGIS), nearest neighbour.
+    BRIN      bahut badi table jo time ke order me badhti hai (logs).
+              Bahut chhota index.
+    Hash      sirf = (B-tree aksar kaafi).
+    HNSW/IVFFlat  pgvector ke vector index.
+
+    Khaas tareeke:
+        Partial index – sirf kuch rows ka:
+            CREATE INDEX idx_orders_pending ON orders (created_at) WHERE status = 'pending';
+        Expression index – function ka:
+            CREATE INDEX idx_users_lower_email ON users (lower(email));
+            SELECT * FROM users WHERE lower(email) = 'a@b.com';
+        Covering (INCLUDE) – extra columns index me, table padhni na pade:
+            CREATE INDEX idx_orders_user ON orders (user_id) INCLUDE (total, status);
+        Unique partial – soft delete ke saath unique email:
+            CREATE UNIQUE INDEX ON users (email) WHERE deleted_at IS NULL;
+
+    Live table pe bina lock ke index:
+        CREATE INDEX CONCURRENTLY idx_x ON orders (user_id);
+        (transaction ke andar nahi chalta. Laravel migration me
+        public $withinTransaction = false; lagao)
+
+
+------------------------------------------------------------
+9. EXPLAIN ANALYZE PADHNA
+------------------------------------------------------------
+        EXPLAIN (ANALYZE, BUFFERS) SELECT * FROM orders WHERE user_id = 1;
+
+    Kya dekhna hai:
+        Seq Scan          poori table padhi (bade table pe kharab)
+        Index Scan        index se rows
+        Index Only Scan   sirf index se (sabse achha)
+        Bitmap Heap Scan  kai rows, index + table
+        Nested Loop / Hash Join / Merge Join – join ke tareeke
+        actual time=0.02..1.50   asli time (ms)
+        rows=10 vs estimated rows bahut alag? -> ANALYZE orders; chalao
+
+    Tool: plan paste karo https://explain.dalibo.com pe, picture me samjho.
+
+
+------------------------------------------------------------
+10. MVCC AUR VACUUM (POSTGRES KA ANDAR KA RAAZ)
+------------------------------------------------------------
+    MVCC: UPDATE purani row ko badalta nahi, nayi row (version) banata
+    hai. Purani row "dead" ho jaati hai. Isse padhne wale aur likhne wale
+    ek doosre ko rokte nahi.
+
+    Problem: dead rows jagah gherti hain (bloat).
+    VACUUM: dead rows ki jagah dobara use layak banata hai.
+    Autovacuum: yeh khud background me chalta hai. Kabhi band mat karo.
+
+        VACUUM (VERBOSE, ANALYZE) orders;    haath se
+        SELECT relname, n_dead_tup, last_autovacuum FROM pg_stat_user_tables ORDER BY n_dead_tup DESC;
+
+    Lambi chalti transaction (ghanton khuli) = VACUUM dead rows saaf nahi
+    kar paata. "idle in transaction" connections pe nazar rakho.
+
+
+------------------------------------------------------------
+11. TRANSACTIONS AUR LOCKS
+------------------------------------------------------------
+    - Default isolation: READ COMMITTED.
+    - DDL bhi transaction me (CREATE TABLE, ALTER rollback ho sakta hai!).
+      Migration aadhi fail hui toh poori wapas – MySQL me aisa nahi.
+
+        BEGIN;
+        SELECT * FROM jobs WHERE status = 'new' ORDER BY id LIMIT 1 FOR UPDATE SKIP LOCKED;
+        UPDATE jobs SET status = 'running' WHERE id = ...;
+        COMMIT;
+        (kai workers ek saath bina takraye jobs uthayein)
+
+    Advisory lock (apna naam wala lock, jaise "ek hi cron chale"):
+        SELECT pg_try_advisory_lock(42);
+
+    Locks dekhna:
+        SELECT pid, state, wait_event_type, query FROM pg_stat_activity WHERE state <> 'idle';
+        SELECT pg_cancel_backend(pid);     query roko
+        SELECT pg_terminate_backend(pid);  connection kaato
+
+
+------------------------------------------------------------
+12. POSTGRES KA ADVANCED SQL
+------------------------------------------------------------
+    RETURNING – insert/update ke baad data turant wapas:
+        INSERT INTO users (name) VALUES ('Anupam') RETURNING id, created_at;
+
+    Upsert – hai toh update, nahi toh insert:
+        INSERT INTO stock (product_id, qty) VALUES (5, 10)
+        ON CONFLICT (product_id) DO UPDATE SET qty = stock.qty + EXCLUDED.qty;
+        Laravel: Stock::upsert($rows, ['product_id'], ['qty']);
+
+    DISTINCT ON – har group ki pehli row (window function se aasan):
+        SELECT DISTINCT ON (user_id) * FROM orders ORDER BY user_id, created_at DESC;
+
+    generate_series – dates/numbers ki list (khaali din bhi report me):
+        SELECT d::date, COALESCE(SUM(o.total), 0)
+        FROM generate_series('2026-10-01', '2026-10-31', interval '1 day') d
+        LEFT JOIN orders o ON o.created_at::date = d::date
+        GROUP BY d ORDER BY d;
+
+    FILTER – ek query me kai counts:
+        SELECT COUNT(*) FILTER (WHERE status = 'paid') AS paid,
+               COUNT(*) FILTER (WHERE status = 'pending') AS pending
+        FROM orders;
+
+    LATERAL – har row ke liye subquery (har user ke top 3 orders):
+        SELECT u.name, o.* FROM users u
+        CROSS JOIN LATERAL (
+            SELECT * FROM orders WHERE user_id = u.id ORDER BY total DESC LIMIT 3
+        ) o;
+
+    Array:
+        SELECT * FROM posts WHERE 'php' = ANY(tags);
+        SELECT array_agg(name) FROM users;     rows -> array
+
+    String:
+        string_agg(name, ', ')    rows ko ek string me jodo
+        name ILIKE '%anu%'        case-insensitive
+
+
+------------------------------------------------------------
+13. FULL-TEXT SEARCH (BINA ELASTICSEARCH)
+------------------------------------------------------------
+        ALTER TABLE posts ADD COLUMN search tsvector
+            GENERATED ALWAYS AS (to_tsvector('english', coalesce(title,'') || ' ' || coalesce(body,''))) STORED;
+
+        CREATE INDEX idx_posts_search ON posts USING GIN (search);
+
+        SELECT title, ts_rank(search, q) AS rank
+        FROM posts, websearch_to_tsquery('english', 'laravel queue -redis') q
+        WHERE search @@ q
+        ORDER BY rank DESC LIMIT 10;
+
+    Typo-tolerant / "LIKE %abc%" tez karna – pg_trgm:
+        CREATE EXTENSION pg_trgm;
+        CREATE INDEX idx_users_name_trgm ON users USING GIN (name gin_trgm_ops);
+        SELECT * FROM users WHERE name ILIKE '%anup%';
+        SELECT * FROM users WHERE similarity(name, 'anupm') > 0.3;
+
+    Hindi/Hinglish ke liye 'simple' config lo ('english' stemming nahi
+    samjhega). Bahut advanced search chahiye toh Meilisearch/Typesense.
+
+
+------------------------------------------------------------
+14. EXTENSIONS – POSTGRES KI SUPERPOWER
+------------------------------------------------------------
+        CREATE EXTENSION IF NOT EXISTS vector;
+        SELECT * FROM pg_extension;         installed
+        SELECT * FROM pg_available_extensions;
+
+    Kaam ke extensions:
+        vector (pgvector)    AI embeddings, similarity search
+        pg_trgm              fuzzy/LIKE search
+        pgcrypto             gen_random_uuid(), hashing (UUID ab core me bhi)
+        pg_stat_statements   kaun si query kitni baar, kitna time
+        PostGIS              maps, location ("5 km ke andar ke schools")
+        TimescaleDB          time-series
+        pg_partman           partitions apne aap
+        citext               case-insensitive text (email ke liye)
+
+
+------------------------------------------------------------
+15. PGVECTOR – AI SEARCH / RAG (EDUASSIST)
+------------------------------------------------------------
+    Flow:
+        STEP 1 – Course PDF ko chhote tukdon (chunks) me todo.
+        STEP 2 – Har chunk ka embedding banao (AI API se, numbers ki list).
+        STEP 3 – Postgres me chunk + embedding save karo.
+        STEP 4 – Student ka sawal aaya -> uska embedding -> sabse milte
+                 chunks dhoondho -> LLM ko de ke jawab banwao.
+
+    Table:
+        CREATE EXTENSION IF NOT EXISTS vector;
+
+        CREATE TABLE doc_chunks (
+            id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+            institution_id BIGINT NOT NULL,
+            content TEXT NOT NULL,
+            embedding vector(1536) NOT NULL       -- model ke dimension jitna
+        );
+
+    Index (HNSW – tez aur achha recall):
+        CREATE INDEX ON doc_chunks USING hnsw (embedding vector_cosine_ops);
+
+    Search:
+        SELECT id, content, embedding <=> $1 AS distance
+        FROM doc_chunks
+        WHERE institution_id = $2
+        ORDER BY embedding <=> $1
+        LIMIT 5;
+
+    Distance operators:
+        <=>   cosine distance   (text embeddings me aksar yahi)
+        <->   L2 (Euclidean)
+        <#>   negative inner product
+
+    Tips:
+    - Index ka ops (vector_cosine_ops) aur query ka operator (<=>) match
+      karna chahiye, warna index nahi lagega.
+    - Multi-tenant: WHERE institution_id zaroor, warna ek school ka data
+      doosre ko dikhega.
+    - Dimension model pe depend: embedding model badla = dobara embed karo.
+    - Laravel: raw query ya pgvector-php package.
+
+
+------------------------------------------------------------
+16. PARTITIONING – BAHUT BADI TABLE
+------------------------------------------------------------
+        CREATE TABLE logs (
+            id BIGINT GENERATED ALWAYS AS IDENTITY,
+            created_at TIMESTAMPTZ NOT NULL,
+            message TEXT
+        ) PARTITION BY RANGE (created_at);
+
+        CREATE TABLE logs_2026_10 PARTITION OF logs
+            FOR VALUES FROM ('2026-10-01') TO ('2026-11-01');
+
+    Fayda: query sirf zaroori mahine ki partition padhti hai; purana
+    data DROP TABLE logs_2025_01 se second me saaf (DELETE ki jagah).
+    Kab: crores rows, time ke hisaab se data. Chhoti table pe zaroorat nahi.
+
+
+------------------------------------------------------------
+17. CONNECTION POOLING – PGBOUNCER
+------------------------------------------------------------
+    Postgres me har connection = ek alag process (~ kuch MB RAM).
+    PHP-FPM ke 200 workers = 200 connections = DB pe bhaar.
+
+    PgBouncer beech me baithta hai: app ke 1000 connections -> DB ke 20.
+        App  ->  PgBouncer (6432)  ->  Postgres (5432)
+
+    Modes:
+        session      ek client ko poora connection (safe, kam fayda)
+        transaction  har transaction ke liye connection (zyada fayda,
+                     par session-level cheezein jaise SET, advisory locks
+                     dhyan se)
+
+    Managed DBs (Supabase, Neon, RDS Proxy) me pooler pehle se milta hai.
+
+
+------------------------------------------------------------
+18. BACKUP AUR RESTORE
+------------------------------------------------------------
+    Logical:
+        pg_dump -U postgres -Fc shop > shop.dump          (custom format, compressed)
+        pg_restore -U postgres -d shop_new --clean shop.dump
+        pg_dump -U postgres --schema-only shop > schema.sql
+        pg_dumpall -U postgres --globals-only > roles.sql (roles/users)
+
+    Physical + point-in-time recovery:
+        pg_basebackup + WAL archiving, ya tools: pgBackRest, Barman.
+        Cloud DB me automated snapshots + PITR.
+
+    Restore ka test mahine me ek baar.
+
+
+------------------------------------------------------------
+19. REPLICATION AUR HIGH AVAILABILITY
+------------------------------------------------------------
+    Streaming replication: primary ke WAL (badlav ki diary) replica pe
+    bhejte hain. Replica read-only queries ke liye.
+
+    Logical replication: chuni hui tables doosre DB me copy (upgrade ya
+    data migration me kaam ka).
+
+    Automatic failover: Patroni jaise tools, ya managed DB.
+
+
+------------------------------------------------------------
+20. POSTGRES vs MYSQL
+------------------------------------------------------------
+    Cheez               PostgreSQL                     MySQL (InnoDB)
+    -----------------   ----------------------------   ---------------------------
+    Default isolation   READ COMMITTED                 REPEATABLE READ
+    DDL in transaction  haan                           nahi (auto commit)
+    JSON                JSONB + GIN index, bahut strong JSON + generated column index
+    Full-text           tsvector, pg_trgm              FULLTEXT index
+    Extensions          bahut (pgvector, PostGIS)      kam
+    Index types         B-tree, GIN, GiST, BRIN...     B-tree, FULLTEXT, spatial
+    Upsert              ON CONFLICT                    ON DUPLICATE KEY UPDATE
+    RETURNING           haan                           nahi (LAST_INSERT_ID)
+    Case compare        case-sensitive (ILIKE)         default case-insensitive
+    Connections         process per connection         thread per connection
+                        (pooler zaroori)
+    Hosting             har cloud                      har cloud + shared hosting
+    Strictness          bahut strict                   strict mode on karna padta
+
+
+------------------------------------------------------------
+21. LARAVEL KE SAATH TIPS
+------------------------------------------------------------
+    .env:
+        DB_CONNECTION=pgsql
+        DB_PORT=5432
+
+    - Laravel ka timestamps() Postgres pe TIMESTAMP banata hai;
+      timezone wala chahiye toh $table->timestampsTz().
+    - JSONB: $table->jsonb('attrs'); query: ->where('attrs->color', 'blue')
+      ->whereJsonContains('attrs->sizes', 'M')
+    - Case-insensitive search: ->where('name', 'ilike', "%{$q}%")
+    - Upsert: Model::upsert($rows, ['unique_col'], ['update_cols'])
+    - Index CONCURRENTLY wali migration: public $withinTransaction = false;
+    - Schema (search_path) config/database.php me 'search_path' => 'public'
+    - Testing: RefreshDatabase Postgres pe transactions se tez chalta hai.
+
+
+------------------------------------------------------------
+22. GALTIYAN JO MAINE KI / GOTCHAS
+------------------------------------------------------------
+    - TIMESTAMP (bina tz) liya, server timezone badla, sab time khisak gaye.
+    - LIKE se search kiya, case match nahi hua. ILIKE ya lower().
+    - Column naam me capital letter ("userId") – ab har jagah quotes
+      lagane padte hain. Hamesha snake_case.
+    - JSON liya, JSONB nahi. Index nahi laga.
+    - Bina pooler ke bahut PHP workers, "too many connections".
+    - Autovacuum band kar diya "speed" ke liye, table bloat se fat gayi.
+    - Production pe CREATE INDEX (bina CONCURRENTLY), writes ruk gaye.
+    - pgvector index cosine ka, query <-> (L2) se – index laga hi nahi.
+    - "idle in transaction" connections ghanton khule.
+
+
+------------------------------------------------------------
+23. INTERVIEW ANGLE
+------------------------------------------------------------
+    Q: Postgres MySQL se kyun chunoge?
+    A: JSONB, extensions (pgvector, PostGIS), advanced SQL, strictness,
+       transactional DDL. MySQL simple read-heavy apps aur hosting me aage.
+
+    Q: MVCC aur VACUUM kya hai?
+    A: Update nayi row version banata hai taaki readers block na hon.
+       Purani dead rows VACUUM saaf karta hai. Autovacuum ON rakho.
+
+    Q: JSON vs JSONB?
+    A: JSON text jaisa save, JSONB binary – tez query, GIN index. JSONB lo.
+
+    Q: GIN index kab?
+    A: Jab ek column me kai values hon: JSONB, arrays, full-text, trigram.
+
+    Q: Partial index ka example?
+    A: Sirf pending orders ka index, ya soft delete ke saath unique email.
+
+    Q: Connection pooling kyun?
+    A: Har connection ek process, mehenga. PgBouncer kam DB connections me
+       zyada clients sambhalta hai.
+
+    Q: pgvector me similarity search kaise?
+    A: vector column, HNSW index (vector_cosine_ops), ORDER BY embedding
+       <=> query_vector LIMIT k.
+
+
+------------------------------------------------------------
+24. LINKS
+------------------------------------------------------------
+    - Official docs          https://www.postgresql.org/docs/
+    - Versions aur support   https://www.postgresql.org/support/versioning/
+    - Plan visualizer        https://explain.dalibo.com
+    - Practice               https://pgexercises.com
+    - Common SQL             NOTES/database/sql.txt
+    - Tools aur repos        NOTES/database/database-repos.txt
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    TIMESTAMPTZ, JSONB, snake_case, autovacuum ON, pooler lagao, aur AI
+    ke liye pgvector isi DB me.

@@ -1,0 +1,483 @@
+SQL – DETAILED NOTES (MYSQL + POSTGRES DONO ME)
+================================================
+Topic: database
+Date: 24-10-2026
+Time: ~50 min (roz 3-4 section padho)
+Status: learning
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    SQL (Structured Query Language) relational database se baat karne
+    ki language hai: data daalo, nikaalo, badlo, hatao.
+
+    Is note me woh SQL hai jo MySQL aur PostgreSQL dono me chalta hai.
+    Jahan farak hai, wahan likha hai. DB-specific cheezein mysql.txt aur
+    postgresql.txt me.
+
+
+------------------------------------------------------------
+2. KYUN ZAROORI HAI
+------------------------------------------------------------
+    - Eloquent/ORM bhi andar SQL hi banata hai. Slow query samajhni hai
+      toh SQL aana chahiye.
+    - Reports, data fix, debugging me seedha SQL sabse tez.
+    - Har backend interview me SQL ke sawal (JOIN, index, GROUP BY).
+
+
+------------------------------------------------------------
+3. EXAMPLE TABLES (POORE NOTE ME YAHI)
+------------------------------------------------------------
+    users                          orders
+    id | name    | city            id | user_id | total | status   | created_at
+    1  | Anupam  | Delhi           10 | 1       | 500   | paid     | 2026-10-01
+    2  | Ravi    | Pune            11 | 1       | 250   | pending  | 2026-10-05
+    3  | Sara    | Delhi           12 | 2       | 900   | paid     | 2026-10-07
+                                   (Sara ka koi order nahi)
+
+
+------------------------------------------------------------
+4. CRUD – ROZ KE 4 KAAM
+------------------------------------------------------------
+    Create:
+        INSERT INTO users (name, city) VALUES ('Anupam', 'Delhi');
+        INSERT INTO users (name, city) VALUES ('A', 'X'), ('B', 'Y');
+
+    Read:
+        SELECT id, name FROM users WHERE city = 'Delhi';
+        SELECT * FROM orders WHERE status = 'paid' AND total > 300;
+
+    Update (WHERE bhoole toh SAARI rows badlengi!):
+        UPDATE orders SET status = 'paid' WHERE id = 11;
+
+    Delete (WHERE bhoole toh SAARI rows jaayengi!):
+        DELETE FROM orders WHERE id = 11;
+
+    Aadat: UPDATE/DELETE se pehle wahi WHERE ke saath SELECT chala ke
+    dekho kitni rows aayengi.
+
+
+------------------------------------------------------------
+5. WHERE KE OPERATORS
+------------------------------------------------------------
+        =  <>  >  <  >=  <=
+        status IN ('paid', 'pending')
+        total BETWEEN 100 AND 500          (100 aur 500 dono shaamil)
+        name LIKE 'An%'                    (An se shuru)
+        name LIKE '%sh%'                   (beech me sh, index nahi lagega)
+        email IS NULL / IS NOT NULL
+        NOT, AND, OR  (OR ke saath brackets lagao)
+
+    NULL ka dhyan:
+        WHERE city = NULL        // GALAT, kabhi true nahi hota
+        WHERE city IS NULL       // SAHI
+        NULL = "pata nahi". NULL se koi bhi compare = NULL (na true na false).
+
+    Case-insensitive search:
+        MySQL: default collation case-insensitive hai, LIKE 'an%' chalega.
+        Postgres: ILIKE 'an%' lo (LIKE case-sensitive hai).
+
+
+------------------------------------------------------------
+6. ORDER BY, LIMIT, PAGINATION
+------------------------------------------------------------
+        SELECT * FROM orders ORDER BY created_at DESC LIMIT 10;
+        SELECT * FROM orders ORDER BY id LIMIT 10 OFFSET 20;   -- page 3
+
+    OFFSET ki problem: OFFSET 100000 = DB pehle 1 lakh rows padh ke
+    phenkta hai. Bade page pe slow.
+
+    Keyset (cursor) pagination – tez:
+        SELECT * FROM orders WHERE id > 1020 ORDER BY id LIMIT 10;
+        (1020 = pichle page ki aakhri id)
+    Laravel: ->cursorPaginate(10)
+
+
+------------------------------------------------------------
+7. AGGREGATE, GROUP BY, HAVING
+------------------------------------------------------------
+        SELECT COUNT(*) FROM orders;
+        SELECT SUM(total), AVG(total), MIN(total), MAX(total) FROM orders;
+
+    Har user ka total:
+        SELECT user_id, COUNT(*) AS orders, SUM(total) AS spent
+        FROM orders
+        GROUP BY user_id;
+
+    Sirf woh jinhone 600 se zyada kharcha kiya:
+        SELECT user_id, SUM(total) AS spent
+        FROM orders
+        GROUP BY user_id
+        HAVING SUM(total) > 600;
+
+    WHERE vs HAVING:
+        WHERE  -> group banne SE PEHLE rows filter
+        HAVING -> group banne KE BAAD groups filter
+
+    COUNT(*) vs COUNT(col):
+        COUNT(*) saari rows, COUNT(city) sirf jahan city NULL nahi.
+
+
+------------------------------------------------------------
+8. JOINS – SABSE ZAROORI
+------------------------------------------------------------
+    INNER JOIN – sirf jinka dono taraf match ho:
+        SELECT u.name, o.total
+        FROM users u
+        JOIN orders o ON o.user_id = u.id;
+        -> Anupam 500, Anupam 250, Ravi 900   (Sara nahi aayi)
+
+    LEFT JOIN – left ki saari rows, right me match na ho toh NULL:
+        SELECT u.name, o.total
+        FROM users u
+        LEFT JOIN orders o ON o.user_id = u.id;
+        -> ... + Sara NULL
+
+    Jinka ek bhi order nahi (LEFT JOIN + IS NULL):
+        SELECT u.name
+        FROM users u
+        LEFT JOIN orders o ON o.user_id = u.id
+        WHERE o.id IS NULL;
+        -> Sara
+
+    RIGHT JOIN – LEFT ka ulta (kam use, LEFT likh ke tables palat do).
+    FULL OUTER JOIN – dono taraf ki saari rows (Postgres me hai, MySQL me
+                      nahi; MySQL me LEFT + RIGHT ka UNION).
+    CROSS JOIN – har row x har row (sizes x colors jaise combos).
+    SELF JOIN – table khud se (employee aur uska manager same table me):
+        SELECT e.name, m.name AS manager
+        FROM employees e LEFT JOIN employees m ON m.id = e.manager_id;
+
+    LEFT JOIN ka jaal:
+        LEFT JOIN orders o ON o.user_id = u.id
+        WHERE o.status = 'paid'
+        -> WHERE ne NULL rows hata di, ab yeh INNER JOIN ban gaya.
+        Sahi: condition ON me daalo:
+        LEFT JOIN orders o ON o.user_id = u.id AND o.status = 'paid'
+
+
+------------------------------------------------------------
+9. SUBQUERY AUR CTE (WITH)
+------------------------------------------------------------
+    Subquery:
+        SELECT name FROM users
+        WHERE id IN (SELECT user_id FROM orders WHERE total > 400);
+
+    EXISTS (aksar IN se tez, bade data pe):
+        SELECT name FROM users u
+        WHERE EXISTS (SELECT 1 FROM orders o WHERE o.user_id = u.id);
+
+    CTE – query ko naam de ke tukdon me todna (padhne me aasan):
+        WITH spent AS (
+            SELECT user_id, SUM(total) AS total
+            FROM orders WHERE status = 'paid'
+            GROUP BY user_id
+        )
+        SELECT u.name, s.total
+        FROM spent s JOIN users u ON u.id = s.user_id
+        WHERE s.total > 400;
+
+    Recursive CTE – tree data (category > sub-category, org chart):
+        WITH RECURSIVE tree AS (
+            SELECT id, name, parent_id FROM categories WHERE id = 1
+            UNION ALL
+            SELECT c.id, c.name, c.parent_id
+            FROM categories c JOIN tree t ON c.parent_id = t.id
+        )
+        SELECT * FROM tree;
+
+    MySQL 8.0+ aur Postgres dono me CTE chalta hai.
+
+
+------------------------------------------------------------
+10. WINDOW FUNCTIONS – GROUP KIYE BINA HISAAB
+------------------------------------------------------------
+    GROUP BY rows ko mila deta hai. Window function har row rakhta hai
+    aur saath me hisaab jodta hai.
+
+    Har user ka sabse naya order:
+        SELECT * FROM (
+            SELECT o.*,
+                   ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY created_at DESC) AS rn
+            FROM orders o
+        ) x
+        WHERE rn = 1;
+
+    Running total:
+        SELECT id, total,
+               SUM(total) OVER (ORDER BY created_at) AS running_total
+        FROM orders;
+
+    Rank:
+        RANK()        1, 2, 2, 4   (barabar pe same rank, phir gap)
+        DENSE_RANK()  1, 2, 2, 3   (gap nahi)
+        ROW_NUMBER()  1, 2, 3, 4   (hamesha alag)
+
+    Pichli row se compare:
+        LAG(total) OVER (ORDER BY created_at)    pichla
+        LEAD(total) OVER (ORDER BY created_at)   agla
+
+
+------------------------------------------------------------
+11. CASE, UNION, COALESCE
+------------------------------------------------------------
+        SELECT name,
+               CASE WHEN total >= 800 THEN 'big'
+                    WHEN total >= 300 THEN 'medium'
+                    ELSE 'small' END AS size
+        FROM orders JOIN users ON users.id = orders.user_id;
+
+        COALESCE(city, 'NA')         NULL ho toh default
+        NULLIF(x, 0)                 0 ho toh NULL (divide by zero se bachav)
+
+        SELECT email FROM users
+        UNION                        (duplicate hata ke)
+        SELECT email FROM newsletter;
+        UNION ALL                    (duplicate rakh ke, tez)
+
+
+------------------------------------------------------------
+12. TABLE BANANA AUR CONSTRAINTS
+------------------------------------------------------------
+        CREATE TABLE orders (
+            id          BIGINT PRIMARY KEY,           -- auto: neeche dekho
+            user_id     BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+            total       DECIMAL(10, 2) NOT NULL CHECK (total >= 0),
+            status      VARCHAR(20) NOT NULL DEFAULT 'pending',
+            coupon      VARCHAR(30) UNIQUE,
+            created_at  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+        );
+
+    Auto increment ID:
+        MySQL:    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY
+        Postgres: id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY
+
+    Constraints = DB ka chowkidaar:
+        PRIMARY KEY   har row ki unique pehchan
+        FOREIGN KEY   user_id wahi ho jo users me hai
+        UNIQUE        duplicate nahi (email)
+        NOT NULL      khaali nahi
+        CHECK         rule (total >= 0)
+        DEFAULT       value na di toh yeh
+
+    ON DELETE options: CASCADE (saath me delete), SET NULL, RESTRICT (rok do)
+
+    Badlav:
+        ALTER TABLE users ADD COLUMN phone VARCHAR(15);
+        ALTER TABLE users DROP COLUMN phone;
+        DROP TABLE logs;          (table hi gayi)
+        TRUNCATE TABLE logs;      (saara data gaya, table bachi)
+
+
+------------------------------------------------------------
+13. NORMALIZATION (DATA KO SAHI TABLES ME BAANTNA)
+------------------------------------------------------------
+    Galat (sab ek table me):
+        order_id | customer | customer_phone | products
+        10       | Anupam   | 98xxxx         | "pen, book"
+
+    Problem: phone badla toh har order me badlo. "products" me list,
+    search mushkil.
+
+    1NF – har cell me ek hi value. List nahi -> order_items table banao.
+    2NF – har column poori key pe depend kare (composite key ke aadhe
+          pe nahi).
+    3NF – non-key column doosre non-key column pe depend na kare
+          (customer_phone order me nahi, customers table me).
+
+    Seedha rule: "Ek fact, ek jagah."
+
+    Sahi:
+        customers(id, name, phone)
+        orders(id, customer_id, created_at)
+        order_items(order_id, product_id, qty, price)
+        products(id, name, price)
+
+    Denormalization (jaan-boojh ke copy rakhna):
+    - Speed ke liye, jaise orders me total_amount save rakhna taaki har
+      baar items ka SUM na karna pade.
+    - Dhyan: copy ko update rakhna tumhari zimmedari.
+
+
+------------------------------------------------------------
+14. INDEX – QUERY TEZ KAISE HOTI HAI
+------------------------------------------------------------
+    Misaal: Kitaab ke peeche ka index. "Laravel" kis page pe hai, poori
+    kitaab padhe bina pata.
+
+    Index ke bina: DB har row padhta hai (full table scan).
+    Index ke saath: sorted structure (B-tree) se seedha jump.
+
+        CREATE INDEX idx_orders_user ON orders (user_id);
+        CREATE UNIQUE INDEX idx_users_email ON users (email);
+
+    Composite index (kai columns) – LEFTMOST rule:
+        CREATE INDEX idx_orders_user_status ON orders (user_id, status);
+        WHERE user_id = 1                    -> index lagega
+        WHERE user_id = 1 AND status='paid'  -> index lagega
+        WHERE status = 'paid'                -> NAHI (pehla column missing)
+
+        Order rule: pehle "=" wale columns, phir range (> <), phir ORDER BY.
+
+    Kab lagao:
+        - WHERE, JOIN (foreign keys), ORDER BY me aane wale columns.
+    Kab nahi / dhyan:
+        - Har index INSERT/UPDATE ko slow karta hai aur jagah leta hai.
+        - Bahut kam unique values wale column akele pe (status jisme 2
+          values) aksar fayda nahi.
+        - Column pe function lagaya toh index nahi:
+              WHERE YEAR(created_at) = 2026        -- index nahi
+              WHERE created_at >= '2026-01-01'
+                AND created_at <  '2027-01-01'     -- index lagega
+        - LIKE '%abc' (shuru me %) pe normal index nahi.
+
+    Covering index: query ke saare columns index me hi hon toh table
+    padhni hi nahi padti. Bahut tez.
+
+
+------------------------------------------------------------
+15. EXPLAIN – QUERY KA PLAN DEKHO
+------------------------------------------------------------
+        EXPLAIN SELECT * FROM orders WHERE user_id = 1;
+        EXPLAIN ANALYZE SELECT ...;     (asli chala ke time batata hai)
+
+    Kya dhoondhna hai:
+        MySQL:    type = ALL (full scan, kharab), ref/range/const (achha),
+                  rows (kitni rows padhi), Extra: Using filesort/temporary
+        Postgres: Seq Scan (full scan), Index Scan / Index Only Scan (achha),
+                  actual time, rows
+
+    Rule: slow query mile -> EXPLAIN -> index lagao -> phir EXPLAIN.
+
+
+------------------------------------------------------------
+16. TRANSACTIONS, ISOLATION, LOCKS
+------------------------------------------------------------
+        BEGIN;      (MySQL: START TRANSACTION;)
+        UPDATE accounts SET balance = balance - 500 WHERE id = 1;
+        UPDATE accounts SET balance = balance + 500 WHERE id = 2;
+        COMMIT;     (galti hui toh ROLLBACK;)
+
+    Laravel:
+        DB::transaction(function () { ... });   // exception = rollback
+
+    Isolation levels (neeche jaate hain toh zyada safe, thoda slow):
+        READ UNCOMMITTED  doosre ka adhoora (uncommitted) data bhi dikhe
+        READ COMMITTED    sirf committed data  (Postgres default)
+        REPEATABLE READ   transaction me same row hamesha same dikhe
+                          (MySQL InnoDB default)
+        SERIALIZABLE      jaise sab ek-ek karke chale
+
+    Problems jo isolation rokta hai:
+        Dirty read           doosre ka uncommitted data padh liya
+        Non-repeatable read  ek hi row do baar padhi, value badal gayi
+        Phantom read         same query, nayi rows aa gayi
+
+    Row lock – "pehle main padhunga aur badlunga":
+        BEGIN;
+        SELECT stock FROM products WHERE id = 5 FOR UPDATE;
+        -- doosri request yahan wait karegi
+        UPDATE products SET stock = stock - 1 WHERE id = 5;
+        COMMIT;
+    Laravel: Product::lockForUpdate()->find(5);
+
+    Deadlock: A ne row 1 lock ki aur row 2 chahiye, B ne row 2 lock ki
+    aur row 1 chahiye. DB ek ko fail kar deta hai. Bachav: rows hamesha
+    same order me lock karo, transaction chhota rakho, fail pe retry.
+
+    Seedha update (race condition se bachav):
+        UPDATE products SET stock = stock - 1 WHERE id = 5 AND stock > 0;
+        (padh ke PHP me ghata ke likhne se behtar)
+
+
+------------------------------------------------------------
+17. QUERY KIS ORDER ME CHALTI HAI
+------------------------------------------------------------
+    Likhte hain:  SELECT ... FROM ... WHERE ... GROUP BY ... HAVING ...
+                  ORDER BY ... LIMIT
+    Chalti hai:   1 FROM/JOIN  2 WHERE  3 GROUP BY  4 HAVING  5 SELECT
+                  6 DISTINCT   7 ORDER BY  8 LIMIT
+
+    Isliye WHERE me SELECT ka alias (AS spent) kaam nahi karta, par
+    ORDER BY me karta hai.
+
+
+------------------------------------------------------------
+18. PERFORMANCE CHECKLIST
+------------------------------------------------------------
+    [ ] SELECT * ki jagah zaroori columns
+    [ ] WHERE/JOIN/ORDER BY wale columns pe index
+    [ ] Loop me query nahi (N+1) – JOIN ya IN se ek baar me
+    [ ] Bade OFFSET ki jagah keyset pagination
+    [ ] Column pe function nahi WHERE me
+    [ ] Bulk insert: ek INSERT me kai rows
+    [ ] Bhaari report replica pe
+    [ ] Slow query log ON, EXPLAIN se check
+
+
+------------------------------------------------------------
+19. GALTIYAN JO MAINE KI / GOTCHAS
+------------------------------------------------------------
+    - UPDATE/DELETE me WHERE bhool gaya. Production pe! Pehle SELECT,
+      phir transaction me chalao.
+    - "= NULL" likha. IS NULL chahiye.
+    - LEFT JOIN ke baad WHERE me right table ki condition, INNER ban gaya.
+    - GROUP BY me non-aggregate column SELECT kiya. MySQL ne random value
+      di (ONLY_FULL_GROUP_BY off tha), Postgres ne error.
+    - Paisa FLOAT me rakha. 0.1 + 0.2 ki dikkat. DECIMAL lo.
+    - Har column pe index laga diya, inserts slow ho gaye.
+    - String jod ke query banayi (SQL injection). Hamesha bindings.
+
+
+------------------------------------------------------------
+20. INTERVIEW ANGLE
+------------------------------------------------------------
+    Q: INNER vs LEFT JOIN?
+    A: INNER sirf matching rows. LEFT left table ki saari rows, match na
+       ho toh right ke columns NULL.
+
+    Q: WHERE vs HAVING?
+    A: WHERE grouping se pehle rows filter karta hai, HAVING grouping ke
+       baad groups.
+
+    Q: Index kaise kaam karta hai? Nuksaan?
+    A: B-tree jaisa sorted structure, seedha row tak jump. Nuksaan: jagah
+       leta hai, insert/update slow.
+
+    Q: Composite index me order kyun matter karta hai?
+    A: Leftmost prefix rule. (a, b) index a ke liye aur a+b ke liye
+       chalega, sirf b ke liye nahi.
+
+    Q: Second highest salary?
+    A: SELECT DISTINCT salary FROM emp ORDER BY salary DESC LIMIT 1 OFFSET 1;
+       ya DENSE_RANK() = 2.
+
+    Q: Normalization kya hai?
+    A: Data ko tables me aise baantna ki ek fact ek hi jagah ho. Duplicate
+       aur update ki galtiyan kam.
+
+    Q: DELETE vs TRUNCATE vs DROP?
+    A: DELETE rows hatata hai (WHERE ke saath, rollback ho sakta hai).
+       TRUNCATE saari rows tezi se. DROP poori table.
+
+    Q: Deadlock kya hai?
+    A: Do transactions ek doosre ke lock ka wait karein. DB ek ko rok
+       deta hai. Same order me lock, chhote transactions.
+
+
+------------------------------------------------------------
+21. LINKS
+------------------------------------------------------------
+    - SQL practice (free)    https://sqlbolt.com
+    - Postgres exercises     https://pgexercises.com
+    - Index samjho           https://use-the-index-luke.com
+    - MySQL notes            NOTES/database/mysql.txt
+    - Postgres notes         NOTES/database/postgresql.txt
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    WHERE pehle SELECT se check, JOIN ki condition sahi jagah, aur slow
+    query mile toh EXPLAIN.

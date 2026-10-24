@@ -22,14 +22,21 @@ NOTES/
 ├── html/                      HTML, CSS, UI design
 │   ├── bootstrap.txt
 │   ├── tailwind.txt
-│   ├── ui-styles.txt          minimalism, glassmorphism... saare UI styles
+│   ├── ui-styles.txt          UI design basics + 38 UI styles (naam, website, repo)
 │   └── ui-repos.txt
 ├── python/
 │   └── python-repos.txt
 ├── git/
 │   └── gitkeep.txt            .gitkeep kya hai, khaali folder kaise rakhein
 ├── ai/                        (abhi khaali, .gitkeep)
-├── database/                  (abhi khaali, .gitkeep)
+├── database/
+│   ├── database-types.txt     SQL vs NoSQL, ACID, CAP, saare DB types (shuru yahin se)
+│   ├── sql.txt                MySQL + Postgres dono ka common SQL (JOIN, index, transaction)
+│   ├── mysql.txt
+│   ├── postgresql.txt         JSONB, index types, pgvector (AI)
+│   ├── mongodb.txt
+│   ├── redis.txt              cache, queue, lock, Laravel ke saath
+│   └── database-repos.txt     GUI tools, extensions, search/vector DBs
 ├── devops/                    (abhi khaali, .gitkeep) Docker, Linux, WSL, CI/CD
 └── system-design/             (abhi khaali, .gitkeep)
 ```

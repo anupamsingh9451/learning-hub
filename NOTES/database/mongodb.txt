@@ -1,0 +1,428 @@
+MONGODB – DETAILED NOTES
+========================
+Topic: database
+Date: 24-10-2026
+Time: ~45 min (roz 3-4 section padho)
+Status: learning
+Version: MongoDB 8.x
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    MongoDB ek document database hai. Data tables me nahi, JSON jaise
+    "documents" me rehta hai, aur har document ka shape alag ho sakta hai.
+
+    Misaal: SQL = Excel sheet, har row me same columns. MongoDB = file
+    folder, har file (document) me jo chahiye likho: kisi me 3 fields,
+    kisi me 10, andar list bhi.
+
+
+------------------------------------------------------------
+2. KYUN ZAROORI HAI / KAB USE KAREIN
+------------------------------------------------------------
+    - Node.js duniya me bahut common (MERN stack).
+    - Schema badalna aasan, jaldi prototype.
+    - Horizontal scaling (sharding) built-in.
+
+    Kab lo:
+    - Product catalog (har product ke alag attributes), CMS content,
+      event/activity logs, IoT data, user profiles/settings, jab data ek
+      saath padha jaata hai (embed karke).
+    Kab mat lo:
+    - Data me bahut relations aur JOIN (orders, invoices, accounting).
+    - Strict financial reports jahan SQL ki aggregation aur constraints
+      chahiye.
+    - Sirf "schema nahi likhna padega" ki wajah se. Schema baad me bhi
+      sochna padta hai, bas code me.
+
+
+------------------------------------------------------------
+3. SQL SE MILAAN – TERMS
+------------------------------------------------------------
+    SQL              MongoDB
+    --------------   ------------------------------
+    database         database
+    table            collection
+    row              document
+    column           field
+    primary key      _id (apne aap ObjectId banta hai)
+    JOIN             embed karo, ya $lookup
+    index            index (same idea)
+
+    Document example:
+        {
+            _id: ObjectId("..."),
+            name: "Anupam",
+            email: "a@x.com",
+            skills: ["php", "react"],
+            address: { city: "Delhi", pin: "110001" },
+            createdAt: ISODate("2026-10-24T07:00:00Z")
+        }
+
+    BSON = binary JSON. JSON se zyada types: Date, ObjectId, Decimal128,
+    binary.
+
+
+------------------------------------------------------------
+4. INSTALL / CHALANA
+------------------------------------------------------------
+    Docker:
+        docker run -d --name mongo -p 27017:27017 -v mongo-data:/data/db mongo:8.0
+
+    Cloud (free tier): MongoDB Atlas – browser se cluster banao.
+    GUI: MongoDB Compass.
+    Shell: mongosh
+
+    mongosh commands:
+        mongosh "mongodb://localhost:27017"
+        show dbs
+        use shop                  (na ho toh pehli insert pe ban jaayega)
+        show collections
+        db.users.countDocuments()
+        db.users.drop()
+        exit
+
+
+------------------------------------------------------------
+5. CRUD
+------------------------------------------------------------
+    Insert:
+        db.users.insertOne({ name: "Anupam", city: "Delhi", age: 30 })
+        db.users.insertMany([{ name: "Ravi" }, { name: "Sara", city: "Pune" }])
+
+    Find:
+        db.users.find()                                  sab
+        db.users.findOne({ email: "a@x.com" })
+        db.users.find({ city: "Delhi" })
+        db.users.find({ age: { $gte: 18, $lt: 60 } })
+        db.users.find({ city: { $in: ["Delhi", "Pune"] } })
+        db.users.find({ skills: "php" })                 array me "php" hai
+        db.users.find({ "address.city": "Delhi" })       nested field
+        db.users.find({ email: { $exists: false } })
+        db.users.find({ name: /^an/i })                  regex (index kam)
+        db.users.find({ $or: [{ city: "Delhi" }, { age: { $gt: 50 } }] })
+
+    Projection, sort, limit:
+        db.users.find({ city: "Delhi" }, { name: 1, email: 1, _id: 0 })
+            .sort({ createdAt: -1 }).skip(20).limit(10)
+
+    Update:
+        db.users.updateOne({ _id: id }, { $set: { city: "Noida" } })
+        db.users.updateOne({ _id: id }, { $inc: { loginCount: 1 } })
+        db.users.updateOne({ _id: id }, { $push: { skills: "python" } })
+        db.users.updateOne({ _id: id }, { $addToSet: { skills: "php" } })   duplicate nahi
+        db.users.updateOne({ _id: id }, { $pull: { skills: "php" } })
+        db.users.updateOne({ _id: id }, { $unset: { tempField: "" } })
+        db.users.updateMany({ city: "Bombay" }, { $set: { city: "Mumbai" } })
+        db.stock.updateOne({ sku: "A1" }, { $inc: { qty: 5 } }, { upsert: true })
+
+    Dhyan: updateOne me $set bhoole toh poora document replace ho jaata
+    hai (naye driver error dete hain, par replaceOne ka dhyan rakho).
+
+    Delete:
+        db.users.deleteOne({ _id: id })
+        db.users.deleteMany({ status: "spam" })
+
+
+------------------------------------------------------------
+6. DATA MODELING – EMBED vs REFERENCE (SABSE ZAROORI)
+------------------------------------------------------------
+    Golden rule: "Jo data saath me padha jaata hai, use saath me rakho."
+    Schema query ke hisaab se banao, data ke hisaab se nahi.
+
+    EMBED (andar rakho):
+        {
+            _id: "order1",
+            userId: "u1",
+            items: [
+                { productId: "p1", name: "Pen", qty: 2, price: 10 },
+                { productId: "p2", name: "Book", qty: 1, price: 200 }
+            ],
+            total: 220
+        }
+        Kab: one-to-few, hamesha saath padha jaata hai (order + items,
+             user + addresses), child ka alag se kaam nahi.
+
+    REFERENCE (ID rakho, alag collection):
+        users:  { _id: "u1", name: "Anupam" }
+        orders: { _id: "order1", userId: "u1", total: 220 }
+        Kab: one-to-many bahut bada (user ke hazaron orders), child
+             akela bhi query hota hai, many-to-many, data bahut badalta hai.
+
+    Limits aur rules:
+    - Ek document max 16 MB. Bina limit ki badhti array (comments,
+      logs) embed mat karo.
+    - Duplicate data (jaise order me product ka naam) theek hai agar woh
+      "us waqt ka snapshot" hai. Price badle toh purane order me purana
+      price hi sahi hai.
+
+    Kaam ke patterns:
+    - Subset: product ke sirf latest 10 reviews embed, baaki alag collection.
+    - Computed: total, ratingAvg pehle se save rakho, har baar mat gino.
+    - Bucket: IoT readings ko ek ghante ke document me group karo.
+    - Extended reference: order me user ka naam + id (baar-baar $lookup se
+      bachav).
+
+
+------------------------------------------------------------
+7. INDEXES
+------------------------------------------------------------
+        db.users.createIndex({ email: 1 }, { unique: true })
+        db.orders.createIndex({ userId: 1, createdAt: -1 })      compound
+        db.users.createIndex({ skills: 1 })                       multikey (array)
+        db.posts.createIndex({ title: "text", body: "text" })     text search
+        db.sessions.createIndex({ createdAt: 1 }, { expireAfterSeconds: 3600 })  TTL
+        db.users.createIndex({ email: 1 }, { partialFilterExpression: { deleted: false } })
+
+        db.users.getIndexes()
+        db.users.dropIndex("email_1")
+
+    Compound index ka ESR rule (field ka order):
+        E – Equality pehle   (status: "paid")
+        S – Sort uske baad   (createdAt: -1)
+        R – Range aakhir me  (total > 500)
+        createIndex({ status: 1, createdAt: -1, total: 1 })
+
+    TTL index: document apne aap delete ho jaata hai (OTP, session, logs).
+
+    Query check:
+        db.orders.find({ userId: "u1" }).explain("executionStats")
+        COLLSCAN = poora collection padha (kharab)
+        IXSCAN   = index laga (achha)
+        totalDocsExamined vs nReturned – bahut farak = index sudhaaro
+
+
+------------------------------------------------------------
+8. AGGREGATION PIPELINE – MONGODB KA "GROUP BY"
+------------------------------------------------------------
+    Data ek pipeline se guzarta hai, har stage kuch karti hai:
+
+        db.orders.aggregate([
+            { $match: { status: "paid", createdAt: { $gte: ISODate("2026-10-01") } } },
+            { $group: { _id: "$userId", spent: { $sum: "$total" }, orders: { $sum: 1 } } },
+            { $sort: { spent: -1 } },
+            { $limit: 5 },
+            { $lookup: { from: "users", localField: "_id", foreignField: "_id", as: "user" } },
+            { $unwind: "$user" },
+            { $project: { _id: 0, name: "$user.name", spent: 1, orders: 1 } }
+        ])
+
+    Stages:
+        $match     WHERE (pehle lagao, index use hota hai)
+        $group     GROUP BY ($sum, $avg, $min, $max, $push)
+        $sort      ORDER BY
+        $limit / $skip
+        $project   kaun se fields, naye fields banana
+        $lookup    LEFT JOIN doosre collection se
+        $unwind    array ke har item ki alag row
+        $addFields naya field jodo
+        $facet     ek query me kai results (count + data, pagination)
+        $bucket    ranges me baanto (0-100, 100-500 ...)
+
+    SQL se milaan:
+        SELECT user_id, SUM(total) FROM orders WHERE status='paid' GROUP BY user_id
+        = $match + $group
+
+
+------------------------------------------------------------
+9. TRANSACTIONS
+------------------------------------------------------------
+    - Ek document ka update hamesha atomic hai (isliye embed karna aksar
+      transaction se bachata hai).
+    - Kai documents/collections ek saath: multi-document transactions
+      (replica set ya sharded cluster chahiye, single standalone pe nahi).
+
+    Node.js:
+        const session = client.startSession();
+        try {
+            await session.withTransaction(async () => {
+                await accounts.updateOne({ _id: a }, { $inc: { bal: -500 } }, { session });
+                await accounts.updateOne({ _id: b }, { $inc: { bal: 500 } }, { session });
+            });
+        } finally {
+            await session.endSession();
+        }
+
+    Local Docker me transaction test karne ke liye single-node replica set:
+        docker run -d --name mongo -p 27017:27017 mongo:8.0 --replSet rs0
+        docker exec mongo mongosh --eval "rs.initiate()"
+
+    Rule: har jagah transaction lag raha hai? Shayad data relational hai,
+    SQL socho.
+
+
+------------------------------------------------------------
+10. SCHEMA VALIDATION – "SCHEMALESS" PE BHI RULES
+------------------------------------------------------------
+        db.createCollection("users", {
+            validator: {
+                $jsonSchema: {
+                    bsonType: "object",
+                    required: ["name", "email"],
+                    properties: {
+                        name:  { bsonType: "string", minLength: 2 },
+                        email: { bsonType: "string", pattern: "^.+@.+$" },
+                        age:   { bsonType: "int", minimum: 0 }
+                    }
+                }
+            }
+        })
+
+    Bina validation ke ek din "email", "Email", "e_mail" teeno fields mil
+    jaayengi. App (Mongoose/Zod) + DB dono pe rules rakho.
+
+
+------------------------------------------------------------
+11. REPLICA SET AUR SHARDING
+------------------------------------------------------------
+    Replica set (high availability):
+        Primary (likhna) + 2 Secondary (copy). Primary gira toh secondary
+        khud primary ban jaata hai (election). Production me kam se kam
+        3 members.
+
+    Write concern / read preference:
+        { w: "majority" }       zyada tar members pe likha jaaye tab "done"
+        readPreference: "secondaryPreferred"   reads secondary se (thoda
+                                               purana data ho sakta hai)
+
+    Sharding (horizontal scale):
+        Data shard key ke hisaab se kai servers pe bant jaata hai.
+        Shard key sochke chuno (baad me badalna mushkil): high cardinality,
+        queries me aane wali, ek hi shard pe saara write na jaaye.
+        Zyada tar apps ko sharding ki zaroorat nahi padti.
+
+    Change streams: collection me badlav ko live suno (real-time sync,
+    notifications). Replica set chahiye.
+
+
+------------------------------------------------------------
+12. NODE.JS + MONGOOSE
+------------------------------------------------------------
+        npm i mongoose
+
+        import mongoose from 'mongoose';
+        await mongoose.connect(process.env.MONGO_URL);
+
+        const userSchema = new mongoose.Schema({
+            name:   { type: String, required: true, trim: true },
+            email:  { type: String, required: true, unique: true, lowercase: true },
+            skills: [String],
+            address: { city: String, pin: String },
+        }, { timestamps: true });
+
+        const User = mongoose.model('User', userSchema);
+
+        await User.create({ name: 'Anupam', email: 'A@X.com' });
+        const users = await User.find({ city: 'Delhi' }).select('name email').lean();
+        await User.updateOne({ _id: id }, { $set: { name: 'A' } });
+
+        const order = await Order.findById(id).populate('user');   // reference join
+
+    .lean() = plain object, tez (jab Mongoose document ke methods nahi chahiye).
+
+
+------------------------------------------------------------
+13. PHP / LARAVEL KE SAATH
+------------------------------------------------------------
+    PHP extension + official Laravel package:
+        pecl install mongodb          (php.ini me extension=mongodb)
+        composer require mongodb/laravel-mongodb
+
+    config/database.php:
+        'mongodb' => [
+            'driver' => 'mongodb',
+            'dsn' => env('MONGODB_URI', 'mongodb://localhost:27017'),
+            'database' => env('MONGODB_DATABASE', 'shop'),
+        ],
+
+    Model:
+        use MongoDB\Laravel\Eloquent\Model;
+
+        class Product extends Model
+        {
+            protected $connection = 'mongodb';
+            protected $fillable = ['name', 'attrs', 'tags'];
+        }
+
+        Product::where('attrs.color', 'blue')->get();
+        Product::whereIn('tags', ['sale'])->orderBy('created_at', 'desc')->get();
+
+    Common pattern: main data MySQL/Postgres me, sirf logs/catalog/
+    activity MongoDB me.
+
+
+------------------------------------------------------------
+14. MONGODB vs SQL (POSTGRES)
+------------------------------------------------------------
+    Cheez               MongoDB                         PostgreSQL
+    -----------------   -----------------------------   ---------------------------
+    Data shape          flexible documents              tables (+ JSONB)
+    Relations           embed / $lookup                 JOIN, foreign keys
+    Transactions        haan (replica set pe)           haan, hamesha
+    Constraints         validation, unique index        FK, CHECK, UNIQUE, NOT NULL
+    Scale out           sharding built-in               replicas, Citus/partitioning
+    Query               MQL + aggregation pipeline      SQL
+    Best for            catalog, CMS, logs, events      business data, reports, AI
+
+    Postgres ka JSONB bahut se "MongoDB wale" kaam kar deta hai. Pehle se
+    Postgres hai toh JSONB se shuru karo.
+
+
+------------------------------------------------------------
+15. GALTIYAN JO MAINE KI / GOTCHAS
+------------------------------------------------------------
+    - Relational data (orders, invoices) MongoDB me daala, har jagah
+      $lookup, slow aur complex.
+    - Comments array bina limit embed kiye, document 16 MB ke paas.
+    - Index nahi lagaya, "MongoDB slow hai" bola. explain() se COLLSCAN
+      dikh gaya.
+    - Field ke naam typo (userId / userID) – validation nahi thi.
+    - Paisa Number (float) me rakha. Decimal128 ya paise (integer) lo.
+    - Standalone server pe transaction chalaya – error. Replica set chahiye.
+    - Regex search bina anchor (/abc/) – index nahi laga.
+    - Database bina password ke internet pe khula chhoda (bahut log
+      hack hue hain). Auth ON, port public mat karo.
+
+
+------------------------------------------------------------
+16. INTERVIEW ANGLE
+------------------------------------------------------------
+    Q: Embed kab, reference kab?
+    A: Saath padha jaata hai aur chhota/limited hai -> embed. Bada,
+       alag se query, many-to-many, bahut badalta -> reference.
+
+    Q: MongoDB me JOIN?
+    A: $lookup aggregation stage. Par design aisa karo ki zaroorat kam pade.
+
+    Q: ESR rule?
+    A: Compound index me Equality fields pehle, phir Sort, phir Range.
+
+    Q: Replica set kya hai?
+    A: Ek primary + secondaries, data copy, primary gira toh automatic
+       election. HA aur transactions ke liye chahiye.
+
+    Q: Sharding aur shard key?
+    A: Data ko servers pe baantna. Shard key high-cardinality aur query
+       pattern ke hisaab se, warna ek shard pe bhaar (hot shard).
+
+    Q: MongoDB ACID hai?
+    A: Single document hamesha atomic. Multi-document transactions bhi
+       ACID hain (replica set pe), par cost ke saath.
+
+
+------------------------------------------------------------
+17. LINKS
+------------------------------------------------------------
+    - Official docs          https://www.mongodb.com/docs/
+    - Data modeling          https://www.mongodb.com/docs/manual/data-modeling/
+    - Free courses           https://learn.mongodb.com
+    - Atlas (cloud)          https://www.mongodb.com/products/platform/atlas-database
+    - Tools aur repos        NOTES/database/database-repos.txt
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    Schema query ke hisaab se banao: saath padha jaaye toh embed, warna
+    reference. Aur index ke bina koi DB tez nahi.

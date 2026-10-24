@@ -1,0 +1,337 @@
+REDIS – DETAILED NOTES
+======================
+Topic: database
+Date: 24-10-2026
+Time: ~40 min (roz 3-4 section padho)
+Status: learning
+Version: Redis 8 / Valkey 8
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    Redis ek in-memory key-value database hai. Data RAM me rehta hai,
+    isliye bahut tez (microseconds). Cache, session, queue, counters ke
+    liye sabse popular.
+
+    Misaal: Office me tumhari table ki draz vs godown. Roz ki cheezein
+    draz (Redis) me, turant milti hain. Saara saamaan godown (MySQL/
+    Postgres) me, safe par door.
+
+
+------------------------------------------------------------
+2. KYUN ZAROORI HAI / KAB USE KAREIN
+------------------------------------------------------------
+    - Laravel me cache, session, queue, Horizon, rate limit sab Redis pe.
+    - Database ka load kam, app kai guna tez.
+
+    Kab lo:
+    - Cache, session, queue, OTP, rate limiting, leaderboard, counters,
+      real-time (pub/sub), distributed lock.
+    Kab mat lo:
+    - Main database ki tarah (RAM mehengi, galat config pe restart me data
+      ja sakta hai). Asli data SQL me, Redis me copy/temporary.
+
+
+------------------------------------------------------------
+3. ITNA TEZ KYUN?
+------------------------------------------------------------
+    - Data RAM me (disk nahi).
+    - Commands ek main thread pe ek-ek karke chalte hain. Locking ki
+      jhanjhat nahi, har command atomic.
+    - Simple data structures, network pe chhota protocol.
+
+    Matlab: ek bhaari command (KEYS *, bada SMEMBERS) baaki sab ko rok
+    deta hai. Chhote, tez commands use karo.
+
+
+------------------------------------------------------------
+4. INSTALL / CHALANA
+------------------------------------------------------------
+    Docker:
+        docker run -d --name redis -p 6379:6379 redis:8
+        docker exec -it redis redis-cli
+
+    Laravel Sail me already hota hai. WSL: sudo apt install redis-server
+
+    redis-cli:
+        PING                    -> PONG
+        SELECT 1                database 1 pe jao (0-15)
+        DBSIZE                  kitni keys
+        INFO memory             kitni RAM
+        FLUSHDB                 is DB ki saari keys delete (dhyan!)
+
+    License note (2024-25):
+    - Redis 7.4 me license badla, toh Linux Foundation ne Valkey naam ka
+      open-source fork banaya (Redis jaisa hi, same commands).
+    - Redis 8 me phir se AGPL open-source option aaya.
+    - Laravel/clients ke liye dono same chalte hain.
+
+
+------------------------------------------------------------
+5. DATA TYPES AUR COMMANDS
+------------------------------------------------------------
+    STRING (sabse simple, text/number/JSON):
+        SET name "Anupam"
+        SET otp:9876543210 4821 EX 300       5 min me expire
+        SET lock:job1 abc NX PX 30000        sirf tab jab na ho (lock)
+        GET name
+        INCR page:views                       counter +1 (atomic)
+        INCRBY cart:7:count 3
+        MSET a 1 b 2  /  MGET a b
+
+    HASH (object jaisa, ek key me kai fields):
+        HSET user:7 name "Anupam" city "Delhi"
+        HGET user:7 name
+        HGETALL user:7
+        HINCRBY user:7 points 10
+
+    LIST (order wali list, dono taraf se push/pop):
+        LPUSH notifications:7 "new msg"
+        LRANGE notifications:7 0 9            pehle 10
+        RPOP queue
+        BLPOP queue 5                         5 sec wait karo (worker)
+        LTRIM feed:7 0 99                     sirf latest 100 rakho
+
+    SET (unique values, order nahi):
+        SADD post:5:likes 7 9 12
+        SISMEMBER post:5:likes 7              like kiya?
+        SCARD post:5:likes                    kitne likes
+        SINTER user:7:friends user:9:friends  common dost
+
+    SORTED SET (score ke saath, apne aap sorted):
+        ZADD leaderboard 1500 "anupam" 1200 "ravi"
+        ZINCRBY leaderboard 50 "ravi"
+        ZRANGE leaderboard 0 9 REV WITHSCORES top 10
+        ZREVRANK leaderboard "anupam"         rank (0 = sabse upar)
+
+    STREAM (log jaisa, consumer groups ke saath – Kafka jaisa chhota):
+        XADD orders * id 10 total 500
+        XREADGROUP GROUP mailers c1 COUNT 10 STREAMS orders >
+        XACK orders mailers <message-id>
+
+    Baaki:
+        Bitmap      roz ka login (365 bits me saal bhar)
+        HyperLogLog unique visitors approx (bahut kam memory)
+        Geo         GEOADD / GEOSEARCH ("5 km ke andar")
+        JSON, Search  Redis 8 me built-in (pehle modules the)
+
+
+------------------------------------------------------------
+6. EXPIRY (TTL) – REDIS KI JAAN
+------------------------------------------------------------
+        SET key value EX 60       60 sec
+        EXPIRE key 3600           baad me expiry lagao
+        TTL key                   kitne sec bache (-1 = kabhi nahi, -2 = key nahi)
+        PERSIST key               expiry hatao
+
+    Rule: cache ki har key pe TTL. Bina TTL ke keys RAM bharti rehti hain.
+
+    Key naming convention (colon se):
+        app:user:7:profile
+        cache:posts:home
+        session:abc123
+        Laravel apne aap prefix lagata hai (laravel_database_ / app name).
+
+
+------------------------------------------------------------
+7. USE CASES – CODE KE SAATH
+------------------------------------------------------------
+    1) Cache-aside (sabse common):
+        - Pehle Redis me dekho. Mila -> wahi do.
+        - Nahi mila -> DB se lao, Redis me TTL ke saath daalo, phir do.
+        - Data badla -> Redis ki key delete karo (invalidate).
+        Laravel:
+            $posts = Cache::remember('posts:home', 600, fn() => Post::latest()->take(10)->get());
+            Cache::forget('posts:home');   // post update pe
+
+    2) Rate limiting (1 min me 5 login try):
+        INCR login:ip:1.2.3.4
+        EXPIRE login:ip:1.2.3.4 60 NX     (pehli baar hi expiry lage)
+        value > 5 ? block : allow
+        Laravel: RateLimiter::attempt('login:'.$ip, 5, fn() => ..., 60);
+
+    3) Distributed lock (do server ek saath same cron na chalayein):
+        SET lock:report <random-token> NX PX 30000
+        kaam karo, phir sirf apna token ho tabhi delete (Lua script se)
+        Laravel:
+            Cache::lock('report', 30)->get(function () { ... });
+
+    4) Session:
+        SESSION_DRIVER=redis – kai servers pe user logged-in rahe.
+
+    5) Queue:
+        Laravel QUEUE_CONNECTION=redis + Horizon dashboard.
+
+    6) Leaderboard: sorted set (ZADD, ZRANGE REV).
+
+    7) Pub/Sub (live notifications, chat):
+        SUBSCRIBE chat:room1
+        PUBLISH chat:room1 "hello"
+        Dhyan: jo us time sun nahi raha, use message nahi milta. Pakka
+        delivery chahiye toh Stream lo.
+
+
+------------------------------------------------------------
+8. PERSISTENCE – RESTART PE DATA BACHEGA?
+------------------------------------------------------------
+    RDB (snapshot):
+        Har kuch minute me poore data ki photo disk pe. Restart pe last
+        snapshot tak ka data. Beech ka thoda data ja sakta hai.
+
+    AOF (append only file):
+        Har write command file me likha. appendfsync everysec = max 1 sec
+        ka data ja sakta hai. Zyada safe, file badi.
+
+    Dono saath bhi chal sakte hain. Sirf cache hai toh persistence band
+    bhi kar sakte ho (restart pe cache khaali, DB se phir bhar jaayega).
+    Queue/session ke liye AOF on rakho.
+
+
+------------------------------------------------------------
+9. MEMORY BHAR GAYI – EVICTION POLICY
+------------------------------------------------------------
+    redis.conf:
+        maxmemory 512mb
+        maxmemory-policy allkeys-lru
+
+    Policies:
+        noeviction      (default) memory full = naye writes pe error
+        allkeys-lru     sabse kam use hui koi bhi key hatao (cache ke liye best)
+        volatile-lru    sirf TTL wali keys me se purani hatao
+        allkeys-lfu     sabse kam baar use hui hatao
+        volatile-ttl    jiska TTL sabse kam bacha
+
+    Cache aur queue ek hi Redis me? Cache ki keys evict hon toh theek, par
+    queue jobs evict hui toh data loss. Bade app me cache aur queue ke liye
+    alag Redis (ya alag DB + volatile policy) rakho.
+
+
+------------------------------------------------------------
+10. LARAVEL KE SAATH
+------------------------------------------------------------
+    .env:
+        REDIS_CLIENT=phpredis        (PHP extension, tez) ya predis (package)
+        REDIS_HOST=127.0.0.1
+        REDIS_PORT=6379
+        CACHE_STORE=redis
+        SESSION_DRIVER=redis
+        QUEUE_CONNECTION=redis
+
+    Seedha Redis:
+        use Illuminate\Support\Facades\Redis;
+        Redis::set('name', 'Anupam', 'EX', 60);
+        Redis::incr('page:views');
+        Redis::zadd('leaderboard', 1500, 'anupam');
+
+    Cache tags (group me invalidate):
+        Cache::tags(['posts'])->put('home', $data, 600);
+        Cache::tags(['posts'])->flush();
+
+    Horizon:
+        composer require laravel/horizon && php artisan horizon:install
+        php artisan horizon      (queue workers + dashboard /horizon)
+
+    Atomic lock, rate limiter, throttle middleware sab andar Redis use
+    karte hain (jab cache store redis ho).
+
+
+------------------------------------------------------------
+11. HIGH AVAILABILITY – SENTINEL AUR CLUSTER
+------------------------------------------------------------
+    Replication: ek primary, replicas copy rakhte hain.
+    Sentinel: primary gira toh replica ko primary bana deta hai (failover).
+    Cluster: data ko kai nodes me baant deta hai (16384 hash slots).
+             Multi-key commands sirf same slot ki keys pe – {user:7}:cart
+             jaisa "hash tag" lagao.
+
+    Managed: AWS ElastiCache/MemoryDB, Upstash (serverless), Redis Cloud.
+
+
+------------------------------------------------------------
+12. REDIS vs MEMCACHED
+------------------------------------------------------------
+    Cheez            Redis                            Memcached
+    --------------   ------------------------------   ----------------------
+    Data types       string, hash, list, set, zset,   sirf string
+                     stream...
+    Persistence      haan (RDB/AOF)                   nahi
+    Replication      haan                             nahi (built-in)
+    Use              cache + queue + lock + bahut      sirf simple cache
+                     kuch
+
+    Aaj naye project me Redis/Valkey hi.
+
+
+------------------------------------------------------------
+13. DEBUG AUR MONITORING
+------------------------------------------------------------
+        INFO                       poori stats
+        INFO memory                used_memory_human
+        SLOWLOG GET 10             slow commands
+        MONITOR                    har command live (sirf dev, prod pe bhaari)
+        MEMORY USAGE key           ek key kitni RAM le rahi
+        redis-cli --bigkeys        sabse badi keys
+        SCAN 0 MATCH user:* COUNT 100    keys dhoondho (KEYS * ki jagah)
+
+    GUI: RedisInsight.
+
+
+------------------------------------------------------------
+14. GALTIYAN JO MAINE KI / GOTCHAS
+------------------------------------------------------------
+    - Production pe KEYS * chala diya. Redis ruk gaya. SCAN lo.
+    - Cache keys bina TTL, RAM full, noeviction pe writes fail.
+    - Redis ko main DB maana, restart pe sab gaya (persistence off tha).
+    - Ek key me lakhon items ka list/set (big key). DEL pe bhi ruka.
+      UNLINK lo (background me delete) aur data todo.
+    - Cache aur queue ek Redis, allkeys-lru – queue jobs gaayab.
+    - Redis bina password internet pe khula. Kabhi public port mat kholo,
+      requirepass/ACL lagao.
+    - Cache stampede: popular key expire hui, 1000 requests ek saath DB pe.
+      Bachav: lock ke saath refresh, ya TTL me thoda random jodo.
+    - FLUSHALL galat server pe. Sab gaya.
+
+
+------------------------------------------------------------
+15. INTERVIEW ANGLE
+------------------------------------------------------------
+    Q: Redis itna tez kyun?
+    A: RAM me data, single-threaded command execution (lock nahi), simple
+       data structures.
+
+    Q: Cache invalidation kaise karte ho?
+    A: TTL + data badalne pe key delete (cache-aside). Tags se group delete.
+
+    Q: Redis persistence?
+    A: RDB snapshots aur AOF (har write log). Dono ka mix bhi.
+
+    Q: Distributed lock kaise?
+    A: SET key token NX PX ttl. Kaam ke baad sirf apna token ho toh delete
+       (Lua se). Laravel me Cache::lock().
+
+    Q: Leaderboard kaise banaoge?
+    A: Sorted set. ZINCRBY score, ZRANGE ... REV se top N, ZREVRANK se rank.
+
+    Q: Cache stampede kya hai?
+    A: Popular key expire hote hi bahut requests DB pe. Lock, early refresh,
+       ya TTL jitter se bachav.
+
+    Q: Eviction policy cache ke liye?
+    A: allkeys-lru (ya lfu). Queue ke data ke saath mat milao.
+
+
+------------------------------------------------------------
+16. LINKS
+------------------------------------------------------------
+    - Official docs          https://redis.io/docs/latest/
+    - Valkey                 https://valkey.io
+    - Laravel cache/queue    NOTES/php/laravel.txt (section 14, 15)
+    - Tools aur repos        NOTES/database/database-repos.txt
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    Redis = tez copy, asli data nahi. Har cache key pe TTL, aur KEYS *
+    kabhi nahi.

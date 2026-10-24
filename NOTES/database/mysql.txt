@@ -1,0 +1,354 @@
+MYSQL – DETAILED NOTES
+======================
+Topic: database
+Date: 24-10-2026
+Time: ~45 min (roz 3-4 section padho)
+Status: learning
+Version: MySQL 8.4 LTS (8.0 jaisa hi zyada tar)
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    MySQL duniya ka sabse zyada use hone wala open-source relational
+    database hai. PHP, Laravel, WordPress ke saath sabse common jodi.
+
+    Misaal: Maruti ki car. Har jagah milti hai, har mechanic jaanta hai,
+    sasti aur bharosemand.
+
+
+------------------------------------------------------------
+2. KYUN ZAROORI HAI / KAB USE KAREIN
+------------------------------------------------------------
+    - Har shared hosting, cPanel, cloud (RDS, Cloud SQL) pe ready.
+    - Laravel/CodeIgniter projects me sabse common.
+    - Read-heavy web apps me bahut tez aur simple.
+
+    Kab lo:
+    - Web app, e-commerce, CMS, ERP/CRM, jab hosting/team MySQL wali ho.
+    Kab Postgres better:
+    - JSONB, full-text, pgvector (AI), complex queries, extensions chahiye.
+
+
+------------------------------------------------------------
+3. INSTALL / CHALANA
+------------------------------------------------------------
+    Docker (sabse saaf):
+        docker run -d --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=$env:DB_PASSWORD -v mysql-data:/var/lib/mysql mysql:8.4
+        (Bash/WSL me $env:DB_PASSWORD ki jagah $DB_PASSWORD)
+
+    Laravel Sail:  sail up  (MySQL service already hota hai)
+    Windows:       XAMPP/Laragon (MariaDB/MySQL)
+    WSL/Ubuntu:    sudo apt install mysql-server
+
+    Versions:
+    - 8.0 purani line, iska support April 2026 me khatam ho gaya.
+    - 8.4 LTS – production ke liye.
+    - 9.x "innovation" releases – naye features, chhota support.
+    Live project ke liye LTS lo.
+
+
+------------------------------------------------------------
+4. CLI – ROZ KE COMMANDS
+------------------------------------------------------------
+        mysql -u root -p                     login
+        mysql -u root -p shop < dump.sql     file se import
+
+        SHOW DATABASES;
+        CREATE DATABASE shop CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+        USE shop;
+        SHOW TABLES;
+        DESCRIBE users;                      columns dekho
+        SHOW CREATE TABLE users\G            poora structure (\G = vertical)
+        SHOW INDEX FROM users;
+        SHOW PROCESSLIST;                    abhi kya chal raha hai
+        KILL 1234;                           atki query band
+        SELECT VERSION();
+        exit
+
+
+------------------------------------------------------------
+5. USERS AUR PERMISSIONS
+------------------------------------------------------------
+    App ke liye kabhi root mat do. Alag user, sirf apne DB pe haq:
+
+        CREATE USER 'shop_app'@'%' IDENTIFIED BY '<password env se>';
+        GRANT SELECT, INSERT, UPDATE, DELETE ON shop.* TO 'shop_app'@'%';
+        FLUSH PRIVILEGES;
+
+        SHOW GRANTS FOR 'shop_app'@'%';
+        DROP USER 'shop_app'@'%';
+
+    '%' = kahin se bhi connect. 'localhost' = sirf usi machine se.
+    Migrations ke liye alag user (CREATE, ALTER wala) rakh sakte ho.
+
+
+------------------------------------------------------------
+6. DATA TYPES – SAHI CHUNO
+------------------------------------------------------------
+    Numbers:
+        TINYINT (−128..127), INT (~21 crore), BIGINT (bahut bada)
+        UNSIGNED = sirf positive, double range (IDs ke liye)
+        DECIMAL(10,2)  paisa – exact
+        FLOAT/DOUBLE   science – approximate, paise ke liye NAHI
+
+    Text:
+        CHAR(n)        fixed length (country code 'IN')
+        VARCHAR(n)     variable, n tak (name, email)
+        TEXT           lamba text (64KB), MEDIUMTEXT, LONGTEXT
+        ENUM('a','b')  fixed options (badalna ho toh ALTER, isliye
+                       VARCHAR + app me check bhi chalta hai)
+
+    Date/time:
+        DATE           sirf date
+        DATETIME       date + time, timezone ka matlab nahi samajhta
+        TIMESTAMP      UTC me save, session timezone me dikhata hai.
+                       Range sirf 2038 tak!
+        Rule: app ka timezone UTC rakho, DATETIME ya TIMESTAMP ek hi
+              tareeke se use karo.
+
+    Baaki:
+        BOOLEAN        asal me TINYINT(1)
+        JSON           JSON data (validate hota hai)
+        BINARY(16)     UUID ko chhota save karne ke liye
+
+    Charset:
+        Hamesha utf8mb4 (emoji 😀 aur Hindi sab). Purana "utf8" asal me
+        utf8mb3 hai, emoji pe toot jaata hai.
+
+
+------------------------------------------------------------
+7. STORAGE ENGINE – InnoDB
+------------------------------------------------------------
+    InnoDB (default, hamesha yahi):
+    - Transactions, row-level locks, foreign keys, crash recovery.
+    MyISAM (purana):
+    - Transactions nahi, poori table lock, crash pe data kharab.
+    Purane project me MyISAM tables mile toh InnoDB pe convert karo:
+        ALTER TABLE logs ENGINE = InnoDB;
+
+
+------------------------------------------------------------
+8. INDEX – MYSQL KI KHAAS BAATEIN
+------------------------------------------------------------
+    Clustered index:
+    - InnoDB me data PRIMARY KEY ke order me hi save hota hai.
+    - Isliye chhota, badhta hua PK (AUTO_INCREMENT BIGINT) best.
+    - Random UUID (v4) PK = inserts slow, pages bikharte hain. UUID chahiye
+      toh ordered (v7 / ULID) lo, ya BINARY(16) me.
+
+    Secondary index:
+    - Har secondary index me PK bhi chhupa hota hai. Bada PK = saare
+      index bade.
+
+    Types:
+        CREATE INDEX idx_city ON users (city);
+        CREATE INDEX idx_user_status ON orders (user_id, status);
+        CREATE FULLTEXT INDEX ft_body ON posts (title, body);
+        SELECT * FROM posts WHERE MATCH(title, body) AGAINST ('laravel queue');
+
+    Invisible index (hatane se pehle test karo):
+        ALTER TABLE users ALTER INDEX idx_city INVISIBLE;
+
+    EXPLAIN:
+        EXPLAIN SELECT * FROM orders WHERE user_id = 1;
+        EXPLAIN ANALYZE SELECT ...;      (8.0.18+, asli time)
+
+        type:  ALL (full scan) < index < range < ref < eq_ref < const
+        key:   kaun sa index laga (NULL = koi nahi)
+        rows:  kitni rows padhni padi
+        Extra: "Using filesort", "Using temporary" = dhyan do
+
+
+------------------------------------------------------------
+9. JSON AUR GENERATED COLUMNS
+------------------------------------------------------------
+        CREATE TABLE products (
+            id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(150),
+            attrs JSON
+        );
+
+        INSERT INTO products (name, attrs)
+        VALUES ('Shirt', '{"color": "blue", "size": ["M", "L"]}');
+
+        SELECT name, attrs->>'$.color' AS color FROM products;
+        SELECT * FROM products WHERE JSON_CONTAINS(attrs->'$.size', '"M"');
+
+    JSON field pe index (generated column se):
+        ALTER TABLE products
+            ADD color VARCHAR(30) GENERATED ALWAYS AS (attrs->>'$.color') STORED,
+            ADD INDEX idx_color (color);
+
+    Laravel:
+        $table->json('attrs');
+        Product::where('attrs->color', 'blue')->get();
+
+
+------------------------------------------------------------
+10. TRANSACTIONS AUR LOCKING (InnoDB)
+------------------------------------------------------------
+    - Default isolation: REPEATABLE READ.
+    - MVCC: padhne wale likhne walon ko rokte nahi, har transaction ko
+      data ka ek "snapshot" milta hai.
+    - Gap locks: REPEATABLE READ me range ke beech ki khaali jagah bhi
+      lock ho sakti hai (phantom rokne ke liye). Isse kabhi-kabhi
+      unexpected waits/deadlocks.
+
+        SELECT ... FOR UPDATE;          likhne ka lock
+        SELECT ... FOR SHARE;           padhne ka lock
+        SELECT ... FOR UPDATE SKIP LOCKED;   locked rows chhod do
+                                         (job queue ke liye kaam ka)
+
+    Deadlock dekhna:  SHOW ENGINE INNODB STATUS\G  (LATEST DETECTED DEADLOCK)
+
+
+------------------------------------------------------------
+11. SLOW QUERY DHOONDHNA
+------------------------------------------------------------
+    Slow query log ON:
+        SET GLOBAL slow_query_log = 'ON';
+        SET GLOBAL long_query_time = 1;        -- 1 sec se zyada wali
+        SHOW VARIABLES LIKE 'slow_query_log_file';
+
+    Kaun si queries sabse bhaari (performance_schema / sys):
+        SELECT * FROM sys.statement_analysis LIMIT 10;
+        SELECT * FROM sys.schema_unused_indexes;
+
+    Tool: pt-query-digest (Percona Toolkit) slow log ka summary banata hai.
+
+
+------------------------------------------------------------
+12. BACKUP AUR RESTORE
+------------------------------------------------------------
+    Logical backup (SQL file):
+        mysqldump -u root -p --single-transaction --routines --triggers shop > shop.sql
+        mysql -u root -p shop < shop.sql
+
+        --single-transaction = InnoDB pe bina lock ke consistent backup.
+
+    Bada data:
+    - Percona XtraBackup (physical, tez), ya cloud ke snapshots.
+    - Binlog se point-in-time recovery ("kal 3:15 baje tak wapas").
+
+    Rule: backup tab tak backup nahi jab tak restore karke test na kiya.
+
+
+------------------------------------------------------------
+13. REPLICATION (PRIMARY – REPLICA)
+------------------------------------------------------------
+    Primary pe likhna, replicas pe padhna. Primary binlog me har badlav
+    likhta hai, replicas use copy karte hain.
+
+        Primary  --binlog-->  Replica 1 (reports)
+                 --binlog-->  Replica 2 (read traffic)
+
+    Fayda: read load baant do, backup replica se, primary gira toh
+    replica ko promote karo.
+    Dhyan: replica thoda peeche (lag) ho sakta hai. Abhi likha data turant
+    replica pe na mile.
+
+    Laravel config/database.php:
+        'mysql' => [
+            'read'  => ['host' => ['replica1', 'replica2']],
+            'write' => ['host' => ['primary']],
+            'sticky' => true,   // likhne ke baad usi request me primary se padho
+            ...
+        ]
+
+
+------------------------------------------------------------
+14. CONFIG TUNING (BASIC)
+------------------------------------------------------------
+    my.cnf / my.ini:
+        innodb_buffer_pool_size = 60-70% RAM (sirf DB server pe)
+        max_connections = 200          (zaroorat ke hisaab)
+        slow_query_log = 1
+        long_query_time = 1
+        character-set-server = utf8mb4
+        sql_mode = STRICT_TRANS_TABLES,ONLY_FULL_GROUP_BY,...  (strict rakho)
+
+    buffer pool = data/index ka memory cache. Sabse zaroori setting.
+
+
+------------------------------------------------------------
+15. MYSQL vs MARIADB
+------------------------------------------------------------
+    - MariaDB = MySQL ka fork (MySQL ke banane walon ne banaya, Oracle ke
+      khareedne ke baad).
+    - Zyada tar SQL same, par naye versions me farak badh gaya (JSON,
+      kuch functions, replication).
+    - XAMPP me aksar MariaDB hota hai. Production MySQL hai toh local bhi
+      MySQL rakho, warna "local pe chala, server pe nahi".
+
+
+------------------------------------------------------------
+16. LARAVEL KE SAATH TIPS
+------------------------------------------------------------
+    - config/database.php me 'strict' => true rakho.
+    - charset utf8mb4, collation utf8mb4_unicode_ci.
+    - Purane MySQL (5.6) pe "key too long" error: Schema::defaultStringLength(191).
+      MySQL 8 pe zaroorat nahi.
+    - Foreign keys: $table->foreignId('user_id')->constrained();
+    - Bade table pe ALTER (column add) table lock kar sakta hai. MySQL 8
+      me bahut se ALTER "INSTANT"/online hote hain, par bade production
+      table pe pehle test karo (ya gh-ost/pt-online-schema-change).
+    - DB::listen() ya Debugbar se queries dekho.
+
+
+------------------------------------------------------------
+17. GALTIYAN JO MAINE KI / GOTCHAS
+------------------------------------------------------------
+    - utf8 (mb3) liya, emoji pe "Incorrect string value" error.
+    - TIMESTAMP me 2038 ke baad ki date (subscription expiry) – fail.
+    - ONLY_FULL_GROUP_BY off tha, GROUP BY ne galat data diya.
+    - Random UUID primary key, bade table pe inserts slow.
+    - App ko root user diya.
+    - Local MariaDB, server MySQL – JSON query alag behave ki.
+    - mysqldump bina --single-transaction, backup ke time site ruk gayi.
+    - Case: MySQL ka default compare case-insensitive hai.
+      'anupam' = 'ANUPAM' true. Unique email me dhyan.
+
+
+------------------------------------------------------------
+18. INTERVIEW ANGLE
+------------------------------------------------------------
+    Q: InnoDB aur MyISAM me farak?
+    A: InnoDB me transactions, row lock, foreign keys, crash recovery.
+       MyISAM me nahi, table lock. Aaj InnoDB hi.
+
+    Q: Clustered index kya hai?
+    A: InnoDB me table ka data PK ke order me hi save hota hai. Isliye
+       PK chhota aur badhta hua hona chahiye.
+
+    Q: DATETIME vs TIMESTAMP?
+    A: TIMESTAMP UTC me save karke timezone convert karta hai, 2038 tak.
+       DATETIME jaisa likha waisa, range badi.
+
+    Q: Read replica ka issue?
+    A: Replication lag. Likhne ke turant baad replica pe purana data.
+       Laravel me 'sticky' option.
+
+    Q: Slow query kaise dhoondhoge?
+    A: Slow query log, performance_schema/sys, EXPLAIN, phir index ya
+       query sudhaaro.
+
+    Q: VARCHAR vs TEXT?
+    A: VARCHAR me limit aur poora index ho sakta hai. TEXT lamba content,
+       index ke liye prefix length deni padti hai.
+
+
+------------------------------------------------------------
+19. LINKS
+------------------------------------------------------------
+    - Official docs (8.4)    https://dev.mysql.com/doc/refman/8.4/en/
+    - Common SQL             NOTES/database/sql.txt
+    - Laravel DB             NOTES/php/laravel.txt
+    - Tools aur repos        NOTES/database/database-repos.txt
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    InnoDB, utf8mb4, strict mode, chhota badhta PK, aur buffer pool ko
+    RAM do.
