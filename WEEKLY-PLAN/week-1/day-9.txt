@@ -3,8 +3,8 @@ DAY 9 – SUNDAY 1 NOV 2026
 Weekly Review (15 min)
 
 AAJ KA GOAL (ek line me):
-  Hafte ka imaandaar hisaab lagao aur data dekh ke decide karo ki Week 2 me
-  kis cheez pe zyada dhyaan dena hai.
+    Hafte ka imaandaar hisaab lagao aur data dekh ke decide karo ki Week 2 me
+    kis cheez pe zyada dhyaan dena hai.
 
 
 ============================================================
@@ -23,32 +23,32 @@ Test 1               | 70/100 ya zyada                                |
 Job track            | Abhi nahi (Week 12 se); tracker sheet bani hai |
 
 Har metric ka matlab:
-  - Weekday sessions  : kitne din 60-min session hua (busy-day wala 20-min
+    - Weekday sessions  : kitne din 60-min session hua (busy-day wala 20-min
                         recall bhi aadha gin sakte ho, imaandaari se)
-  - Independent coding: Mon/Tue/Wed ka code TUMNE likha, AI ne nahi
-  - Explain it        : bina dekhe kisi junior ko samjha paoge? 1–5
-  - Tests             : Thursday ke 2 + Saturday ke 2 = 4 possible
-  - Job track         : abhi sirf sheet exist karni chahiye
+    - Independent coding: Mon/Tue/Wed ka code TUMNE likha, AI ne nahi
+    - Explain it        : bina dekhe kisi junior ko samjha paoge? 1–5
+    - Tests             : Thursday ke 2 + Saturday ke 2 = 4 possible
+    - Job track         : abhi sirf sheet exist karni chahiye
 
 
 ============================================================
 2. WEEK 2 KA FOCUS CHUNO (~5 min)
 ============================================================
 Do cheezein dekho:
-  a) Test 1 ki sabse KAMZOR rubric line (jisme sabse kam marks aaye)
+    a) Test 1 ki sabse KAMZOR rubric line (jisme sabse kam marks aaye)
      -> Week 2 ke Monday/Tuesday recall slot me iski practice
         (agar Test 1 me 70 se kam aaya tha)
-  b) Day-1 ka Laravel baseline score
+    b) Day-1 ka Laravel baseline score
      -> Laravel score 4 ya 5: Week 2 ke weekday topics ek revision session
         me nipta do, bacha time FEATURE TESTS likhne me lagao.
      -> Laravel score 1–3: Week 2 normal plan follow karo.
 
 Log me likho:
-  ## 2026-11-01 (Sun) · W1 Review
-  Scorecard: (upar wali table)
-  Sabse achha kya gaya: ...
-  Sabse mushkil kya laga: ...
-  Week 2 focus: ...
+    ## 2026-11-01 (Sun) · W1 Review
+    Scorecard: (upar wali table)
+    Sabse achha kya gaya: ...
+    Sabse mushkil kya laga: ...
+    Week 2 focus: ...
 
 
 ============================================================

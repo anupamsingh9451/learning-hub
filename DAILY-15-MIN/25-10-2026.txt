@@ -15,77 +15,77 @@ dekho Laravel use har request me kaise karta hai.
 ------------------------------------------------------------
 2. CONCEPT – EK OFFICE BUILDING KI MISAAL
 ------------------------------------------------------------
-  Main gate          = public/index.php      (har request yahin se ghusti hai)
-  Building setup     = bootstrap/app.php     (application banta hai)
-  Bijli-paani lagana = Service Providers     (saari services ready)
-  Security checks    = Middleware            (ID card, entry register)
-  Reception          = Router                (kis department jaana hai)
-  Department         = Controller            (asli kaam)
-  Wapas bahar        = Response, phir se middleware se hote hue
+    Main gate          = public/index.php      (har request yahin se ghusti hai)
+    Building setup     = bootstrap/app.php     (application banta hai)
+    Bijli-paani lagana = Service Providers     (saari services ready)
+    Security checks    = Middleware            (ID card, entry register)
+    Reception          = Router                (kis department jaana hai)
+    Department         = Controller            (asli kaam)
+    Wapas bahar        = Response, phir se middleware se hote hue
 
 
 ------------------------------------------------------------
 3. STEP BY STEP
 ------------------------------------------------------------
 STEP 1 – public/index.php
-  Web server (Nginx/Apache) har request ko yahin bhejta hai.
-  Ye file: Composer autoloader load karti hai, aur bootstrap/app.php se
-  Application object leti hai.
+    Web server (Nginx/Apache) har request ko yahin bhejta hai.
+    Ye file: Composer autoloader load karti hai, aur bootstrap/app.php se
+    Application object leti hai.
 
 STEP 2 – bootstrap/app.php  (Laravel 11+ style)
-  return Application::configure(basePath: dirname(__DIR__))
+    return Application::configure(basePath: dirname(__DIR__))
       ->withRouting(web: ..., api: ..., commands: ...)
       ->withMiddleware(function (Middleware $middleware) { ... })
       ->withExceptions(function (Exceptions $exceptions) { ... })
       ->create();
-  Yahi ek jagah routing, middleware aur exception handling configure hote hain.
-  (Purane Laravel me ye kaam app/Http/Kernel.php karta tha.)
+    Yahi ek jagah routing, middleware aur exception handling configure hote hain.
+    (Purane Laravel me ye kaam app/Http/Kernel.php karta tha.)
 
 STEP 3 – Service Container + Service Providers
-  Container = Laravel ka "godown" jahan har service (DB, cache, mail, tumhari
-  classes) rakhi jaati hai aur maangne pe di jaati hai.
-  Service providers (bootstrap/providers.php me list, e.g. AppServiceProvider)
-  do phase me chalte hain:
+    Container = Laravel ka "godown" jahan har service (DB, cache, mail, tumhari
+    classes) rakhi jaati hai aur maangne pe di jaati hai.
+    Service providers (bootstrap/providers.php me list, e.g. AppServiceProvider)
+    do phase me chalte hain:
     register() – sirf container me cheezein BIND karo ("ye interface maange
                  to ye class do"). Yahan dusri services use MAT karo.
     boot()     – sab register ho chuke, ab kuch bhi use kar sakte ho
                  (e.g. Model::preventLazyLoading(), view composers)
 
 STEP 4 – HTTP Kernel + Global Middleware
-  Har request pe chalne wale middleware: maintenance mode check,
-  trim strings, request size, trust proxies, etc.
+    Har request pe chalne wale middleware: maintenance mode check,
+    trim strings, request size, trust proxies, etc.
 
 STEP 5 – Router
-  routes/web.php ya routes/api.php me URL + method match hota hai.
-  Match nahi hua -> 404. Method galat -> 405.
+    routes/web.php ya routes/api.php me URL + method match hota hai.
+    Match nahi hua -> 404. Method galat -> 405.
 
 STEP 6 – Route Middleware
-  Sirf us route/group pe: auth, verified, throttle:60,1, can:...
-  "web" group me session, cookies, CSRF check bhi yahin.
+    Sirf us route/group pe: auth, verified, throttle:60,1, can:...
+    "web" group me session, cookies, CSRF check bhi yahin.
 
 STEP 7 – Controller (yahan DI ka jaadu)
-  public function store(StoreCourseRequest $request, CourseService $service)
-  Tumne kabhi `new CourseService()` nahi likha – CONTAINER ne
-  type-hint dekh ke khud bana ke de diya. Isko "automatic injection" /
-  "zero configuration resolution" kehte hain (Thursday ka Learn topic!).
-  FormRequest ho to validation controller se PEHLE hi ho jaati hai –
-  fail = 422 ya redirect back, controller chalta hi nahi.
+    public function store(StoreCourseRequest $request, CourseService $service)
+    Tumne kabhi `new CourseService()` nahi likha – CONTAINER ne
+    type-hint dekh ke khud bana ke de diya. Isko "automatic injection" /
+    "zero configuration resolution" kehte hain (Thursday ka Learn topic!).
+    FormRequest ho to validation controller se PEHLE hi ho jaati hai –
+    fail = 422 ya redirect back, controller chalta hi nahi.
 
 STEP 8 – Response wapas
-  Controller ka return (view, array, model, JsonResponse) Response object
-  banta hai -> middleware se ULTE order me wapas -> browser.
+    Controller ka return (view, array, model, JsonResponse) Response object
+    banta hai -> middleware se ULTE order me wapas -> browser.
 
 STEP 9 – terminate
-  Response bhejne ke baad "terminable middleware" chal sakta hai (heavy
-  logging jaisa kaam jisse user ko wait na karna pade).
+    Response bhejne ke baad "terminable middleware" chal sakta hai (heavy
+    logging jaisa kaam jisse user ko wait na karna pade).
 
 
 ------------------------------------------------------------
 4. MIDDLEWARE = PYAAZ (ONION)
 ------------------------------------------------------------
-  Request  ->  [ M1  [ M2  [ M3  ( Controller )  M3 ]  M2 ]  M1 ]  -> Response
-  Har middleware request ko andar jaate hue AUR response ko bahar aate hue
-  dono dekh sakta hai:
+    Request  ->  [ M1  [ M2  [ M3  ( Controller )  M3 ]  M2 ]  M1 ]  -> Response
+    Har middleware request ko andar jaate hue AUR response ko bahar aate hue
+    dono dekh sakta hai:
       public function handle(Request $request, Closure $next): Response
       {
           // PEHLE: request pe kaam (e.g. check token)
@@ -93,25 +93,25 @@ STEP 9 – terminate
           // BAAD: response pe kaam (e.g. header add karo)
           return $response;
       }
-  $next($request) call na karo = request wahin ruk gayi (jaise auth fail
-  hone pe redirect).
+    $next($request) call na karo = request wahin ruk gayi (jaise auth fail
+    hone pe redirect).
 
 
 ------------------------------------------------------------
 5. INTERVIEW ANGLE
 ------------------------------------------------------------
 Q: "Laravel request lifecycle samjhao."
-  index.php -> app bootstrap -> service providers (register phir boot) ->
-  global middleware -> router -> route middleware -> controller (container
-  dependencies inject karta hai) -> response -> middleware wapas -> send ->
-  terminate.
+    index.php -> app bootstrap -> service providers (register phir boot) ->
+    global middleware -> router -> route middleware -> controller (container
+    dependencies inject karta hai) -> response -> middleware wapas -> send ->
+    terminate.
 
 Q: "register() aur boot() me farak?"
-  register = sirf bindings; boot = jab saare providers register ho chuke,
-  tab baaki services use karne wala setup.
+    register = sirf bindings; boot = jab saare providers register ho chuke,
+    tab baaki services use karne wala setup.
 
 Q: "Service container kya hai?" -> Ek object factory/registry jo dependencies
-  ko automatically resolve karke inject karta hai (IoC container).
+    ko automatically resolve karke inject karta hai (IoC container).
 
 
 ------------------------------------------------------------
@@ -119,20 +119,20 @@ Q: "Service container kya hai?" -> Ek object factory/registry jo dependencies
 ------------------------------------------------------------
 - "Middleware sirf request se pehle chalta hai" -> Nahi, response pe bhi.
 - register() me Auth::user() ya config se dusri service use karna -> abhi
-  wo ready na ho, ajeeb bugs. Wo kaam boot() me.
+    wo ready na ho, ajeeb bugs. Wo kaam boot() me.
 - "Validation controller me hi hoti hai" -> FormRequest use karo to
-  controller se pehle.
+    controller se pehle.
 
 
 ------------------------------------------------------------
 7. 5-MIN PRACTICE
 ------------------------------------------------------------
 Apne kisi bhi existing Laravel project me (LMS/CRM):
-  php artisan route:list -v
+    php artisan route:list -v
      -> har route ke middleware dekho
-  public/index.php aur bootstrap/app.php kholo – bas padho, 2 minute.
-  bootstrap/providers.php (ya config/app.php purane version me) me
-  providers ki list dekho.
+    public/index.php aur bootstrap/app.php kholo – bas padho, 2 minute.
+    bootstrap/providers.php (ya config/app.php purane version me) me
+    providers ki list dekho.
 
 
 ------------------------------------------------------------

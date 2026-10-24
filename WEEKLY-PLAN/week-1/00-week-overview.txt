@@ -11,13 +11,13 @@ Ye 6-Month Career & AI Plan (Oct 2026 – Apr 2027) ka pehla hafta hai.
 ------------------------------------------------------------
 Sunday 1 Nov tak tumhare paas ye 5 cheezein honi chahiye:
 
-  1. career-2027 naam ka Git repo, jisme tumhare 4 "baseline scores" likhe hon
+    1. career-2027 naam ka Git repo, jisme tumhare 4 "baseline scores" likhe hon
      (baseline = abhi tum kitna jaante ho, uska imaandaar number).
-  2. PHP OOP ki 5 exercises – KHUD likhi hui, AI se nahi.
-  3. Test 1 pass (100 me se 70 ya zyada).
-  4. EduAssist naam ka Laravel 13 project chal raha ho, jisme Institution aur
+    2. PHP OOP ki 5 exercises – KHUD likhi hui, AI se nahi.
+    3. Test 1 pass (100 me se 70 ya zyada).
+    4. EduAssist naam ka Laravel 13 project chal raha ho, jisme Institution aur
      User models hon aur unke tests pass hote hon.
-  5. Pehla weekly scorecard bhara hua.
+    5. Pehla weekly scorecard bhara hua.
 
 Kyun? Interview me senior developer se OOP, SOLID, DI, testing pucha jaata
 hai. Aur EduAssist tumhara "capstone" (portfolio project) hai jisme aage chal ke
@@ -87,11 +87,11 @@ Sunday setup ko bhi log karo, bas heading me "Phase 0" likh do.
 5. HAFTE KE END TAK FOLDER STRUCTURE AISA DIKHEGA
 ------------------------------------------------------------
 D:\credentials\career-2027\
-  ├── .gitignore              (vendor/ aur .env)
-  ├── learning-log.md         (roz ki diary)
-  ├── notes\
-  ├── capstone\               (sirf EduAssist ke notes/decisions, code nahi)
-  └── exercises\week01\
+    ├── .gitignore              (vendor/ aur .env)
+    ├── learning-log.md         (roz ki diary)
+    ├── notes\
+    ├── capstone\               (sirf EduAssist ke notes/decisions, code nahi)
+    └── exercises\week01\
         ├── 01-classes\               (Mon)
         ├── 02-interfaces\            (Tue)
         ├── 03-traits-exceptions\     (Wed)
@@ -108,11 +108,11 @@ WSL Ubuntu ke andar (Windows D: drive me NAHI):
 Is hafte AI se code LIKHWANA nahi hai, sirf REVIEW karwana hai. Achha prompt
 5 hisson me hota hai:
 
-  ROLE        – AI kaun hai (e.g. senior PHP reviewer)
-  TASK        – kya karna hai (review karna)
-  CONTEXT     – background (PHP 8.3, learning exercise, no framework)
-  CONSTRAINTS – hadd (code rewrite mat karo, max 5 points)
-  ACCEPTANCE  – jawab kaisa dikhna chahiye (problem, kyun, chhota fix, score)
+    ROLE        – AI kaun hai (e.g. senior PHP reviewer)
+    TASK        – kya karna hai (review karna)
+    CONTEXT     – background (PHP 8.3, learning exercise, no framework)
+    CONSTRAINTS – hadd (code rewrite mat karo, max 5 points)
+    ACCEPTANCE  – jawab kaisa dikhna chahiye (problem, kyun, chhota fix, score)
 
 Flow: Tum code likho  ->  AI review kare  ->  FAISLA TUM karo (accept/reject).
 
@@ -121,9 +121,9 @@ ROLE: You are a senior PHP reviewer.
 TASK: Review the code below for OOP design, SOLID and error handling.
 CONTEXT: PHP 8.3+, strict_types, a Week 1 learning exercise, no framework.
 CONSTRAINTS: Do not rewrite the code. At most 5 points, most important first.
-  Quote the line each point refers to. Say so when you are unsure.
+    Quote the line each point refers to. Say so when you are unsure.
 ACCEPTANCE CRITERIA: Each point has the problem, why it matters and the smallest
-  fix. End with a score out of 10 and one thing done well.
+    fix. End with a score out of 10 and one thing done well.
 
 [yahan apna code paste karo]
 =====================================
@@ -157,11 +157,11 @@ Fri / Sat / Sun  | Normal plan jaisa hi.
 - Ek din chhoot gaya: agle din double MAT karo. Priority:
       Saturday build  >  Friday test  >  baaki weekdays
 - Saturday chala gaya: Week 2 ki kisi shaam sirf 0:00–0:50 wala hissa karo
-  (project + repo). Sunday aaram. Baaki agle Saturday.
+    (project + repo). Sunday aaram. Baaki agle Saturday.
 - 15 min se zyada atke: exact likho kya fail ho raha hai, phir AI se ERROR
-  SAMJHANE ko bolo – solution likhne ko NAHI.
+    SAMJHANE ko bolo – solution likhne ko NAHI.
 - Sail/WSL ki problem: Saturday usme barbaad mat karo. Is hafte Laragon +
-  local PostgreSQL use karo, Docker kisi weekday pe theek karna.
+    local PostgreSQL use karo, Docker kisi weekday pe theek karna.
 
 
 ------------------------------------------------------------

@@ -4,8 +4,8 @@ Topic: Dependency Injection (DI) + pehle Unit Tests (PHPUnit)
 Time: 60 min   ·   Folder: exercises/week01/04-di/
 
 AAJ KA GOAL (ek line me):
-  Samjho ki class ko uski zaroorat ki cheezein BAHAR se dene (DI) se code
-  testable kaise ban jaata hai – aur apna pehla green PHPUnit test chalao.
+    Samjho ki class ko uski zaroorat ki cheezein BAHAR se dene (DI) se code
+    testable kaise ban jaata hai – aur apna pehla green PHPUnit test chalao.
 
 Ye hafte ka sabse IMPORTANT din hai. Interview me DI + testing + SOLID
 lagbhag hamesha pucha jaata hai.
@@ -22,9 +22,9 @@ RECALL – 10 min
 ============================================================
 LEARN – 15 min
 ============================================================
-  https://laravel.com/docs/13.x/container
+    https://laravel.com/docs/13.x/container
      -> SIRF "Introduction" aur "Zero Configuration Resolution" padhna
-  https://docs.phpunit.de/
+    https://docs.phpunit.de/
      -> "Writing Tests" ka pehla page
 
 
@@ -110,47 +110,47 @@ CONCEPTS – AASAN BHASHA ME
 CODE – 30 min  ->  exercises/week01/04-di/
 ============================================================
 Step 1 (5 min): Composer setup
-  cd exercises\week01\04-di
-  composer init
+    cd exercises\week01\04-di
+    composer init
      -> package name e.g. anupam/w1-di, baaki Enter-Enter
      -> PSR-4 autoload pooche to:  Exercises\  ->  src/
-  composer require --dev phpunit/phpunit
+    composer require --dev phpunit/phpunit
 
-  composer.json me ye hona chahiye (nahi hai to khud add karo):
+    composer.json me ye hona chahiye (nahi hai to khud add karo):
       "autoload":     { "psr-4": { "Exercises\\": "src/" } },
       "autoload-dev": { "psr-4": { "Tests\\": "tests/" } }
-  Phir:  composer dump-autoload
+    Phir:  composer dump-autoload
 
-  Pichle din ki classes (User, Student, Course, NotificationInterface,
-  exceptions...) src/ me copy karo aur sabke upar:  namespace Exercises;
+    Pichle din ki classes (User, Student, Course, NotificationInterface,
+    exceptions...) src/ me copy karo aur sabke upar:  namespace Exercises;
 
 Step 2: Repository
-  interface CourseRepositoryInterface {
+    interface CourseRepositoryInterface {
       public function find(int $id): ?Course;
       public function save(Course $course): void;
-  }
-  InMemoryCourseRepository – andar ek private array, id ke hisaab se rakho.
+    }
+    InMemoryCourseRepository – andar ek private array, id ke hisaab se rakho.
 
 Step 3: final class EnrollmentService
-  - Constructor me: CourseRepositoryInterface + NotificationInterface
-  - enroll(Student $student, int $courseId): void
+    - Constructor me: CourseRepositoryInterface + NotificationInterface
+    - enroll(Student $student, int $courseId): void
       1. repository se course dhundho
       2. nahi mila -> throw CourseNotFoundException  (nayi exception class)
       3. student ko enroll karo
       4. notification bhejo
-  - Andar KAHIN bhi `new` nahi (dependencies ke liye).
+    - Andar KAHIN bhi `new` nahi (dependencies ke liye).
 
 Step 4: tests/FakeNotifier.php
-  - NotificationInterface implement kare
-  - send() asli kuch na bheje, bas message ek public array me daal de,
+    - NotificationInterface implement kare
+    - send() asli kuch na bheje, bas message ek public array me daal de,
     true return kare
 
 Step 5: tests/EnrollmentServiceTest.php – 2 tests
-  Test 1: successful enrollment -> EXACTLY 1 notification gaya
-  Test 2: unknown course id -> CourseNotFoundException aaya AUR 0 notification
+    Test 1: successful enrollment -> EXACTLY 1 notification gaya
+    Test 2: unknown course id -> CourseNotFoundException aaya AUR 0 notification
 
-  Chalao:  vendor\bin\phpunit tests
-  (Windows pe vendor\bin\phpunit, ya  php vendor/bin/phpunit tests)
+    Chalao:  vendor\bin\phpunit tests
+    (Windows pe vendor\bin\phpunit, ya  php vendor/bin/phpunit tests)
 
 
 ============================================================
@@ -165,10 +165,10 @@ DONE WHEN
 COMMON GALTIYAN
 ============================================================
 - "Class not found" -> namespace galat hai ya composer dump-autoload nahi
-  chalaya. File naam = class naam hona chahiye (Course.php me class Course).
+    chalaya. File naam = class naam hona chahiye (Course.php me class Course).
 - vendor/ git me chala gaya -> .gitignore check karo.
 - Test 2 me expectException laga ke uske baad assert likha -> wo assert
-  kabhi chalega hi nahi (upar concept 6 dekho).
+    kabhi chalega hi nahi (upar concept 6 dekho).
 
 
 ============================================================

@@ -4,8 +4,8 @@ Topic: Interfaces, Polymorphism, Enums
 Time: 60 min (+5 min optional AI drill)   ·   Folder: exercises/week01/02-interfaces/
 
 AAJ KA GOAL (ek line me):
-  Samjho ki "interface ke against code likhna" kyun powerful hai, aur enum se
-  fixed values (roles) ko safe kaise banate hain.
+    Samjho ki "interface ke against code likhna" kyun powerful hai, aur enum se
+    fixed values (roles) ko safe kaise banate hain.
 
 
 ============================================================
@@ -19,8 +19,8 @@ RECALL – 10 min (kuch dekhna nahi)
 ============================================================
 LEARN – 15 min
 ============================================================
-  https://www.php.net/manual/en/language.oop5.interfaces.php   (Object Interfaces)
-  https://www.php.net/manual/en/language.enumerations.php      (Enumerations:
+    https://www.php.net/manual/en/language.oop5.interfaces.php   (Object Interfaces)
+    https://www.php.net/manual/en/language.enumerations.php      (Enumerations:
                                      backed enums, cases(), from(), tryFrom())
 
 
@@ -99,9 +99,9 @@ CODE – 30 min  ->  exercises/week01/02-interfaces/
 (Kal ka User/Student code yahan copy karke start kar sakte ho.)
 
 Step 1: enum Role: string
-  - Cases: Admin, Instructor, Student (values e.g. 'admin', 'instructor', 'student')
-  - label(): string method (e.g. 'Administrator')
-  - User::role() ab string ki jagah Role return kare.
+    - Cases: Admin, Instructor, Student (values e.g. 'admin', 'instructor', 'student')
+    - label(): string method (e.g. 'Administrator')
+    - User::role() ab string ki jagah Role return kare.
     displayName() me role ki value chahiye to ->value ya ->label() use karo.
 
 Step 2: interface NotificationInterface
@@ -110,18 +110,18 @@ Step 2: interface NotificationInterface
       }
 
 Step 3: Do implementations
-  - EmailNotification -> print kare:  [EMAIL to <email>] <message>
-  - SmsNotification   -> message ko 160 characters tak kaat de, phir print
+    - EmailNotification -> print kare:  [EMAIL to <email>] <message>
+    - SmsNotification   -> message ko 160 characters tak kaat de, phir print
     HINT: substr() ya mb_substr()
 
 Step 4: final class Notifier
-  - Constructor: NotificationInterface ...$channels  (variadic!)
-  - notify(User $to, string $message): int
+    - Constructor: NotificationInterface ...$channels  (variadic!)
+    - notify(User $to, string $message): int
     -> har channel pe send() chalao, jitne true aaye wo count return karo
 
 Step 5: run.php
-  - Student ko dono channels (Email + SMS) se welcome message bhejo
-  - kitne channels successful hue, print karo
+    - Student ko dono channels (Email + SMS) se welcome message bhejo
+    - kitne channels successful hue, print karo
 
 
 ============================================================
@@ -139,9 +139,9 @@ COMMON GALTIYAN
 ============================================================
 - Interface ka method public na likhna -> interface methods hamesha public.
 - Implementation me method signature alag kar dena (e.g. return type bool ki
-  jagah void) -> Fatal error "Declaration must be compatible".
+    jagah void) -> Fatal error "Declaration must be compatible".
 - Enum ko string se compare karna:  $role === 'admin'  -> false!
-  Sahi:  $role === Role::Admin   ya   $role->value === 'admin'
+    Sahi:  $role === Role::Admin   ya   $role->value === 'admin'
 
 
 ============================================================
@@ -163,6 +163,6 @@ AI DRILL (+5 min, OPTIONAL)
 ============================================================
 00-week-overview.txt (section 6) wala structured review prompt use karke
 02-interfaces ka code AI ko do.
-  - AI ka koi suggestion APPLY MAT karo.
-  - Sirf compare karo: jo AI ne bola, kya tum bhi wahi bolte? Kya chhoot gaya?
-  - 1 line log me likho.
+    - AI ka koi suggestion APPLY MAT karo.
+    - Sirf compare karo: jo AI ne bola, kya tum bhi wahi bolte? Kya chhoot gaya?
+    - 1 line log me likho.

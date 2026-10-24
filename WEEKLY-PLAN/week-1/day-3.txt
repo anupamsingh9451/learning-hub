@@ -4,8 +4,8 @@ Topic: Classes, Abstract classes, Inheritance
 Time: 60 min   ·   Folder: exercises/week01/01-classes/
 
 AAJ KA GOAL (ek line me):
-  Class, constructor, visibility (public/protected/private), abstract aur final
-  ko itna samajh lo ki bina dekhe likh sako aur samjha sako.
+    Class, constructor, visibility (public/protected/private), abstract aur final
+    ko itna samajh lo ki bina dekhe likh sako aur samjha sako.
 
 
 ============================================================
@@ -27,10 +27,10 @@ Jo yaad nahi aaya uspe nishaan lagao – wahi aaj ka focus hai.
 ============================================================
 LEARN – 15 min (sirf ye docs)
 ============================================================
-  https://www.php.net/manual/en/language.oop5.decon.php     (Constructors,
+    https://www.php.net/manual/en/language.oop5.decon.php     (Constructors,
                                                     "constructor promotion" padhna)
-  https://www.php.net/manual/en/language.oop5.abstract.php  (Class Abstraction)
-  php.net pe "readonly properties" bhi search karke padho.
+    https://www.php.net/manual/en/language.oop5.abstract.php  (Class Abstraction)
+    php.net pe "readonly properties" bhi search karke padho.
 
 
 ============================================================
@@ -114,29 +114,29 @@ CODE – 30 min  ->  exercises/week01/01-classes/
 Banana kya hai (step by step):
 
 Step 1: abstract class User
-  - Constructor promotion se: readonly int $id, string $name, string $email
-  - abstract method role(): string   (body nahi – child likhega)
-  - displayName(): string  ->  e.g. 'Asha (student)'
+    - Constructor promotion se: readonly int $id, string $name, string $email
+    - abstract method role(): string   (body nahi – child likhega)
+    - displayName(): string  ->  e.g. 'Asha (student)'
     HINT: name + ' (' + role() + ')'.  Parent, child ka role() call kar sakta hai!
 
 Step 2: final class Student extends User
-  - private array $courseIds   (shuru me khaali array)
-  - enroll(int $courseId): void  -> courseIds me add kare
+    - private array $courseIds   (shuru me khaali array)
+    - enroll(int $courseId): void  -> courseIds me add kare
     (abhi duplicate ignore karo; Wednesday ko isko exception throw karwana hai)
-  - courses(): array -> courseIds return kare
-  - role() -> 'student'
+    - courses(): array -> courseIds return kare
+    - role() -> 'student'
 
 Step 3: final class Instructor extends User
-  - teach(int $courseId): void
-  - courses(): array
-  - role() -> 'instructor'
+    - teach(int $courseId): void
+    - courses(): array
+    - role() -> 'instructor'
 
 Step 4: run.php
-  - Ek Student aur ek Instructor banao
-  - Dono ka displayName() print karo
-  - Student ko SAME course me 2 baar enroll karo
-  - courses() print karo (print_r ya var_dump)
-  - Terminal me:  php run.php
+    - Ek Student aur ek Instructor banao
+    - Dono ka displayName() print karo
+    - Student ko SAME course me 2 baar enroll karo
+    - courses() print karo (print_r ya var_dump)
+    - Terminal me:  php run.php
 
 Files kaise rakhein? Simple rakho – ek file per class (User.php, Student.php,
 Instructor.php) aur run.php me require_once. Composer/autoload Thursday ko
@@ -156,10 +156,10 @@ DONE WHEN (teeno tick = aaj ka kaam poora)
 COMMON GALTIYAN
 ============================================================
 - Child class me role() likhna bhool gaye -> "Class Student contains 1 abstract
-  method and must therefore be declared abstract..." error. Matlab: abstract
-  method implement karo.
+    method and must therefore be declared abstract..." error. Matlab: abstract
+    method implement karo.
 - private property ko child class me access karna -> nahi milega. Parent ki
-  property child ko chahiye to protected karo (ya getter banao).
+    property child ko chahiye to protected karo (ya getter banao).
 - readonly property ko constructor ke baad badalna -> Error.
 
 
@@ -169,20 +169,20 @@ LOG – 5 min
 Log question: "Main interface ki jagah abstract class kab use karunga?"
 
 Sochne ka hint (jawab apne shabdon me likhna):
-  - Abstract class: jab child classes me COMMON CODE/state share karna ho
+    - Abstract class: jab child classes me COMMON CODE/state share karna ho
     (jaise displayName() sabke liye same). Ek class sirf EK parent extend kar
     sakti hai.
-  - Interface: jab sirf "contract" chahiye (kaunse methods honge), code nahi.
+    - Interface: jab sirf "contract" chahiye (kaunse methods honge), code nahi.
     Ek class KAI interfaces implement kar sakti hai. (Kal detail me.)
 
 Entry:
-  ## 2026-10-26 (Mon) · W1 D1 · __ min
-  Recall:   ...
-  Learned:  ...
-  Built:    exercises/week01/01-classes – done when list passed? yes/no
-  Stuck on: ...
-  Log question: ...
-  Explain-it score (1–5): ...
-  Tomorrow: interfaces + enums
+    ## 2026-10-26 (Mon) · W1 D1 · __ min
+    Recall:   ...
+    Learned:  ...
+    Built:    exercises/week01/01-classes – done when list passed? yes/no
+    Stuck on: ...
+    Log question: ...
+    Explain-it score (1–5): ...
+    Tomorrow: interfaces + enums
 
-  git add . ; git commit -m "feat(w1): 01-classes" ; git push
+    git add . ; git commit -m "feat(w1): 01-classes" ; git push

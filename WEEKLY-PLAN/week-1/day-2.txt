@@ -4,22 +4,22 @@ Phase 0: Planning (calendar, tracker, LinkedIn, notice period)
 Time: ~45 min
 
 AAJ KA GOAL (ek line me):
-  Padhai ka time calendar me "lock" karo aur job-switch ki chhoti taiyaariyan
-  abhi se kar lo, taaki baad me bhaag-daud na ho.
+    Padhai ka time calendar me "lock" karo aur job-switch ki chhoti taiyaariyan
+    abhi se kar lo, taaki baad me bhaag-daud na ho.
 
 AAJ KE END TAK YE HONA CHAHIYE:
-  [ ] Calendar me 22 Nov tak study slots block
-  [ ] Job-Application-Tracker.xlsx bani hui (khaali chalegi)
-  [ ] LinkedIn headline update
-  [ ] Notice period ke din learning-log.md me likhe
+    [ ] Calendar me 22 Nov tak study slots block
+    [ ] Job-Application-Tracker.xlsx bani hui (khaali chalegi)
+    [ ] LinkedIn headline update
+    [ ] Notice period ke din learning-log.md me likhe
 
 
 ============================================================
 1. CALENDAR BLOCK KARO (~10 min)
 ============================================================
-  - Weekdays (Mon–Fri): roz 1 ghanta, e.g. 9:15 PM – 10:15 PM
-  - Saturday: 2 ghante, e.g. 10:00 AM – 12:00 PM
-  - Kab tak: 22 November tak (ye Phase 1 ka end hai)
+    - Weekdays (Mon–Fri): roz 1 ghanta, e.g. 9:15 PM – 10:15 PM
+    - Saturday: 2 ghante, e.g. 10:00 AM – 12:00 PM
+    - Kab tak: 22 November tak (ye Phase 1 ka end hai)
 
 Google Calendar me "Repeat: Weekly on Mon–Fri" wala event banao, end date
 22 Nov. Reminder 10 min pehle.
@@ -33,17 +33,17 @@ hai. Fixed slot = aadat.
 ============================================================
 Excel file banao:  Job-Application-Tracker.xlsx
 Columns (Row 1 me):
-  Company | Role | Salary range | Referral | Date applied | Stage | Feedback | Next step
+    Company | Role | Salary range | Referral | Date applied | Stage | Feedback | Next step
 
 Column ka matlab:
-  Company      – kaunsi company
-  Role         – kaunsi post (Senior Full-Stack, etc.)
-  Salary range – unka range / tumhara expected
-  Referral     – kisne refer kiya (ya "none")
-  Date applied – kab apply kiya
-  Stage        – Applied / HR call / Tech round / Offer / Rejected
-  Feedback     – unhone kya bola
-  Next step    – ab kya karna hai, kab
+    Company      – kaunsi company
+    Role         – kaunsi post (Senior Full-Stack, etc.)
+    Salary range – unka range / tumhara expected
+    Referral     – kisne refer kiya (ya "none")
+    Date applied – kab apply kiya
+    Stage        – Applied / HR call / Tech round / Offer / Rejected
+    Feedback     – unhone kya bola
+    Next step    – ab kya karna hai, kab
 
 Ye Week 12 tak KHAALI rahegi. Bas abhi bana ke rakh do, taaki jab time aaye to
 system ready ho.
@@ -56,8 +56,8 @@ Kahan rakhein: D:\credentials\career-2027\notes\ me rakh sakte ho. (Note:
 3. LINKEDIN HEADLINE (~10 min)
 ============================================================
 Headline resume se match karni chahiye. Example:
-  Senior Full-Stack Developer · Laravel · React · TypeScript ·
-  7+ years building ERP, CRM and LMS products
+    Senior Full-Stack Developer · Laravel · React · TypeScript ·
+    7+ years building ERP, CRM and LMS products
 
 IMPORTANT: Abhi "AI" word headline me MAT daalo. AI tab add karna jab
 Milestone 2 (Week 8) ho jaaye aur dikhane ke liye kuch real ho. Recruiter
@@ -71,11 +71,11 @@ Appointment letter / offer letter / HR policy dekho: notice period kitne din
 ka hai? (30 / 60 / 90 din?)
 
 learning-log.md me likho:
-  ## 2026-10-25 (Sun) · Phase 0 · Planning
-  Notice period: __ din
-  Calendar blocked till 22 Nov: yes
-  Tracker sheet: created
-  LinkedIn headline: updated
+    ## 2026-10-25 (Sun) · Phase 0 · Planning
+    Notice period: __ din
+    Calendar blocked till 22 Nov: yes
+    Tracker sheet: created
+    LinkedIn headline: updated
 
 KYUN zaroori hai? Plan ke hisaab se April me offer aayega. Agar notice 90 din
 ka hai to joining July me hogi – iska asar plan ki timing pe padta hai.
@@ -85,7 +85,7 @@ Isliye ye number abhi se pata hona chahiye.
 ============================================================
 AAJ KI LAST CHEEZ
 ============================================================
-  git add . ; git commit -m "docs: phase 0 planning" ; git push
+    git add . ; git commit -m "docs: phase 0 planning" ; git push
 
 Kal (Monday) se asli padhai: day-3.txt khol ke rakh lo, aur docs ke 2 links
 bookmark kar lo.

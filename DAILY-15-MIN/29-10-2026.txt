@@ -17,7 +17,7 @@ tika hai. AI developer interviews ka ye sabse hot topic hai.
 ------------------------------------------------------------
 Student poochta hai:  "fees kab tak jama karni hai?"
 Document me likha hai: "Payment deadline is 15th of every month."
-  SQL LIKE '%fees%'  -> kuch nahi mila! Words alag hain, MATLAB same hai.
+    SQL LIKE '%fees%'  -> kuch nahi mila! Words alag hain, MATLAB same hai.
 Hume "matlab" se search chahiye (semantic search), shabd se nahi.
 
 
@@ -26,13 +26,13 @@ Hume "matlab" se search chahiye (semantic search), shabd se nahi.
 ------------------------------------------------------------
 Embedding = text ko NUMBERS ki list (vector) me badalna, aise ki jinka
 MATLAB milta-julta ho unke numbers bhi paas-paas hon.
-  "fees kab jama karni hai"         -> [0.12, -0.53, 0.88, ...]  (sau-hazaar numbers)
-  "payment deadline"                -> [0.11, -0.50, 0.85, ...]  <- paas!
-  "cricket match score"             -> [-0.70, 0.33, 0.02, ...]  <- door
+    "fees kab jama karni hai"         -> [0.12, -0.53, 0.88, ...]  (sau-hazaar numbers)
+    "payment deadline"                -> [0.11, -0.50, 0.85, ...]  <- paas!
+    "cricket match score"             -> [-0.70, 0.33, 0.02, ...]  <- door
 
 Misaal: Map pe shehar. Delhi aur Noida paas, Delhi aur Chennai door.
-  Embedding = har text ko "matlab ke map" pe ek jagah dena. Bas dimensions
-  2 nahi, sainkdon-hazaaron hote hain.
+    Embedding = har text ko "matlab ke map" pe ek jagah dena. Bas dimensions
+    2 nahi, sainkdon-hazaaron hote hain.
 
 Embedding ek alag "embedding model" se banti hai (API call). Har model ki
 apni dimension hoti hai (e.g. 768, 1024, 1536) – column usi size ka banega.
@@ -43,18 +43,18 @@ Ek baar jis model se store kiya, search bhi USI model ki embedding se karna.
 4. VECTOR SEARCH – "PAAS" KAISE NAAPEIN
 ------------------------------------------------------------
 Do vectors kitne paas hain:
-  Cosine distance – dono ki DISHA kitni milti hai (text ke liye sabse common)
-  L2 (Euclidean)  – seedhi doori
+    Cosine distance – dono ki DISHA kitni milti hai (text ke liye sabse common)
+    L2 (Euclidean)  – seedhi doori
 pgvector = Postgres ka extension jo ye sab SQL me deta hai:
-  vector(1536)  column type
-  <->   L2 distance
-  <=>   cosine distance
-  <#>   (negative) inner product
-  ORDER BY embedding <=> :question_embedding LIMIT 5   -> 5 sabse milte-julte
+    vector(1536)  column type
+    <->   L2 distance
+    <=>   cosine distance
+    <#>   (negative) inner product
+    ORDER BY embedding <=> :question_embedding LIMIT 5   -> 5 sabse milte-julte
 
 Lakhon rows me har row se distance naapna slow hai -> special indexes:
-  HNSW    – tez aur accurate, zyada memory (aaj kal default choice)
-  IVFFlat – kam memory, pehle data chahiye index banane ke liye
+    HNSW    – tez aur accurate, zyada memory (aaj kal default choice)
+    IVFFlat – kam memory, pehle data chahiye index banane ke liye
 Ye "approximate" search hai – 100% exact nahi, lekin bahut tez.
 
 Faayda pgvector ka: alag vector database nahi chahiye – wahi Postgres jisme
@@ -68,47 +68,47 @@ query me. (Multi-institution EduAssist ke liye perfect.)
 "Pehle sahi data DHUNDHO, phir AI ko us data ke saath jawab BANANE do."
 
 TAIYAARI (ek baar, jab content upload ho):
-  1. Course PDFs/notes ko chhote tukdon (chunks) me todo (e.g. ~300–800 words)
-  2. Har chunk ki embedding banao
-  3. Chunk text + embedding Postgres me save (pgvector column)
+    1. Course PDFs/notes ko chhote tukdon (chunks) me todo (e.g. ~300–800 words)
+    2. Har chunk ki embedding banao
+    3. Chunk text + embedding Postgres me save (pgvector column)
 
 HAR SAWAL PE:
-  4. Student ke sawal ki embedding banao
-  5. pgvector se top 5 milte-julte chunks nikalo (sirf usi institution ke!)
-  6. LLM ko bhejo: "Sirf neeche diye content se jawab do; na mile to bolo
+    4. Student ke sawal ki embedding banao
+    5. pgvector se top 5 milte-julte chunks nikalo (sirf usi institution ke!)
+    6. LLM ko bhejo: "Sirf neeche diye content se jawab do; na mile to bolo
      pata nahi.  [chunk1] [chunk2] ...  Sawal: ..."
-  7. Jawab + source (kaunse chunk/page se) dikhao
+    7. Jawab + source (kaunse chunk/page se) dikhao
 
 Kyun achha hai?
-  - Hallucination kam (model ke paas sahi data hai)
-  - Model ko re-train nahi karna – naya PDF daalo, turant searchable
-  - Har institution ka data alag (WHERE institution_id)
+    - Hallucination kam (model ke paas sahi data hai)
+    - Model ko re-train nahi karna – naya PDF daalo, turant searchable
+    - Har institution ka data alag (WHERE institution_id)
 
 
 ------------------------------------------------------------
 6. INTERVIEW ANGLE
 ------------------------------------------------------------
 Q: "Embedding kya hai?" -> Text ka numeric vector jo meaning capture karta
-  hai; similar meaning = vectors paas.
+    hai; similar meaning = vectors paas.
 
 Q: "RAG pipeline samjhao." -> Chunk -> embed -> store; query embed ->
-  similarity search (top-k) -> retrieved context + question LLM ko ->
-  grounded answer with sources.
+    similarity search (top-k) -> retrieved context + question LLM ko ->
+    grounded answer with sources.
 
 Q: "Keyword search vs semantic search?" -> Keyword exact shabd dhundhta hai
-  (fast, exact naam/ID ke liye achha); semantic matlab dhundhta hai. Real
-  apps me aksar dono milake ("hybrid search").
+    (fast, exact naam/ID ke liye achha); semantic matlab dhundhta hai. Real
+    apps me aksar dono milake ("hybrid search").
 
 
 ------------------------------------------------------------
 7. AAM GALATFEHMI
 ------------------------------------------------------------
 - "Embedding model hi jawab deta hai" -> Nahi. Embedding model sirf vector
-  banata hai (dhundhne ke liye). Jawab LLM banata hai.
+    banata hai (dhundhne ke liye). Jawab LLM banata hai.
 - "Poora PDF ek hi chunk" -> Bahut bade chunk = search ka matlab dhundhla +
-  tokens zyada. Bahut chhote = context toot jaata hai. Balance chahiye.
+    tokens zyada. Bahut chhote = context toot jaata hai. Balance chahiye.
 - "Vector search hamesha sahi chunk dega" -> Approximate hai; retrieval ki
-  quality test karni padti hai (Day 19 ka topic).
+    quality test karni padti hai (Day 19 ka topic).
 
 
 ------------------------------------------------------------
@@ -118,16 +118,16 @@ Abhi: Kaagaz pe RAG ka diagram banao (upar ke 7 steps, boxes aur arrows).
 Interview me whiteboard pe yahi banana hota hai.
 
 Saturday ke EduAssist setup (pgvector image) ke BAAD, sail psql me:
-  CREATE EXTENSION IF NOT EXISTS vector;
-  CREATE TABLE demo_items (id bigserial PRIMARY KEY, content text, embedding vector(3));
-  INSERT INTO demo_items (content, embedding) VALUES
+    CREATE EXTENSION IF NOT EXISTS vector;
+    CREATE TABLE demo_items (id bigserial PRIMARY KEY, content text, embedding vector(3));
+    INSERT INTO demo_items (content, embedding) VALUES
     ('cat',    '[1, 0.9, 0]'),
     ('kitten', '[0.95, 1, 0]'),
     ('car',    '[0, 0.1, 1]');
-  SELECT content, embedding <=> '[1, 1, 0]' AS distance
+    SELECT content, embedding <=> '[1, 1, 0]' AS distance
     FROM demo_items ORDER BY distance LIMIT 2;
-  -> cat aur kitten aayenge, car nahi.  (Asli me 3 nahi, 1000+ dimensions.)
-  DROP TABLE demo_items;
+    -> cat aur kitten aayenge, car nahi.  (Asli me 3 nahi, 1000+ dimensions.)
+    DROP TABLE demo_items;
 
 
 ------------------------------------------------------------

@@ -18,80 +18,80 @@ hongi; aaj unhe "senior wali nazar" se dekhna hai – kyunki interview me
 2. CONCEPT – RESTAURANT KA MENU CARD
 ------------------------------------------------------------
 Socho API ek restaurant ka menu card hai:
-  - Menu pe DISHES ke naam hote hain (nouns) – "Paneer Tikka", "Dal".
+    - Menu pe DISHES ke naam hote hain (nouns) – "Paneer Tikka", "Dal".
     Tum "banao", "lao" jaise kaam (verbs) menu pe nahi likhte.
-  - Kaam ka tareeka alag hai: order dena, cancel karna, badalna.
-  - Waiter ka jawab saaf hota hai: "aa raha hai", "khatam ho gaya",
+    - Kaam ka tareeka alag hai: order dena, cancel karna, badalna.
+    - Waiter ka jawab saaf hota hai: "aa raha hai", "khatam ho gaya",
     "ye aapne order hi nahi kiya".
-  - Menu badle to purane customers confuse na hon – naya menu, naya version.
-  - 500 dishes ek saath table pe nahi aati – ek baar me ek page.
+    - Menu badle to purane customers confuse na hon – naya menu, naya version.
+    - 500 dishes ek saath table pe nahi aati – ek baar me ek page.
 
 REST me bhi bilkul yahi:
-  URL      = dish ka naam (RESOURCE, noun)       -> /courses, /students
-  Method   = kya karna hai (VERB)                -> GET, POST, PATCH, DELETE
-  Status   = waiter ka jawab                     -> 200, 201, 404, 422 ...
-  Version  = menu ka edition                     -> /api/v1/...
-  Page     = ek baar me thoda data               -> ?page=2  ya  ?cursor=...
+    URL      = dish ka naam (RESOURCE, noun)       -> /courses, /students
+    Method   = kya karna hai (VERB)                -> GET, POST, PATCH, DELETE
+    Status   = waiter ka jawab                     -> 200, 201, 404, 422 ...
+    Version  = menu ka edition                     -> /api/v1/...
+    Page     = ek baar me thoda data               -> ?page=2  ya  ?cursor=...
 
 
 ------------------------------------------------------------
 3. NAMING – URL KAISE BANAYEIN
 ------------------------------------------------------------
 Rules:
-  - Noun, plural, lowercase:  /courses   (na ki /getCourses, /Course)
-  - Kaam HTTP method batata hai, URL nahi:
+    - Noun, plural, lowercase:  /courses   (na ki /getCourses, /Course)
+    - Kaam HTTP method batata hai, URL nahi:
       GET    /api/v1/courses            -> list
       POST   /api/v1/courses            -> naya banao
       GET    /api/v1/courses/42         -> ek course
       PATCH  /api/v1/courses/42         -> kuch fields badlo
       PUT    /api/v1/courses/42         -> poora replace
       DELETE /api/v1/courses/42         -> hatao
-  - Rishta dikhana ho to nesting – lekin 1 level tak hi:
+    - Rishta dikhana ho to nesting – lekin 1 level tak hi:
       GET /api/v1/courses/42/enrollments      (theek)
       GET /api/v1/institutions/3/courses/42/enrollments/9/grades  (bahut gehra)
-  - Filter/sort query string me:
+    - Filter/sort query string me:
       GET /api/v1/courses?status=published&sort=-created_at
-  - Koi "action" jo CRUD me fit nahi baithta (publish, enroll)? Usse
+    - Koi "action" jo CRUD me fit nahi baithta (publish, enroll)? Usse
     sub-resource ki tarah likho:  POST /api/v1/courses/42/publish
     Ye accepted practice hai – bas har cheez ko verb mat banao.
 
 Laravel me:  Route::apiResource('courses', CourseController::class);
-  -> index, store, show, update, destroy – 5 routes ek line me
+    -> index, store, show, update, destroy – 5 routes ek line me
      (create/edit form wale routes nahi, kyunki API me form nahi hota).
 
 Idempotent ka matlab: same request 2 baar bhejo to result wahi rahe.
-  GET, PUT, DELETE  -> idempotent
-  POST              -> NAHI (2 baar bheja = 2 course ban sakte hain)
-  PATCH             -> depend karta hai ("title = X" haan, "count + 1" nahi)
+    GET, PUT, DELETE  -> idempotent
+    POST              -> NAHI (2 baar bheja = 2 course ban sakte hain)
+    PATCH             -> depend karta hai ("title = X" haan, "count + 1" nahi)
 
 
 ------------------------------------------------------------
 4. STATUS CODES – WAITER KA SAHI JAWAB
 ------------------------------------------------------------
-  200 OK              – sab theek, data saath me
-  201 Created         – naya bana (POST ke baad); Location header bhi de sakte ho
-  204 No Content      – ho gaya, body khaali (DELETE ke baad common)
-  400 Bad Request     – request hi tooti hui (galat JSON vagairah)
-  401 Unauthorized    – "tum KAUN ho?" – login/token hi nahi hai
-  403 Forbidden       – "pata hai kaun ho, par IJAZAT nahi"
-  404 Not Found       – resource nahi mila
-  409 Conflict        – state ka jhagda (e.g. student pehle se enrolled)
-  422 Unprocessable   – validation fail (Laravel ka default)
-  429 Too Many Req.   – rate limit cross (iska alag topic aayega)
-  500 Server Error    – humari galti (bug)
-  503 Unavailable     – maintenance / service down
+    200 OK              – sab theek, data saath me
+    201 Created         – naya bana (POST ke baad); Location header bhi de sakte ho
+    204 No Content      – ho gaya, body khaali (DELETE ke baad common)
+    400 Bad Request     – request hi tooti hui (galat JSON vagairah)
+    401 Unauthorized    – "tum KAUN ho?" – login/token hi nahi hai
+    403 Forbidden       – "pata hai kaun ho, par IJAZAT nahi"
+    404 Not Found       – resource nahi mila
+    409 Conflict        – state ka jhagda (e.g. student pehle se enrolled)
+    422 Unprocessable   – validation fail (Laravel ka default)
+    429 Too Many Req.   – rate limit cross (iska alag topic aayega)
+    500 Server Error    – humari galti (bug)
+    503 Unavailable     – maintenance / service down
 
 Seedha rule: 2xx = sab theek, 4xx = client ki galti, 5xx = server ki galti.
 Kabhi bhi error ko "200 + { success: false }" me mat chhupao – monitoring,
 caching, frontend ka error handling sab status code pe chalte hain.
 
 Laravel ye sab free me deta hai:
-  - $request->validate() fail      -> 422 + { "message": ..., "errors": {...} }
-  - Route model binding nahi mila  -> 404
-  - Policy/Gate fail               -> 403
-  - auth:sanctum fail              -> 401
-  - response()->json($data, 201) / response()->noContent()  -> 201 / 204
-  (Shart: client "Accept: application/json" header bheje – warna kuch
+    - $request->validate() fail      -> 422 + { "message": ..., "errors": {...} }
+    - Route model binding nahi mila  -> 404
+    - Policy/Gate fail               -> 403
+    - auth:sanctum fail              -> 401
+    - response()->json($data, 201) / response()->noContent()  -> 201 / 204
+    (Shart: client "Accept: application/json" header bheje – warna kuch
    errors JSON ki jagah redirect/HTML ban sakte hain.)
 
 
@@ -103,15 +103,15 @@ field hatana, type badalna (id string se number). Naya OPTIONAL field
 jodna breaking nahi hai.
 
 Tareeke:
-  URL me       /api/v1/courses        -> sabse common, dikhta hai, test easy
-  Header me    Accept: application/vnd.eduassist.v2+json  -> URL saaf, par
+    URL me       /api/v1/courses        -> sabse common, dikhta hai, test easy
+    Header me    Accept: application/vnd.eduassist.v2+json  -> URL saaf, par
                browser/curl se test thoda mushkil
-  Query me     ?version=2             -> kam use hota hai
+    Query me     ?version=2             -> kam use hota hai
 
 Laravel me (routes/api.php – jo by default /api prefix ke saath load hoti hai):
-  Route::prefix('v1')->group(function () {
+    Route::prefix('v1')->group(function () {
       Route::apiResource('courses', CourseController::class);
-  });
+    });
 
 Practical tip: version sirf breaking change pe badhao. v2 aane ke baad v1
 ko turant band mat karo – deprecation ka time do (e.g. 3–6 mahine).
@@ -140,16 +140,16 @@ B) CURSOR – ?cursor=eyJpZCI6NDB9...
              (ORDER BY kisi unique column pe hona chahiye)
 
 Response shape (CourseResource::collection($courses->paginate(20))):
-  {
+    {
     "data":  [ { "id": 1, "title": "..." }, ... ],
     "links": { "first": "...", "last": "...", "prev": null, "next": "..." },
     "meta":  { "current_page": 1, "per_page": 20, "total": 312, ... }
-  }
+    }
 
 Do zaroori safety:
-  - per_page ki upper limit: min((int) $request->per_page ?: 20, 100)
+    - per_page ki upper limit: min((int) $request->per_page ?: 20, 100)
     warna koi ?per_page=1000000 bhej ke DB bitha dega.
-  - Multi-institution EduAssist: list me hamesha logged-in user ki
+    - Multi-institution EduAssist: list me hamesha logged-in user ki
     institution ka filter – URL me aaye institution_id pe bharosa mat karo.
 
 
@@ -157,35 +157,35 @@ Do zaroori safety:
 7. INTERVIEW ANGLE
 ------------------------------------------------------------
 Q: "401 aur 403 me fark?"
-  401 = authentication nahi hua (token missing/invalid) – "kaun ho tum?"
-  403 = authenticated ho, par is kaam ki permission nahi – "ijazat nahi".
+    401 = authentication nahi hua (token missing/invalid) – "kaun ho tum?"
+    403 = authenticated ho, par is kaam ki permission nahi – "ijazat nahi".
 
 Q: "PUT vs PATCH?"
-  PUT = poora resource replace (jo field nahi bheji wo khaali/default ho sakti
-  hai); PATCH = sirf bheje gaye fields update. PUT idempotent hai.
+    PUT = poora resource replace (jo field nahi bheji wo khaali/default ho sakti
+    hai); PATCH = sirf bheje gaye fields update. PUT idempotent hai.
 
 Q: "Lakhon rows ki listing API kaise design karoge?"
-  Pagination zaroor; deep/infinite scroll ke liye cursor pagination (index
-  wale column pe), per_page cap, sirf zaroori columns (API Resource), filter
-  ke columns pe index, aur zaroorat ho to caching.
+    Pagination zaroor; deep/infinite scroll ke liye cursor pagination (index
+    wale column pe), per_page cap, sirf zaroori columns (API Resource), filter
+    ke columns pe index, aur zaroorat ho to caching.
 
 Q: "API version kab badhaoge?"
-  Sirf breaking change pe. Naye optional fields bina version badle. Purana
-  version deprecate karke kuch time chalao, phir band.
+    Sirf breaking change pe. Naye optional fields bina version badle. Purana
+    version deprecate karke kuch time chalao, phir band.
 
 
 ------------------------------------------------------------
 8. AAM GALATFEHMI
 ------------------------------------------------------------
 - "Har error pe 200 + success:false bhej do, frontend sambhal lega" -> Nahi.
-  HTTP clients, logs, monitoring, retries sab status code dekhte hain.
+    HTTP clients, logs, monitoring, retries sab status code dekhte hain.
 - "401 = permission nahi" -> Wo 403 hai. 401 = pehchaan hi nahi hui.
-  (Naam "Unauthorized" confusing hai – asal matlab "Unauthenticated".)
+    (Naam "Unauthorized" confusing hai – asal matlab "Unauthenticated".)
 - "REST = JSON over HTTP" -> JSON sirf format hai. REST ka asal = resources
-  (nouns), sahi methods, sahi status codes, stateless requests.
+    (nouns), sahi methods, sahi status codes, stateless requests.
 - "Model ko seedha return kar do" -> return $course; se saare columns
-  (internal fields bhi) bahar chale jaate hain. API Resource se shape control
-  karo – wahi tumhara contract hai.
+    (internal fields bhi) bahar chale jaate hain. API Resource se shape control
+    karo – wahi tumhara contract hai.
 
 
 ------------------------------------------------------------

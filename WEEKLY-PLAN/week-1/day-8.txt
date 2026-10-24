@@ -4,9 +4,9 @@ EduAssist capstone build – Laravel 13 + Sail, Institution & User
 Time: 2 ghante
 
 AAJ KA GOAL (ek line me):
-  Apna portfolio project "EduAssist" shuru karo: Laravel 13 Docker (Sail) me
-  chale, Postgres + Redis ke saath, Institution aur User models + tests ke
-  saath, aur GitHub pe push ho.
+    Apna portfolio project "EduAssist" shuru karo: Laravel 13 Docker (Sail) me
+    chale, Postgres + Redis ke saath, Institution aur User models + tests ke
+    saath, aur GitHub pe push ho.
 
 EduAssist kya hai? Ek multi-institution LMS/education app jisme aage chal ke
 AI features (Week 5+, pgvector se search Week 11) lagenge. Aaj sirf neev.
@@ -184,10 +184,10 @@ DEFINITION OF DONE – SATURDAY
 AGAR KUCH ATKE
 ============================================================
 - "port 80 / 5432 already in use" -> Windows pe Laragon/Postgres/Apache chal
-  raha hai, use band karo. Ya .env me APP_PORT=8080 / FORWARD_DB_PORT=5433.
+    raha hai, use band karo. Ya .env me APP_PORT=8080 / FORWARD_DB_PORT=5433.
 - sail: command not found -> alias add karke source ~/.bashrc kiya?
 - Docker ka bada problem 20 min me hal na ho -> RUKO. Is hafte Laragon +
-  local PostgreSQL pe karo, Docker kisi weekday theek karna. Saturday
-  Docker me barbaad nahi karna.
+    local PostgreSQL pe karo, Docker kisi weekday theek karna. Saturday
+    Docker me barbaad nahi karna.
 - Saturday hi chala gaya -> Week 2 ki ek shaam sirf 0:00–0:50 wala hissa
-  (project + repo). Baaki agle Saturday.
+    (project + repo). Baaki agle Saturday.

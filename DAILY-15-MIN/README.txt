@@ -12,19 +12,19 @@ honi chahiye aur interview me poochi jaati hain.
 ROZ APNE AAP NAYI FILE KAISE BANTI HAI
 ------------------------------------------------------------
 - Windows Task Scheduler me "Daily15Min" naam ka task hai jo ROZ SUBAH 7:00
-  baje chalta hai. (Laptop band tha to jab khulega tab chal jaayega.)
+    baje chalta hai. (Laptop band tha to jab khulega tab chal jaayega.)
 - Wo _automation\generate-today.ps1 chalata hai, jo Claude ko bolta hai:
     "neeche AAGE KE TOPICS ki list se pehla topic lo, aaj ki date wali file
-     banao, aur topic ko HO CHUKE TOPICS me daal do."
+    banao, aur topic ko HO CHUKE TOPICS me daal do."
 - Queue me 5 se kam topic bache to Claude khud naye topic jod deta hai –
-  isliye ye kabhi khatam nahi hota.
+    isliye ye kabhi khatam nahi hota.
 - Har run ka record: _automation\log.txt
 
 Haath se chalana ho (e.g. aaj ki file nahi bani):
-  powershell -ExecutionPolicy Bypass -File "D:\learning-hub\DAILY-15-MIN\_automation\generate-today.ps1"
+    powershell -ExecutionPolicy Bypass -File "D:\learning-hub\DAILY-15-MIN\_automation\generate-today.ps1"
 Time badalna / band karna:
-  Task Scheduler kholo > "Daily15Min" > Properties   (ya Disable/Delete)
-  Ya PowerShell:  Unregister-ScheduledTask -TaskName Daily15Min -Confirm:$false
+    Task Scheduler kholo > "Daily15Min" > Properties   (ya Disable/Delete)
+    Ya PowerShell:  Unregister-ScheduledTask -TaskName Daily15Min -Confirm:$false
 
 Koi topic padhna hai jo list me nahi? Neeche AAGE KE TOPICS me SABSE UPAR
 likh do – agle din wahi aayega.
@@ -33,24 +33,24 @@ likh do – agle din wahi aayega.
 ------------------------------------------------------------
 KAISE PADHNA HAI (15 min)
 ------------------------------------------------------------
-  0 – 10 min : Aaj ki file padho (subah chai ke saath, ya office jaate waqt)
- 10 – 13 min : "5-min practice" wala chhota kaam (ho sake to)
- 13 – 15 min : "Self-check" ke 3 sawal – pehle khud jawab do, phir neeche
-               jawab dekho
+     0 – 10 min : Aaj ki file padho (subah chai ke saath, ya office jaate waqt)
+    10 – 13 min : "5-min practice" wala chhota kaam (ho sake to)
+    13 – 15 min : "Self-check" ke 3 sawal – pehle khud jawab do, phir neeche
+                  jawab dekho
 Ek din chhoot gaya? Koi baat nahi – purani date wali file agle din padh lo.
 
 
 ------------------------------------------------------------
 HAR FILE ME KYA HOGA
 ------------------------------------------------------------
-  1. Aaj kyun?        – ye topic tumhare liye kyun zaroori hai
-  2. Concept          – aasan bhasha me, misaal ke saath
-  3. Example / code   – asli duniya ka
-  4. Interview angle  – kaise poochte hain + achha jawab
-  5. Aam galatfehmi   – log kahan galti karte hain
-  6. 5-min practice   – chhota sa kaam
-  7. Self-check       – 3 sawal, jawab file ke end me
-  8. Ek line yaad rakho
+    1. Aaj kyun?        – ye topic tumhare liye kyun zaroori hai
+    2. Concept          – aasan bhasha me, misaal ke saath
+    3. Example / code   – asli duniya ka
+    4. Interview angle  – kaise poochte hain + achha jawab
+    5. Aam galatfehmi   – log kahan galti karte hain
+    6. 5-min practice   – chhota sa kaam
+    7. Self-check       – 3 sawal, jawab file ke end me
+    8. Ek line yaad rakho
 
 
 ------------------------------------------------------------

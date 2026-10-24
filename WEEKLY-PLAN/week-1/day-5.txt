@@ -4,8 +4,8 @@ Topic: Traits, Strict types, Custom exceptions
 Time: 60 min   ·   Folder: exercises/week01/03-traits-exceptions/
 
 AAJ KA GOAL (ek line me):
-  Code reuse ka teesra tareeka (trait) seekho, PHP ko "strict" banao, aur
-  galtiyon ko saaf naam wale apne exceptions se handle karna seekho.
+    Code reuse ka teesra tareeka (trait) seekho, PHP ko "strict" banao, aur
+    galtiyon ko saaf naam wale apne exceptions se handle karna seekho.
 
 
 ============================================================
@@ -19,10 +19,10 @@ RECALL – 10 min
 ============================================================
 LEARN – 15 min
 ============================================================
-  https://www.php.net/manual/en/language.oop5.traits.php
-  https://www.php.net/manual/en/language.exceptions.php
+    https://www.php.net/manual/en/language.oop5.traits.php
+    https://www.php.net/manual/en/language.exceptions.php
      (try/catch/finally, Exception ko extend karna, $previous argument)
-  php.net pe "strict typing" (Type declarations page ka strict typing hissa)
+    php.net pe "strict typing" (Type declarations page ka strict typing hissa)
 
 
 ============================================================
@@ -114,29 +114,29 @@ CODE – 30 min  ->  exercises/week01/03-traits-exceptions/
 (Tuesday ka code copy karke shuru kar sakte ho.)
 
 Step 1: trait HasTimestamps
-  - private ?DateTimeImmutable $createdAt = null;
+    - private ?DateTimeImmutable $createdAt = null;
       (? = nullable, matlab null bhi ho sakta hai)
-  - touch(): void  -> createdAt = new DateTimeImmutable()
-  - createdAt(): ?DateTimeImmutable
-  - User class me:  use HasTimestamps;
+    - touch(): void  -> createdAt = new DateTimeImmutable()
+    - createdAt(): ?DateTimeImmutable
+    - User class me:  use HasTimestamps;
 
 Step 2: class Course
-  - id, title, capacity (constructor promotion se)
+    - id, title, capacity (constructor promotion se)
 
 Step 3: class EnrollmentException extends DomainException
-  - static alreadyEnrolled(int $courseId): self
-  - static courseFull(int $courseId, int $capacity): self
+    - static alreadyEnrolled(int $courseId): self
+    - static courseFull(int $courseId, int $capacity): self
 
 Step 4: Student::enroll(Course $course)  (ab int nahi, poora Course object)
-  - Already enrolled -> throw EnrollmentException::alreadyEnrolled(...)
-  - Course full      -> throw EnrollmentException::courseFull(...)
-  HINT (course full ke liye): simple rakho – e.g. Course me enrolled count rakho,
-  ya capacity 0/1 wala course bana ke test karo. Logic tum decide karo.
+    - Already enrolled -> throw EnrollmentException::alreadyEnrolled(...)
+    - Course full      -> throw EnrollmentException::courseFull(...)
+    HINT (course full ke liye): simple rakho – e.g. Course me enrolled count rakho,
+    ya capacity 0/1 wala course bana ke test karo. Logic tum decide karo.
 
 Step 5: run.php
-  - Dono exceptions trigger karo, catch (EnrollmentException $e) se pakdo,
+    - Dono exceptions trigger karo, catch (EnrollmentException $e) se pakdo,
     $e->getMessage() print karo. Program crash nahi hona chahiye.
-  - STRICT TYPES EXPERIMENT:
+    - STRICT TYPES EXPERIMENT:
       a) ek function banao jo int leta hai, use '5' (string) do -> TypeError dekho
       b) us file se declare(strict_types=1) hatao -> ab chal jaayega
       c) strict_types WAPAS lagao (bhoolna mat!)
@@ -154,11 +154,11 @@ DONE WHEN
 COMMON GALTIYAN
 ============================================================
 - declare(strict_types=1) pehli statement nahi hai (upar kuch aur likh diya)
-  -> Fatal error. Ye <?php ke turant baad aana chahiye.
+    -> Fatal error. Ye <?php ke turant baad aana chahiye.
 - Trait me private property – ye theek hai, trait use karne wali class ka
-  hissa ban jaati hai.
+    hissa ban jaati hai.
 - Named constructor me return type `self` aur `new self(...)` – `static` bhi
-  chalta hai, abhi `self` theek hai.
+    chalta hai, abhi `self` theek hai.
 
 
 ============================================================

@@ -4,8 +4,8 @@ TEST 1 – PHP   (30 min test + 25 min grading)
 Folder: exercises/week01/05-test1/
 
 AAJ KA GOAL (ek line me):
-  Is hafte jo seekha (interface, DI, exceptions, strict types) use 30 min me
-  bina AI ke ek naye problem pe laga ke dikhao. Pass mark: 70/100.
+    Is hafte jo seekha (interface, DI, exceptions, strict types) use 30 min me
+    bina AI ke ek naye problem pe laga ke dikhao. Pass mark: 70/100.
 
 
 ============================================================
@@ -114,9 +114,9 @@ git add . ; git commit -m "test(w1): test 1 php" ; git push
 TEST SE PEHLE (Thursday raat / Friday subah) 5 MIN KA REVISION
 ============================================================
 Kaagaz pe yaad se likho (dekhna nahi):
-  - Ek interface + ek class jo use implement kare
-  - Constructor promotion se private dependency
-  - Custom exception jo DomainException/RuntimeException extend kare
-  - throw new X('msg', 0, $previous);
-  - try { } catch (SpecificException $e) { }
+    - Ek interface + ek class jo use implement kare
+    - Constructor promotion se private dependency
+    - Custom exception jo DomainException/RuntimeException extend kare
+    - throw new X('msg', 0, $previous);
+    - try { } catch (SpecificException $e) { }
 Bas. Zyada padhne ki zaroorat nahi.

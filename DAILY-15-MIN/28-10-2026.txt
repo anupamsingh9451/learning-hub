@@ -26,16 +26,16 @@ samajhdar.
 3. TOKEN
 ------------------------------------------------------------
 Model words nahi, TOKENS padhta hai – word ke tukde.
-  "Laravel"         -> shayad 1–2 tokens
-  "unbelievable"    -> "un" + "believ" + "able" jaisa kuch
-  Andaazan: English me 1 token ≈ 4 characters ≈ 3/4 word.
-  Hindi/Hinglish me aksar ZYADA tokens lagte hain (same baat ke liye).
+    "Laravel"         -> shayad 1–2 tokens
+    "unbelievable"    -> "un" + "believ" + "able" jaisa kuch
+    Andaazan: English me 1 token ≈ 4 characters ≈ 3/4 word.
+    Hindi/Hinglish me aksar ZYADA tokens lagte hain (same baat ke liye).
 
 Kyun maayne rakhta hai?
-  - BILL tokens pe banta hai: input tokens + output tokens (alag rate,
+    - BILL tokens pe banta hai: input tokens + output tokens (alag rate,
     output aam taur par mehenga)
-  - SPEED: zyada output tokens = zyada time
-  - LIMIT: context window tokens me naapi jaati hai
+    - SPEED: zyada output tokens = zyada time
+    - LIMIT: context window tokens me naapi jaati hai
 
 
 ------------------------------------------------------------
@@ -47,14 +47,14 @@ Misaal: Exam me ek page ki cheat sheet – jo us page pe nahi, wo model ko
 "pata" nahi (us conversation ke liye).
 
 IMPORTANT – API STATELESS hai (HTTP jaisa, Day 01 yaad karo!):
-  Model ko pichli baat yaad NAHI rehti. Chat apps "yaad" isliye rakhte hain
-  kyunki har baar POORI conversation dobara bhejte hain:
+    Model ko pichli baat yaad NAHI rehti. Chat apps "yaad" isliye rakhte hain
+    kyunki har baar POORI conversation dobara bhejte hain:
       messages: [
         { role: "user",      content: "Laravel kya hai?" },
         { role: "assistant", content: "Laravel ek PHP framework..." },
         { role: "user",      content: "Iska latest version?" }   <- naya sawal
       ]
-  Isliye lambi chat = har message ke saath tokens badhte jaate hain = mehenga.
+    Isliye lambi chat = har message ke saath tokens badhte jaate hain = mehenga.
 
 SYSTEM PROMPT: Ek alag instruction jo model ka role/rules set karta hai
 ("Tum EduAssist ke student helper ho, sirf course se jawab do").
@@ -65,9 +65,9 @@ SYSTEM PROMPT: Ek alag instruction jo model ka role/rules set karta hai
 ------------------------------------------------------------
 Model har step pe kai tokens me se chunta hai. Temperature batata hai kitna
 "risk" le:
-  Kam (0 ke paas)  -> hamesha sabse sambhav token -> consistent, predictable
+    Kam (0 ke paas)  -> hamesha sabse sambhav token -> consistent, predictable
                      (data extraction, classification, code)
-  Zyada            -> zyada variety -> creative (story, ideas)
+    Zyada            -> zyada variety -> creative (story, ideas)
 Same prompt do baar bhejo -> alag jawab aa sakta hai. Ye bug nahi, design hai.
 (Note: kuch naye models me ye setting fixed/limited hoti hai – provider ka
 doc dekhna.)
@@ -80,18 +80,18 @@ Model kabhi-kabhi poore confidence se GALAT baat bolta hai – fake function
 naam, galat date, nakli citation. Kyun? Wo "sach" nahi, "sambhav agla token"
 predict kar raha hai.
 Bachav:
-  - Model ko sahi DATA do aur bolo "sirf isi se jawab do" (= RAG, kal ka topic)
-  - "Pata nahi to bolo pata nahi" instruction
-  - Code/facts ko verify karo – AI review karta hai, faisla TUM (week-1 ka
+    - Model ko sahi DATA do aur bolo "sirf isi se jawab do" (= RAG, kal ka topic)
+    - "Pata nahi to bolo pata nahi" instruction
+    - Code/facts ko verify karo – AI review karta hai, faisla TUM (week-1 ka
     rule yaad hai?)
 
 
 ------------------------------------------------------------
 7. EDUASSIST ME KAHAN AAYEGA
 ------------------------------------------------------------
-  - Student ka sawal -> course content ke saath AI ko -> jawab   (token cost!)
-  - Assignment feedback generate karna
-  - Course ka summary
+    - Student ka sawal -> course content ke saath AI ko -> jawab   (token cost!)
+    - Assignment feedback generate karna
+    - Course ka summary
 Har jagah sochna padega: kitne tokens, kitna time, galat jawab ka risk kitna.
 
 
@@ -99,36 +99,36 @@ Har jagah sochna padega: kitne tokens, kitna time, galat jawab ka risk kitna.
 8. INTERVIEW ANGLE
 ------------------------------------------------------------
 Q: "Token aur context window kya hai?"
-  Token = text ka tukda jo model process karta hai, billing aur limits isi
-  pe. Context window = ek request me model jitne tokens dekh sakta hai
-  (input + output).
+    Token = text ka tukda jo model process karta hai, billing aur limits isi
+    pe. Context window = ek request me model jitne tokens dekh sakta hai
+    (input + output).
 
 Q: "Chatbot ko pichli baatein kaise yaad rehti hain?"
-  API stateless hai; app har request me history dobara bhejta hai. Lambi
-  history ko trim/summarize karna padta hai cost aur limit ke liye.
+    API stateless hai; app har request me history dobara bhejta hai. Lambi
+    history ko trim/summarize karna padta hai cost aur limit ke liye.
 
 Q: "Hallucination kaise kam karoge?" -> Grounding (RAG), clear instructions,
-  structured output, verification, kam temperature for factual tasks.
+    structured output, verification, kam temperature for factual tasks.
 
 
 ------------------------------------------------------------
 9. AAM GALATFEHMI
 ------------------------------------------------------------
 - "AI internet search karke jawab deta hai" -> Base model nahi; wo training
-  data se seekha hua pattern use karta hai. Search tab, jab app ne tool diya ho.
+    data se seekha hua pattern use karta hai. Search tab, jab app ne tool diya ho.
 - "Model meri conversation se seekh raha hai (train ho raha hai)" -> Ek
-  conversation ke andar sirf context me hai; model ke weights nahi badalte.
+    conversation ke andar sirf context me hai; model ke weights nahi badalte.
 - "Bada context window = sab daal do" -> Zyada tokens = zyada cost, zyada
-  slow, aur faltu text se jawab ki quality bhi gir sakti hai.
+    slow, aur faltu text se jawab ki quality bhi gir sakti hai.
 
 
 ------------------------------------------------------------
 10. 5-MIN PRACTICE
 ------------------------------------------------------------
 Kisi bhi AI chat me:
-  1. Same sawal 2 alag nayi chats me poocho: "Laravel me N+1 problem 3 line
+    1. Same sawal 2 alag nayi chats me poocho: "Laravel me N+1 problem 3 line
      me samjhao." Dono jawab compare karo – alag kyun hain? (temperature)
-  2. Poocho: "Laravel ka Model::preventEagerLoadingBlaBla() method kya karta
+    2. Poocho: "Laravel ka Model::preventEagerLoadingBlaBla() method kya karta
      hai?" (ye method EXIST nahi karta). Dekho kya model maan leta hai ya mana
      karta hai – hallucination test.
 
