@@ -32,3 +32,6 @@ dist/
 build/
 *.log
 DAILY-15-MIN/_automation/log.txt
+
+# Local setup notes
+SETUP.txt
