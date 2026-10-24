@@ -1,0 +1,137 @@
+OPENROUTER FREE MODELS – BINA PAISE KE AI CODING AUR SETUP
+=========================================================
+Topic: ai
+Date: 24-10-2026
+Status: learning
+Source: openrouter.ai docs, live models directory (24-10-2026)
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    OpenRouter par bina koi credit card ya paisa diye ($0), roz 50 requests
+    ke saath powerful open-source models (Qwen Coder, DeepSeek, Llama) free
+    me use kar sakte ho.
+
+    Misaal: Buffet me premium dishes (Claude) ka alag bill hai, par welcome
+    counter par badhiya items (Qwen, DeepSeek) har roz 50 plates free hain.
+
+
+------------------------------------------------------------
+2. KYA FREE HAI AUR KYA NAHI
+------------------------------------------------------------
+    Koshish: "Claude ko free chalana"
+    Sachai:  Claude (Anthropic) ka koi bhi model OpenRouter par FREE nahi hai.
+             Anthropic har token ka charge leta hai.
+
+    Toh FREE kya hai?
+    Jinke naam ke aage ":free" laga hai, OpenRouter unhe $0 par serve karta hai:
+
+    Model                                Context   Kaam / Khasiyat
+    -----------------------------------  --------  ----------------------------------------
+    qwen/qwen-2.5-coder-32b-instruct:free  32k     Coding, refactoring, bug-fix ke liye BEST
+    deepseek/deepseek-chat:free           64k      V3 model, smart logic, fast response
+    deepseek/deepseek-r1:free             64k      Deep reasoning, complex problem solving
+    meta-llama/llama-3.3-70b-instruct:free 128k    General writing, architecture, analysis
+    google/gemini-2.0-flash-exp:free      1M       Lamba context, rapid quick answers
+
+    Free account limit:
+    - $0 balance par: 50 requests / 24 ghante (rate limit: ~20 req/min).
+    - Agar kabhi $10 credit add kiya ho (bina kharch kiye bhi): 1,000 requests/din.
+
+
+------------------------------------------------------------
+3. FREE KEY KAISE LEIN (2 MINUTE, $0)
+------------------------------------------------------------
+    STEP 1 – https://openrouter.ai par jaao, Google ya GitHub se login karo.
+    STEP 2 – https://openrouter.ai/keys par jaao.
+    STEP 3 – "Create Key" button dabao:
+             - Name: "free-tier-key"
+             - Credit limit: khaali chhod do (0 credit card required).
+    STEP 4 – Key copy karo: "sk-or-v1-xxxxxxxx..." (yeh dubara nahi dikhegi).
+
+
+------------------------------------------------------------
+4. KAHAN AUR KAISE USE KAREIN
+------------------------------------------------------------
+
+    TAREEKA A – "VS Code (OpenRouter)" window me Claude Code:
+    --------------------------------------------------------
+    File: %USERPROFILE%\.claude-openrouter\settings.json
+    Settings me env block update karo:
+
+    {
+      "env": {
+        "ANTHROPIC_BASE_URL": "https://openrouter.ai/api",
+        "ANTHROPIC_AUTH_TOKEN": "<YOUR-OPENROUTER-KEY>",
+        "ANTHROPIC_API_KEY": "",
+        "CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY": "1",
+        "ANTHROPIC_DEFAULT_SONNET_MODEL": "qwen/qwen-2.5-coder-32b-instruct:free",
+        "ANTHROPIC_DEFAULT_HAIKU_MODEL": "deepseek/deepseek-chat:free"
+      }
+    }
+
+    Dhyan: Claude Code extension Anthropic ke custom prompts ke liye bani
+    hai. Free models code likh denge, par complex agentic tool-use me kabhi-kabhi
+    schema mismatch de sakte hain.
+
+
+    TAREEKA B – Cline Extension (SABSE RELIABLE AUR SMOOTH):
+    --------------------------------------------------------
+    Aapke laptop par Cline pehle se installed hai. Cline OpenRouter native
+    support karta hai aur tool-use 100% stable chalta hai:
+
+    1. VS Code me Cline icon kholo -> Settings (gear icon).
+    2. API Provider: "OpenRouter" select karo.
+    3. OpenRouter API Key: apni "<YOUR-OPENROUTER-KEY>" paste karo.
+    4. Model ID: "qwen/qwen-2.5-coder-32b-instruct:free" chuno.
+    5. Save karo. Ab Cline free me full coding, file edits aur terminal chalaega.
+
+
+    TAREEKA C – Terminal / PowerShell se test call:
+    ----------------------------------------------
+    PowerShell me check karne ke liye:
+
+    $key = "<YOUR-OPENROUTER-KEY>"
+    $body = @{
+      model = "qwen/qwen-2.5-coder-32b-instruct:free"
+      messages = @(@{ role = "user"; content = "Hello! Ek line me introduction do." })
+    } | ConvertTo-Json
+
+    Invoke-RestMethod -Uri "https://openrouter.ai/api/v1/chat/completions" `
+      -Method Post `
+      -Headers @{ "Authorization" = "Bearer $key"; "Content-Type" = "application/json" } `
+      -Body $body | Select-Object -ExpandProperty choices | Select-Object -ExpandProperty message
+
+
+------------------------------------------------------------
+5. GALTIYAN / GOTCHAS
+------------------------------------------------------------
+    - Claude model ka naam daal diya aur socha free chalega:
+      "anthropic/claude-sonnet-5.5" likhoge toh OpenRouter "Insufficient credits"
+      error de dega. Model ke aage ":free" hona zaroori hai.
+    - 50 requests ki limit:
+      Lambi multi-file loop ya endless terminal commands me 50 requests jaldi
+      khatam ho sakti hain. Chhote specific sawaalon aur targeted edits ke liye use karo.
+    - Provider rate limits / busy error:
+      Free models par worldwide traffic hota hai. Agar "Provider returned error (429/503)"
+      aaye toh doosra free model try karo (jaise Qwen busy ho toh DeepSeek Chat chuno).
+    - Key plain-text me leak mat hone dena:
+      Bhale hi free account ho, key git me commit nahi honi chahiye.
+
+
+------------------------------------------------------------
+6. LINKS
+------------------------------------------------------------
+    - OpenRouter Free Models list:  https://openrouter.ai/models?max_price=0
+    - OpenRouter Keys Dashboard:    https://openrouter.ai/keys
+    - OpenRouter Activity / Usage:  https://openrouter.ai/activity
+    - Related Note:                 NOTES/ai/claude-code/two-editors-setup.txt
+    - Related Note:                 NOTES/ai/claude-code/openrouter-claude.txt
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    OpenRouter par Claude free nahi hai, par ":free" tag wale Qwen Coder aur
+    DeepSeek roz 50 requests tak $0 me coding ke liye best hain.

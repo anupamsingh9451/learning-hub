@@ -36,7 +36,8 @@ NOTES/
 │   ├── ai-3d-product-website.txt  AI se exploded-view 3D product site (frames + canvas)
 │   ├── claude-code/           Claude Code ka setup aur providers
 │   │   ├── openrouter-claude.txt   OpenRouter se Claude, kab use karein, behtar options
-│   │   └── two-editors-setup.txt   Antigravity = original, VS Code = OpenRouter
+│   │   ├── openrouter-free-models.txt OpenRouter ke free models (:free) aur $0 coding setup
+│   │   └── two-editors-setup.txt   VS Code normal = original, VS Code (OpenRouter) = OpenRouter
 │   ├── rea-reverse-engineering.txt  REA: agent se kisi app ka feature samajhna (MCP)
 │   ├── ruflo.txt              Claude Code ke saath AI agents ki team (setup + safe use)
 │   ├── saas-15-layer-playbook.txt AI se asli SaaS: 15 layers + Laravel mapping
