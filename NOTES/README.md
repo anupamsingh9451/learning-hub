@@ -20,6 +20,7 @@ NOTES/
 │   ├── nextjs.txt
 │   └── nextjs-repos.txt
 ├── html/                      HTML, CSS, UI design
+│   ├── animated-ui-components.txt Skiper UI, Vengeance AI, Animaster (motion kits)
 │   ├── bootstrap.txt
 │   ├── tailwind.txt
 │   ├── ui-styles.txt          UI design basics + 38 UI styles (naam, website, repo)
@@ -38,9 +39,11 @@ NOTES/
 │   │   ├── openrouter-claude.txt   OpenRouter se Claude, kab use karein, behtar options
 │   │   ├── openrouter-free-models.txt OpenRouter ke free models (:free) aur $0 coding setup
 │   │   └── two-editors-setup.txt   VS Code normal = original, VS Code (OpenRouter) = OpenRouter
+│   ├── design-audit-prompts.txt    5 structured audit prompts (hierarchy, type, spacing, color, 10x ROI)
 │   ├── rea-reverse-engineering.txt  REA: agent se kisi app ka feature samajhna (MCP)
 │   ├── ruflo.txt              Claude Code ke saath AI agents ki team (setup + safe use)
 │   ├── saas-15-layer-playbook.txt AI se asli SaaS: 15 layers + Laravel mapping
+│   ├── vibecoded-website-fixes.txt 20 fixes: mobile overflow se clickable logo/tel/mail tak
 │   └── vibecoding-prompts.txt 20 prompts: PRD se final audit tak
 ├── database/
 │   ├── database-types.txt     SQL vs NoSQL, ACID, CAP, saare DB types (shuru yahin se)

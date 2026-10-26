@@ -9,6 +9,8 @@ writing style, tone, format, kaam karne ka tareeka. Har guideline ek alag `.md` 
 |---|---|
 | `writing-style.md` | Saara content simple, natural Hinglish me kaise likhna hai |
 | `agents.md` | Recurring kaam ke liye Claude Code subagents: kaunse hain, naye kaise banane hain |
+| `../_templates/WEB_PAGE_DEVELOPMENT_PROMPT.md` | Universal Web Page Development Master Prompt (har page create/redesign ke liye) |
+| `../_templates/CODE_CLEANUP_MASTER_PROMPT.md` | Continuous Code Cleanup & Dead Code Removal Master Prompt (refactoring, safe file deletion) |
 
 ## Nayi guideline kaise add karein
 

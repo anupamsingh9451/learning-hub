@@ -787,12 +787,19 @@ Status: learning
     https://dribbble.com              designers ke shots (tags se style dhoondho)
     https://land-book.com             landing pages
     https://www.lapa.ninja            landing pages
+    https://saaspo.com                SaaS landing pages, pricing & features
+    https://selected.site             curated minimal & crafted websites
+    https://dark.design               dark mode websites & UI inspiration
     https://onepagelove.com           one-page sites
     https://saaslandingpage.com       SaaS landing pages
     https://mobbin.com                real apps ki screens
     https://minimal.gallery           minimal sites
     https://brutalistwebsites.com     brutalist sites
-    https://bentogrids.com            bento layouts
+    https://supahero.io               hero section inspiration & layouts
+    https://navbar.gallery            navbar & header design patterns
+    https://bentogrids.com            bento layouts & grid cards
+    https://cta.gallery               CTA button & conversion section designs
+    https://footer.design             footer layouts & patterns
     https://www.figma.com/design-systems/   design systems ke baare me
 
 

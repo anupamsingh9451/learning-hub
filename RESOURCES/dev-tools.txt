@@ -43,9 +43,13 @@ Source: "Best Websites for VibeCoders" (Google Doc) + extra tools mere stack ke 
     HyperUI              https://www.hyperui.dev    Free Tailwind components, plain HTML
     Flowbite             https://flowbite.com       Tailwind components + JS (Blade/PHP me bhi)
     daisyUI (+)          https://daisyui.com        Tailwind ke upar btn/card classes, React zaroori nahi
+    Skiper UI (+)        https://skiper-ui.com      shadcn-ready uncommon animations, cursor trails & islands
+    Vengeance AI (+)     https://vengenceui.com     Vibe-coding & AI-agent ready components (Cursor/Claude MCP)
+    Animaster (+)        https://animmasterlib.dev  300+ animated UI blocks, scroll animations & WebGL
 
-    Tip: React/Next = shadcn base, upar se Magic UI/Aceternity. Laravel Blade
+    Tip: React/Next = shadcn base, upar se Magic UI/Aceternity/Skiper UI/Vengeance. Laravel Blade
     ya CodeIgniter = Flowbite, daisyUI, HyperUI.
+    Detail: NOTES/html/animated-ui-components.txt (Skiper UI, Vengeance AI, Animaster deep dive)
 
 
 ------------------------------------------------------------
@@ -416,6 +420,18 @@ Source: "Best Websites for VibeCoders" (Google Doc) + extra tools mere stack ke 
     Lapa Ninja             https://www.lapa.ninja    Landing pages
     SaaSFrame              https://www.saasframe.io  SaaS UI screens
     Refero                 https://refero.design     Product UI inspiration
+    Selected (+)           https://selected.site     Curated minimal & high-craft sites
+    Saaspo (+)             https://saaspo.com        SaaS landing pages, pricing & flows
+    Dark Design (+)        https://dark.design       Dark mode websites & UI inspiration
+
+    Component-wise Inspiration (Nav, Hero, Footer, Bento, CTA):
+    Naam                   Link                      Kis kaam ka
+    ---------------------  ------------------------  --------------------
+    Navbar Gallery (+)     https://navbar.gallery    Navbar aur header designs
+    Supahero (+)           https://supahero.io       Hero section design inspiration
+    Bento Grids (+)        https://bentogrids.com    Bento grid layouts aur cards
+    CTA Gallery (+)        https://cta.gallery       Call-to-Action (CTA) sections & buttons
+    Footer Design (+)      https://footer.design     Footer designs aur patterns
 
     Aur: NOTES/html/ui-styles.txt (38 UI styles)
 

@@ -1,0 +1,261 @@
+VIBECODED WEBSITE KE 20 CRITICAL FIXES (CLAUDE CHECKLIST)
+========================================================
+Topic: ai
+Date: 26-10-2026
+Time: ~20 min (ek baar poora padho, release se pehle checklist chalao)
+Status: reference
+Source: 20 things to tell Claude to fix on your vibecoded website (in 27 seconds)
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    Jab AI (Claude Code, Cursor, ya ChatGPT) se website banwate hain (vibe
+    coding), toh look accha dikhta hai par 20 choti-moti production
+    mistakes reh jaati hain. Yeh checklist unhi 20 galtiyon ko pakad kar
+    turant fix karwane ke liye hai.
+
+
+------------------------------------------------------------
+2. KYUN ZAROORI HAI / KAB USE KAREIN
+------------------------------------------------------------
+    AI pehli baar me hamesha "happy path" aur desktop view ko dhyan me rakh
+    kar code likhta hai. Asli users aate hain mobile se, unhe broken buttons,
+    horizontal scroll, aur dead links milte hain.
+
+    Kab use karein:
+    - Kisi bhi vibecoded project ko live karne se 1 ghante pehle.
+    - Claude Code session me audit command chalane ke liye.
+    - Client ko demo dikhane se theek pehle.
+
+
+------------------------------------------------------------
+3. 20 FIXES KI LIST AUR CLAUDE PROMPTS
+------------------------------------------------------------
+
+    01. REMOVE HORIZONTAL SCROLLING
+        Samasya : Mobile par page right-left hilta hai. Wajah: `w-screen`,
+                  fixed width elements (e.g. `w-[600px]`), ya margin overflow.
+        Claude Prompt:
+        "Check all pages on mobile viewports (320px to 420px). Find any
+        elements causing horizontal overflow or horizontal scrolling, and fix
+        them using max-w-full, overflow-x-hidden, or responsive flex/grid."
+
+    02. FIND BROKEN LINKS
+        Samasya : Links jo `href="#"`, empty string, ya non-existent routes par
+                  point kar rahe hain.
+        Claude Prompt:
+        "Scan all anchor tags and router links across the codebase. Find any
+        broken, empty (href='#'), or dead internal/external links, and either
+        link them to valid routes or add appropriate placeholders."
+
+    03. ADD A MOBILE MENU
+        Samasya : Desktop header mobile me toot jaata hai ya screen se bahar nikal
+                  jaata hai; burger icon missing hota hai.
+        Claude Prompt:
+        "Create a responsive mobile navigation menu with an accessible
+        hamburger button, smooth open/close drawer transition, backdrop overlay,
+        and auto-close on route change or outside click."
+
+    04. ADD A FAVICON
+        Samasya : Browser tab me default Vite/React/Next.js logo ya blank icon dikhta
+                  hai.
+        Claude Prompt:
+        "Add a clean, modern SVG and PNG favicon matching the project brand,
+        and wire it up in the root index.html / layout metadata along with
+        apple-touch-icon support."
+
+    05. FIX PAGE TITLES
+        Samasya : Har page ka title 'Vite App' ya static project name rehta hai.
+        Claude Prompt:
+        "Ensure every route/page has a distinct, meaningful document title
+        (e.g., 'Page Name | Brand') using the framework's native head/metadata
+        or router title hooks."
+
+    06. ADD META DESCRIPTIONS
+        Samasya : Google search aur social share ke liye meta description missing hoti
+                  hai.
+        Claude Prompt:
+        "Add unique SEO meta descriptions, Open Graph (og:title, og:description,
+        og:image), and Twitter card metadata for every primary page."
+
+    07. FIX FOOTER LINKS
+        Samasya : Footer me Privacy Policy, Terms, aur Social links dead hote hain.
+        Claude Prompt:
+        "Inspect all footer links. Ensure legal links point to actual pages or
+        dialogs, and external social media links open in a new tab with
+        rel='noopener noreferrer'."
+
+    08. ADD A CUSTOM 404 PAGE
+        Samasya : Invalid URL daalne par browser ka generic error ya white screen aati
+                  hai.
+        Claude Prompt:
+        "Create a polished custom 404 Not Found page matching our design system,
+        with a friendly message, search/navigation links, and a prominent
+        'Back to Home' button."
+
+    09. FIX THE COPYRIGHT YEAR
+        Samasya : Footer me hardcoded purana saal hota hai (e.g., 2023 ya 2024).
+        Claude Prompt:
+        "Replace any hardcoded copyright year in the footer with dynamic year
+        generation (e.g., new Date().getFullYear())."
+
+    10. COMPRESS IMAGES
+        Samasya : Heavy PNGs/JPEGs (2MB+) page load ko slow kar dete hain.
+        Claude Prompt:
+        "Audit all images in the project. Convert large assets to modern WebP/AVIF
+        formats, add lazy loading (loading='lazy'), and specify explicit width/height
+        or aspect-ratio to prevent layout shifts (CLS)."
+
+    11. FIX BROKEN BUTTONS
+        Samasya : Buttons jinpe onClick missing hai, dummy console.log hai, ya disabled
+                  state nahi hai.
+        Claude Prompt:
+        "Check every button and interactive component. Ensure all buttons have
+        working click handlers, loading states during async actions, and proper
+        disabled styling when unavailable."
+
+    12. ADD SUCCESS MESSAGES
+        Samasya : Form submit ya copy action hone ke baad user ko pata nahi chalta
+                  ki kaam hua ya nahi.
+        Claude Prompt:
+        "Add clear user feedback (toast notifications, inline alerts, or confirmation
+        dialogs) after successful actions like form submissions, copying text, or
+        saving changes."
+
+    13. ADD ERROR MESSAGES
+        Samasya : API fail hone ya galat input par screen chup chap baith jaati hai.
+        Claude Prompt:
+        "Implement visible, helpful error messages for failed API calls, form
+        validation errors, and network disconnects instead of failing silently."
+
+    14. REMOVE PLACEHOLDER TEXT
+        Samasya : 'Lorem ipsum dolor sit amet', 'John Doe', ya test data live page par
+                  reh jaata hai.
+        Claude Prompt:
+        "Search the entire codebase for 'lorem ipsum', dummy names, placeholder
+        descriptions, and temporary test strings, and replace them with authentic,
+        production-ready copy."
+
+    15. REMOVE UNUSED NAVIGATION
+        Samasya : Header ya sidebar me aise features ke links jo abhi bane hi nahi.
+        Claude Prompt:
+        "Audit navigation menus and remove any links pointing to unfinished
+        features or unimplemented pages to keep the navigation clean."
+
+    16. FIX MOBILE OVERFLOW
+        Samasya : Tables, code blocks, wide images, ya badges mobile screen se bahar
+                  bhagte hain.
+        Claude Prompt:
+        "Inspect wide components (tables, code snippets, large cards, flex rows)
+        and wrap them in responsive scroll containers or refactor them to stack
+        vertically on mobile devices."
+
+    17. MAKE THE LOGO CLICKABLE
+        Samasya : Top navbar ka logo sirf image/text hota hai, home page par le kar
+                  nahi jaata.
+        Claude Prompt:
+        "Ensure the brand logo in the header/navbar is wrapped in a home route link
+        ('/', with appropriate aria-label='Home') and has smooth hover feedback."
+
+    18. MAKE THE PHONE NUMBER CLICKABLE
+        Samasya : Phone number plain text hota hai; mobile user tap karke call nahi
+                  milata.
+        Claude Prompt:
+        "Wrap all displayed phone numbers in valid tel: links (e.g. href='tel:+1...'),
+        ensuring proper formatting and accessibility attributes."
+
+    19. MAKE THE EMAIL CLICKABLE
+        Samasya : Support email plain text hota hai; user ko copy-paste karna padta
+                  hai.
+        Claude Prompt:
+        "Wrap all contact and support email addresses in valid mailto: links with
+        optional default subject lines."
+
+    20. MAKE EVERY PAGE MOBILE OPTIMIZED
+        Samasya : Sub-pages sirf desktop view me design kiye gaye hote hain; font chota,
+                  padding ajeeb hoti hai.
+        Claude Prompt:
+        "Perform a responsive design pass across all pages. Ensure all touch targets
+        are at least 44x44px, font sizes are comfortably readable without zooming,
+        and padding/margins adapt cleanly to small screens."
+
+
+------------------------------------------------------------
+4. 27-SECOND ALL-IN-ONE AUDIT PROMPT (CLAUDE CODE ME COPY-PASTE)
+------------------------------------------------------------
+    Agar ek-ek karke nahi bolna, toh yeh single mega-prompt Claude Code ya
+    Cursor me daal do:
+
+    ------------------------------------------------------------
+    You are a meticulous senior frontend engineer and QA lead.
+    Perform a comprehensive 20-point production audit on this website:
+
+    1. Remove any horizontal scrolling and overflow on mobile (320px-420px).
+    2. Identify and fix any broken, empty (#), or dead links.
+    3. Ensure a fully functional, responsive mobile navigation menu exists.
+    4. Verify favicon and touch icons are present and properly linked.
+    5. Set unique, descriptive page titles for every route.
+    6. Add meta descriptions and Open Graph tags for key pages.
+    7. Ensure all footer links work; external links have rel='noopener noreferrer'.
+    8. Confirm a polished, helpful custom 404 Not Found page exists.
+    9. Make copyright year dynamic using new Date().getFullYear().
+    10. Check image assets: ensure compression, dimensions, and lazy loading.
+    11. Fix non-functional buttons, missing click handlers, and loading states.
+    12. Add clear success messages/toasts for user actions and form submits.
+    13. Add inline validation and actionable error messages for failure states.
+    14. Remove all 'Lorem ipsum', dummy mock strings, and leftover placeholders.
+    15. Prune any navigation links that lead to unbuilt pages.
+    16. Fix wide tables, code blocks, or card containers overflowing on mobile.
+    17. Ensure the header logo links directly to the home route ('/').
+    18. Wrap all phone numbers in clickable 'tel:' links.
+    19. Wrap all email addresses in clickable 'mailto:' links.
+    20. Ensure minimum 44px touch targets and responsive typography across all pages.
+
+    First give me a concise checklist of issues found under these 20 points,
+    then systematically apply the fixes.
+    ------------------------------------------------------------
+
+
+------------------------------------------------------------
+5. GALTIYAN JO LOG KARTE HAIN / GOTCHAS
+------------------------------------------------------------
+    - Overflow fix karte waqt `body { overflow-x: hidden; }` laga dena:
+      Isse screen to fix ho jaati hai par kabhi-kabhi `position: sticky` toot
+      jaata hai. Root cause (koi fixed width child) theek karna behtar hai.
+    - Tel aur Mailto links me space ya special character chhod dena:
+      `tel:+919876543210` likho, `tel:+91 98765 43210` me kuch browsers confuse
+      hote hain.
+    - Favicon add karte waqt cache bhool jaana: browser purana favicon cache
+      rakhta hai, test karte waqt hard refresh (Ctrl+F5) karo.
+    - 404 page banaya par client-side routing me catch-all route `path="*"`
+      jodna bhool gaye.
+
+
+------------------------------------------------------------
+6. LINKS & SAMBANDHIT NOTES
+------------------------------------------------------------
+    - Vibecoding ke 20 Prompts        NOTES/ai/vibecoding-prompts.txt
+    - Design Quality Audit Prompts    NOTES/ai/design-audit-prompts.txt
+    - UI Design Basics & 38 Styles    NOTES/html/ui-styles.txt
+    - Animated UI Components          NOTES/html/animated-ui-components.txt
+    - Dev Tools & Inspiration Links   RESOURCES/dev-tools.txt
+    - Claude Code Setup & Guides      NOTES/ai/claude-code/
+    - 20 AI Agents Blueprint          NOTES/ai/20-ai-agents-blueprint.txt
+
+    Component Inspiration Sites (Fixes karte waqt reference ke liye):
+    - Navbar & Headers   : https://navbar.gallery  (Point 3 mobile menu & headers)
+    - Hero Sections      : https://supahero.io     (Point 1 & 20 hero layout & copy)
+    - Bento Grid Layouts : https://bentogrids.com  (Point 16 mobile overflow / cards)
+    - Call to Action/CTA : https://cta.gallery     (Point 11 buttons & conversions)
+    - Footers            : https://footer.design   (Point 7 & 9 footer links & year)
+    - SaaS UI & Pricing  : https://saaspo.com      (SaaS landing pages & flows)
+    - Dark Mode UI       : https://dark.design     (Dark theme styles & contrasts)
+    - Curated Minimal UI : https://selected.site   (Clean aesthetic & high craft)
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    AI code banaye toh look 10/10 hota hai, par production polish 0/10 hoti
+    hai — launch se pehle yeh 20-point checklist zaroor run karo.

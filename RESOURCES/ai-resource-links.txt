@@ -103,6 +103,9 @@ Source: https://bit.ly/3UAZU6S  (Instagram creator @woke_engineer ka links page,
         (page pe link ke end me galti se "." laga tha, yeh sahi link hai)
     29) There's An AI For That – 37,000+ AI tools directory   SITE
         https://theresanaiforthat.com
+    30) Vibe Coding a Real SaaS: 15-Layer Playbook            PDF   [padha]
+        https://drive.google.com/file/d/1YQHMjKmWpsES3vAAnmxzTbS5Mv9yS0pf/view
+        Note: NOTES/ai/saas-15-layer-playbook.txt
 
     Isi creator ke jo resources maine padh ke note banaye:
         - 3D product website (AURIX guide)  NOTES/ai/ai-3d-product-website.txt

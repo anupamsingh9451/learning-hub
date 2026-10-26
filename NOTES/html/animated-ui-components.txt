@@ -1,0 +1,199 @@
+ANIMATED UI COMPONENTS & VIBE-CODING KITS (SKIPER UI, VENGEANCE AI, ANIMASTER)
+=================================================================================
+Topic: html
+Date: 26-10-2026
+Time: ~25 min
+Status: reference
+Source: Modern UI Ecosystem (Skiper UI, Vengeance UI/AI, Animmaster Lib, shadcn)
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    shadcn/ui ke upar banaye gaye 3 naye high-end animated component kits
+    jo website ko Apple aur award-winning websites jaisa premium look aur
+    micro-interactions dete hain, seedhe AI prompts ya CLI se copy-paste karke.
+
+
+------------------------------------------------------------
+2. KYUN ZAROORI HAI / KAB USE KAREIN
+------------------------------------------------------------
+    Har developer aaj kal shadcn/ui use kar raha hai, jisse saari websites
+    ek jaisi (generic SaaS look) lagne lagi hain.
+    
+    Agar client ya user ko "WOW" factor dena ho bina hafton tak Framer Motion
+    ya GSAP ka complex math likhe, toh yeh 3 libraries ready-made complex
+    interactions provide karti hain:
+
+    - Skiper UI   : Jab Apple-style Dynamic Islands, cursor trails, ya unusual
+                    creative micro-interactions chahiye.
+    - Vengeance AI: Jab Cursor ya Claude Code se prompt likh kar seedha
+                    complex animated sections generate karwane hon (MCP integrated).
+    - Animaster   : Jab 300+ ready animated blocks, WebGL shaders, aur smooth
+                    scroll effects chahiye hon.
+
+
+------------------------------------------------------------
+3. TEENO TOOLS KA DEEP DIVE
+------------------------------------------------------------
+
+    [1] SKIPER UI (https://skiper-ui.com)
+    --------------------------------------------------------
+    Kya hai:
+        Next.js, React, Tailwind CSS aur Framer Motion (Motion.dev) par bana
+        ek modern component kit jo "Un-common components" par focus karta hai.
+        Yeh standard buttons ya forms nahi deta (woh shadcn deta hai), balki
+        rare aesthetic elements deta hai.
+
+    Special Components:
+        - Dynamic Island (iOS style morphing header/status bar)
+        - Cursor Follower & Image Trails (mouse move pe images ya effects)
+        - Interactive Scroll Reveals & Velocity Marquees
+        - Morphing Dialogs & Vercel-style Tooltips
+        - Card Stack & Parallax Hero Banners
+
+    Kaise Use Karein (CLI / Copy-Paste):
+        1. Base project me shadcn/ui aur Tailwind hona chahiye.
+        2. Dependencies install karo:
+               npm install motion lucide-react clsx tailwind-merge
+        3. Site se component code copy karo aur apne `components/ui/` me daalo,
+           ya unke provided registry link se add karo.
+
+
+    [2] VENGEANCE AI / VENGEANCE UI (https://vengenceui.com)
+    --------------------------------------------------------
+    Kya hai:
+        Vibe-coding aur AI Coding Assistants (Cursor, Claude Code, Windsurf) ke
+        liye design kiya gaya first motion UI registry. Iska sabse bada feature
+        hai iska **AI Agent & MCP (Model Context Protocol) Support**.
+
+    Kyun Khaas Hai (Vibe-Coder ke liye):
+        - Sirf code copy karne ki jagah, aap iske agent skill ya MCP server ko
+          apne editor me install kar sakte ho:
+              npx vengeanceui init
+        - Iske baad Claude ya Cursor ko sirf bolo:
+          "Add a displacement hover card from Vengeance UI to the pricing section"
+          aur AI agent registry se seedha correct component fetch karke laga dega.
+
+    Key Features:
+        - Displacement hover effects (mouse hover par image ya background morph)
+        - Magnetic buttons aur glowing border cards
+        - Scroll-driven story blocks aur sticky timeline transitions
+        - Full TypeScript aur Tailwind CSS support
+
+
+    [3] ANIMASTER / ANIMMASTER LIB (https://animmasterlib.dev)
+    --------------------------------------------------------
+    Kya hai:
+        300+ PRO-level pre-built animated UI components aur WebGL shaders ka
+        bada collection. Yeh React/Next.js ke saath-saath vanilla HTML/CSS/JS
+        me bhi kaam karta hai.
+
+    Key Features:
+        - WebGL shaders aur interactive canvas backgrounds
+        - Smooth scroll animations aur locomotive-style sections
+        - Interactive 3D tilt cards aur glass-refraction blocks
+        - Ready-to-drop hero sections aur animated navigation bars
+
+    Kab Use Karein:
+        Jab kisi landing page ya portfolio me heavy visual impact chahiye,
+        jaise creative agency, Web3 project, ya luxury product website.
+
+
+------------------------------------------------------------
+4. COMPARISON MATRIX (KAUNSA KAB CHUNNA HAI)
+------------------------------------------------------------
+    Library        Base Stack             Best For                  AI/MCP Ready?
+    -------------  ---------------------  ------------------------  -------------
+    shadcn/ui      Tailwind + Radix       Clean, standard SaaS UI   Standard
+    Magic UI       Tailwind + Motion      Landing page badges/cards Partial
+    Aceternity UI  Tailwind + Motion      Backgrounds & 3D Cards    Manual copy
+    Skiper UI      Tailwind + Motion      Uncommon micro-effects    Copy-paste
+    Vengeance AI   Tailwind + Motion/MCP  Prompt-driven animations  Yes (Full MCP)
+    Animaster      Tailwind/WebGL/JS      Agency & Shader visuals   Manual/Copy
+
+
+------------------------------------------------------------
+5. QUICK CODE EXAMPLE: DYNAMIC ISLAND / MORPHING HEADER (SKIPER STYLE)
+------------------------------------------------------------
+    ```tsx
+    // components/ui/dynamic-island.tsx
+    "use client";
+    import React, { useState } from "react";
+    import { motion, AnimatePresence } from "framer-motion";
+
+    export function DynamicIsland() {
+        const [expanded, setExpanded] = useState(false);
+
+        return (
+            <motion.div
+                layout
+                onClick={() => setExpanded(!expanded)}
+                className="fixed top-6 left-1/2 -translate-x-1/2 z-50 bg-black text-white px-5 py-3 rounded-full cursor-pointer shadow-2xl flex items-center gap-3 border border-neutral-800"
+                transition={{ type: "spring", stiffness: 400, damping: 30 }}
+            >
+                <div className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse" />
+                <AnimatePresence mode="wait">
+                    {!expanded ? (
+                        <motion.span
+                            key="collapsed"
+                            initial={{ opacity: 0, y: 5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -5 }}
+                            className="text-xs font-medium tracking-wide"
+                        >
+                            Art Gallery Day • Live Map
+                        </motion.span>
+                    ) : (
+                        <motion.div
+                            key="expanded"
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                            className="flex items-center gap-4 text-xs"
+                        >
+                            <span>142 Galleries Active</span>
+                            <span className="text-neutral-500">|</span>
+                            <span className="text-emerald-400 font-semibold">Phase 1 Live</span>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </motion.div>
+        );
+    }
+    ```
+
+
+------------------------------------------------------------
+6. GALTIYAN JO LOG KARTE HAIN / GOTCHAS
+------------------------------------------------------------
+    - 'use client' bhool jaana:
+      Next.js App Router me Motion aur hooks wale components ke top par
+      `"use client";` zaroori hai, warna build fail hogi.
+    - Bundle size bloating:
+      Saare fancy components ek saath mat lagao. WebGL shaders aur heavy
+      particles mobile GPU ko garam kar dete hain aur battery exhaust karte hain.
+    - Mobile screen pe cursor effects:
+      Cursor follower aur hover trails ko mobile screens (`hidden md:block`)
+      par hide karna chahiye, kyunki touch devices par mouse pointer nahi hota.
+    - CSS layout break / horizontal overflow:
+      Complex scale animations karte waqt parent container par
+      `overflow-hidden` ya `relative` zaroor verify karo.
+
+
+------------------------------------------------------------
+7. LINKS & SAMBANDHIT NOTES
+------------------------------------------------------------
+    - Dev Tools Directory             RESOURCES/dev-tools.txt
+    - UI Design Basics & 38 Styles    NOTES/html/ui-styles.txt
+    - UI Repositories                 NOTES/html/ui-repos.txt
+    - 20 Vibecoded Website Fixes      NOTES/ai/vibecoded-website-fixes.txt
+    - Vibecoding Prompts Guide        NOTES/ai/vibecoding-prompts.txt
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    Standard UI ke liye shadcn, prompt-driven AI animations ke liye
+    Vengeance AI, uncommon micro-interactions ke liye Skiper UI, aur
+    WebGL visual punch ke liye Animaster.

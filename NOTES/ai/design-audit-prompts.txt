@@ -1,0 +1,192 @@
+DESIGN AUDIT PROMPTS – WHY DESIGNS LOOK CHEAP & HOW TO FIX
+==========================================================
+Topic: ai
+Date: 26-10-2026
+Time: ~15 min
+Status: reference
+Source: Taha Jaffri (@tahajaffriii) – Structured Design Quality Audit
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    AI ya developer se bani site aksar "cheap" (amateur) lagti hai kyunki
+    generic feedback ("thoda theek karo") kaam nahi karta. Yeh 4 clinical
+    prompts AI (Claude / ChatGPT / Cursor) se surgical design audit
+    karwate hain taaki design $500 se $5,000 jaisa premium dikhe.
+
+
+------------------------------------------------------------
+2. ASLI SAMASYA: DESIGNS CHEAP KYUN LAGTE HAIN?
+------------------------------------------------------------
+    Zyadatar designers aur developers ko feedback milta hai:
+    "Kuch maza nahi aa raha", "Thoda pop karo", "Make it clean".
+    Yeh sab bekaar aur vague feedback hai.
+
+    Perceived Quality (design premium lagega ya sasta) sirf 4 cheezon se
+    tay hoti hai:
+    1. Attention Flow (Hierarchy) – aankh kahan bhatak rahi hai.
+    2. Typography System – font scale aur weight signal.
+    3. Whitespace Pressure – layout me hawa (breathing room) hai ya suffocation.
+    4. Palette Logic – colors ka discipline aur contrast.
+
+
+------------------------------------------------------------
+3. PAANCH STRUCTURED AUDIT PROMPTS
+------------------------------------------------------------
+
+    01. THE VISUAL HIERARCHY SURGEON
+    --------------------------------------------------------
+    Purpose : Attention Flow Audit (Hierarchy collapse ko khatam karna)
+    Samasya : Jab screen ka har element ek hi aawaz me chilla raha ho aur
+              user ki aankh ko pata hi na chale pehle kya dekhna hai.
+
+    Prompt Snippet:
+    "Tell me where the eye lands first, second, third — then where it
+    SHOULD land. Name every element competing for attention it hasn't
+    earned."
+
+    Fix Kaise Karein:
+    - Primary CTA ya main headline ko visual anchor banao.
+    - Secondary buttons ko outline/ghost banao taaki primary se compete na karein.
+    - Badges aur chips ki opacity/weight kam karo.
+
+
+    02. THE TYPOGRAPHY INTERROGATION
+    --------------------------------------------------------
+    Purpose : Font System Stress-Test
+    Kyun    : Typography hi $500 aur $5,000 design ke beech ka sabse bada
+              farak hoti hai.
+
+    Prompt Snippet:
+    "Audit the typography like a senior type director. Check pairing,
+    scale, spacing, weight, and hierarchy signal. Give specific values —
+    '48px' not 'make it bigger'."
+
+    Fix Kaise Karein:
+    - Vague advice ("bada karo") reject karo; exact type scale use karo
+      (e.g., 12, 14, 16, 20, 24, 32, 48, 64px).
+    - Line-height (leading): Body text ke liye 150-160% (1.5 - 1.6),
+      headings ke liye tight 110-120% (1.1 - 1.2).
+    - Max 2 font families (ek display/heading + ek readable sans-serif).
+
+
+    03. THE WHITESPACE PRESSURE TEST
+    --------------------------------------------------------
+    Purpose : Spacing & Breathing Room Audit
+    Kyun    : Premium design saans leta hai (breathes). Amateur design
+              suffocate karta hai.
+
+    Prompt Snippet:
+    "Pressure-test the whitespace. Check macro spacing (sections), micro
+    spacing (components), and perceived value — would more padding feel
+    premium?"
+
+    Fix Kaise Karein:
+    - 8pt grid system follow karo (8px, 16px, 24px, 32px, 48px, 64px, 96px).
+    - Section padding: Mobile pe kam se kam 64px, desktop pe 96px ya 120px
+      top/bottom space do.
+    - Cards ke andar padding badhao (`p-6` ya `p-8`); text ko border ke
+      saath chipakne mat do.
+
+
+    04. COLOR & CONTRAST STRESS TEST
+    --------------------------------------------------------
+    Purpose : Palette Logic & Accessibility Audit
+    Kyun    : Color me zyadatar log ya toh bohot safe khelte hain (dull gray)
+              ya bilkul behak jaate hain (10 alag-alag neon rang).
+
+    Prompt Snippet:
+    "Run a full color audit. List every color in use. Check
+    dominant/secondary/accent structure, emotional signal, WCAG
+    accessibility, and sophistication."
+
+    Fix Kaise Karein:
+    - 60-30-10 Rule: 60% dominant neutral (bg/surface), 30% secondary
+      (cards/borders/subtext), 10% accent (sirf primary CTA aur status).
+    - Pure #000000 aur pure #FFFFFF se bacho; deep zinc/slate (#09090b)
+      aur off-white use karo.
+    - Contrast ratio minimum 4.5:1 (WCAG AA) check karo.
+
+
+    05. 'WHY DOES THIS LOOK CHEAP?'
+    --------------------------------------------------------
+    Purpose : Fastest Quality Diagnosis (Highest-ROI Quick Fixes)
+    Kyun    : Lambe feedback loops ko skip karke seedha un top 3 cheezon
+              par attack karna jo design ko turant 10x expensive feel karwayein.
+
+    Prompt Snippet:
+    "Name 3 specific reasons this looks underdeveloped. Give me the
+    3 changes that would make this look 10x more expensive — ordered
+    by impact."
+
+    Fix Kaise Karein:
+    - AI se priority order maango: Rank #1 lever pehle fix karo (e.g. hero
+      spacing ya container width), phir baaki do.
+    - Chhoti-moti cheezon me ulajhne se pehle yeh prompt chalao taaki
+      sabse bada visual upgrade sabse pehle mile.
+
+
+------------------------------------------------------------
+4. ALL-IN-ONE MASTER DESIGN AUDIT PROMPT (COPY-PASTE)
+------------------------------------------------------------
+    Agar poori screen ya webpage ka ek clinical audit karwana ho, toh
+    Claude Code, Cursor, ya ChatGPT me yeh prompt paste karo:
+
+    ------------------------------------------------------------
+    You are an elite Design Director and Visual Quality Auditor.
+    Audit my current design/UI ruthlessly against these 4 pillars to
+    eliminate the 'cheap amateur' look:
+
+    1. VISUAL HIERARCHY SURGEON (Attention Flow):
+       - Tell me where the eye lands 1st, 2nd, and 3rd right now.
+       - Tell me where it SHOULD land based on product goals.
+       - Point out every element competing for attention it hasn't earned.
+
+    2. TYPOGRAPHY INTERROGATION (Type Scale & Craft):
+       - Audit font pairings, scale ratios, line heights, and weights.
+       - Give me exact pixel/rem recommendations (e.g. 'change from 18px to 14px font-medium, line-height 1.5'), never vague terms like 'make it bigger'.
+
+    3. WHITESPACE PRESSURE TEST (Breathing Room):
+       - Check macro spacing between sections and micro spacing inside components.
+       - Identify where the layout feels suffocated or cramped.
+       - Where would generous padding elevate the perceived value?
+
+    4. COLOR & CONTRAST STRESS TEST (Palette Logic):
+       - List all colors in use and evaluate the 60-30-10 rule.
+       - Check WCAG AA contrast compliance for text readability.
+       - Fix any garish or washed-out shades with sophisticated hex tokens.
+
+    Give me your audit in bullet points with 'Problem' -> 'Why it looks cheap' -> 'Exact Fix with CSS/Tailwind values'.
+    ------------------------------------------------------------
+
+
+------------------------------------------------------------
+5. GALTIYAN JO LOG KARTE HAIN / GOTCHAS
+------------------------------------------------------------
+    - Har button ko primary color dena: Jab page pe 5 primary buttons hote
+      hain, user ka decision fatigue badh jaata hai aur conversion girta hai.
+    - Letter spacing (tracking) ignore karna: Badi headings (uppercase ya
+      bold) me tracking tight (`tracking-tight` ya `-0.02em`) chahiye hoti
+      hai; bina iske text bikhra hua lagta hai.
+    - Gray-on-gray low contrast: "Subtle" look ke chakkar me text ko itna
+      halka kar dena ki padhna mushkil ho.
+    - Uneven paddings: Card ke upar 20px padding aur sides me 12px padding
+      bina grid logic ke layout ko cheap feel karwata hai.
+
+
+------------------------------------------------------------
+6. LINKS & SAMBANDHIT NOTES
+------------------------------------------------------------
+    - Vibecoded Website ke 20 Fixes   NOTES/ai/vibecoded-website-fixes.txt
+    - UI Design Basics & 38 Styles    NOTES/html/ui-styles.txt
+    - Animated UI Components          NOTES/html/animated-ui-components.txt
+    - Vibecoding Prompts Guide        NOTES/ai/vibecoding-prompts.txt
+    - Dev Tools & Inspiration         RESOURCES/dev-tools.txt
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    Vague feedback design ko bigaadta hai; Hierarchy, Typography, Whitespace,
+    aur Color ka clinical audit hi design ko premium banata hai.

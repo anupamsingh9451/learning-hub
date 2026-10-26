@@ -266,6 +266,9 @@ Source: "Important Vibecoding Prompts" (Google Doc) – templates apne
 10. LINKS
 ------------------------------------------------------------
     - 15 layer playbook      NOTES/ai/saas-15-layer-playbook.txt
+    - 20 Website Fixes       NOTES/ai/vibecoded-website-fixes.txt
+    - Master Dev Prompt      _templates/WEB_PAGE_DEVELOPMENT_PROMPT.md
+    - Code Cleanup Prompt    _templates/CODE_CLEANUP_MASTER_PROMPT.md
     - Ruflo (agents team)    NOTES/ai/ruflo.txt
     - Claude Code docs       https://code.claude.com/docs/en/overview
     - Spec Kit (GitHub)      https://github.com/github/spec-kit

@@ -68,6 +68,14 @@ Link: https://github.com/<repo naam>  (repo ka naam hi uska link hai)
         Kya hai : Animated landing page components (shadcn style).
         Kab lo  : Portfolio ya product landing page ko fancy banana ho.
 
+    skiper-ui (https://skiper-ui.com)
+        Kya hai : shadcn-compatible uncommon animations (dynamic islands, cursor trails).
+        Kab lo  : Next.js/Tailwind me unique award-winning interactions chahiye.
+
+    vengeance-ui (https://vengenceui.com)
+        Kya hai : Vibe-coding aur AI agents (Cursor/Claude MCP) ke liye motion UI kit.
+        Kab lo  : Prompt se animated blocks aur CLI registry se add karna ho.
+
 
 ------------------------------------------------------------
 4. TABLE, FORM, CHART
