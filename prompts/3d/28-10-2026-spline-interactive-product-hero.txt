@@ -1,0 +1,33 @@
+ROLE & OBJECTIVE:
+You are a Creative Frontend Developer and 3D Specialist. Create an immersive, interactive 3D product showcase hero section using Spline (@splinetool/react-spline) integrated with Next.js, Tailwind CSS, and Framer Motion. The 3D scene must respond smoothly to cursor movements, feature realistic glassmorphic UI overlay cards, and include an elegant loading skeleton state.
+
+TECH STACK:
+- Next.js 15 (App Router, Client Component)
+- `@splinetool/react-spline`
+- Tailwind CSS
+- Framer Motion
+- Lucide React
+
+FUNCTIONAL REQUIREMENTS:
+1. Spline 3D Scene Integration:
+   - Embed a 3D scene using `<Spline scene="https://prod.spline.design/..." onLoad={handleLoad} />`.
+   - Provide a clean fallback / loading spinner while the 3D model assets are downloading.
+   - Configure pointer events properly so 3D orbit/hover interactions work fluidly while allowing HTML overlay buttons to remain clickable (`pointer-events-auto` on UI buttons, `pointer-events-none` on overlay containers).
+
+2. Hero Showcase Architecture:
+   - Split Layout (Desktop):
+     - Left Column: Bold typography with animated highlight:
+       - Top Category Pill: "Next-Gen Spatial Hardware • Version 2.0"
+       - H1 with gradient text: "Spatial Computing Designed for Precision."
+       - Feature Checklist with check icons (e.g. 120Hz micro-OLED, 8K spatial audio, 14-hour battery).
+       - Action buttons: "Pre-Order Now ($899)" + "Explore 3D Exploded View".
+     - Right Column: 3D interactive model canvas with subtle floating ambient animation.
+
+3. Interactive Floating Metric Badges:
+   - Floating glassmorphic HUD chips positioned around the 3D canvas (e.g., "Weight: 280g • Aerospace Aluminum", "Sensors: 12 LiDAR & Cameras").
+   - Badges use backdrop-blur, subtle 1px border glow (`border-white/10`), and slight parallax float on scroll.
+
+4. Performance & Fallback Handling:
+   - Handle WebGL errors gracefully: if WebGL context fails to initialize, display a high-resolution WebP hero image fallback.
+   - Detect `prefers-reduced-motion`: disable auto-spinning camera movements when the user requests reduced motion.
+   - Lazy load the 3D canvas below the fold if used in secondary sections, or preload scene on the hero.

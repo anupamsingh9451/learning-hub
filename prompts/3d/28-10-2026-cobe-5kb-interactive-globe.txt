@@ -1,0 +1,37 @@
+ROLE & OBJECTIVE:
+You are an expert Frontend Graphics and WebGL Engineer. Build an ultra-fast, lightweight (5kB), interactive 3D WebGL Earth Globe hero section using "cobe" by Shu Ding (the exact style used by Linear, Stripe, GitHub, and Supabase). It must achieve 60fps, have zero Three.js bundle bloat, support auto-rotation, smooth mouse drag/tilt, and pulsing geographic location markers.
+
+TECH STACK:
+- React 19 / Next.js 15 (App Router, Client Component)
+- `cobe` (~5kB WebGL globe library)
+- Tailwind CSS (v4 or v3.4+)
+- Framer Motion (for staggered text entry overlay)
+- Lucide React (for badge & CTA icons)
+
+FUNCTIONAL REQUIREMENTS:
+1. Interactive WebGL Canvas:
+   - Render a high-density dot-matrix sphere via `createGlobe` on an HTML `<canvas>`.
+   - Setup realistic shader illumination: `dark: 1`, `diffuse: 1.2`, `mapSamples: 16000`, `mapBrightness: 6`.
+   - Theme integration: Base dark sphere color `[0.15, 0.15, 0.18]`, dot color `[0.3, 0.3, 0.35]`, glow color `[0.1, 0.6, 1.0]`.
+
+2. Dynamic Interactive Controls:
+   - Smooth continuous auto-rotation on idle (delta phi += 0.003).
+   - Pointer drag tracking with damping/inertia: user can click-drag to spin the globe horizontally and tilt vertically.
+   - Pointer cursor state changes: `cursor-grab` on hover, `cursor-grabbing` while actively rotating.
+
+3. City / Regional Pulse Markers:
+   - Define sample active hubs with lat/long: San Francisco, London, Tokyo, Singapore, Mumbai, Berlin.
+   - Marker styling: glowing cyan/emerald rings that pulse and indicate real-time low latency or multi-region infrastructure.
+
+4. Modern Hero Layout:
+   - Left / Center: Compelling developer-first typography:
+     - Pill badge: "Global Edge Network • <15ms P99 Latency"
+     - H1: "Deploy Globally in Seconds, Run Everywhere"
+     - Subtitle: "Distribute your database and compute across 35 edge regions with instant consistency and automatic failover."
+     - Double CTA: Primary "Start Free Trial" + Secondary "View Live Network Status"
+   - Right / Background: The 3D globe seamlessly positioned, with a radial gradient mask (`radial-gradient(circle, black 60%, transparent 100%)`) so its edges fade into the dark canvas.
+
+5. Performance & Mobile Responsiveness:
+   - Handle canvas resize dynamically via `ResizeObserver` with DPR clamped: `Math.min(window.devicePixelRatio, 2)`.
+   - On mobile screens (<768px), reduce `mapSamples` to `8000` to save battery life.
+   - Provide a clean `destroy()` cleanup in `useEffect` to prevent WebGL context leaks.

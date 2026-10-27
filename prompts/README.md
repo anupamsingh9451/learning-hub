@@ -33,6 +33,13 @@ prompts/
 │   ├── 27-10-2026-performance-lighthouse-speed.txt
 │   ├── 27-10-2026-mock-api-and-seeding.txt
 │   └── 27-10-2026-deploy-and-ci-cd.txt
+├── 3d/                     # 3D, Spatial UI, WebGL & Micro-3D Prompts
+│   ├── README.md           # 3D prompts directory index (5 files)
+│   ├── 28-10-2026-cobe-5kb-interactive-globe.txt
+│   ├── 28-10-2026-spline-interactive-product-hero.txt
+│   ├── 28-10-2026-r3f-scroll-rig-3d-cards.txt
+│   ├── 28-10-2026-3d-parallax-tilt-glassmorphism.txt
+│   └── 28-10-2026-pmndrs-uikit-spatial-dashboard.txt
 ├── maps/                   # 100% Free & Open-source interactive map prompts
 │   ├── README.md           # Maps directory index (MapLibre, Leaflet, OSM, Store Locator)
 │   ├── 27-10-2026-maplibre-vector-3d-map.txt
@@ -85,13 +92,20 @@ prompts/
 * [**Mock API & Seed Data**](file:///d:/learning-hub/prompts/dev/27-10-2026-mock-api-and-seeding.txt) – Realistic seed data generator, MSW handlers for frontend testing.
 * [**Deployment & CI/CD**](file:///d:/learning-hub/prompts/dev/27-10-2026-deploy-and-ci-cd.txt) – Vercel, Railway, multi-stage Dockerfile, production env checklist.
 
-### 2. [Maps Prompts (`prompts/maps/`)](file:///d:/learning-hub/prompts/maps/README.md)
+### 2. [3D & Spatial UI Prompts (`prompts/3d/`)](file:///d:/learning-hub/prompts/3d/README.md)
+* [**5kB Interactive Globe (Cobe)**](file:///d:/learning-hub/prompts/3d/28-10-2026-cobe-5kb-interactive-globe.txt) – Ultra-lightweight WebGL dot globe hero (Stripe / Linear / Supabase style).
+* [**Interactive 3D Product Hero (Spline)**](file:///d:/learning-hub/prompts/3d/28-10-2026-spline-interactive-product-hero.txt) – Spline 3D model with mouse-follow, lighting & glassmorphic HUD.
+* [**Scroll-Driven 3D Cards (R3F Scroll-Rig)**](file:///d:/learning-hub/prompts/3d/28-10-2026-r3f-scroll-rig-3d-cards.txt) – Awwwards-style HTML DOM and 3D WebGL mesh sync on scroll.
+* [**Zero-Canvas 3D Parallax Tilt Card**](file:///d:/learning-hub/prompts/3d/28-10-2026-3d-parallax-tilt-glassmorphism.txt) – 60fps CSS/JS mouse tilt + glare for SaaS Bento grid cards.
+* [**Spatial 3D Dashboard (@react-three/uikit)**](file:///d:/learning-hub/prompts/3d/28-10-2026-pmndrs-uikit-spatial-dashboard.txt) – In-canvas WebGL 3D UI layout with Flexbox & SDF typography.
+
+### 3. [Maps Prompts (`prompts/maps/`)](file:///d:/learning-hub/prompts/maps/README.md)
 * [**3D Vector Map (MapLibre + MapTiler)**](file:///d:/learning-hub/prompts/maps/27-10-2026-maplibre-vector-3d-map.txt) – 3D building tilt, 60fps pan/zoom, dark/street/satellite switcher.
 * [**Lightweight 2D Map (Leaflet + OSM)**](file:///d:/learning-hub/prompts/maps/27-10-2026-leaflet-osm-lightweight-map.txt) – 100% free forever contact page map, zero API keys.
 * [**Store Locator (Multi-Markers)**](file:///d:/learning-hub/prompts/maps/27-10-2026-store-locator-multi-markers.txt) – Store/Branch locator with list, clustering, and auto-fit bounds.
 * [**Address Search & Autocomplete**](file:///d:/learning-hub/prompts/maps/27-10-2026-geocoding-address-autocomplete.txt) – LocationIQ & Geoapify 5,000 req/day free geocoding.
 
-### 3. [UI Prompts (`prompts/ui/`)](file:///d:/learning-hub/prompts/ui/README.md)
+### 4. [UI Prompts (`prompts/ui/`)](file:///d:/learning-hub/prompts/ui/README.md)
 * [**SaaS Landing Page**](file:///d:/learning-hub/prompts/ui/27-10-2026-saas-landing-page.txt) – Magic UI / Skiper style dark landing page.
 * [**Admin Dashboard**](file:///d:/learning-hub/prompts/ui/27-10-2026-admin-dashboard.txt) – Operations & analytics dashboard with charts.
 * [**Navbar & Header**](file:///d:/learning-hub/prompts/ui/27-10-2026-navbar-header.txt) – Floating glassmorphism navbar & mega-menu.
@@ -103,7 +117,7 @@ prompts/
 * [**Laravel Blade UI**](file:///d:/learning-hub/prompts/ui/27-10-2026-laravel-blade-daisyui.txt) – Pure Blade + daisyUI components without React.
 * [**Atomic Components**](file:///d:/learning-hub/prompts/ui/27-10-2026-atomic-components.txt) – Reusable buttons, badges, modals, alerts, inputs.
 
-### 4. [SEO & GEO Prompts (`prompts/seo/`)](file:///d:/learning-hub/prompts/seo/README.md)
+### 5. [SEO & GEO Prompts (`prompts/seo/`)](file:///d:/learning-hub/prompts/seo/README.md)
 * [**Technical SEO Audit**](file:///d:/learning-hub/prompts/seo/27-10-2026-technical-seo-audit.txt) – Core Web Vitals, crawlability, canonicals.
 * [**GEO & llms.txt**](file:///d:/learning-hub/prompts/seo/27-10-2026-geo-llms-txt.txt) – Generative Engine Optimization for AI search.
 * [**Keyword Clustering**](file:///d:/learning-hub/prompts/seo/27-10-2026-keyword-clustering.txt) – Search intent buckets & competitor content gaps.
@@ -111,5 +125,5 @@ prompts/
 * [**JSON-LD Schema Generator**](file:///d:/learning-hub/prompts/seo/27-10-2026-json-ld-schema.txt) – Rich results schemas (FAQ, Article, Product).
 * [**Internal Linking Silos**](file:///d:/learning-hub/prompts/seo/27-10-2026-internal-linking-silos.txt) – Topic silo architecture & PageRank distribution.
 
-### 5. [Master Prompts (`prompts/master/`)](file:///d:/learning-hub/prompts/master/README.md)
+### 6. [Master Prompts (`prompts/master/`)](file:///d:/learning-hub/prompts/master/README.md)
 * [**Fullstack UI & SEO Master Prompt**](file:///d:/learning-hub/prompts/master/27-10-2026-fullstack-ui-seo-master-prompt.txt) – Single all-in-one prompt combining Refero, Supahero, Scrolltide, Navbar Gallery, CTA Gallery, Footer Design, 3D Icons, and Claude SEO Skills.

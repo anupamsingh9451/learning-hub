@@ -146,6 +146,34 @@ Link: https://github.com/<repo naam>  (repo ka naam hi uska link hai)
 
 
 ------------------------------------------------------------
+7. 3D & SPATIAL UI REPOS
+------------------------------------------------------------
+    shuding/cobe (https://github.com/shuding/cobe)
+        Kya hai : 5kB WebGL interactive dot-matrix globe.
+        Kab lo  : Linear/Stripe jaisa lightweight globe hero bina Three.js ke.
+
+    pmndrs/uikit (https://github.com/pmndrs/uikit)
+        Kya hai : WebGL canvas ke andar native Flexbox layout, buttons, text.
+        Kab lo  : 3D in-canvas HUDs, spatial computing, aur game UIs.
+
+    pmndrs/drei (https://github.com/pmndrs/drei)
+        Kya hai : R3F helpers (<Html> DOM projection, SDF Text, OrbitControls).
+        Kab lo  : React me Three.js ke complex features ko 1-line me likhna ho.
+
+    14islands/r3f-scroll-rig (https://github.com/14islands/r3f-scroll-rig)
+        Kya hai : DOM scroll sync toolkit for WebGL 3D meshes.
+        Kab lo  : Awwwards-style scroll-driven 3D mesh transitions.
+
+    splinetool/react-spline (https://github.com/splinetool/react-spline)
+        Kya hai : Spline 3D web runtime for React.
+        Kab lo  : Designer ke banaye 3D scenes ko 1 line me embed karna.
+
+    micku7zu/vanilla-tilt.js (https://github.com/micku7zu/vanilla-tilt.js)
+        Kya hai : 3D mouse parallax tilt + glare (zero canvas).
+        Kab lo  : Bento grid cards aur pricing blocks me tactile 3D feel.
+
+
+------------------------------------------------------------
 EK LINE YAAD RAKHO
 ------------------------------------------------------------
-    React project = shadcn/ui. PHP/Blade project = daisyUI ya Flowbite.
+    React project = shadcn/ui. PHP/Blade = daisyUI. Lightweight 3D = Cobe & Vanilla-Tilt. Heavy 3D = R3F & Spline.

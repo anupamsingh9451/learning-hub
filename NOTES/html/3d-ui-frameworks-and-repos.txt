@@ -1,0 +1,127 @@
+3D & SPATIAL UI: REPOS, FRAMEWORKS & BEST PRACTICES
+=====================================================
+Topic: 3D UI, WebGL, WebGPU, React Three Fiber, Spline, Cobe, Tilt
+Date: 28-10-2026
+Status: verified & curated
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    Web par 3D UI sirf heavy Three.js canvas tak seemit nahi hai.
+    Modern web me 3 layers hain:
+    1. Pseudo-3D (CSS/JS Tilt) - Zero bundle weight, 60fps card tilt & glare.
+    2. Micro-WebGL (5kB Cobe) - Lightweight interactive dot globe for SaaS heroes.
+    3. Full Spatial 3D (R3F, Spline, UIKit) - Interactive 3D products, HUDs, and scroll-rigging.
+
+
+------------------------------------------------------------
+2. TOP 3D UI REPOSITORIES & LIBRARIES (CATEGORIZED)
+------------------------------------------------------------
+
+A. MICRO & LIGHTWEIGHT 3D (Zero Performance Hit)
+------------------------------------------------
+1. shuding/cobe (https://github.com/shuding/cobe)
+   - Kya hai   : 5kB WebGL interactive dot-matrix globe (by Shu Ding).
+   - Kyun lo   : Three.js (600kB+) load kiye bina Stripe/Linear jaisa
+                 futuristic 3D globe landing page hero me lagana ho.
+   - Stack     : Vanilla JS, React, Vue, Svelte. Zero dependencies.
+
+2. micku7zu/vanilla-tilt.js (https://github.com/micku7zu/vanilla-tilt.js)
+   - Kya hai   : Pure JS/CSS 3D parallax tilt & glare effect.
+   - Kyun lo   : Bento grid cards, pricing cards, aur SaaS UI me tactile
+                 depth dene ke liye bina kisi canvas ya WebGL overhead ke.
+   - React Alt : react-parallax-tilt (https://github.com/mkosir/react-parallax-tilt)
+
+3. metafizzy/zdog (https://github.com/metafizzy/zdog)
+   - Kya hai   : Pseudo-3D canvas engine for friendly circular/vector illustrations.
+   - Kyun lo   : Cute, playful 3D icons, animated badges, aur micro-interactions
+                 jahan WebGL shaders ki zaroorat nahi hoti.
+
+
+B. SPATIAL & IN-CANVAS 3D UI (Three.js & R3F Ecosystem)
+-------------------------------------------------------
+4. pmndrs/uikit (https://github.com/pmndrs/uikit)
+   - Kya hai   : "shadcn/ui for 3D". WebGL canvas ke andar native Flexbox layout,
+                 buttons, dialogs, tabs, aur hover states render karta hai.
+   - Kyun lo   : Spatial computing, VR/AR, 3D dashboards, aur games me UI panels
+                 banana bina HTML DOM sync ke jhanjhat ke.
+
+5. pmndrs/drei (https://github.com/pmndrs/drei)
+   - Kya hai   : React Three Fiber ka sabse bada helper library.
+   - Core UIs  : `<Html>` component (DOM elements ko 3D scene me project karta hai,
+                 auto-occlusion aur z-index ke saath), `<Text>` (SDF 3D typography),
+                 `<OrbitControls>`, `<Float>`, `<PresentationControls>`.
+
+6. pmndrs/gltfjsx (https://github.com/pmndrs/gltfjsx)
+   - Kya hai   : CLI tool jo Blender se export hui `.glb` / `.gltf` 3D files ko
+                 direct reusable React Three Fiber JSX components me convert karta hai.
+   - Command   : npx gltfjsx model.glb --transform
+
+
+C. SCROLL & DOM SYNC (Awwwards Style Websites)
+----------------------------------------------
+7. 14islands/r3f-scroll-rig (https://github.com/14islands/r3f-scroll-rig)
+   - Kya hai   : HTML DOM elements aur WebGL 3D meshes ke beech seamless bridge.
+   - Kyun lo   : Page scroll hone par background 3D canvas me models ko text ke sath
+                 perfectly track aur animate karwana ho (Awwwards Site of the Day style).
+
+8. theatre-js/theatre (https://github.com/theatre-js/theatre)
+   - Kya hai   : Web ke liye After Effects jaisa visual timeline aur motion sequencer.
+   - Kyun lo   : Complex 3D camera paths, light changes, aur cinematic product
+                 walkthroughs ko visually keyframe karna.
+
+
+D. DESIGN-FIRST 3D TOOLS (No Code to Code)
+------------------------------------------
+9. splinetool/react-spline (https://github.com/splinetool/react-spline)
+   - Kya hai   : Spline (browser-based 3D design tool) ka official React runtime.
+   - Kyun lo   : Designers bina Three.js code likhe Spline me 3D model, lighting,
+                 physics aur mouse-follow banate hain aur URL se 1 line me embed karte hain.
+
+10. splinetool/r3f-spline (https://github.com/splinetool/r3f-spline)
+    - Kya hai   : Spline scenes ko direct React Three Fiber canvas ke andar inject karta hai,
+                  taaki aap code se individual 3D objects ko manipulate kar sakein.
+
+
+E. ASSETS & VISUAL TWEAKING
+---------------------------
+11. realvjy/3dicons (https://github.com/realvjy/3dicons)
+    - Kya hai   : 1,440+ free open-source 3D icons (PNG renders, OBJ, FBX, Blender source).
+    - Kyun lo   : Bento grids aur hero sections me tactile 3D elements add karne ke liye.
+
+12. pmndrs/leva (https://github.com/pmndrs/leva)
+    - Kya hai   : Floating GUI controls panel for tweaking 3D shaders, lights, rotation,
+                  aur materials in real time right in the browser.
+
+
+------------------------------------------------------------
+3. COMPARISON & SELECTION MATRIX
+------------------------------------------------------------
+
+Requirement                 Recommended Tool        Bundle Size   Difficulty
+-----------------------------------------------------------------------------
+Card / Bento 3D Tilt        react-parallax-tilt     ~4 kB         Super Easy
+Interactive Earth / Globe   cobe                    ~5 kB         Easy
+Figma/Spline to Web 3D      @splinetool/react-spline ~150 kB      Easy
+Awwwards Scroll Mesh Sync   14islands/r3f-scroll-rig ~40 kB       Medium
+Pure 3D HUD / In-Canvas UI  @react-three/uikit       R3F dependent Medium
+Custom Shaders & Particles  React Three Fiber + Drei ~600 kB      Advanced
+
+
+------------------------------------------------------------
+4. PRODUCTION PERFORMANCE BEST PRACTICES (GOTCHAS)
+------------------------------------------------------------
+1. Mobile Fallback (Battery & GPU):
+   Heavy Three.js canvas mobile devices par battery drain karta hai.
+   Mobile screen par static WebP screenshot ya reduced DPR (Math.min(window.devicePixelRatio, 1.5))
+   use karein.
+
+2. Canvas Unmount & Memory Leaks:
+   React me jab 3D page se user navigate karta hai, WebGL context automatically
+   destroy nahi hota. Geometries aur materials ko `dispose()` karna zaroori hai.
+   R3F by default garbage collect karta hai, par custom loaders me `useEffect` cleanup
+   rakhein.
+
+3. Draw Calls & Draco Compression:
+   Blender se export karte waqt hamesha Draco compression (`--transform` in gltfjsx)
+   lagayein taaki 20MB ki 3D model file 800KB me shrink ho sake.

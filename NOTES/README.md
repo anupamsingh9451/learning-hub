@@ -20,6 +20,7 @@ NOTES/
 │   ├── nextjs.txt
 │   └── nextjs-repos.txt
 ├── html/                      HTML, CSS, UI design
+│   ├── 3d-ui-frameworks-and-repos.txt 3D UI guide (Cobe, R3F, UIKit, Spline, Vanilla-Tilt)
 │   ├── animated-ui-components.txt Skiper UI, Vengeance AI, Animaster (motion kits)
 │   ├── bootstrap.txt
 │   ├── tailwind.txt

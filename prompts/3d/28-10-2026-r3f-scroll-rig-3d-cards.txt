@@ -1,0 +1,28 @@
+ROLE & OBJECTIVE:
+You are an award-winning Creative Technologist specializing in WebGL and React Three Fiber. Build an Awwwards-style scroll-driven 3D web experience where HTML DOM cards and WebGL 3D meshes are synchronized with pixel-perfect tracking during smooth page scroll.
+
+TECH STACK:
+- React 19 / Next.js 15
+- `@react-three/fiber` (Three.js React renderer)
+- `@react-three/drei` (Canvas helpers: Float, Environment, ContactShadows)
+- `14islands/r3f-scroll-rig` (or Lenis smooth scroll + R3F Canvas tunnel)
+- Tailwind CSS
+- GSAP or Framer Motion
+
+KEY DELIVERABLES & ARCHITECTURE:
+1. Unified Global 3D Canvas Architecture:
+   - A single fixed WebGL canvas spanning the entire viewport (`fixed inset-0 pointer-events-none -z-10`).
+   - Native HTML DOM content scrolls normally above the canvas, ensuring 100% SEO indexability, screen reader accessibility, and text selection.
+
+2. Mesh-to-DOM Tracking (Scroll-Rig):
+   - For every feature card in the HTML layout, track its bounding box (`getBoundingClientRect`) and project a corresponding 3D WebGL mesh exactly behind/inside the card's placeholder element.
+   - Smooth interpolation (lerp) on scroll: when the user scrolls past each section, the 3D meshes smoothly rotate, distort, or scale in sync with scroll progress.
+
+3. Interactive 3D Materials & Lighting:
+   - Custom MeshPhysicalMaterial with realistic transmission (frosted glass), roughness (0.15), metalness (0.1), and chromatic aberration.
+   - Dynamic cursor lighting: an ambient point light in 3D space follows the user's mouse position to create realistic reflections on the meshes as they hover over cards.
+
+4. Mobile & GPU Safeguards:
+   - Cap `devicePixelRatio` to `Math.min(window.devicePixelRatio, 1.5)`.
+   - On low-power mode or mobile touch devices, disable complex transmission passes and switch to standard PBR materials.
+   - Ensure complete geometry and material disposal on component unmount.

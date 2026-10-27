@@ -1,0 +1,28 @@
+ROLE & OBJECTIVE:
+You are a Spatial Computing and WebGL UI Architect. Build a native in-canvas 3D user interface dashboard using "@react-three/uikit" and React Three Fiber. Instead of overlaying 2D HTML on top of a canvas, construct the buttons, panels, tabs, and interactive HUD directly inside the 3D scene using Flexbox-in-3D and SDF vector typography.
+
+TECH STACK:
+- React 19 / Next.js 15
+- `@react-three/fiber`
+- `@react-three/drei`
+- `@react-three/uikit` (Flexbox in 3D)
+- `@react-three/uikit-default` (shadcn-inspired default 3D component kit)
+- Three.js
+
+CORE CAPABILITIES & ARCHITECTURE:
+1. Native 3D Flexbox Layout:
+   - Use `<Fullscreen>` and `<Container>` primitives from `@react-three/uikit` with standard CSS flex properties (`flexDirection="column"`, `gap={16}`, `alignItems="center"`, `padding={24}`).
+   - Render cards and dialog boxes floating at variable Z depths with soft 3D border-radius and background materials.
+
+2. Interactive 3D Components:
+   - `<Button>` with 3D hover feedback: subtle Z-axis pop (`translateZ={5}`), material glow change, and click sound/trigger.
+   - `<Text>` rendered via high-performance SDF (Signed Distance Fields) for ultra-sharp typography at any zoom level or angle.
+   - Interactive modal / dialog panel that tilts in response to user camera angle.
+
+3. Spatial Scene Context:
+   - Surround the 3D HUD with a subtle ambient environment: soft particle field, volumetric directional lighting, and soft contact shadows.
+   - Camera controls: Gentle `<PresentationControls>` with rotation limits so the user can orbit slightly around the floating UI dashboard to appreciate its true 3D spatial depth.
+
+4. Performance & Cross-Platform Support:
+   - WebXR readiness: ensure the UI components are compatible with VR headsets (Meta Quest, Apple Vision Pro via WebXR emulator).
+   - Ensure event bubbling and raycasting are optimized to avoid heavy CPU raycast calculations on idle frames.

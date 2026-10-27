@@ -1,0 +1,36 @@
+ROLE & OBJECTIVE:
+You are an expert Senior UI Engineer and Micro-Interactions Architect. Build a zero-canvas, high-performance (60fps) 3D Parallax Tilt & Glare Card component suite with Tailwind CSS and Framer Motion (or pure CSS perspective transforms). It must deliver a tactile physical depth feel for SaaS feature bento grids and pricing cards without any WebGL canvas overhead or battery drain.
+
+TECH STACK:
+- React 19 / Next.js 15 (or plain HTML/Tailwind with vanilla-tilt.js)
+- Tailwind CSS (v4 or v3.4+)
+- Framer Motion (useMotionValue, useSpring, useTransform)
+- Lucide React
+
+COMPONENT SPECIFICATIONS:
+1. Physics & Mathematical Tilt Calculation:
+   - Calculate normalized mouse coordinates `[-0.5, 0.5]` relative to the card's width and height on `onMouseMove`.
+   - Apply spring physics damping: `useSpring(..., { stiffness: 300, damping: 30 })` to ensure silky-smooth tilt with zero jitter.
+   - Rotation constraints: Max rotateX: 15deg, Max rotateY: -15deg (perspective: 1000px).
+   - On `onMouseLeave`, smoothly reset all rotational axes back to (0, 0, 0).
+
+2. Dynamic Holographic Glare Layer:
+   - Overlay a dynamic radial glare gradient that moves proportionally in the direction of the light source (`radial-gradient(circle at ${mouseX}px ${mouseY}px, rgba(255,255,255,0.15), transparent 70%)`).
+   - Opacity smoothly transitions from 0 to 1 on hover.
+
+3. Multi-Layer Z-Index Parallax (Pop-out Effect):
+   - Background layer: Subtle dark glass with 1px border (`border-white/10`, `backdrop-blur-md`).
+   - Mid layer: Text description and badges at `translateZ(20px)`.
+   - Fore layer: Icons, metric pills, and primary CTAs floating at `translateZ(45px)` with a dynamic drop-shadow that casts based on tilt angle.
+   - Parent must have `transform-style: preserve-3d`.
+
+4. Bento Grid Implementation:
+   - Provide a sample 4-card Bento grid featuring:
+     1. Large Showcase Card (2-column span) with 3D floating icon and live metric sparkline.
+     2. Integration Card with interconnected floating node avatars.
+     3. Speed & Performance Card with 3D gauge meter.
+     4. Security Badge Card with glowing shield.
+
+5. Accessibility & Mobile Optimization:
+   - Detect touch devices: disable active mouse tilt on touch screens and provide subtle scale feedback on tap instead.
+   - Respect `prefers-reduced-motion: reduce`: instantly disable 3D transformations for users with motion sensitivity.
