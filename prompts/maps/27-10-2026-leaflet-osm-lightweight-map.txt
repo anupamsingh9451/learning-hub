@@ -1,0 +1,45 @@
+PROMPT: LIGHTWEIGHT 2D MAP (LEAFLET + OPENSTREETMAP)
+===================================================
+Topic: prompts, maps, leaflet, openstreetmap, lightweight, 100-percent-free
+Date: 27-10-2026
+Target Stack: React / Next.js / Laravel Blade / Plain HTML
+Inspiration: RESOURCES/dev-tools.txt (Section 10. MAPS - Leaflet & OSM)
+Free Quota: 100% Free Forever (Open Source & Community data)
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    Contact pages, footer locations, ya simple landing pages ke liye
+    ekdum halka (lightweight ~40KB) 2D map embed karne ke liye. Zero API
+    keys, zero credit card, 100% free forever.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as a Frontend Engineer.
+Add a lightweight, 100% free interactive 2D map to my application using Leaflet.js and OpenStreetMap (zero API keys and zero credit card required).
+
+Project Context:
+- Tech Stack: [React / Next.js / Tailwind CSS OR Laravel Blade / Plain HTML]
+- Location Coordinates: [Lat, Lng, e.g. 19.0760, 72.8777 for Mumbai]
+- Pin Title / Address: [Office Name, Street Address, Phone]
+
+Requirements:
+1. Script / CDN Setup:
+   - Import Leaflet.js and Leaflet CSS via CDN or npm package.
+2. Tile Layer:
+   - Use OpenStreetMap standard tiles (`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`).
+   - Add proper OpenStreetMap attribution in the corner.
+3. Marker & Popup:
+   - Place 1 custom styled pin on the target coordinates.
+   - Attach a clean, modern popup containing: Office Name, full address, phone number, and a "Open in Google Maps" link.
+4. User Experience & Scroll Trap Prevention:
+   - Disable scroll-wheel zoom initially so page scrolling does NOT get trapped when scrolling past the map on mobile/desktop. Enable zoom only on click.
+5. Responsive Layout:
+   - Embed inside a clean rounded-2xl container styled with Tailwind CSS (`border border-slate-800 shadow-lg min-h-[350px]`).
+--- [END PROMPT] ---
+

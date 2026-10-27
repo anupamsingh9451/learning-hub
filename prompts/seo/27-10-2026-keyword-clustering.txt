@@ -1,0 +1,35 @@
+PROMPT: SEMANTIC KEYWORD CLUSTERING & CONTENT GAPS
+===================================================
+Topic: prompts, seo, keywords, clustering, intent
+Date: 27-10-2026
+Source: NOTES/ai/claude-seo-skills.txt
+Link: https://app.notion.com/p/Claude-SEO-Skills-3ea64170dad0809b93cbc451557ba0da
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    Raw keywords ko search intent clusters (Informational, Commercial,
+    Transactional) me todna, topic silos map karna, aur SERP competitor
+    content gaps identify karne ke liye.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as a Senior SEO Content Strategist.
+I have a list of raw keywords / target topic: [Paste Keywords or Topic]
+
+Perform semantic clustering and gap analysis:
+1. Search Intent Categorization:
+   - Group every keyword into: Informational, Commercial Investigation, or High-Intent Transactional.
+2. Topic Silos & Cluster Groups:
+   - Create 3 to 5 distinct topic clusters.
+   - For each cluster, designate 1 "Pillar Page" and 3-5 "Supporting Cluster Articles".
+   - Map primary target keyword and secondary LSI keywords to each page.
+3. Content Gap Analysis:
+   - Identify what top-ranking SERP competitors commonly miss in this niche.
+   - Suggest 3 unique angles, proprietary data ideas, or interactive tools that will make our content outperform existing search results.
+--- [END PROMPT] ---

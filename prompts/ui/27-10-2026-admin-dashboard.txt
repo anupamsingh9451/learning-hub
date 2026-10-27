@@ -1,0 +1,49 @@
+PROMPT: PRODUCTION ADMIN DASHBOARD & ANALYTICS
+================================================
+Topic: prompts, ui, admin-dashboard, charts
+Date: 27-10-2026
+Target Stack: React / Next.js OR Blade + Tailwind + Chart.js / Recharts
+Inspiration: satnaing/shadcn-admin, tabler/tabler, chartjs/Chart.js
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    Full-featured, responsive SaaS/Enterprise Admin Dashboard generate karne
+    ke liye. Isme metrics KPI cards, live revenue/activity charts, recent
+    orders list, aur collapsible sidebar included hai.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as a Senior Frontend Architect.
+Create a production-ready, responsive Analytics & Operations Admin Dashboard page.
+
+Project Context:
+- App Name: [Insert Name]
+- Key Metrics to Track: [Revenue, Users, Orders, Active Sessions]
+
+Layout & Components:
+1. Collapsible Sidebar:
+   - Brand logo and workspace switcher.
+   - Categorized navigation links (Overview, Analytics, Customers, Orders, Settings) with clean Lucide icons.
+   - Bottom user profile avatar with logout dropdown trigger.
+2. Top Navigation Bar:
+   - Breadcrumb navigation.
+   - Live search input with keyboard shortcut pill (Ctrl+K).
+   - Notification bell with unread count badge.
+3. KPI Metric Row (4 Columns):
+   - Total Revenue ($45,231) with green percentage growth arrow (+20.1%).
+   - Active Subscriptions (+2,350) with monthly increase indicator.
+   - Sales Volume (+12,234) with progress comparison.
+   - Live Active Users (+573) with pulsing real-time indicator.
+4. Charts Grid:
+   - Left 2/3: Monthly Revenue Bar / Area chart (using Chart.js or Recharts).
+   - Right 1/3: Recent Sales Activity feed showing customer avatars, emails, purchase amounts, and status pills.
+5. Quick Actions Bar: Export CSV button, date-range picker, and Refresh button.
+
+Design Standards: Compact data density, readable fonts (Plus Jakarta Sans / Inter), dark slate aesthetic (#090d16 / #0f172a), accessible contrast ratios.
+--- [END PROMPT] ---

@@ -1,0 +1,35 @@
+PROMPT: 3D ICONS & REFERO DESIGN SYSTEM INTEGRATION
+===================================================
+Topic: prompts, ui, 3d-icons, design-tokens, refero
+Date: 27-10-2026
+Target Stack: Tailwind CSS + 3dicons.co + Refero Styles
+Inspiration: 3dicons (3dicons.co), Refero Styles (styles.refero.design)
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    Website ko tactile, premium look dene ke liye 3D icons aur strict
+    Refero design tokens (DESIGN.md methodology) integrate karne ke liye.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as a Design System Engineer.
+Implement a modern, tactile web interface incorporating 3D icons (from 3dicons.co) and strict design tokens following Refero Styles methodology.
+
+Design Instructions:
+1. Refero Style Token Discipline:
+   - Do NOT guess colors or arbitrary spacing. Define strict CSS variables:
+     * Surface tokens: `--surface-base` (#020617), `--surface-card` (#0f172a), `--border-subtle` (rgba(255,255,255,0.08)).
+     * Accent tokens: Primary brand glow (Indigo/Emerald) with matching focus rings.
+     * Typography scale: Clean 8px hierarchy (12px, 14px, 16px, 20px, 24px, 32px, 48px).
+     * Border radius tokens: Micro-rounded inputs (rounded-xl) and card containers (rounded-2xl).
+2. 3D Visual Assets Integration (3dicons.co style):
+   - Place claymorphic / glossy 3D rendered icons on key feature cards (Rocket, Shield, Layers, Trophy, Analytics Chart).
+   - Apply subtle float hover keyframes (`translateY(-4px)` with shadow bloom).
+   - Ensure crisp fallback icons for low-bandwidth connections.
+--- [END PROMPT] ---

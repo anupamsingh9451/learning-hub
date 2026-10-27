@@ -1,0 +1,31 @@
+PROMPT: ATOMIC UI REUSABLE COMPONENTS CATALOG
+==============================================
+Topic: prompts, ui, components, radix, design-system
+Date: 27-10-2026
+Target Stack: Tailwind CSS + Radix UI Primitives / daisyUI
+Inspiration: radix-ui/primitives, saadeghi/daisyui, lucide-icons
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    Buttons, badges, modals, alerts, inputs, aur cards ka complete reusable
+    component library catalog generate karne ke liye.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as a Senior UI/UX Engineer and Design System Specialist.
+Create a comprehensive, reusable UI Component Library & Style Guide.
+
+Showcase the following reusable component variants side-by-side with copyable code:
+1. Buttons: Primary solid, Secondary subtle, Outline, Destructive red, Ghost, Icon-only, and Button with trailing arrow.
+2. Badges & Pills: Status active (green dot), Warning (amber), Error (red), Beta feature badge, and Monospace version tag.
+3. Alert Banners: Info, Success, Warning, and Error variants with leading icons and dismiss (X) buttons.
+4. Form Inputs: Floating label input, Search input with leading icon, Select dropdown, Checkbox, Toggle switch, and Textarea with error feedback.
+5. Interactive Modal Dialog: Accessible popup with backdrop blur and smooth fade.
+6. Card Variations: Simple stat card, Media card with image cover, and Interactive action card with hover lift effect.
+--- [END PROMPT] ---

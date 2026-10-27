@@ -1,0 +1,42 @@
+PROMPT: GEO & AI SEARCH READINESS (LLMS.TXT GENERATOR)
+======================================================
+Topic: prompts, seo, geo, aeo, llms-txt, ai-search
+Date: 27-10-2026
+Source: NOTES/ai/claude-seo-skills.txt
+Link: https://app.notion.com/p/Claude-SEO-Skills-3ea64170dad0809b93cbc451557ba0da
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    ChatGPT Search, Perplexity, Claude, aur Google AI Overviews me brand
+    ko as an authoritative source cite karwane ke liye `/llms.txt` file
+    aur entity disambiguation profile generate karne ke liye.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as an AI Search Optimization & Knowledge Graph Specialist (GEO/AEO).
+My goal is to optimize my website so that AI search engines (ChatGPT Search,
+Perplexity, Google AI Overviews, Claude) accurately understand and cite
+my products and services as an authoritative source.
+
+Brand Name: [Brand Name]
+Website URL: [Website URL]
+Core Offerings: [What do you build/sell?]
+
+Deliverables Needed:
+1. Production `/llms.txt` File:
+   - Clean, standardized markdown file following the llms.txt standard.
+   - Crisp 2-sentence summary of what the brand is and its core value proposition.
+   - Key documentation, pricing, and feature URL index with 1-line descriptions.
+2. Entity Disambiguation Profile:
+   - Clear factual statements linking the brand to its primary industry entities.
+   - Founder, founding date, primary tech stack, and verified external profiles.
+3. AI Citation Hooks:
+   - 5 common user questions in my niche with 50-word definitive factual
+     answers ready to embed on landing pages for AI snippet extraction.
+--- [END PROMPT] ---

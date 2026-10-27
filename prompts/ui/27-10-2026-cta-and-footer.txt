@@ -1,0 +1,35 @@
+PROMPT: HIGH-CONVERTING CTA & FOOTER SYSTEM
+===========================================
+Topic: prompts, ui, cta-banner, footer, conversion
+Date: 27-10-2026
+Target Stack: React / Next.js / Blade / Tailwind CSS
+Inspiration: CTA Gallery (cta.gallery), Footer Design (footer.design)
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    Page ke bottom me high-conversion Call-To-Action banner aur clean,
+    structured sitemap footer generate karne ke liye.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as a Conversion Rate Optimization (CRO) Specialist and Senior UI Designer.
+Create a high-impact closing Call-to-Action (CTA) section paired with an enterprise Footer system.
+
+Specifications:
+1. High-Converting CTA Banner (CTA Gallery style):
+   - Vibrant gradient or deep neutral card container with subtle noise overlay.
+   - Compelling value-driven headline ("Ship your web apps 10x faster today").
+   - Inline action form: Email input with integrated submit button.
+   - Risk-reversal microcopy: "No credit card required", "Cancel anytime", "Free 14-day trial".
+   - Subtle background glow gradient accentuating the action button.
+2. Comprehensive Footer (Footer Design style):
+   - Brand column: Logo mark, 1-line elevator pitch, and newsletter subscription field.
+   - 4 Navigation columns: Product (Features, Integrations, Pricing, Changelog), Resources (Documentation, Guides, API, Community), Company (About, Careers, Blog), Legal (Privacy, Terms, Security).
+   - Trust and Status Row: Live system health pill (e.g. "All Systems Operational" in emerald), localized language/currency selector, and SVG social links.
+--- [END PROMPT] ---

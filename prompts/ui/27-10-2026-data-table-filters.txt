@@ -1,0 +1,45 @@
+PROMPT: INTERACTIVE DATA TABLE & ADVANCED FILTERS
+=================================================
+Topic: prompts, ui, data-table, filters, pagination
+Date: 27-10-2026
+Target Stack: React + TanStack Table OR Plain JS Data Grid
+Inspiration: TanStack/table, ant-design, tabler-icons
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    Enterprise-level, interactive Data Table page generate karne ke liye.
+    Live search, multi-status tab filters (Paid/Pending/Failed), sorting,
+    bulk select, aur pagination bar included.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as a Senior Frontend Engineer.
+Build a production-ready, interactive Data Table page with advanced filtering, sorting, and pagination.
+
+Key Components & Requirements:
+1. Controls Bar:
+   - Instant live search input (filters across name and email columns).
+   - Status tab pills: "All", "Paid", "Pending", "Failed" with real-time record counts.
+   - Bulk action bar (visible when 1+ checkboxes are selected: Delete, Export).
+   - Column visibility toggle dropdown.
+2. Table Header:
+   - Select all checkbox.
+   - Sortable column headers with visual up/down arrows (Name, Status, Date, Plan, Amount).
+3. Table Rows:
+   - Customer avatar + Name + Email grouped in one cell.
+   - Color-coded status badges (Green = Paid, Yellow = Pending, Red = Failed).
+   - Clean formatted currency ($ / INR).
+   - Three-dots action dropdown (View details, Edit, Delete).
+4. Pagination Bar:
+   - "Showing X of Y rows" indicator.
+   - Rows-per-page selector (10, 25, 50).
+   - Previous / Next buttons with interactive page number buttons.
+
+Performance: Ensure zero layout shift when sorting or filtering data.
+--- [END PROMPT] ---

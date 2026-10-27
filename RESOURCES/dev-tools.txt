@@ -79,6 +79,7 @@ Source: "Best Websites for VibeCoders" (Google Doc) + extra tools mere stack ke 
     Heroicons         https://heroicons.com      Tailwind team ke icons
     Tabler Icons      https://tabler.io/icons    5000+ free UI icons
     Simple Icons (+)  https://simpleicons.org    Brand logos (GitHub, Laravel, React...)
+    3D Icons (+)      https://3dicons.co         1440+ free open-source 3D icons (PNG, 3D files)
 
     Tip: Ek project me ek hi icon set. Mix karoge toh UI ajeeb lagega.
 
@@ -128,6 +129,7 @@ Source: "Best Websites for VibeCoders" (Google Doc) + extra tools mere stack ke 
     Three.js           https://threejs.org        Web pe 3D ki main library
     React Three Fiber  https://r3f.docs.pmnd.rs   React me Three.js
     Drei               https://drei.docs.pmnd.rs  React Three Fiber ke ready helpers
+    Scrolltide (+)     https://scrolltide.co      Scroll-driven 3D/shaders, sections & AI prompts
 
 
 ------------------------------------------------------------
@@ -436,9 +438,11 @@ Source: "Best Websites for VibeCoders" (Google Doc) + extra tools mere stack ke 
     Awwwards               https://www.awwwards.com  Award wali premium sites
     recent.design (Godly)  https://recent.design     Creative sites (godly.website ab yahan aata hai)
     Lapa Ninja             https://www.lapa.ninja    Landing pages
-    SaaSFrame              https://www.saasframe.io  SaaS UI screens
-    Refero                 https://refero.design     Product UI inspiration
-    Selected (+)           https://selected.site     Curated minimal & high-craft sites
+    SaaSFrame              https://www.saasframe.io     SaaS UI screens
+    Refero                 https://refero.design        Product UI inspiration
+    Refero Styles (+)      https://styles.refero.design Real design systems & DESIGN.md for AI agents
+    Scrolltide (+)         https://scrolltide.co        Scroll-driven cinematic sections & AI prompts
+    Selected (+)           https://selected.site        Curated minimal & high-craft sites
     Saaspo (+)             https://saaspo.com        SaaS landing pages, pricing & flows
     Dark Design (+)        https://dark.design       Dark mode websites & UI inspiration
 

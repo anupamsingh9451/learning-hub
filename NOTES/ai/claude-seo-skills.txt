@@ -1,0 +1,189 @@
+CLAUDE SEO SKILLS – COMPLETE AI SEO, GEO & AEO BLUEPRINT
+========================================================
+Topic: ai, seo, claude-code, geo-aeo
+Date: 27-10-2026
+Status: reference / ready-to-use
+Link: https://app.notion.com/p/Claude-SEO-Skills-3ea64170dad0809b93cbc451557ba0da
+Source: Notion Master Doc + Open-Source Agency Frameworks (StudioHawk, AgriCiDaniel)
+
+
+------------------------------------------------------------
+1. EK LINE ME AUR YEH NOTION DOC KYA HAI
+------------------------------------------------------------
+    Yeh Notion resource Claude (aur Claude Code) ko ek full-stack SEO
+    agency specialist banane ka structured skill framework hai.
+
+    Notion Link:
+    https://app.notion.com/p/Claude-SEO-Skills-3ea64170dad0809b93cbc451557ba0da
+
+    "Skill" ka matlab: Claude ko general gyaan maangne ke bajaye ek strict,
+    reproducible 7-step process sikhana — technical site crawl se lekar,
+    semantic keyword clustering, E-E-A-T scoring, schema generation, aur
+    modern AI search optimization (GEO/AEO) tak.
+
+    Misaal: Sirf "write SEO article on Laravel" bolne par AI generic kachra
+    deta hai. Is skill ke sath Claude pehle SERP intent analyze karta hai,
+    heading hierarchy banata hai, structured data (JSON-LD) taiyyar karta hai,
+    aur Google AI Overviews me cite hone layak direct answers format karta hai.
+
+
+------------------------------------------------------------
+2. MODERN SEARCH KA KHEL: SEO VS GEO VS AEO
+------------------------------------------------------------
+    2026 me sirf Google ke 10 blue links ke liye optimize karna kaafi nahi hai.
+    Search 3 hisson me bat chuki hai:
+
+    1. Traditional SEO (Search Engine Optimization):
+       - Focus: Google / Bing organic rankings, page speed, backlinks.
+       - Metric: Organic impressions, click-through rate (CTR), SERP position.
+
+    2. GEO (Generative Engine Optimization):
+       - Focus: ChatGPT Search, Perplexity, Claude, aur Copilot me tumhari site
+         as a trusted source cite hona.
+       - Tareeka: `llms.txt` file setup, crisp factual definitions, clear entity
+         markup, clean markdown layout jo AI crawlers aasani se parse karein.
+
+    3. AEO (Answer Engine Optimization):
+       - Focus: Google AI Overviews (SGE) aur voice search me seedha answer box
+         (Featured Snippet) me aana.
+       - Tareeka: Har heading ke turant baad 40-60 words ka direct, definitive
+         answer + bullet point summary + Schema FAQ/HowTo markup.
+
+
+------------------------------------------------------------
+3. 7 CORE SKILL MODULES (NOTION BLUEPRINT)
+------------------------------------------------------------
+    Notion doc me Claude ke liye 7 specialized modules define kiye gaye hain:
+
+    Module 1: Technical & Core Web Vitals Audit
+        - Robots.txt, XML sitemap validation, canonical tags audit.
+        - Broken internal links, 404s, aur 301 redirect chain detection.
+        - Mobile responsiveness, semantic HTML tags (<main>, <article>, <nav>).
+
+    Module 2: GEO & AI Search Readiness (`llms.txt`)
+        - Site root pe `/llms.txt` aur `/llms-full.txt` generate karna taaki
+          LLMs tumhare brand aur products ko accurate facts ke sath cite karein.
+        - Entity extraction: brand name, founder, core offerings ko schema
+          knowledge graph se link karna.
+
+    Module 3: Semantic Keyword Clustering & Intent Mapping
+        - Raw keyword export (Ahrefs/SEMrush ya free tools) ko 3 buckets me todna:
+          * Informational: "how to implement redis queue in laravel"
+          * Commercial / Comparison: "laravel vs nodejs for high traffic"
+          * Transactional: "hire vetted laravel developers"
+        - Duplicate keyword cannibalization khatam karna.
+
+    Module 4: High-Rank Content Brief & E-E-A-T Scoring
+        - Google E-E-A-T framework:
+          * Experience: Asli code snippets aur screenshots (not stock).
+          * Expertise: Deep technical gotchas, edge cases.
+          * Authoritativeness: Source citations aur official docs links.
+          * Trustworthiness: Clear author bio, privacy policy, contact.
+        - Outline format: H1 (Target Keyword) -> H2 (Sub-topics) -> H3 (Steps).
+
+    Module 5: Structured Data & Schema Markup (JSON-LD)
+        - Har page ke liye copy-paste ready `<script type="application/ld+json">`.
+        - Schemas: Article, FAQPage, HowTo, SoftwareApplication, Organization,
+          BreadcrumbList.
+        - Rich Snippet stars aur FAQs Google SERP pe click rate 20-35% badhate hain.
+
+    Module 6: Internal Linking & Topic Silo Architecture
+        - "Pillar Page" (Parent topic, e.g., Laravel Guide) se "Cluster Pages"
+          (Child topics, e.g., Laravel Eloquent, Laravel Queues) ka interlinking.
+        - Anchor text optimization: Exact match vs partial match balancing.
+        - Orphan pages (bina link wale dead pages) ko pakadna aur link karna.
+
+    Module 7: Competitor SERP Gap Analysis
+        - Top 3 ranking pages ko analyze karna: "Inhone kya miss kiya?"
+        - Missing FAQs, outdated information, ya complex language ko pakad kar
+          behtar, aasan aur comprehensive guide taiyyar karna.
+
+
+------------------------------------------------------------
+4. CLAUDE CODE AUR CLAUDE DESKTOP ME KAISE LOAD KAREIN
+------------------------------------------------------------
+    Setup A: Claude Code (CLI) – Local Agent Workflow
+        1. Ek custom agent ya skill folder banao:
+           `C:\Users\Anupam Singh\.claude\agents\seo-writer.md`
+        2. Prompt instructions me upar wale 7 modules ke rules bind karo.
+        3. Invocation: `claude "Run a technical SEO and GEO audit on my site"`
+
+    Setup B: Claude Projects / Web (Free & Pro)
+        1. Claude.ai pe naya Project banao: "SEO & GEO Growth Engine".
+        2. Project Custom Instructions me Notion framework paste karo.
+        3. Project Knowledge me apni site ka sitemap aur brand guidelines upload karo.
+
+    Setup C: Model Context Protocol (MCP) Integration
+        - Claude ko live search data se jodne ke liye MCP servers use karo:
+          * Brave Search MCP (Live web search bina paid API ke)
+          * Fetch / Puppeteer MCP (Live competitor webpage crawl karne ke liye)
+          * Google Search Console MCP (Click aur impression data dekhne ke liye)
+
+
+------------------------------------------------------------
+5. ASLI PROJECT STEP-BY-STEP WORKFLOW
+------------------------------------------------------------
+    Jab bhi kisi client ya apne project ke liye SEO karna ho:
+
+    STEP 1: Target Keyword + User Intent Identify Karo
+        Pata karo user kya dhoondh raha hai (Problem solving ya buy karna).
+
+    STEP 2: Competitor Page Crawl Karo (Top 3)
+        Unki headings (H2s/H3s) extract karo aur content length note karo.
+
+    STEP 3: Content Brief Generate Karo (With GEO Answer Boxes)
+        Har section ke start me 2-line direct definition likho taaki AI
+        Overviews wahan se snippet utha sake.
+
+    STEP 4: Draft Write Karo + Real Code / Examples Dalo
+        Generic baatein bilkul nahi — working code examples aur diagrams.
+
+    STEP 5: JSON-LD Schema Generate Karo
+        FAQPage aur Article schema add karo.
+
+    STEP 6: Internal Links Bind Karo
+        Puraane related blog posts aur docs se naye page ko link karo.
+
+
+------------------------------------------------------------
+6. GALTIYAN JO NAHI KARNI (GOTCHAS)
+------------------------------------------------------------
+    - AI Se Blindly 100 Articles Mat Likhao:
+      Google ka "Helpful Content System" mass AI spam ko de-index kar deta hai.
+      10 badhiya, deep, problem-solving guides > 100 thin AI articles.
+
+    - Fake Data / Hallucinated Stats Mat Dalo:
+      AI aksar fake stats bol deta hai ("78% developers prefer..."). Hamesha
+      asli research paper ya company study ka link verify karo.
+
+    - Schema Validate Karna Mat Bhoolo:
+      Code banate hi Google Rich Results Test (search.google.com/test/rich-results)
+      me paste karke check karo ki koi syntax error toh nahi.
+
+    - Keywords Stuff Mat Karo:
+      Keywords ko baar-baar zabardasti ghusana (keyword stuffing) 2010 ka
+      tareeka hai. Semantic entities aur related topics use karo.
+
+
+------------------------------------------------------------
+7. READY-TO-USE PROMPTS DIRECTORY
+------------------------------------------------------------
+    Is framework ke ready-made, copy-paste prompts individual files me
+    rakhe gaye hain (Index: prompts/seo/README.md):
+    - prompts/seo/27-10-2026-technical-seo-audit.txt
+    - prompts/seo/27-10-2026-geo-llms-txt.txt
+    - prompts/seo/27-10-2026-keyword-clustering.txt
+    - prompts/seo/27-10-2026-eeat-content-brief.txt
+    - prompts/seo/27-10-2026-json-ld-schema.txt
+    - prompts/seo/27-10-2026-internal-linking-silos.txt
+
+    In prompts me Technical Audit, GEO / llms.txt, Content Brief, aur
+    JSON-LD Schema generators shamil hain.
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    2026 me SEO = Blue links + AI Overviews (GEO/AEO) + Schema. Sirf keywords
+    bharne se traffic nahi aata, AI ko accurate source banna sikhana padta hai.
+

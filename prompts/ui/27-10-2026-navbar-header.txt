@@ -1,0 +1,38 @@
+PROMPT: MODERN NAVBAR & MEGA-MENU SYSTEM
+=========================================
+Topic: prompts, ui, navigation, header
+Date: 27-10-2026
+Target Stack: React / Next.js / Blade / Tailwind CSS
+Inspiration: Navbar Gallery (navbar.gallery), shadcn/ui, daisyUI
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    Desktop aur mobile dono ke liye clean, responsive navigation bar aur
+    header system generate karne ke liye. Floating glassmorphism pill,
+    mega-menu dropdown, search bar trigger, aur mobile slide-over drawer.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as a Senior UI Engineer.
+Design a modern, responsive Navigation Bar and Header system based on Navbar Gallery best practices.
+
+Requirements:
+1. Desktop Floating Nav:
+   - Floating glassmorphism pill layout (`backdrop-blur-md`, subtle 1px border `rgba(255,255,255,0.08)`, soft shadow).
+   - Brand logo with hover micro-rotation.
+   - Categorized links (Features, Solutions, Docs, Pricing).
+   - Solutions Mega-Menu: Multi-column dropdown showcasing categorized product links with Lucide icons, short descriptions, and a highlighted "What's New" card.
+   - Action triggers: Quick search shortcut pill (Cmd+K), Theme toggle, and solid Primary Action button.
+2. Mobile Slide-Over Drawer:
+   - Smooth slide-over drawer triggered by animated hamburger icon.
+   - Accordion collapse for sub-menus.
+   - Bottom user authentication and action buttons.
+3. Scroll Dynamic Behavior:
+   - Shrink slightly on scroll down; elevate subtle backdrop on reverse scroll up.
+--- [END PROMPT] ---

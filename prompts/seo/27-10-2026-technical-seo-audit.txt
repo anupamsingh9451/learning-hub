@@ -1,0 +1,41 @@
+PROMPT: TECHNICAL SEO & CORE WEB VITALS AUDIT
+==============================================
+Topic: prompts, seo, technical-audit, core-web-vitals
+Date: 27-10-2026
+Source: NOTES/ai/claude-seo-skills.txt
+Link: https://app.notion.com/p/Claude-SEO-Skills-3ea64170dad0809b93cbc451557ba0da
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    Website ka deep technical health check, crawlability, indexability,
+    aur Core Web Vitals optimization audit conduct karne ke liye.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as a Principal Technical SEO Auditor.
+I want a comprehensive technical SEO and performance audit for my website.
+
+Target URL / Tech Stack: [Insert URL or Stack, e.g., Next.js / Laravel]
+
+Perform a rigorous audit covering:
+1. Crawlability & Indexability:
+   - Robots.txt rules and XML Sitemap index structure.
+   - Canonical URL configuration and self-referencing checks.
+   - Detection of 301/302 redirect loops and 404 broken links.
+2. Core Web Vitals & Performance:
+   - LCP (Largest Contentful Paint) optimization (image formats, preloading).
+   - INP (Interaction to Next Paint) script delays.
+   - CLS (Cumulative Layout Shift) dimensions on media and fonts.
+3. Semantic HTML & Mobile Accessibility:
+   - Proper semantic tags (<main>, <nav>, <article>, <section>, <header>).
+   - Heading hierarchy validation (single H1, logical H2/H3 nesting).
+   - Meta viewport and mobile viewport touch targets.
+4. Actionable Checklist: Output prioritized recommendations into
+   Critical (Fix Immediately), Moderate (This Month), and Minor (Nice-to-have).
+--- [END PROMPT] ---

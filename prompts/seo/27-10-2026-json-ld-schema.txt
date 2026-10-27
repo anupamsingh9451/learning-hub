@@ -1,0 +1,37 @@
+PROMPT: PRODUCTION JSON-LD SCHEMA MARKUP GENERATOR
+===================================================
+Topic: prompts, seo, schema, structured-data, json-ld
+Date: 27-10-2026
+Source: NOTES/ai/claude-seo-skills.txt
+Link: https://app.notion.com/p/Claude-SEO-Skills-3ea64170dad0809b93cbc451557ba0da
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    Google Rich Results (FAQ dropdowns, rating stars, Article, SoftwareApp,
+    BreadcrumbList) ke liye valid, error-free JSON-LD schema markup generate
+    karne ke liye.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as a Structured Data & Schema Markup Engineer.
+Generate valid, error-free JSON-LD schema markup for my page.
+
+Page Details:
+- Page Type: [Article / SoftwareApplication / FAQPage / Product / Organization]
+- Page Title: [Title]
+- Page URL: [URL]
+- Author / Organization: [Author/Company Name]
+- FAQ Items: [Paste 3-5 Questions and Answers, if FAQ]
+
+Requirements:
+1. Output strictly valid JSON-LD wrapped in `<script type="application/ld+json">`.
+2. Follow Schema.org specifications and Google Rich Results guidelines.
+3. Connect entities using `@id` where applicable (e.g. connecting Article author to Organization).
+4. Include BreadcrumbList schema integrated into the graph.
+--- [END PROMPT] ---

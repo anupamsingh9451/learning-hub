@@ -1,0 +1,43 @@
+PROMPT: ADDRESS SEARCH & AUTOCOMPLETE WITH GEOCODING
+======================================================
+Topic: prompts, maps, geocoding, autocomplete, locationiq, geoapify
+Date: 27-10-2026
+Target Stack: React / Next.js / Blade / Tailwind CSS
+Inspiration: RESOURCES/dev-tools.txt (Section 10. MAPS - LocationIQ & Geoapify)
+Free Quota: 5,000 requests/day (LocationIQ) OR 3,000 requests/day (Geoapify) FREE (No card)
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    Delivery apps, booking forms, ya search bars me address autocomplete
+    aur reverse geocoding (lat-long se address) integrate karne ke liye.
+    Bina Google Places API ke heavy bills aur credit card requirement ke.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as a Full-Stack Engineer.
+Implement a fast, reliable Address Search & Autocomplete input with forward/reverse geocoding using free-tier APIs (LocationIQ or Geoapify, 5,000 requests/day free, NO credit card required).
+
+Project Context:
+- Tech Stack: [React / Next.js / Tailwind CSS OR Laravel Blade / Plain HTML]
+- Input Type: [Delivery Address Input / Checkout Form / Map Search Overlay]
+
+Requirements:
+1. Search Bar UI & Debounce:
+   - Modern input field with leading search icon and trailing clear (X) button.
+   - Debounce search keystrokes by 300ms before making API requests to save quota.
+   - Dropdown suggestions list showing: Main place name (bold), sub-locality, city, state, postal code.
+2. Selection & Coordinate Extraction:
+   - Selecting an address fills the form fields (Street, City, State, Pincode) and extracts exact `{ lat, lng }`.
+   - If a companion map exists: Smoothly pan the map to the selected coordinate and drop a draggable pin.
+3. Reverse Geocoding ("Use My Current Location"):
+   - Add a "Use Current Location" button that gets browser GPS coordinates (`navigator.geolocation`) and calls the reverse geocoding endpoint to auto-populate the address field.
+4. Error Handling:
+   - Handle network offline, quota exceeded, or zero results gracefully with friendly inline messages.
+--- [END PROMPT] ---
+

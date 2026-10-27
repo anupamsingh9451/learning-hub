@@ -1,0 +1,42 @@
+PROMPT: SPLIT-SCREEN AUTHENTICATION PAGE
+=========================================
+Topic: prompts, ui, auth, login, register
+Date: 27-10-2026
+Target Stack: React (react-hook-form) OR Blade + Tailwind CSS
+Inspiration: shadcn-ui/ui, react-hook-form, heroicons
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    High-converting, modern Split-Screen Authentication page (Sign In aur
+    Sign Up toggle ke sath) generate karne ke liye. Social auth, password
+    toggle, aur customer testimonial panel included.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as a Senior Frontend Engineer.
+Design a high-converting, modern Split-Screen Authentication page supporting both Sign In and Sign Up modes.
+
+Layout Structure:
+1. Left Branded Panel (Desktop Only):
+   - Deep indigo/slate gradient background with subtle blur glow.
+   - App logo and brand tagline.
+   - Customer testimonial card with 5-star rating, customer quote, and verified name/title.
+2. Right Form Column:
+   - Mode switcher: Segmented tab toggle ("Sign In" / "Create Account").
+   - One-click social auth: GitHub and Google buttons with official SVG icons.
+   - "Or continue with email" divider line.
+   - Form fields: Full Name (sign up only), Email Address, and Password.
+   - Password field with show/hide eye toggle button.
+   - "Forgot password?" link aligned to the right.
+   - Submit button with loading spinner state capability.
+   - Terms and Privacy policy disclaimer text at the bottom.
+
+Behavior & Validation:
+- Provide clean inline error states (red border for invalid email, friendly helper message for password length).
+--- [END PROMPT] ---

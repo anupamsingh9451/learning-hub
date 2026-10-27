@@ -1,0 +1,37 @@
+PROMPT: INTERNAL LINKING & TOPIC SILO STRATEGY
+=================================================
+Topic: prompts, seo, internal-linking, silo-architecture
+Date: 27-10-2026
+Source: NOTES/ai/claude-seo-skills.txt
+Link: https://app.notion.com/p/Claude-SEO-Skills-3ea64170dad0809b93cbc451557ba0da
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    Website authority distribute karne, PageRank flow optimize karne,
+    aur orphan pages khatam karne ke liye strict internal linking matrix
+    generate karne ke liye.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as an Information Architect and SEO Silo Specialist.
+Review my site structure and create a strict internal linking matrix.
+
+Site Pages / Topics: [List your main pages / blog categories]
+
+Deliverables:
+1. Silo Hierarchy Map: Define clear parent-child-sibling page relationships.
+2. Internal Linking Rules:
+   - How child pages pass PageRank back to the pillar page.
+   - Strict sibling interlinking rules (preventing cross-silo topic dilution).
+3. Anchor Text Strategy:
+   - 5 exact-match anchor text variations.
+   - 10 partial-match and natural conversational anchor text examples.
+4. Header & Footer Link Audit:
+   - What belongs in top nav vs footer vs contextual body copy.
+--- [END PROMPT] ---

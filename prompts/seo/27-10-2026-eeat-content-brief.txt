@@ -1,0 +1,45 @@
+PROMPT: HIGH-RANKING E-E-A-T CONTENT BRIEF
+===========================================
+Topic: prompts, seo, eeat, content-brief, helpful-content
+Date: 27-10-2026
+Source: NOTES/ai/claude-seo-skills.txt
+Link: https://app.notion.com/p/Claude-SEO-Skills-3ea64170dad0809b93cbc451557ba0da
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    Google Helpful Content aur E-E-A-T compliant in-depth article outline
+    aur brief generate karne ke liye. AEO snippet box, schema targets, aur
+    experience signals included.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as an Elite SEO Content Architect and Technical Writer.
+Create a comprehensive, production-ready Content Brief designed to rank #1 on Google and be featured in AI Overviews.
+
+Target Keyword: [Insert Primary Keyword]
+Secondary Keywords: [Insert Secondary Keywords]
+Target Audience: [e.g., Full-Stack Developers, SaaS Founders]
+
+The Brief Must Include:
+1. Title & Meta Optimization:
+   - 3 High-CTR Title Tag options (under 60 characters).
+   - Meta Description with clear value hook and CTA (under 155 characters).
+   - Recommended clean URL slug.
+2. AEO Featured Snippet Box (Direct Answer):
+   - A 45-word exact definition answering the search query directly under H1.
+3. Complete Outline Structure:
+   - Detailed H2s and H3s with bullet points on what each section must cover.
+   - Specific code examples, architecture diagrams, or step-by-step instructions.
+4. E-E-A-T Trust Signals:
+   - Real-world experience callouts (edge cases, benchmarks, war stories).
+   - Official documentation source citations to reference.
+   - Author bio credentials requirement.
+5. Internal & External Linking Recommendations:
+   - Target anchor texts and related page types to link to.
+--- [END PROMPT] ---

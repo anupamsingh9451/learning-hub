@@ -29,6 +29,7 @@ Format:  Naam – link – kya hai – status: todo / doing / done
 ------------------------------------------------------------
     - Anthropic Docs      – https://docs.anthropic.com    – Claude API, tool use, agents
     - Hugging Face Course – https://huggingface.co/learn  – NLP / LLM basics
+    - Claude SEO Skills   – https://app.notion.com/p/Claude-SEO-Skills-3ea64170dad0809b93cbc451557ba0da – Complete SEO, GEO & AEO skill blueprint (Note: NOTES/ai/claude-seo-skills.txt)
 
 
 ------------------------------------------------------------
@@ -60,3 +61,15 @@ Format:  Naam – link – kya hai – status: todo / doing / done
 9. BOOKS / YOUTUBE
 ------------------------------------------------------------
     -
+
+
+------------------------------------------------------------
+10. UI & DESIGN INSPIRATION
+------------------------------------------------------------
+    - Scrolltide     – https://scrolltide.co        – scroll-driven sections & cinematic AI prompts
+    - Navbar Gallery – https://navbar.gallery       – navbar & header designs
+    - Supahero       – https://supahero.io          – landing page hero section gallery
+    - CTA Gallery    – https://cta.gallery          – call-to-action sections & conversion blocks
+    - Footer Design  – https://footer.design        – curated website footer patterns & sitemaps
+    - Refero Styles  – https://styles.refero.design – real design systems & DESIGN.md for AI agents
+    - 3D Icons       – https://3dicons.co           – 1440+ open-source 3D icons (free download)

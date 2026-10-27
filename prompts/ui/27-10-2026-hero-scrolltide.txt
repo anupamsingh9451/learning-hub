@@ -1,0 +1,42 @@
+PROMPT: CINEMATIC HERO & SCROLL SECTION
+=======================================
+Topic: prompts, ui, hero-section, 3d, scroll-driven
+Date: 27-10-2026
+Target Stack: Next.js / React / Tailwind / Spline / Three.js
+Inspiration: Scrolltide (scrolltide.co), Supahero (supahero.io)
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    Scrolltide aur Supahero aesthetic wala cinematic hero section generate
+    karne ke liye. Isme 3D object / canvas embed, scroll-driven pinning,
+    aur dynamic light shaders shamil hain.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as a Creative Technologist and Motion UI Specialist.
+Build a cinematic, scroll-driven hero section inspired by Scrolltide and Supahero patterns.
+
+Project Context:
+- Headline Idea: [Insert Main Value Proposition]
+- Visual Focus: [3D Object / Dashboard Preview / Interactive Canvas]
+
+Key Features to Build:
+1. Top-Fold Architecture:
+   - High-contrast typography with split-gradient text.
+   - Live announcement badge ("v2.0 Just Released") with pulsing emerald dot.
+   - Dual CTAs: Primary solid action button with glow + Secondary demo video trigger.
+   - Social proof bar: Real customer avatar stack, 5-star rating, and trust badges ("No credit card required").
+2. 3D / Shader Visual Centerpiece:
+   - Floating 3D interactive element (or Spline / Three.js canvas / rendered 3D icon) that tilts and reacts to cursor position with subtle mouse parallax.
+   - Dramatic background lighting (radial mesh gradient or dark shader effect).
+3. Scroll-Driven Dynamics:
+   - Section pinning on initial scroll with progressive scale-down.
+   - Key metric counters reveal progressively as the user scrolls into the viewport.
+   - Snappy micro-transitions (150-250ms) to ensure zero scroll lag.
+--- [END PROMPT] ---

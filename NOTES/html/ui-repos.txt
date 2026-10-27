@@ -56,6 +56,10 @@ Link: https://github.com/<repo naam>  (repo ka naam hi uska link hai)
         Kya hai : Tailwind team ke icons.
         Kab lo  : Tailwind wale project me matching look ke liye.
 
+    realvjy/3dicons (https://3dicons.co)
+        Kya hai : 1,440+ free open-source 3D icons (PNG, OBJ, FBX, BLEND).
+        Kab lo  : Landing page hero aur bento grid me tactile 3D look ke liye.
+
 
 ------------------------------------------------------------
 3. ANIMATION
@@ -75,6 +79,10 @@ Link: https://github.com/<repo naam>  (repo ka naam hi uska link hai)
     vengeance-ui (https://vengenceui.com)
         Kya hai : Vibe-coding aur AI agents (Cursor/Claude MCP) ke liye motion UI kit.
         Kab lo  : Prompt se animated blocks aur CLI registry se add karna ho.
+
+    scrolltide (https://scrolltide.co)
+        Kya hai : Scroll-driven 3D shaders, sections aur cinematic AI prompt library.
+        Kab lo  : Cursor/Claude me prompt daal kar high-impact scroll effects ke liye.
 
 
 ------------------------------------------------------------
@@ -111,6 +119,30 @@ Link: https://github.com/<repo naam>  (repo ka naam hi uska link hai)
     satnaing/shadcn-admin
         Kya hai : shadcn/ui se bana poora admin dashboard.
         Kab lo  : React admin panel ka ready starting point.
+
+
+------------------------------------------------------------
+6. COMPONENT INSPIRATION (NAV, HERO, CTA, FOOTER)
+------------------------------------------------------------
+    navbar-gallery (https://navbar.gallery)
+        Kya hai : Navigation bar designs (sticky, mega-menu, drawer, floating).
+        Kab lo  : Header aur responsive navigation plan karte waqt.
+
+    supahero (https://supahero.io)
+        Kya hai : Curated landing page hero sections gallery.
+        Kab lo  : Landing page ka top fold high-converting aur modern banana ho.
+
+    cta-gallery (https://cta.gallery)
+        Kya hai : Call to action (CTA) sections aur conversion blocks.
+        Kab lo  : Lead-gen ya sales closing banner design karte waqt.
+
+    footer-design (https://footer.design)
+        Kya hai : Curated website footers aur sitemaps gallery.
+        Kab lo  : Multi-column footer aur newsletter layout design karte waqt.
+
+    refero-styles (https://styles.refero.design)
+        Kya hai : Real-world apps ke design tokens aur DESIGN.md files.
+        Kab lo  : AI agents (Cursor/Claude) se polished enterprise UI banwana ho.
 
 
 ------------------------------------------------------------

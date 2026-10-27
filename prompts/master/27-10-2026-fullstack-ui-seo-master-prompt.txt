@@ -1,0 +1,140 @@
+FULLSTACK UI & SEO PRODUCTION MASTER PROMPT
+=============================================
+Topic: master-prompt, vibe-coding, fullstack-ui, seo-geo
+Date: 27-10-2026
+Status: ready-to-use / copy-paste
+Source: Claude SEO Skills (Notion) + Modern UI Design Curations
+
+
+------------------------------------------------------------
+1. YEH PROMPT KIS KAAM KA HAI
+------------------------------------------------------------
+    Yeh ek Universal Production Master Prompt hai. Jab bhi aap kisi naye ya
+    existing project (Next.js, Laravel Blade, React, HTML) me kaam shuru
+    karein, toh is prompt ko seedha AI agent (Cursor, Claude Code, ChatGPT,
+    v0, Antigravity) me paste kar do.
+
+    Yeh prompt AI ko 2 badi cheezein enforce karwata hai:
+    1. World-Class UI/UX Design System:
+       - Refero Styles (Real design system tokens, zero generic UI)
+       - Supahero (High-conversion hero sections)
+       - Navbar Gallery (Modern header & responsive drawer)
+       - Scrolltide (Cinematic scroll-driven shaders & interactions)
+       - 3D Icons (Tactile 3D visual assets from 3dicons.co)
+       - CTA Gallery (Compelling conversion closing banner)
+       - Footer Design (Structured sitemaps & clean footer layout)
+
+    2. Complete Modern SEO, GEO & AEO Architecture:
+       - Claude SEO Skills framework (Technical audit, schema, E-E-A-T)
+       - Generative Engine Optimization (`/llms.txt` standard for ChatGPT/Claude)
+       - Answer Engine Optimization (Direct answer snippet boxes for AI Overviews)
+       - Production JSON-LD Structured Data Schema
+
+
+------------------------------------------------------------
+2. THE MASTER PROMPT (COPY BELOW THIS LINE)
+------------------------------------------------------------
+
+--- [START OF MASTER PROMPT] ---
+
+Act as a Principal Full-Stack Engineer, Design System Architect, and Elite SEO/GEO Specialist.
+
+Your task is to build/optimize the user interface, design system, and organic search architecture for this project.
+
+### PROJECT CONTEXT:
+- Project Name: [Insert Project Name]
+- Tech Stack: [e.g. Next.js 15 / React / Tailwind CSS OR Laravel 11 / Blade / daisyUI]
+- Core Product / Service: [What does this product do in 1 sentence?]
+- Target Audience: [Who is this for? e.g. SaaS Founders, Developers, B2B Clients]
+
+---
+
+### PART 1: ELITE UI/UX SYSTEM (GROUNDED DESIGN STANDARDS)
+Do NOT generate generic, cookie-cutter interfaces. Adhere strictly to the following 7 design benchmarks:
+
+1. Refero Styles System Tokens (Design Grounding):
+   - Do NOT guess colors or spacing. Define strict design tokens:
+     * Background / Surface: Deep neutral slate base (`#020617` / `#090d16`), elevated card surfaces (`#0f172a`), subtle 1px border (`rgba(255,255,255,0.08)`).
+     * Accent: 1 vibrant accent (Indigo/Violet/Emerald), with subtle glow gradients.
+     * Typography: Plus Jakarta Sans / Inter with clean 8px hierarchy scales.
+
+2. Supahero-Inspired Hero Section (High-Conversion Top Fold):
+   - Eye-catching badge with live status pulse (e.g. "v2.0 Released").
+   - Bold high-contrast headline with split-gradient text.
+   - Dual CTAs: Primary solid action button with glow + Secondary demo button with icon.
+   - Social proof bar: Real customer avatar stack, 5-star rating, and trust badges ("No credit card required").
+
+3. Navbar Gallery Header System:
+   - Sticky/Floating glassmorphism pill navigation bar (`backdrop-blur-md`).
+   - Clean brand mark with subtle hover micro-interaction.
+   - Categorized navigation links and desktop Quick Search (Cmd+K trigger).
+   - Mobile: Animated hamburger trigger opening an accessible slide-over drawer.
+
+4. Scrolltide-Inspired Cinematic Motion & 3D Shaders:
+   - Subtle scroll-driven section pinning or progressive metric reveals.
+   - Mouse-parallax hover tilt on cards and interactive elements.
+   - Avoid sluggish or excessive animation: keep all micro-transitions snappy (150-250ms).
+
+5. 3D Icons Visual Hierarchy (3dicons.co style):
+   - Use tactile, claymorphic or metallic 3D icons for feature bento cards.
+   - Subtle floating animation keyframes (`translateY(-4px)` with shadow bloom).
+
+6. CTA Gallery Conversion Block:
+   - High-contrast closing call-to-action banner before the footer.
+   - Compelling value-driven headline with inline email capture form.
+   - Clear risk-reversal microcopy ("Free 14-day trial", "Cancel anytime").
+
+7. Footer Design Sitemap Architecture:
+   - 4-column organized navigation (Product, Resources, Company, Legal).
+   - Brand elevator pitch + Newsletter subscription field.
+   - Live system status pill (e.g., "All Systems Operational" in emerald).
+
+---
+
+### PART 2: CLAUDE SEO, GEO & AEO ARCHITECTURE
+Ensure the project is 100% optimized for traditional Google search, Google AI Overviews, and AI agents (ChatGPT Search, Perplexity, Claude).
+
+1. GEO Readiness (`/llms.txt` Standard):
+   - Generate a standardized `/llms.txt` and `/llms-full.txt` at the site root so AI search engines can accurately parse and cite our documentation and core features.
+   - Provide clean entity disambiguation (Brand name, core offering, verified external links).
+
+2. AEO (Answer Engine Optimization) Snippet Boxes:
+   - Under key headers (H1 and major H2s), include a concise 45-50 word direct definition answering the target search query directly, making it easy for Google AI Overviews and Perplexity to feature us.
+
+3. Complete JSON-LD Structured Data Schema:
+   - Generate and embed valid `<script type="application/ld+json">` schemas for:
+     * `Organization` & `WebSite` (with SearchAction)
+     * `FAQPage` (3-5 high-intent user questions and answers)
+     * `SoftwareApplication` / `Product` (with rating and feature specs)
+     * `BreadcrumbList` (hierarchical breadcrumb navigation)
+
+4. Technical SEO Health:
+   - Semantic HTML5 tags (`<main>`, `<nav>`, `<article>`, `<section>`, `<header>`).
+   - Single H1 per page, strict logical heading nesting (H1 -> H2 -> H3).
+   - Fast Core Web Vitals (explicit image dimensions to prevent CLS, preloaded fonts).
+   - High-CTR Meta Title (< 60 chars) and Meta Description (< 155 chars) with action hooks.
+
+---
+
+### EXECUTION INSTRUCTIONS:
+1. First, inspect the current project structure and state before writing code.
+2. Provide clean, modular, production-ready code files (matching the project stack).
+3. Ensure mobile responsiveness across 320px, 768px, 1024px, and 1440px breakpoints.
+4. Verify accessibility (focus rings, aria labels, WCAG contrast compliance).
+
+--- [END OF MASTER PROMPT] ---
+
+
+------------------------------------------------------------
+3. KAISE USE KAREIN (STEP-BY-STEP)
+------------------------------------------------------------
+    Step 1: Apne doosre project me Cursor, Claude Code, ya ChatGPT kholo.
+    Step 2: Upar diya gaya prompt copy karo.
+    Step 3: `[PROJECT CONTEXT]` ke 4 fields fill karo:
+            - Project Name
+            - Tech Stack
+            - Core Product / Service
+            - Target Audience
+    Step 4: Send kar do. AI agent poora page UI design (Refero/Supahero/3D/CTA)
+            aur SEO/GEO foundation (llms.txt, Schema, AEO snippets) dono ek
+            saath build kar dega.

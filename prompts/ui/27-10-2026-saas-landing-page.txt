@@ -1,0 +1,51 @@
+PROMPT: MODERN SAAS LANDING PAGE
+=================================
+Topic: prompts, ui, landing-page, vibe-coding
+Date: 27-10-2026
+Target Stack: React / Next.js / Tailwind CSS / Lucide / Motion
+Inspiration: magicuidesign/magicui, skiper-ui, Supahero
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    High-converting, modern SaaS ya product landing page generate karne ke
+    liye. Isme dark glowing hero, bento grid features, interactive pricing
+    toggle, aur social proof included hai.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as a Principal Frontend Engineer and Award-winning UI Designer.
+Create a complete, modern SaaS landing page with dark aesthetic and high conversion hierarchy.
+
+Project Context:
+- Product Name: [Insert Name]
+- Core Feature: [What problem does it solve?]
+- Target Audience: [Developers / Founders / Enterprises]
+
+Key Sections to Build:
+1. Sticky Header: Floating glassmorphism pill navigation (backdrop-blur-md) with brand logo, nav links (Features, Platform, Pricing), and a high-contrast CTA button.
+2. Hero Section:
+   - Subtle background radial glow gradient.
+   - Animated announcement pill ("v2.0 Just Launched").
+   - Bold typography headline with gradient text highlight.
+   - Dual CTAs: Primary solid button with glow + Secondary demo button.
+   - Social proof counter (customer avatar stack + 5-star rating).
+3. Bento Grid Features (Magic UI style):
+   - 1 wide 2-column card showcasing terminal / code preview.
+   - 3 modular feature cards with Lucide icons and hover lift effect.
+4. Interactive Pricing:
+   - Monthly / Annual billing toggle.
+   - 3 tiers with highlighted "Most Popular" card with badge and full feature checklist.
+5. Testimonials & Social Proof:
+   - 3 quote cards with customer photo, title, and verified company badge.
+6. Final CTA Banner & Footer:
+   - High-contrast closing banner with direct action button.
+   - 4-column structured footer with copyright and status indicator.
+
+Design Standards: Slate-950 dark base, Plus Jakarta Sans / Inter font, 1px slate-800 borders, responsive across mobile, tablet, and widescreen.
+--- [END PROMPT] ---

@@ -1,0 +1,36 @@
+PROMPT: LARAVEL BLADE FULL PAGE (DAISYUI / FLOWBITE)
+=====================================================
+Topic: prompts, ui, laravel, blade, daisyui, flowbite
+Date: 27-10-2026
+Target Stack: Laravel Blade / Plain PHP + Tailwind CSS + daisyUI/Flowbite
+Inspiration: saadeghi/daisyui, themesberg/flowbite
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    Laravel Blade ya PHP projects ke liye bina React/Node.js build step
+    ke modern, responsive UI pages generate karne ke liye.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as a Senior Laravel & Full-Stack Developer.
+Create a clean, responsive UI page built specifically for Laravel Blade templates using daisyUI and Tailwind CSS without requiring any React or heavy JS build runtime.
+
+Target Page: [Insert Page Name, e.g. User Profile / Order Management / Settings]
+
+Requirements:
+1. Pure HTML + Blade syntax + daisyUI classes (no React, no Vue).
+2. Clean component architecture: Code must be split into reusable Blade partials (`@include('components.sidebar')`, `@include('components.card')`).
+3. Components to build:
+   - Responsive navbar with mobile hamburger drawer.
+   - daisyUI stats card grid (`stats shadow` classes).
+   - Tabbed content panel with active state indicators.
+   - Accessible modal dialog triggered with pure HTML/JS.
+   - Flash message alert banner (success/error alerts with close button).
+4. Blade Data Binding: Use Blade placeholders like `{{ $title }}`, `@foreach($items as $item)`, and `@csrf` for all forms.
+--- [END PROMPT] ---

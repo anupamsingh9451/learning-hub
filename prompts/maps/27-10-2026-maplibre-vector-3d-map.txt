@@ -1,0 +1,51 @@
+PROMPT: 3D VECTOR MAP WITH MULTI-STYLE SWITCHER (MAPLIBRE + MAPTILER)
+=====================================================================
+Topic: prompts, maps, maplibre, maptiler, vector-tiles, 3d-map
+Date: 27-10-2026
+Target Stack: React / Next.js / Tailwind CSS OR Blade / Plain HTML
+Inspiration: RESOURCES/dev-tools.txt (Section 10. MAPS - MapLibre GL & MapTiler)
+Free Quota: 100,000 requests/month FREE (No credit card needed)
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    Mapbox ka 100% free, modern open-source alternative. Smooth 60fps pan,
+    zoom, 3D building tilt, dark/street/satellite switcher, aur OpenStreetMap
+    auto-failover backup ke sath interactive vector map generate karne ke liye.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as a Senior Geospatial & Frontend Engineer.
+Implement a modern, high-performance 3D Vector Map component using MapLibre GL JS and free MapTiler vector tiles (NO mandatory credit card required).
+
+Project Context:
+- Tech Stack: [React / Next.js / Tailwind CSS OR Laravel Blade / Plain HTML]
+- Default Center Coordinates: [Lat, Lng, e.g. 28.6139, 77.2090 for New Delhi]
+- Default Zoom Level: [e.g. 12]
+
+Architecture & Rules:
+1. Core Renderer:
+   - Use MapLibre GL JS (WebGL vector rendering engine).
+   - Enable 3D pitch/bearing rotation (allow user to tilt view).
+2. Tile Providers & Failover:
+   - Primary: MapTiler vector tiles (100,000 free requests/month).
+   - Auto-Failover: Catch tile load errors and automatically fallback to OpenStreetMap public raster tiles (`https://tile.openstreetmap.org/{z}/{x}/{y}.png`) so the map never breaks.
+3. Multi-Style Switcher Control:
+   - Add a sleek floating segmented control on the map:
+     * "Dark Theme" (SaaS/Dashboard modern look)
+     * "Clean Street" (Standard navigation)
+     * "Satellite Hybrid" (Aerial imagery)
+4. UI & Controls:
+   - Standard navigation controls (Zoom In/Out, 3D Compass reset).
+   - "Locate Me" button with HTML5 Geolocation API.
+   - Branded custom SVG marker with a clean Tailwind-styled popup (Title, Address, "Get Directions" link).
+   - Place inside a responsive container with rounded-2xl border, subtle slate-800 outline, and interactive coordinate indicator pill in the corner.
+
+Lifecycle: Ensure proper map instance destruction on component unmount to prevent memory leaks.
+--- [END PROMPT] ---
+
