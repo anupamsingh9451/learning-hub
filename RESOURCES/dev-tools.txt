@@ -145,13 +145,31 @@ Source: "Best Websites for VibeCoders" (Google Doc) + extra tools mere stack ke 
 
 
 ------------------------------------------------------------
-10. MAPS
+10. MAPS (LIBRARIES & TILE/GEO APIS)
 ------------------------------------------------------------
-    Naam           Link                           Kis kaam ka
-    -------------  -----------------------------  --------------------
-    Mapbox         https://www.mapbox.com         Interactive maps (paid, free tier)
-    Leaflet        https://leafletjs.com          Halki open-source maps
-    OpenStreetMap  https://www.openstreetmap.org  Free map data
+    Naam                 Link                              Kis kaam ka
+    -------------------  --------------------------------  --------------------
+    [Libraries - 100% Free & Open-Source]
+    Leaflet              https://leafletjs.com             Halki 2D open-source map library, plugin ecosystem
+    MapLibre GL (+)      https://maplibre.org              Mapbox ka free open-source fork (WebGL vector & 3D tilt)
+    OpenLayers (+)       https://openlayers.org            Advanced GIS, multi-layer projections, heavy data
+    Deck.gl (+)          https://deck.gl                   Uber ka WebGL data visualization layer (millions of points)
+
+    [Tile & API Providers - Free Tiers & Partials]
+    MapTiler (+)         https://www.maptiler.com          Vector/raster tiles, 100k requests/mo FREE (No card)
+    Geoapify (+)         https://www.geoapify.com          Maps, Address Autocomplete, Routing: 3k/day FREE (No card)
+    LocationIQ (+)       https://locationiq.com            Fast Geocoding & reverse search: 5k/day FREE (No card)
+    Stadia Maps (+)      https://stadiamaps.com            Vector tiles + Stamen styles: 200k views/mo FREE
+    OpenStreetMap        https://www.openstreetmap.org     100% free map data & basic tiles (Fair-use policy)
+    Mapbox               https://www.mapbox.com            Industry standard (50k web loads + 100k geocoding/mo FREE)
+    Google Maps (+)      https://developers.google.com/maps $200 free monthly credit (~28.5k web loads/mo FREE, Card req)
+
+    Free Tier Quotas & Details:
+    - 100% Free & Bina Card: Leaflet / MapLibre + MapTiler (100k/mo) ya Geoapify (3,000/day).
+    - Address Autocomplete / Search: Geoapify ya LocationIQ (5,000 requests/day free bina credit card).
+    - Vector & 3D Smooth Maps: MapLibre GL JS + MapTiler vector tiles (modern Mapbox alternative).
+    - Production/Client: Mapbox (50k web map loads/mo free; CC zaroori hai par standard usage pe free rehta hai).
+    - Google Maps: $200 free recurring credit har mahine (~28k dynamic loads), lekin signup pe Credit Card mandatory.
 
 
 ------------------------------------------------------------

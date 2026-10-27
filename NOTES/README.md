@@ -43,7 +43,7 @@ NOTES/
 │   ├── rea-reverse-engineering.txt  REA: agent se kisi app ka feature samajhna (MCP)
 │   ├── ruflo.txt              Claude Code ke saath AI agents ki team (setup + safe use)
 │   ├── saas-15-layer-playbook.txt AI se asli SaaS: 15 layers + Laravel mapping
-│   ├── vibecoded-website-fixes.txt 20 fixes: mobile overflow se clickable logo/tel/mail tak
+│   ├── vibecoded-website-fixes.txt 20 UI/UX fixes + 20 pre-launch production essentials
 │   └── vibecoding-prompts.txt 20 prompts: PRD se final audit tak
 ├── database/
 │   ├── database-types.txt     SQL vs NoSQL, ACID, CAP, saare DB types (shuru yahin se)
@@ -54,7 +54,8 @@ NOTES/
 │   ├── redis.txt              cache, queue, lock, Laravel ke saath
 │   └── database-repos.txt     GUI tools, extensions, search/vector DBs
 ├── devops/                    (abhi khaali, .gitkeep) Docker, Linux, WSL, CI/CD
-└── system-design/             (abhi khaali, .gitkeep)
+└── system-design/
+    └── backend-developer-handbook.txt 20 core backend concepts, architecture & interview guide (@CodewithZ)
 ```
 
 ## Naya Note Kahan Jaayega?

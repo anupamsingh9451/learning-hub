@@ -52,7 +52,8 @@ Format:  Naam – link – kya hai – status: todo / doing / done
 ------------------------------------------------------------
 8. SYSTEM DESIGN
 ------------------------------------------------------------
-    - System Design Primer – https://github.com/donnemartin/system-design-primer
+    - System Design Primer      – https://github.com/donnemartin/system-design-primer
+    - Backend Developer Handbook – https://drive.google.com/file/d/152uEia7zzTOcjvPZmdwY73n-E4lMtK9A/view – 20 backend concepts, @CodewithZ (Note: NOTES/system-design/backend-developer-handbook.txt)
 
 
 ------------------------------------------------------------

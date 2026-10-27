@@ -218,7 +218,135 @@ Source: 20 things to tell Claude to fix on your vibecoded website (in 27 seconds
 
 
 ------------------------------------------------------------
-5. GALTIYAN JO LOG KARTE HAIN / GOTCHAS
+5. PRE-LAUNCH PRODUCTION & COMPLIANCE CHECKLIST (CREATOR'S 20 ESSENTIALS)
+------------------------------------------------------------
+    UI theek hone ke baad, website live/public karne se pehle yeh 20
+    infrastructure, legal, security aur conversion cheezein check karna zaroori hai:
+
+    01. PRIVACY POLICY
+        - Kahan: `/privacy` page + footer link.
+        - Zaroori: Kaunsa data collect kar rahe ho (cookies, email, analytics),
+          third-party tools (Stripe, PostHog), aur contact email address.
+
+    02. TERMS & CONDITIONS
+        - Kahan: `/terms` page + footer link.
+        - Zaroori: Service use ke rules, intellectual property, refund policy,
+          aur liability limitations.
+
+    03. REMOVE FRONTEND SECRETS
+        - Check: Build hone ke baad `.env` aur client-side JS bundles me koi
+          private API key (`sk_live_...`, database password, webhook secret)
+          leak toh nahi ho rahi. Sirf `NEXT_PUBLIC_` ya `VITE_` public keys allow hain.
+
+    04. ENFORCE HTTPS
+        - Check: Saari HTTP requests automatically HTTPS par 301 redirect hon.
+        - HSTS header enable ho aur koi mixed content (http:// images/scripts) na ho.
+
+    05. COOKIE CONSENT BANNER
+        - Kahan: Bottom floating banner ya modal.
+        - Zaroori: Non-essential cookies (analytics, tracking) ke liye user ko
+          Accept/Reject ka saaf vikalp do (GDPR/privacy compliant).
+
+    06. META TITLES / DESCRIPTIONS
+        - Har primary page ka unique `<title>` (50-60 characters) aur
+          `<meta name="description">` (150-160 characters) set ho.
+
+    07. SOCIAL PREVIEW IMAGE (OG:IMAGE)
+        - `<meta property="og:image">` aur `twitter:image` me 1200x630px ki
+          branded image link ho, taaki WhatsApp, Twitter, LinkedIn pe share
+          karne par sundar preview card dikhe.
+
+    08. FAVICON & ICONS
+        - Sirf standard `.ico` nahi; 16x16, 32x32, 192x192, 512x512,
+          `apple-touch-icon.png`, aur `site.webmanifest` link hona chahiye.
+
+    09. SITEMAP AND ROBOTS.TXT
+        - `/sitemap.xml`: Saare public routes indexed hon.
+        - `/robots.txt`: Search engines ko allow kare, par `/admin`, `/api`,
+          aur private dashboards ko disallow kare.
+
+    10. IMAGE ALT TEXT
+        - Har informative image par descriptive `alt="..."` tag ho (accessibility
+          aur SEO ke liye). Decorative images par `alt=""` ho.
+
+    11. IMAGE COMPRESSION
+        - Heavy PNG/JPEG ko WebP ya AVIF me convert karo (target: <150KB per image).
+        - Responsive `srcset` aur `loading="lazy"` use karo.
+
+    12. PAGE LOAD SPEED CHECK
+        - Google PageSpeed Insights ya Lighthouse me run karo.
+        - Target: Performance score > 90, LCP < 2.5s, zero layout shift (CLS < 0.1).
+
+    13. COLOR CONTRAST FIXES
+        - Text aur background ke beech minimum 4.5:1 (WCAG AA) contrast ratio ho.
+        - Muted text ko itna halka mat karo ki padhna namumkin ho.
+
+    14. MOBILE RESPONSIVENESS
+        - 320px, 375px, 768px, 1024px screens par check karo.
+        - Sabhi buttons aur clickable links ka minimum size 44x44px touch target ho.
+
+    15. CUSTOM 404 PAGE
+        - Branded 404 page jisme friendly message, helpful search/links, aur
+          prominent 'Back to Home' button ho.
+
+    16. BROKEN LINK FIXES
+        - Poori site ko crawl karke 404 dead links, broken external links, aur
+          khaali `href="#"` ko hatao ya sahi URL do.
+
+    17. FORM VALIDATION
+        - Client-side par instant inline validation (valid email, required fields)
+        - Server-side par strict schema validation (kabhi sirf frontend pe rely mat karo).
+
+    18. SPAM PROTECTION
+        - Contact forms aur signups par bot spam rokne ke liye Cloudflare Turnstile,
+          reCAPTCHA v3, ya invisible honeypot field lagao.
+
+    19. ANALYTICS SETUP
+        - Privacy-friendly analytics setup karo (PostHog, Plausible, Umami, ya GA4)
+        - Key conversion events (button click, signup, purchase) track ho rahe hon.
+
+    20. SINGLE CLEAR CTA
+        - Page ke main goal ke liye ek hi clear primary Call-to-Action (CTA) ho.
+        - 5 alag-alag colored buttons se user ko confuse mat karo; ek hero action chunna.
+
+
+------------------------------------------------------------
+6. ALL-IN-ONE PRE-LAUNCH AUDIT PROMPT FOR CLAUDE
+------------------------------------------------------------
+    Launch se pehle Claude Code ya Cursor me yeh prompt paste karke poora
+    compliance aur production audit run karwao:
+
+    ------------------------------------------------------------
+    You are a Senior DevOps, Security, and Production Release Engineer.
+    Perform a complete Pre-Launch Compliance & Production Audit on this website:
+
+    1. Verify Privacy Policy (/privacy) and Terms & Conditions (/terms) exist and are linked.
+    2. Audit frontend code and .env bundles to ensure ZERO private secrets or API keys are exposed.
+    3. Ensure HTTPS redirection, secure headers, and zero mixed-content warnings.
+    4. Verify cookie consent management for GDPR/privacy compliance.
+    5. Check that all primary routes have unique title tags and meta descriptions.
+    6. Verify Open Graph (og:image 1200x630) and Twitter card tags exist.
+    7. Verify complete favicon suite (ico, apple-touch-icon, webmanifest).
+    8. Check sitemap.xml and robots.txt configuration.
+    9. Ensure all images have descriptive alt attributes for accessibility.
+    10. Audit image sizes and compression (WebP/AVIF format, lazy loading).
+    11. Check Core Web Vitals and page performance bottlenecks.
+    12. Check color contrast meets WCAG AA standards (>= 4.5:1).
+    13. Verify mobile responsiveness down to 320px with minimum 44px touch targets.
+    14. Confirm a custom, branded 404 page exists and works.
+    15. Scan and fix any broken internal or external links.
+    16. Verify form validation with clear inline error states.
+    17. Ensure spam protection (Turnstile / honeypot / rate-limit) on public forms.
+    18. Verify analytics integration without blocking page rendering.
+    19. Ensure each primary page has a single, prominent, uncluttered primary CTA.
+    20. Confirm dynamic copyright year in the footer.
+
+    Give me an audit table with Status (PASS / WARN / FAIL) and direct fixes.
+    ------------------------------------------------------------
+
+
+------------------------------------------------------------
+7. GALTIYAN JO LOG KARTE HAIN / GOTCHAS
 ------------------------------------------------------------
     - Overflow fix karte waqt `body { overflow-x: hidden; }` laga dena:
       Isse screen to fix ho jaati hai par kabhi-kabhi `position: sticky` toot
@@ -233,7 +361,7 @@ Source: 20 things to tell Claude to fix on your vibecoded website (in 27 seconds
 
 
 ------------------------------------------------------------
-6. LINKS & SAMBANDHIT NOTES
+8. LINKS & SAMBANDHIT NOTES
 ------------------------------------------------------------
     - Vibecoding ke 20 Prompts        NOTES/ai/vibecoding-prompts.txt
     - Design Quality Audit Prompts    NOTES/ai/design-audit-prompts.txt

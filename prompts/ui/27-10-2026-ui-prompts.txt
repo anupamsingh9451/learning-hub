@@ -1,0 +1,203 @@
+UI PAGES & COMPONENTS MASTER PROMPTS
+======================================
+Topic: prompts, ui-pages, frontend, vibe-coding
+Date: 27-10-2026
+Status: reference / ready
+Source: NOTES/html/ui-repos.txt
+
+
+------------------------------------------------------------
+1. YEH FILE KYA HAI
+------------------------------------------------------------
+    Yeh UI pages aur components generate karne ki single prompts file hai.
+    Jab bhi Claude, Cursor, v0, ya ChatGPT se koi naya UI page banwana ho,
+    seedha yahan se prompt copy karo aur project me paste karo.
+
+    Yeh saare prompts NOTES/html/ui-repos.txt ke recommended tools pe
+    based hain:
+    - React / Next.js Stack : shadcn/ui + Lucide Icons + Motion
+    - PHP / Blade Stack     : daisyUI / Flowbite + Tabler Icons + Chart.js
+
+    Aap is file me neeche Section 8 me apne naye prompts bhi add kar
+    sakte hain.
+
+
+------------------------------------------------------------
+2. PROMPT: COMPONENT LIBRARIES SETUP (SHADCN / DAISYUI / FLOWBITE)
+------------------------------------------------------------
+    Repos: shadcn-ui/ui, saadeghi/daisyui, themesberg/flowbite, radix-ui
+
+    [PROMPT START]
+    Act as a Senior Design Systems Architect.
+    Set up the foundational UI component system for my web project.
+
+    Project Type: [React / Next.js OR Laravel Blade / PHP]
+
+    Requirements:
+    1. If React/Next.js: Configure base Tailwind + shadcn/ui with Radix
+       primitives and Lucide icons. Provide drop-in code for: Button,
+       Dialog/Modal, DropdownMenu, and Card.
+    2. If Laravel/Blade: Configure Tailwind + daisyUI (ya Flowbite).
+       Provide clean reusable Blade components (`<x-button>`, `<x-modal>`,
+       `<x-card>`) with no heavy JS build dependencies.
+    3. Ensure clean dark/light mode token structure, focus-visible
+       accessibility rings, and consistent 8px spacing rhythm.
+    [PROMPT END]
+
+
+------------------------------------------------------------
+3. PROMPT: MODERN SAAS LANDING PAGE (MAGIC UI / SKIPER STYLE)
+------------------------------------------------------------
+    Repos: magicuidesign/magicui, skiper-ui, motiondivision/motion, lucide
+
+    [PROMPT START]
+    Act as a Lead Frontend Engineer and Creative UI Designer.
+    Create a high-converting, modern SaaS landing page.
+
+    Structure Required:
+    1. Floating Header: Glassmorphism blurred pill navbar with brand logo,
+       links (Features, Platform, Pricing), and a high-contrast CTA button.
+    2. Hero Section:
+       - Subtle background radial glow gradient.
+       - Animated announcement pill ("v2.0 Launched").
+       - Bold headline with subtle gradient text highlight.
+       - Dual CTAs: Primary solid button with glow + Secondary demo button.
+       - Social proof: Customer avatar stack + 5-star rating text.
+    3. Bento Grid Features (Magic UI style):
+       - 1 wide 2-column card showcasing code/terminal preview.
+       - 3 modular feature cards with Lucide icons and hover lift effect.
+    4. Interactive Pricing:
+       - Monthly / Annual billing toggle.
+       - 2 to 3 tiers with a prominent "Recommended" badge on Pro.
+    5. Testimonials & CTA Banner:
+       - Quote cards with author photo, role, and company.
+       - Final bottom call-to-action banner.
+
+    Design Style: Slate-950 dark theme, Plus Jakarta Sans font, crisp
+    1px slate-800 borders, smooth transitions.
+    [PROMPT END]
+
+
+------------------------------------------------------------
+4. PROMPT: ADMIN & ANALYTICS DASHBOARD (SHADCN-ADMIN / TABLER)
+------------------------------------------------------------
+    Repos: satnaing/shadcn-admin, tabler/tabler, chartjs/Chart.js, recharts
+
+    [PROMPT START]
+    Create a production-grade, responsive Admin Analytics Dashboard.
+
+    Layout & Components:
+    1. Sidebar: Collapsible navigation with brand logo, categorized links
+       (Overview, Analytics, Customers, Orders, Settings) with Lucide icons,
+       and bottom user profile section with logout trigger.
+    2. Topbar: Breadcrumbs, search input with keyboard shortcut (Ctrl+K),
+       notifications icon with active unread badge, and quick action button.
+    3. KPI Stat Cards (4 columns):
+       - Total Revenue ($45,231) with green percentage growth arrow.
+       - Active Subscriptions (+2,350) with monthly increase indicator.
+       - Sales Volume (+12,234) with progress comparison.
+       - Real-time Active Now (+573) with pulsing live indicator.
+    4. Charts Section:
+       - Left 2/3: Monthly Revenue bar / area chart with clean gridlines.
+       - Right 1/3: Recent Sales feed showing avatar, customer name,
+         email, and transaction amount.
+    5. Data Table Preview: Recent orders summary with status badges.
+    [PROMPT END]
+
+
+------------------------------------------------------------
+5. PROMPT: INTERACTIVE DATA TABLE & FILTERS (TANSTACK STYLE)
+------------------------------------------------------------
+    Repos: TanStack/table, ant-design/ant-design, tabler-icons
+
+    [PROMPT START]
+    Build a production-ready, interactive Data Table page with advanced
+    search, multi-status filters, sorting, and pagination.
+
+    Requirements:
+    1. Controls Bar:
+       - Instant live search input (filters across name and email columns).
+       - Status tab pills: "All", "Paid", "Pending", "Failed" with counts.
+       - Export CSV button and "Add New" trigger.
+       - Bulk selection actions (visible when rows are checked).
+    2. Table Header:
+       - Checkbox for select all.
+       - Sortable column headers (Name, Status, Date, Plan, Amount).
+    3. Table Rows:
+       - Customer avatar + name + email in first cell.
+       - Color-coded status badge (Green = Paid, Yellow = Pending, Red = Failed).
+       - Date and formatted currency amount.
+       - Action dropdown button (View, Edit, Delete).
+    4. Pagination:
+       - "Showing X to Y of Z entries".
+       - Previous / Next buttons with page number buttons.
+    [PROMPT END]
+
+
+------------------------------------------------------------
+6. PROMPT: SPLIT-SCREEN AUTHENTICATION (LOGIN & SIGNUP)
+------------------------------------------------------------
+    Repos: shadcn-ui/ui, react-hook-form, tailwindlabs/heroicons
+
+    [PROMPT START]
+    Design a clean, split-screen authentication page supporting both
+    Login and Sign Up.
+
+    Layout:
+    1. Left Side (Branded Panel):
+       - Deep gradient background with subtle glow.
+       - Brand logo and tagline.
+       - Testimonial card with 5-star rating from an actual user.
+    2. Right Side (Auth Form):
+       - Segmented tab toggle ("Sign In" / "Create Account").
+       - Social login buttons: GitHub and Google with clean SVGs.
+       - Divider: "Or continue with email".
+       - Form fields: Full Name (signup only), Email, and Password.
+       - Password field with eye icon to toggle visibility.
+       - "Forgot password?" link.
+       - Submit button with clean hover and focus ring.
+       - Inline error states (red border and friendly helper text).
+    [PROMPT END]
+
+
+------------------------------------------------------------
+7. PROMPT: LARAVEL BLADE FULL PAGE (DAISYUI / FLOWBITE)
+------------------------------------------------------------
+    Repos: saadeghi/daisyui, themesberg/flowbite, chartjs/Chart.js
+
+    [PROMPT START]
+    Create a clean Laravel Blade template for a [Page Name, e.g. User Profile /
+    Order Details / Management Screen] using daisyUI and Tailwind CSS.
+
+    Rules:
+    - Pure HTML + Blade syntax + daisyUI classes. No React or Vue needed.
+    - Use `@extends('layouts.app')` or standalone HTML with CDN scripts.
+    - Implement accessible daisyUI components: `card`, `btn`, `badge`,
+      `table`, and `modal`.
+    - Include Blade directive placeholders (`@foreach`, `@if`, `{{ $var }}`)
+      and CSRF token (`@csrf`) in all forms.
+    - Include mobile-responsive navbar and drawer.
+    [PROMPT END]
+
+
+------------------------------------------------------------
+8. YAHAN APNE NAYE PROMPTS ADD KAREIN (ADD NEW PROMPTS HERE)
+------------------------------------------------------------
+    Jab bhi koi naya prompt banana ho, is format me yahan add karte jao:
+
+    ------------------------------------------------------------
+    PROMPT: [PROMPT TITLE]
+    ------------------------------------------------------------
+    Target Stack : [Next.js / Blade / Tailwind / etc.]
+    Repos Used   : [ui-repos.txt se repo naam]
+
+    [PROMPT START]
+    Act as a Senior UI/UX Engineer...
+    [Apni requirements yahan likhein]
+    [PROMPT END]
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    React project = shadcn/ui. PHP/Blade project = daisyUI ya Flowbite.
