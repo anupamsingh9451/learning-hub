@@ -1,0 +1,43 @@
+PROMPT: PRODUCTION DEPLOYMENT & CI/CD (VERCEL / RAILWAY / DOCKER)
+===================================================================
+Topic: prompts, dev, deployment, vercel, railway, docker, ci-cd
+Date: 27-10-2026
+Target Stack: Next.js OR Laravel (Docker)
+Source: RESOURCES/dev-tools.txt (Section 30. DEPLOY)
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    Next.js ko Vercel pe ya Laravel/Full-Stack app ko Railway/Render pe
+    deploy karne ke liye complete production configuration, Dockerfile,
+    environment variables checklist, aur health check endpoints generate
+    karne ke liye.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as a Senior DevOps and Cloud Infrastructure Engineer.
+Prepare and configure my application for zero-downtime production deployment on Vercel or Railway.
+
+Project Context:
+- Tech Stack: [Next.js 15 OR Laravel 11 / Node / Python]
+- Target Platform: [Vercel (Frontend/Next.js) OR Railway / Render (Full-Stack Docker)]
+- Database: [Neon Postgres / Supabase / Railway Postgres]
+
+Requirements:
+1. Production Configuration Files:
+   - If Next.js: `next.config.mjs` optimized for production (standalone output, image domain whitelists, compression).
+   - If Laravel / Containerized: Multi-stage `Dockerfile` with PHP-FPM + Nginx + OPcache + Composer production flags (`--no-dev --optimize-autoloader`).
+2. Environment Variables Checklist:
+   - Provide a clean `.env.example` documenting all required secrets, API keys, and connection strings categorized by: Database, Auth, Payments, Email, Storage, Monitoring.
+3. Health Check & Monitoring Endpoints:
+   - Add a `/api/health` route that verifies: Database connectivity, Redis ping, and returns `{ status: "ok", timestamp: ... }`.
+4. Build & Deployment Pipeline:
+   - GitHub Actions workflow (`.github/workflows/deploy.yml`) for automated linting, test execution, and deployment on merge to `main`.
+5. Post-Deployment Verification Steps:
+   - Verification checklist for custom domain, SSL certificate, DNS records (A/CNAME), and error logging verification.
+--- [END PROMPT] ---

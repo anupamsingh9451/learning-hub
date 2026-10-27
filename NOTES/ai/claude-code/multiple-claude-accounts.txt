@@ -1,0 +1,149 @@
+DO ALAG CLAUDE ACCOUNTS EK SAATH CHALANA
+=========================================
+Topic: ai, claude-code, multi-account, setup
+Date: 28-10-2026
+Status: verified / officially supported
+Source: Claude Code docs (https://code.claude.com/docs/en/authentication.md)
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    Ek hi laptop par do alag Claude accounts (Account A = personal,
+    Account B = office/client) ek saath chalaye ja sakte hain, aur yeh
+    Anthropic dwara officially supported hai. Iska secret sirf ek
+    environment variable hai: CLAUDE_CONFIG_DIR.
+
+    Har folder ka apna login token, settings, agent gyaan, aur chat
+    history alag hoti hai. Dono ek-doosre ko disturb nahi karte.
+
+
+------------------------------------------------------------
+2. KAISE KAAM KARTA HAI (FOLDER ARCHITECTURE)
+------------------------------------------------------------
+    By default Claude Code apna data yahan rakhta hai:
+        Account A (Default) : C:\Users\Anupam Singh\.claude
+        Account B (Work)    : C:\Users\Anupam Singh\.claude-work
+
+    Jab bhi aap terminal me CLAUDE_CONFIG_DIR set karte ho, Claude default
+    folder ke bajaye us naye folder se credentials aur settings uthata hai.
+
+
+------------------------------------------------------------
+3. ONE-TIME SETUP (SHORTCUT BANANA)
+------------------------------------------------------------
+    Yeh setup sirf ek baar karna hai. Isse aapko har baar lamba path
+    type nahi karna padega.
+
+    Option A: PowerShell Ke Liye (Recommended)
+    1. PowerShell kholo aur command chalao:
+           notepad $PROFILE
+    2. File ke aakhir me yeh function paste karke save kar do:
+           function claude-work {
+               $prev = $env:CLAUDE_CONFIG_DIR
+               $env:CLAUDE_CONFIG_DIR = 'C:\Users\Anupam Singh\.claude-work'
+               try {
+                   claude @args
+               } finally {
+                   $env:CLAUDE_CONFIG_DIR = $prev
+               }
+           }
+    (Note: Yeh function safe hai kyunki command poora hote hi purana
+    environment variable wapas restore kar deta hai).
+
+    Option B: Git Bash Ke Liye
+    1. ~/.bashrc file me yeh alias add karo:
+           alias claude-work='CLAUDE_CONFIG_DIR=~/.claude-work claude'
+
+    Pehli Baar Login:
+    Naya terminal kholo aur chalao:
+        claude-work
+    Browser khulega, apne doosre account (Account B) se login karo.
+    Bas! Yeh folder ab Account B ke liye permanently authenticate ho gaya.
+
+
+------------------------------------------------------------
+4. DAILY WORKFLOW (DONO SAATH KAISE CHALAYEIN)
+------------------------------------------------------------
+    Dono accounts ko ek hi waqt pe alag-alag terminal windows me chalao:
+
+    - Window 1 (Account A):
+        claude
+        (Mera default account chalega)
+
+    - Window 2 (Account B):
+        claude-work
+        (Mera work / secondary account chalega)
+
+    Kaise Confirm Karein Kaunsa Login Hai:
+    Dono terminals me prompt par command daalo:
+        /status
+    Yeh saaf dikha dega ki current session kis email/account se logged in hai.
+
+
+------------------------------------------------------------
+5. VS CODE EXTENSION ME MULTI-ACCOUNT CHALANA
+------------------------------------------------------------
+    VS Code extension me do alag accounts simultaneous chalane ke liye
+    humne do dedicated shortcuts configure kar diye hain:
+
+    1. VS Code (Work) - Desktop Shortcut / `code-work`:
+       - Uses default: AppData\Roaming\Code
+       - Account: Ayush (Work / Team subscription)
+
+    2. VS Code (Personal) - Desktop Shortcut / `code-personal`:
+       - Uses custom data dir: C:\Users\Anupam Singh\.vscode-personal
+       - Account: anupamsingh9451@gmail.com (Personal)
+       - Extension Settings me pre-configured:
+         CLAUDE_CONFIG_DIR = C:\Users\Anupam Singh\.claude-personal
+
+    Project-level Switch (Optional):
+    Agar kisi personal project repo me kaam karte waqt extension ko
+    personal account me chalana ho, to project root me `.vscode/settings.json`
+    me ye jodiye:
+    ```json
+    {
+      "claudeCode.environmentVariables": [
+        {
+          "name": "CLAUDE_CONFIG_DIR",
+          "value": "C:\\Users\\Anupam Singh\\.claude-personal"
+        }
+      ]
+    }
+    ```
+
+
+------------------------------------------------------------
+6. 5 ZAROORI BATEIN AUR GOTCHAS
+------------------------------------------------------------
+    1. Global Tokens Override Kar Dete Hain:
+       Agar aapke system environment variables me ANTHROPIC_API_KEY ya
+       CLAUDE_CODE_OAUTH_TOKEN globally set hai, toh Claude config folder
+       ko ignore karke usi token se chalega. Isliye global token set mat
+       rakho, sirf zaroori terminal session me set karo.
+
+    2. Naye Folder Me Aapka Purana Setup Nahi Hoga:
+       .claude-work folder shuru me bilkul khaali banta hai. Usme aapki
+       global CLAUDE.md, RTK.md, aur custom agents nahi honge.
+       Agar chahiye toh .claude se CLAUDE.md aur settings.json copy kar lo.
+
+    3. Ek Hi Project Par Conflict Se Bachen:
+       Agar dono accounts ek hi repo/folder me ek hi time kaam karenge,
+       toh ek-doosre ki files overwrite kar sakte hain. Dono ka kaam
+       alag files me baanto, ya git worktree use karo:
+           git worktree add ../project-worktree-b branch-b
+
+    4. Separate Usage Limits:
+       Dono accounts ki apni subscription aur weekly limits alag-alag hain.
+       Terminal me `/usage` chala kar har account ka quota alag track karo.
+
+    5. Company Policy:
+       Agar Account B company ya client ka hai, toh unki remote AI usage
+       policy ek baar verify kar lein.
+
+
+------------------------------------------------------------
+EK LINE YAAD RAKHO
+------------------------------------------------------------
+    Account A = `claude` (default .claude). Account B = `claude-work`
+    (CLAUDE_CONFIG_DIR=.claude-work). Alag folder, alag login, zero conflict.

@@ -1,0 +1,41 @@
+PROMPT: FILAMENT V3 ADMIN PANEL & BACKOFFICE (LARAVEL ECOSYSTEM)
+================================================================
+Topic: prompts, dev, laravel, filament, admin-panel, livewire, crud
+Date: 27-10-2026
+Target Stack: Laravel 11 + Filament v3 + Livewire 3 + Tailwind
+Source: RESOURCES/dev-tools.txt (Section 17. LARAVEL ECOSYSTEM)
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    PHP / Laravel projects me super fast, modern, aur powerful Admin Panel
+    aur Backoffice tools build karne ke liye. Filament v3 se ready tables,
+    CRUD forms, analytics widgets, aur role permissions 10x tezi se bante hain.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as a Principal Laravel Engineer and Filament Specialist.
+Build a complete, production-ready Admin Panel for my Laravel application using Filament v3.
+
+Project Context:
+- App Type: [E-Commerce / SaaS Platform / School Management / Internal Portal]
+- Models to Manage: [Users, Orders, Products, Invoices]
+
+Requirements:
+1. Filament Panel Configuration:
+   - Configure a dedicated `/admin` panel route with custom branding, logo, colors, and navigation groups.
+   - Authentication guard: Restrict access strictly to users with `is_admin = true` or `role = 'admin'`.
+2. Resource CRUD Generation (for each model):
+   - Table Builder: Sortable columns, search input, filter dropdowns (by status, date range), and bulk actions (bulk delete, export CSV).
+   - Form Builder: Clean grid layout with field validation, file upload dropzones, rich-text markdown editors, and reactive dependent selects.
+3. Dashboard Analytics Widgets:
+   - Stats Overview Widget: 3 KPI cards (Total Revenue, New Customers, Pending Orders) with percentage trend comparison.
+   - Revenue Chart Widget: Interactive monthly sales line/bar chart.
+4. Security & Action Logs:
+   - Confirmation modals before destructive operations (Delete, Cancel Order, Refund).
+--- [END PROMPT] ---

@@ -1,0 +1,44 @@
+PROMPT: REALTIME WEBSOCKETS & LIVE NOTIFICATIONS (PUSHER / SOCKET.IO)
+=====================================================================
+Topic: prompts, dev, realtime, websockets, pusher, socket-io, notifications
+Date: 27-10-2026
+Target Stack: Next.js OR Laravel (Reverb / Echo)
+Source: RESOURCES/dev-tools.txt (Section 18. REALTIME)
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    Real-time live updates (Order status tracking, live chat, in-app bell
+    notifications, live collaborative cursor/state) bina page refresh ke
+    integrate karne ke liye.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as a Realtime Systems Architect.
+Implement a scalable Realtime WebSockets communication pipeline using Pusher (or Laravel Reverb / Socket.io).
+
+Project Context:
+- Tech Stack: [Next.js App Router OR Laravel 11 + Laravel Reverb / Echo]
+- Feature: [In-App Notification Toast + Bell Badge / Live Chat / Realtime Order Tracking]
+
+Requirements:
+1. Server-Side Event Dispatching:
+   - Configure Pusher / Reverb client with environment credentials.
+   - Define event classes with typed payloads (e.g. `OrderUpdatedEvent`, `NewMessageNotification`).
+   - Private channel authorization: Ensure users can only subscribe to their own private channels (`private-user.{id}`) using session auth checks.
+2. Client-Side Subscription & Listener:
+   - Initialize connection on user login; cleanly disconnect on component unmount or logout (avoid duplicate connection leaks).
+   - Listen to events on private channel and update local application state instantly without page reload.
+3. Notification UI Components:
+   - Topbar Notification Bell with pulsing unread count badge.
+   - Animated Toast popups on incoming real-time events (using Sonner or React Hot Toast).
+   - Sound / Audio cue toggle for incoming notifications.
+4. Connection Resilience:
+   - Automatic exponential backoff reconnection if internet drops.
+   - Fallback polling mechanism if WebSockets are blocked by corporate firewalls.
+--- [END PROMPT] ---

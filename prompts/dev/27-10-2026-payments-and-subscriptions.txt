@@ -1,0 +1,45 @@
+PROMPT: PAYMENTS & SUBSCRIPTION BILLING (RAZORPAY / STRIPE / LEMON SQUEEZY)
+===========================================================================
+Topic: prompts, dev, payments, stripe, razorpay, lemon-squeezy, webhooks
+Date: 27-10-2026
+Target Stack: Node.js / Next.js OR Laravel PHP
+Source: RESOURCES/dev-tools.txt (Section 21. PAYMENTS)
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    Indian payments (Razorpay - UPI/Cards) ya Global SaaS billing (Stripe,
+    Lemon Squeezy) ka complete checkout flow, webhook signature verification,
+    aur database subscription status updates integrate karne ke liye.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as a Fintech & Payment Integration Specialist.
+Implement a secure, production-ready Payment and Subscription billing system.
+
+Project Context:
+- Gateway to Use: [Razorpay (India - UPI, Cards, NetBanking) OR Stripe OR Lemon Squeezy]
+- Billing Model: [One-time Purchase OR Recurring Monthly/Annual Subscription]
+- Plans & Pricing: [e.g. Free Tier, Pro ($29/mo), Enterprise ($99/mo)]
+
+Deliverables to Implement:
+1. Checkout Session Flow:
+   - Server-side endpoint to generate Checkout Session / Order ID with price, currency, and customer metadata.
+   - Client-side checkout modal or redirection with loading states and error handling.
+   - Success redirect page (`/checkout/success?session_id=...`) and Cancel handler.
+2. Webhook Event Processing (Crucial):
+   - Secure webhook receiver endpoint (`/api/webhooks/payment`).
+   - Cryptographic signature verification using Webhook Secret.
+   - Handle key events:
+     * `payment.captured` / `checkout.session.completed` -> Upgrade user plan, issue access.
+     * `subscription.updated` -> Update renewal dates and quota tier.
+     * `subscription.cancelled` / `payment.failed` -> Mark subscription past_due or revert to free tier.
+   - Idempotency check: Store `event_id` in database to prevent processing duplicate webhook deliveries.
+3. Customer Portal / Manage Subscription:
+   - Provide endpoint to generate Customer Portal session (change plan, update card, cancel subscription, view invoices).
+--- [END PROMPT] ---

@@ -1,0 +1,43 @@
+PROMPT: WEB ACCESSIBILITY AUDIT & WCAG 2.1 AA COMPLIANCE
+=========================================================
+Topic: prompts, dev, accessibility, a11y, wcag, aria, screen-reader
+Date: 27-10-2026
+Target Stack: React / Next.js / HTML / Tailwind CSS
+Source: RESOURCES/dev-tools.txt (Section 27. ACCESSIBILITY)
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    Website ko WCAG 2.1 AA standard compliant banane ke liye. Keyboard
+    tab navigation, screen reader support, accessible forms, color contrast
+    checks, aur focus-visible rings enforce karne ke liye.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as a Certified Web Accessibility Specialist (CPACC) and Frontend Engineer.
+Audit and remediate my web application to achieve strict WCAG 2.1 Level AA compliance.
+
+Target Code / Page: [Paste Component code, HTML template, or Page layout]
+
+Audit & Fix Checklist:
+1. Keyboard Navigation & Focus Management:
+   - All interactive elements (buttons, links, inputs, dropdowns, modals) must be fully navigable via keyboard (`Tab`, `Shift+Tab`, `Enter`, `Space`, `Escape`, `Arrow keys`).
+   - Distinct, accessible focus-visible rings (e.g. `focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2`).
+   - Focus trap inside active modal dialogs (prevent focus from escaping to background page).
+   - "Skip to main content" link for keyboard users.
+2. Screen Reader & ARIA Roles:
+   - Provide meaningful `aria-label` or `aria-labelledby` on all icon-only buttons.
+   - Use semantic HTML tags instead of `<div>` where possible (`<button>`, `<dialog>`, `<nav>`, `<main>`, `<article>`).
+   - Dynamic status updates: Use `aria-live="polite"` for toast notifications and asynchronous search result counts.
+3. Visual Contrast & Typography:
+   - Text color contrast ratio must meet at least 4.5:1 against the background (3:1 for large text).
+   - Form inputs must have explicitly associated `<label>` elements (using `htmlFor` / `for` ID matching).
+   - Error states must not rely on color alone (must include error text and an error icon).
+4. Automated Test Integration:
+   - Provide an automated accessibility test snippet using `@axe-core/playwright` or `vitest-axe` to catch regressions in CI.
+--- [END PROMPT] ---

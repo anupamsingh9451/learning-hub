@@ -1,0 +1,43 @@
+PROMPT: TRANSACTIONAL EMAIL & NOTIFICATIONS (RESEND / REACT EMAIL)
+==================================================================
+Topic: prompts, dev, email, resend, react-email, notifications
+Date: 27-10-2026
+Target Stack: Node.js / Next.js OR Laravel
+Source: RESOURCES/dev-tools.txt (Section 22. EMAIL)
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    Resend aur React Email (ya Postmark / Laravel Mail) se transactional
+    emails (Welcome email, Password reset, Invoice receipt, Team invitation)
+    generate karne ke liye.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as an Email Systems Engineer.
+Implement a reliable Transactional Email pipeline using Resend and React Email (or Laravel Mailables).
+
+Project Context:
+- Tech Stack: [Next.js / Node.js OR Laravel PHP]
+- Email Provider: [Resend OR Postmark]
+- Sender Address: [e.g. notifications@yourdomain.com]
+
+Requirements:
+1. Architecture & Client Setup:
+   - Initialize the Resend SDK with API Key from environment variables.
+   - Set up background queue or asynchronous execution so email dispatch never blocks user HTTP requests.
+2. Responsive Email Templates (React Email / HTML):
+   - Welcome Email: Personal greeting, getting started checklist, and "Launch App" CTA button.
+   - Magic Link / OTP Code: Clean security email with expiring verification code or 1-click login link.
+   - Payment Receipt / Invoice: Itemized billing breakdown, transaction ID, and PDF download button.
+   - Team Invite Email: Organization name, inviter avatar, and "Accept Invitation" button.
+3. Fallbacks & Deliverability:
+   - Plain text fallback generation for every email.
+   - Domain verification headers: SPF, DKIM, DMARC guidelines.
+   - Error handling: Catch delivery exceptions and log error details without crashing user flows.
+--- [END PROMPT] ---

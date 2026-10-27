@@ -1,0 +1,44 @@
+PROMPT: INSTANT TYPO-TOLERANT SEARCH (MEILISEARCH / TYPESENSE / ALGOLIA)
+=======================================================================
+Topic: prompts, dev, search, meilisearch, typesense, algolia, full-text-search
+Date: 27-10-2026
+Target Stack: Next.js / React OR Laravel (Scout)
+Source: RESOURCES/dev-tools.txt (Section 23. SEARCH)
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    Sub-50ms instant search, typo-tolerance ("iphoen" -> "iphone"),
+    faceted filtering (price, category, rating), aur auto-syncing database
+    records ke sath enterprise search engine integrate karne ke liye.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as a Search Infrastructure & Database Engineer.
+Implement a lightning-fast, typo-tolerant Instant Search engine using Meilisearch (or Typesense / Algolia).
+
+Project Context:
+- Tech Stack: [Next.js 15 App Router OR Laravel 11 with Laravel Scout]
+- Search Engine: [Meilisearch (self-hosted / cloud) OR Algolia OR Typesense]
+- Search Dataset: [Products / Articles / Users / Documentation]
+
+Requirements:
+1. Index Configuration & Search Settings:
+   - Searchable attributes (Title, Description, Tags, Category).
+   - Filterable attributes (Price, InStock, Brand, Category, Rating).
+   - Sortable attributes (Price asc/desc, Date, Popularity).
+   - Custom ranking rules: Exact word matches ranked higher than partial matches.
+   - Typo-tolerance enabled (handling 1-2 character typos seamlessly).
+2. Database Synchronization Pipeline:
+   - On DB record Create / Update / Delete, automatically sync the document to the search index (via database triggers, ORM hooks, or background job queue).
+3. Instant Search UI:
+   - Modern search modal / dropdown with search-as-you-type (< 50ms latency).
+   - Faceted filter sidebar: Category checkboxes, price range slider, and sort dropdown.
+   - Highlight matched terms inside result titles and snippets.
+   - Zero results fallback: "Did you mean [suggested term]?" and recommended items.
+--- [END PROMPT] ---

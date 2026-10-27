@@ -1,0 +1,53 @@
+DO ALAG ANTIGRAVITY ACCOUNTS EK SAATH CHALANA
+==============================================
+Topic: ai, antigravity, multi-account, setup
+Date: 28-10-2026
+Status: verified / working
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    Antigravity IDE me do alag Google accounts (Work = Ayush,
+    Personal = Anupam) ek saath parallel chalaye
+    ja sakte hain. Iska tareeqa hai `--user-data-dir` flag ka use karna.
+
+    Dono windows alag-alag khul sakti hain, dono me apna Google login,
+    chat history, aur settings bilkul alag rehti hain.
+
+
+------------------------------------------------------------
+2. SHORTCUTS & PATHS ARCHITECTURE
+------------------------------------------------------------
+    Account A (Work - Ayush):
+        - Desktop Shortcut : Antigravity (Work).lnk
+        - CLI Command      : antigravity-work
+        - Config Path      : C:\Users\Anupam Singh\AppData\Roaming\Antigravity IDE
+
+    Account B (Personal - Anupam):
+        - Desktop Shortcut : Antigravity (Personal).lnk
+        - CLI Command      : antigravity-personal
+        - Config Path      : C:\Users\Anupam Singh\.antigravity-personal
+
+
+------------------------------------------------------------
+3. CLI COMMANDS & TERMINAL HELPER
+------------------------------------------------------------
+    PowerShell aur CMD dono me ye commands seedhe chalte hain:
+
+    Work kholne ke liye:
+        antigravity-work
+
+    Personal kholne ke liye:
+        antigravity-personal
+
+
+------------------------------------------------------------
+4. FIRST-TIME LOGIN
+------------------------------------------------------------
+    1. Desktop par "Antigravity (Personal)" icon par double click karein
+       (ya terminal me `antigravity-personal` likhein).
+    2. Ek fresh Antigravity window khulegi.
+    3. Bottom-left me ya Chat canvas me Sign In par click karke apna
+       personal email (-----@gmail.com) login kar lein.
+    4. Work account se koi conflict nahi hoga kyunki dono ka user data
+       directory alag hai.

@@ -1,0 +1,40 @@
+PROMPT: ERROR MONITORING & PRODUCT ANALYTICS (SENTRY + POSTHOG)
+================================================================
+Topic: prompts, dev, monitoring, sentry, posthog, errors, session-replay
+Date: 27-10-2026
+Target Stack: Next.js OR Laravel
+Source: RESOURCES/dev-tools.txt (Sections 26. ERRORS & 29. ANALYTICS)
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    Production me aane wale crash reports, unhandled exceptions, session
+    replays (video recording of user click rage), aur conversion funnel
+    analytics capture karne ke liye.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as a Site Reliability Engineer (SRE) and Product Analytics Specialist.
+Implement full production observability, error tracking, and product analytics using Sentry and PostHog.
+
+Project Context:
+- Tech Stack: [Next.js 15 App Router OR Laravel 11]
+- Monitoring Services: [Sentry (Error Tracing) + PostHog (Analytics & Replay)]
+
+Implementation Requirements:
+1. Sentry Error Tracking:
+   - Client and Server SDK initialization with environment-specific DSN.
+   - Error Boundaries: Wrap critical UI segments in custom fallback error cards with a "Try Again" button.
+   - User Context: Attach sanitized `{ id, email, role }` to error reports so you know exactly which customer was affected.
+   - Filtering: Filter out known harmless noise (browser extension errors, cancelled network aborts).
+2. PostHog Product Analytics & Session Replay:
+   - Initialize PostHog client (respecting Do Not Track headers and GDPR privacy compliance).
+   - Event Tracking: Track key conversion steps (`signup_completed`, `checkout_initiated`, `feature_used`).
+   - Session Replay: Enable 100% session replay on errors and high-value conversion pages.
+   - Feature Flags: Set up 1 feature flag example (`new_checkout_flow`) with fallback to control rollouts.
+--- [END PROMPT] ---

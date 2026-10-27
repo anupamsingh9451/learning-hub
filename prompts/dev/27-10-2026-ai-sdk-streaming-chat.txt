@@ -1,0 +1,45 @@
+PROMPT: AI CHAT & STREAMING INTEGRATION (VERCEL AI SDK / CLAUDE / OPENROUTER)
+=============================================================================
+Topic: prompts, dev, ai-sdk, streaming, claude, openrouter, tool-calling
+Date: 27-10-2026
+Target Stack: Next.js (App Router) / Node.js
+Source: RESOURCES/dev-tools.txt (Sections 12. AI MODELS & 13. AI FRAMEWORKS)
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    Apne app me AI chat, streaming text responses (ChatGPT/Claude style),
+    aur function calling / tool use integrate karne ke liye. Vercel AI SDK,
+    Anthropic Claude API, ya OpenRouter ke sath zero lag streaming.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as a Senior AI Systems & Full-Stack Engineer.
+Implement a production-grade AI Streaming Chat and Tool Calling feature using the Vercel AI SDK (`ai` package) with Anthropic Claude (or OpenRouter).
+
+Project Context:
+- Tech Stack: [Next.js 15 App Router + TypeScript + Tailwind CSS]
+- AI Provider to Use: [Anthropic Claude 3.5 Sonnet OR OpenRouter]
+- Use Case: [AI Copilot / Customer Support Bot / Coding Assistant / Document Q&A]
+
+Technical Specifications to Build:
+1. Server-Side Streaming Route (`app/api/chat/route.ts`):
+   - Use `streamText` from `ai` package.
+   - Configure model provider with environment variable API keys (`ANTHROPIC_API_KEY` or `OPENROUTER_API_KEY`).
+   - Define strict system prompt with role constraints, tone of voice, and safety guardrails.
+   - Rate limiting: Apply Upstash Redis token bucket limiter (prevent API key abuse).
+2. Function Calling / Tools:
+   - Implement at least 1 server-side tool using Zod schema (e.g. `getWeather`, `searchDatabase`, or `calculatePrice`).
+   - Enable multi-step tool calls so the AI can execute the tool and format the response in a single user turn.
+3. Client-Side Chat UI (`useChat` hook):
+   - Modern chat interface: Scrollable message list with auto-scroll to bottom on new streaming tokens.
+   - Message bubbles: Distinct styling for User vs Assistant (Markdown rendering, code syntax highlighting, copy code button).
+   - Typing indicator and streaming token animation.
+   - Error handling: Graceful retry button if stream aborts or rate limit is exceeded.
+   - Chat persistence: Save conversation history to PostgreSQL or local storage.
+--- [END PROMPT] ---

@@ -1,0 +1,41 @@
+PROMPT: AUTOMATED TESTING SUITE (VITEST / PLAYWRIGHT / PEST)
+============================================================
+Topic: prompts, dev, testing, vitest, playwright, pest, e2e, unit-tests
+Date: 27-10-2026
+Target Stack: Next.js + TypeScript OR Laravel PHP
+Source: RESOURCES/dev-tools.txt (Section 24. TESTING)
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    App launch karne se pehle bugs aur regressions rokne ke liye unit tests,
+    API endpoint tests, aur Playwright / Pest E2E automated testing pipeline
+    setup karne ke liye.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as a QA Lead and Test Automation Engineer.
+Build a comprehensive, automated testing suite for my application covering Unit, Integration, and End-to-End (E2E) tests.
+
+Project Context:
+- Tech Stack: [Next.js 15 App Router + Vitest + Playwright OR Laravel 11 + Pest PHP]
+- Critical Flows to Test: [User Registration & Login, Stripe Checkout Flow, Dashboard Data Loading]
+
+Testing Strategy to Implement:
+1. Unit & Integration Tests (Vitest or Pest):
+   - Fast, isolated tests for pure utility functions, validation schemas, and database service queries.
+   - Mocking external API calls (Stripe, Resend, Supabase) to ensure tests run offline in seconds.
+   - Target: Test happy paths + 3 edge cases (e.g. invalid email format, expired token, negative quantity).
+2. End-to-End (E2E) Browser Tests (Playwright or Pest Browser):
+   - Multi-step user journey tests:
+     * Journey 1: New visitor lands on homepage -> Clicks signup -> Fills form -> Redirected to dashboard.
+     * Journey 2: Logged-in user selects pricing plan -> Triggers checkout -> Validates successful redirect.
+   - Headless execution with screenshot / video artifact recording on test failure.
+3. CI/CD Integration:
+   - Provide a GitHub Actions YAML workflow (`.github/workflows/test.yml`) that runs all tests automatically on every Pull Request before allowing merge.
+--- [END PROMPT] ---

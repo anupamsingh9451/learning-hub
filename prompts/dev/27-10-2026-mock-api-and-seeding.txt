@@ -1,0 +1,43 @@
+PROMPT: MOCK API & REALISTIC SEED DATA GENERATOR
+===================================================
+Topic: prompts, dev, mock-api, seeding, faker, dummy-data, testing
+Date: 27-10-2026
+Target Stack: Node.js / TypeScript OR PHP
+Source: RESOURCES/dev-tools.txt (Section 32. FREE APIS)
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    Backend ready hone se pehle frontend build aur test karne ke liye
+    realistic dummy data (Users, Transactions, Analytics, Products) aur
+    Mock API server generate karne ke liye.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as a Senior Frontend & Testing Engineer.
+Generate a realistic Mock API and Seed Data system for my application so frontend development and testing can proceed without a live backend.
+
+Project Context:
+- Domain / App Type: [e.g. SaaS Analytics Dashboard / E-Commerce Store / CRM]
+- Entities Needed: [e.g. Users, Customers, Invoices, Products, ActivityLogs]
+- Number of Records: [e.g. 25-50 realistic records]
+
+Requirements:
+1. Realistic Data Quality (Zero generic "Lorem Ipsum"):
+   - Names: Diverse, realistic global names (e.g. "Anupam Singh", "Sarah Connor", "Alex Morgan").
+   - Emails: Corresponding formatted corporate emails (`anupam@techcorp.in`).
+   - Dates: Realistic timestamps spread over the last 90 days.
+   - Statuses: Varied distribution (80% Successful/Paid, 15% Pending, 5% Failed).
+   - Financials: Accurate currency formatting with realistic prices, taxes, and totals.
+2. Formats to Provide:
+   - TypeScript Type / Interface definitions for all models.
+   - Strongly-typed JSON array ready to import directly into components.
+   - Simulated async fetch function with configurable latency (e.g. 400ms delay) and 5% simulated network failure rate to test error handling states.
+3. MSW (Mock Service Worker) Handler (Optional):
+   - Provide an MSW handler (`handlers.ts`) intercepting `GET /api/v1/[resource]` to serve this mock data during development and automated tests.
+--- [END PROMPT] ---

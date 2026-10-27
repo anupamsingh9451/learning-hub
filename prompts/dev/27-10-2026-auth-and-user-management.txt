@@ -1,0 +1,45 @@
+PROMPT: AUTHENTICATION & USER MANAGEMENT (CLERK / SUPABASE / BREEZE)
+=====================================================================
+Topic: prompts, dev, auth, clerk, supabase, breeze, rbac
+Date: 27-10-2026
+Target Stack: Next.js (App Router) OR Laravel
+Source: RESOURCES/dev-tools.txt (Section 15. AUTH)
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    Production-ready Authentication, session middleware, social logins
+    (Google/GitHub), role-based permissions, aur user profile management
+    integrate karne ke liye.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as a Senior Security & Backend Engineer.
+Implement a bulletproof Authentication and User Management system for my application.
+
+Project Context:
+- Tech Stack: [Next.js 15 App Router OR Laravel 11]
+- Auth Provider to Use: [Clerk OR Supabase Auth OR Laravel Breeze]
+- Roles Needed: [e.g. Admin, Editor, Customer]
+
+Requirements:
+1. Setup & Middleware:
+   - Configure session validation middleware protecting private route groups (`/dashboard/*`, `/settings/*`, `/admin/*`).
+   - Implement public route exceptions (`/`, `/pricing`, `/login`, `/signup`).
+   - Seamless redirect: Unauthenticated users redirected to `/login?redirect=...`.
+2. Auth Flows & UI:
+   - Email/Password login with real-time field validation.
+   - OAuth Social Logins: Google and GitHub with secure callback handling.
+   - Password reset and email verification flows.
+3. User Database Sync:
+   - On signup, trigger a webhook or DB transaction to create an internal `User` record with role, avatar, and metadata.
+4. Role-Based Access Control (RBAC):
+   - Utility helper/function: `requireRole(['admin'])` to guard sensitive API endpoints and UI actions.
+5. Session Security:
+   - CSRF protection, secure HTTP-only cookies, and session invalidation on logout.
+--- [END PROMPT] ---

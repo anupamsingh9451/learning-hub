@@ -1,0 +1,45 @@
+PROMPT: FILE UPLOADS & OBJECT STORAGE (UPLOADTHING / S3 / CLOUDINARY)
+=====================================================================
+Topic: prompts, dev, storage, file-uploads, uploadthing, s3, cloudinary
+Date: 27-10-2026
+Target Stack: Next.js OR Laravel
+Source: RESOURCES/dev-tools.txt (Section 19. FILE STORAGE)
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    Uploadthing, AWS S3, ya Cloudinary ke sath direct-to-cloud file
+    uploads (images, PDFs, documents) integrate karne ke liye. Drag-and-drop
+    UI, size/MIME validation, aur CDN URL storage.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as a Cloud Storage and Frontend Engineer.
+Implement a secure, high-speed File Upload and Asset Storage workflow using Uploadthing (or AWS S3 presigned URLs).
+
+Project Context:
+- Tech Stack: [Next.js App Router OR Laravel PHP]
+- Storage Provider: [Uploadthing OR AWS S3 / Cloudflare R2 OR Cloudinary]
+- File Types to Support: [Images (avatars, banners) OR Documents (PDFs, CSVs)]
+- Max File Size: [e.g. 4MB for images, 16MB for documents]
+
+Features to Build:
+1. Backend Upload Router & Security:
+   - Authenticate the user session before granting upload permission.
+   - Enforce strict MIME-type whitelisting (image/png, image/jpeg, image/webp, application/pdf).
+   - Direct-to-Cloud Upload: Files go directly from client browser to S3/Uploadthing CDN (bypassing application server memory).
+2. Frontend Dropzone UI:
+   - Drag-and-drop zone with visual feedback on hover/dragover.
+   - Real-time client-side image preview before upload.
+   - Progress bar indicator showing percentage upload progress.
+   - Client-side pre-validation: Instant alert if file exceeds max size before upload starts.
+3. Database Metadata Persistence:
+   - On upload completion callback, save `{ fileUrl, fileName, fileSize, mimeType, key }` to the database record.
+4. Deletion Endpoint:
+   - When a user deletes or updates an avatar, call the cloud storage API to remove the old asset from storage to prevent orphaned file waste.
+--- [END PROMPT] ---

@@ -1,0 +1,43 @@
+PROMPT: HEADLESS CMS INTEGRATION (SANITY / STRAPI / CONTENTFUL)
+================================================================
+Topic: prompts, dev, cms, sanity, strapi, contentful, isr, preview
+Date: 27-10-2026
+Target Stack: Next.js (App Router) OR Laravel
+Source: RESOURCES/dev-tools.txt (Section 20. HEADLESS CMS)
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    Blog, documentation, landing page content, ya marketing copy ko code se
+    alag karke Sanity ya Strapi headless CMS ke sath integrate karne ke liye.
+    Live draft preview, GROQ/GraphQL queries, aur on-demand ISR revalidation.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as a Content Architecture and Headless CMS Specialist.
+Integrate a headless CMS (Sanity or Strapi) with my web application with typed schemas, live visual editing preview, and on-demand cache revalidation.
+
+Project Context:
+- Tech Stack: [Next.js 15 App Router + TypeScript OR Laravel]
+- CMS of Choice: [Sanity.io OR Strapi (self-hosted) OR Contentful]
+- Content Models Needed: [Blog Post, Author, Case Study, Landing Page Section]
+
+Technical Requirements to Implement:
+1. Schema & Document Definitions:
+   - Define strict content schemas with validation rules:
+     * `post`: Title, slug (auto-generated from title), publishedAt, mainImage with alt text, author reference, body (Portable Text / Rich Text), and SEO metadata object.
+     * `author`: Name, avatar, bio, social links.
+   - Set up TypeScript type generation (`sanity typegen` or OpenAPI types) for 100% end-to-end type safety.
+2. Content Fetching & Caching Strategy:
+   - Next.js: Fetch content using tag-based caching (`fetch(..., { next: { tags: ['posts'] } })`).
+   - On-Demand Revalidation: Create a webhook endpoint (`/api/revalidate`) triggered by the CMS on publish that revalidates specific paths/tags without rebuilding the entire app.
+3. Live Draft Mode / Visual Preview:
+   - Implement draft preview mode enabling content editors to preview unpublished drafts in real-time side-by-side with the editor.
+4. UI Rendering:
+   - Render Rich Text / Portable Text with custom styling for code blocks, callout alert cards, and optimized responsive images.
+--- [END PROMPT] ---

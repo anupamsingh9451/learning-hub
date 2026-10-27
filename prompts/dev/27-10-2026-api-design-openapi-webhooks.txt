@@ -1,0 +1,44 @@
+PROMPT: RESTFUL API DESIGN & OPENAPI/SWAGGER DOCUMENTATION
+=========================================================
+Topic: prompts, dev, api, openapi, swagger, rest, webhooks, bruno
+Date: 27-10-2026
+Target Stack: Node.js / Next.js OR Laravel PHP
+Source: RESOURCES/dev-tools.txt (Section 25. API TESTING AUR DEV UTILITIES)
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    Standard RESTful APIs design karne, OpenAPI / Swagger interactive docs
+    generate karne, aur third-party webhooks (Stripe/Razorpay) ko local
+    development me test karne ke liye.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as a Principal API Architect and Backend Engineer.
+Design a production-grade, standardized RESTful API with automated OpenAPI 3.0 / Swagger documentation and webhook testing infrastructure.
+
+Project Context:
+- Tech Stack: [Next.js 15 Route Handlers OR Laravel 11 API]
+- API Resource / Domain: [e.g. Products, Orders, Invoices, Subscriptions]
+
+Requirements:
+1. Standardized RESTful Contract:
+   - Resource-oriented URLs (`GET /api/v1/orders`, `POST /api/v1/orders`, `GET /api/v1/orders/{id}`, `PATCH /api/v1/orders/{id}`, `DELETE /api/v1/orders/{id}`).
+   - Consistent JSON envelope format:
+     * Success: `{ success: true, data: {...}, meta: { pagination: ... } }`
+     * Error: `{ success: false, error: { code: "VALIDATION_FAILED", message: "...", details: [...] } }`
+   - Proper HTTP status codes (200, 201, 204, 400, 401, 403, 404, 422, 429, 500).
+2. Input Validation & Type Safety:
+   - Validate incoming request body and query parameters using Zod (or Laravel Form Requests).
+   - Sanitization and XSS prevention on all user-supplied input strings.
+3. Interactive API Documentation (OpenAPI / Swagger):
+   - Auto-generate or provide an `openapi.yaml` specification documenting all request bodies, query params, headers, and response schemas.
+   - Serve a visual Swagger UI or Scalar doc page at `/docs` or `/api/docs`.
+4. Local Webhook Testing Strategy:
+   - Provide instructions and mock payload for testing inbound webhooks locally using tools like Bruno, Hoppscotch, or Ngrok.
+--- [END PROMPT] ---

@@ -1,0 +1,63 @@
+PROMPT: FULLSTACK APP ARCHITECTURE & DEV STACK (DEV-TOOLS)
+==========================================================
+Topic: prompts, dev, fullstack, architecture, dev-tools
+Date: 27-10-2026
+Target Stack: Next.js + React OR Laravel 11 + Blade/Livewire
+Source: RESOURCES/dev-tools.txt (All Sections)
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    Kisi bhi naye app ka complete development stack aur backend architecture
+    scaffold karne ke liye. RESOURCES/dev-tools.txt ke verified tools
+    (Database, Auth, Payments, Email, Storage, Monitoring, Deploy) ko
+    ek saath connect karta hai.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as a Principal Full-Stack Architect and Lead Systems Engineer.
+Scaffold the complete technical architecture and development plan for this project using production-vetted modern developer tools.
+
+Project Context:
+- Project Name: [Insert Project Name]
+- Primary Tech Stack: [Next.js 15 (App Router) + TypeScript OR Laravel 11 + PHP 8.3]
+- App Type: [B2B SaaS / Marketplace / Internal Tool / Mobile-First Web App]
+- Core Business Functionality: [1-2 sentences on what users do]
+
+Architecture Blueprint to Implement (Based on dev-tools.txt):
+1. Database & Persistence Layer:
+   - Use Serverless PostgreSQL (Neon or Supabase).
+   - Configure Connection Pooling (PgBouncer) for serverless scalability.
+   - Set up ORM (Prisma / Drizzle for Next.js, or Eloquent for Laravel).
+   - In-memory cache & rate-limiting: Upstash Redis.
+2. Authentication & Authorization:
+   - Next.js: Clerk or Supabase Auth (Social login, MFA, session middleware).
+   - Laravel: Laravel Breeze or Fortify with session cookies and API tokens.
+   - Role-Based Access Control (RBAC): Admin vs Member permissions.
+3. Billing & Payments:
+   - India / Local: Razorpay (Cards, UPI, NetBanking).
+   - Global / SaaS: Stripe or Lemon Squeezy (tax compliance & subscriptions).
+   - Webhook infrastructure with idempotent event handlers.
+4. Transactional Communications:
+   - Email: Resend with React Email templates (Welcome, Receipts, Password Reset).
+5. File Storage & Assets:
+   - Uploadthing or AWS S3 presigned URLs for secure file uploads.
+6. Observability & Quality:
+   - Error Tracking: Sentry with breadcrumbs and source maps.
+   - Product Analytics & Session Replay: PostHog.
+   - Testing: Vitest & Playwright (Next.js) or Pest (Laravel).
+7. Deployment & CI/CD:
+   - Frontend/API: Vercel (Next.js) or Railway / Render (Laravel Docker).
+   - Environment variables checklist (.env.example vs .env.production).
+
+Deliverables:
+1. System Architecture Diagram (Text / Mermaid representation).
+2. Database Schema ERD with core models, relationships, and foreign keys.
+3. API / Server Actions contract with request/response types.
+4. Step-by-step implementation milestones (Day 1 to Launch).
+--- [END PROMPT] ---

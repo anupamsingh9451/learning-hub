@@ -1,0 +1,46 @@
+PROMPT: WEB PERFORMANCE & 95+ LIGHTHOUSE SCORE OPTIMIZATION
+=============================================================
+Topic: prompts, dev, performance, lighthouse, core-web-vitals, speed, bundle
+Date: 27-10-2026
+Target Stack: Next.js (App Router) / React / Tailwind CSS
+Source: RESOURCES/dev-tools.txt (Section 28. PERFORMANCE AUR SEO)
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    Website ki loading speed optimize karke Google Lighthouse pe 95+
+    score paane ke liye. LCP, CLS, INP improve karna, bundle size reduce
+    karna, aur images/fonts ko efficiently deliver karna.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as a Principal Web Performance Engineer.
+Optimize my web application to achieve a 95+ score on Google Lighthouse and pass all Core Web Vitals (LCP, INP, CLS).
+
+Project Context:
+- Tech Stack: [Next.js 15 App Router + React + Tailwind CSS OR Vite/React]
+- Current Bottlenecks: [Slow initial load, heavy JavaScript bundles, layout shift on font load]
+
+Performance Optimization Roadmap:
+1. Core Web Vitals Remediation:
+   - LCP (Largest Contentful Paint < 2.5s):
+     * Preload hero images using `<link rel="preload" as="image">` or `priority={true}` in `next/image`.
+     * Serve modern image formats (AVIF / WebP) with explicit `width` and `height` attributes.
+   - CLS (Cumulative Layout Shift < 0.1):
+     * Reserve aspect-ratio containers (`aspect-video`, `min-h-[...]`) for dynamic banners and ads to prevent content jumping.
+     * Use `next/font` with `display: 'swap'` to eliminate layout shifts caused by custom web fonts.
+   - INP (Interaction to Next Paint < 200ms):
+     * Code-split heavy interactive libraries (Charts, Maps, Modals) using dynamic imports (`next/dynamic` with `ssr: false`).
+     * Defer non-critical analytics and tracking scripts (`strategy="afterInteractive"` or `"lazyOnload"`).
+2. Bundle Size Reduction:
+   - Tree-shake oversized libraries (e.g. import individual Lucide icons instead of barrel files).
+   - Configure `@next/bundle-analyzer` to identify and eliminate duplicate packages.
+3. Caching & HTTP Headers:
+   - Configure optimal `Cache-Control` headers for static immutable assets (`max-age=31536000, immutable`).
+   - Enable Gzip / Brotli compression.
+--- [END PROMPT] ---

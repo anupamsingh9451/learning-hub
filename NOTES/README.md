@@ -35,8 +35,11 @@ NOTES/
 │   ├── 20-ai-agents-blueprint.txt  20 business agents + mere 14 Claude Code agents
 │   ├── agentic-awesome-skills.txt  2,700+ agent skills ki library: chuni hui install + safety
 │   ├── ai-3d-product-website.txt  AI se exploded-view 3D product site (frames + canvas)
+│   ├── antigravity/           Antigravity IDE setup & multi-account
+│   │   └── multiple-antigravity-accounts.txt Do alag Antigravity accounts ek saath chalana (--user-data-dir)
 │   ├── claude-seo-skills.txt      Claude SEO Skills: technical audits, GEO/AEO, schema, keywords (Notion blueprint)
 │   ├── claude-code/           Claude Code ka setup aur providers
+│   │   ├── multiple-claude-accounts.txt Do alag Claude accounts ek saath chalana (CLAUDE_CONFIG_DIR)
 │   │   ├── openrouter-claude.txt   OpenRouter se Claude, kab use karein, behtar options
 │   │   ├── openrouter-free-models.txt OpenRouter ke free models (:free) aur $0 coding setup
 │   │   └── two-editors-setup.txt   VS Code normal = original, VS Code (OpenRouter) = OpenRouter

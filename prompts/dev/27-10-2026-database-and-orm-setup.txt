@@ -1,0 +1,44 @@
+PROMPT: DATABASE & ORM SETUP (NEON / SUPABASE / PRISMA / ELOQUENT)
+==================================================================
+Topic: prompts, dev, database, postgres, neon, supabase, prisma, migrations
+Date: 27-10-2026
+Target Stack: Serverless PostgreSQL + Prisma / Drizzle OR Laravel Eloquent
+Source: RESOURCES/dev-tools.txt (Section 16. BACKEND / DATABASE)
+
+
+------------------------------------------------------------
+1. KIS KAAM KA HAI
+------------------------------------------------------------
+    Serverless PostgreSQL (Neon ya Supabase) pe database schema, relational
+    models, connection pooling, ORM migrations, aur seed data scripts
+    generate karne ke liye.
+
+
+------------------------------------------------------------
+2. COPY-PASTE PROMPT
+------------------------------------------------------------
+
+--- [COPY BELOW THIS LINE] ---
+Act as a Principal Database Engineer and Data Architect.
+Design and implement the production Database Schema, ORM configuration, and migrations for my project.
+
+Project Context:
+- Database: [Neon Serverless PostgreSQL OR Supabase PostgreSQL]
+- ORM: [Prisma OR Drizzle OR Laravel Eloquent]
+- Domain / Business Entities: [e.g. Users, Teams, Projects, Tasks, Subscriptions, Invoices]
+
+Technical Specifications:
+1. Connection Pooling & Serverless Optimization:
+   - Configure Pooled Connection string (PgBouncer) for API routes/serverless functions to prevent connection exhaustion.
+   - Configure Direct Connection string for database migrations.
+2. Relational Schema Design:
+   - Core entity models with UUID primary keys (`id`).
+   - Timestamps (`created_at`, `updated_at`, and `deleted_at` for soft deletes where applicable).
+   - Foreign key constraints with proper `ON DELETE CASCADE` or `ON DELETE RESTRICT` rules.
+   - Performance Indexes on frequently queried columns (foreign keys, email, status, compound indexes for sorting).
+3. Migration & Seeder Scripts:
+   - Provide the initial migration schema file.
+   - Write a realistic seeding script with 10 dummy records per table for local testing.
+4. Data Access Layer (DAL):
+   - Write strongly-typed repository functions for common CRUD operations (findUserWithTeam, createTransactionWithLock, etc.).
+--- [END PROMPT] ---
