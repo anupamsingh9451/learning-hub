@@ -1,0 +1,185 @@
+CLAUDE CODE KO GITHUB SE JODNA (KEY + MCP)
+==========================================
+Topic: ai, claude-code, github, mcp, gh-cli
+Date: 28-10-2026
+Time: 21:29
+Status: guide / abhi setup karna hai
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    Main "claude" (bina profile wala) GitHub ka kaam karega: repo padhna,
+    issues, PR banana, Actions dekhna. Iske liye ek GitHub token (key)
+    banate hain aur Claude Code me "github" MCP server jodte hain. Saath
+    me gh CLI bhi lagate hain, kyunki Claude PR jaise kaam usi se karta hai.
+
+
+------------------------------------------------------------
+2. MERE 3 CLAUDE SETUP (KAUN KYA KAREGA)
+------------------------------------------------------------
+    Command           Folder                  Kaam
+    ----------------  ----------------------  ---------------------------
+    claude-work       .claude-work            Ayush ka work account
+    claude-personal   .claude-personal        Mera (Anupam) personal
+    claude            .claude (main)          GitHub client (yeh guide)
+
+    claude-work aur claude-personal PowerShell profile ke functions hain.
+    Woh CLAUDE_CONFIG_DIR set karke Claude chalate hain. Sirf "claude"
+    likhne pe main setup chalta hai (C:\Users\Anupam Singh\.claude).
+
+    Dhyan do: MCP server usi setup me judta hai jisme "claude mcp add"
+    chalaya. Isliye neeche ke commands aise terminal me chalao jahan
+    CLAUDE_CONFIG_DIR set NAHI hai. VS Code wale Claude terminal me yeh
+    personal pe set rehta hai, wahan mat chalana.
+
+    Check karne ke liye:
+        $env:CLAUDE_CONFIG_DIR      # khaali aana chahiye
+
+    Agar kuch aaye to us terminal me pehle hatao:
+        Remove-Item Env:CLAUDE_CONFIG_DIR
+
+
+------------------------------------------------------------
+3. STEP 1 – GITHUB TOKEN (KEY) BANAO
+------------------------------------------------------------
+    Token = GitHub ka password jaisa, par limited permissions wala. Kabhi
+    code, notes ya chat me paste mat karna.
+
+    STEP 1 – GitHub me login (jis account se Claude kaam karega)
+    STEP 2 – Settings > Developer settings > Personal access tokens >
+             Fine-grained tokens > Generate new token
+             Seedha link: https://github.com/settings/personal-access-tokens/new
+    STEP 3 – Bharo:
+             - Token name   : claude-code-main
+             - Expiration   : 90 days (khatam hone pe naya banao)
+             - Repository access : "Only select repositories" (jo repos
+               Claude ko chahiye), ya "All repositories"
+    STEP 4 – Permissions (Repository permissions me):
+             - Contents       : Read and write   (code padhna/push)
+             - Pull requests  : Read and write
+             - Issues         : Read and write
+             - Actions        : Read-only        (CI ka result dekhna)
+             - Metadata       : Read-only        (apne aap lagta hai)
+             Sirf padhwana hai to sab "Read-only" rakho. Utna hi do jitna
+             kaam hai.
+    STEP 5 – Generate token, copy karo. Yeh sirf ek baar dikhta hai.
+    STEP 6 – Ek copy apne secure credentials folder me rakho (repo ke
+             bahar). learning-hub me kabhi nahi, yeh repo public hai.
+
+    Company (organization) ke repos chahiye to: token banate waqt
+    "Resource owner" me organization chuno. Org admin ko approve karna
+    pad sakta hai.
+
+
+------------------------------------------------------------
+4. STEP 2 – TOKEN KO ENVIRONMENT VARIABLE ME RAKHO
+------------------------------------------------------------
+    Token ko config file me seedha likhne ki jagah Windows ke user
+    environment variable me rakhte hain. Config me sirf ${GITHUB_PAT}
+    likha rahega.
+
+    PowerShell me (token apna daalo):
+        [Environment]::SetEnvironmentVariable('GITHUB_PAT', 'github_pat_xxx', 'User')
+
+    Phir SAARE terminal aur VS Code band karke dobara kholo, tabhi naya
+    variable dikhega. Check:
+        if ($env:GITHUB_PAT) { 'set hai' } else { 'nahi mila' }
+
+    (Token print mat karna. Upar wala check sirf "set hai" bolta hai.)
+
+    Note: yeh variable is Windows user ke saare programs dekh sakte hain,
+    teeno Claude setup bhi. Par MCP sirf main setup me jodenge, to sirf
+    wahi GitHub use karega.
+
+
+------------------------------------------------------------
+5. STEP 3 – GITHUB MCP SERVER JODO (MAIN CLAUDE ME)
+------------------------------------------------------------
+    GitHub ka apna hosted MCP server hai, Docker ki zaroorat nahi:
+        https://api.githubcopilot.com/mcp/
+
+    Section 2 wale check ke baad (CLAUDE_CONFIG_DIR khaali), PowerShell me:
+
+        claude mcp add --transport http --scope user github https://api.githubcopilot.com/mcp/ --header 'Authorization: Bearer ${GITHUB_PAT}'
+
+    Samjho:
+    - --scope user   : main setup ke har project me milega
+    - single quote ' : PowerShell ${GITHUB_PAT} ko khud nahi bharega,
+                       config me naam hi jayega, token nahi
+    - claude mcp add token check nahi karta. Galat token bhi save ho
+      jaata hai, fail baad me dikhta hai (step 4 me).
+
+    Agar ${GITHUB_PAT} se connect na ho (✘ dikhe, token sahi ho):
+        claude mcp remove github --scope user
+    phir --header me token seedha daal ke add karo. Tab token
+    C:\Users\Anupam Singh\.claude.json me plain text me rahega. Woh file
+    repo ke bahar hai, par kabhi share/upload mat karna.
+
+
+------------------------------------------------------------
+6. STEP 4 – CHECK KARO
+------------------------------------------------------------
+    STEP 1 – Terminal me:   claude mcp list
+             "github ... ✔ Connected" aana chahiye.
+             "✘ Failed to connect" = token galat/expired ya permission kam.
+    STEP 2 – "claude" chalao, /mcp likho, github ke aage ✔ hona chahiye.
+    STEP 3 – Test bolo: "mere GitHub repos ki list do" ya "learning-hub
+             repo ke open issues dikhao". Jawab GitHub se aana chahiye.
+    STEP 4 – claude-work aur claude-personal me /mcp kholo. Wahan github
+             NAHI hona chahiye (yahi chahiye tha).
+
+
+------------------------------------------------------------
+7. STEP 5 – GH CLI (PR, ISSUE KE LIYE)
+------------------------------------------------------------
+    Claude Code PR banana, PR comments padhna jaise kaam "gh" command se
+    karta hai. Abhi mere laptop pe gh nahi hai.
+
+        winget install --id GitHub.cli
+        (terminal band karke kholo)
+        gh auth login
+            - GitHub.com
+            - HTTPS
+            - "Login with a web browser" (browser me code daalo)
+        gh auth status        # "Logged in to github.com" aana chahiye
+
+    Dhyan do: gh ka login poore Windows user ka hai, sirf main Claude ka
+    nahi. Teeno setup gh use kar sakte hain. Do GitHub accounts ho to:
+        gh auth login           (doosre account se bhi)
+        gh auth switch          (kaunsa active hai, badlo)
+
+
+------------------------------------------------------------
+8. GIT PUSH KA KYA (ALAG CHEEZ HAI)
+------------------------------------------------------------
+    git push abhi HTTPS se Git Credential Manager ke through chalta hai
+    (learning-hub ka remote https://github.com/... hai). Woh pehle se
+    kaam kar raha hai, MCP token se iska koi lena dena nahi.
+
+    SSH key abhi nahi bani hai (~/.ssh me sirf known_hosts hai). HTTPS
+    chal raha hai to SSH ki zaroorat nahi.
+
+
+------------------------------------------------------------
+9. DHYAN RAKHNE WALI BAATEIN
+------------------------------------------------------------
+    - Token leak ho jaaye (galti se commit, chat, screenshot): turant
+      GitHub > Settings > Personal access tokens me "Revoke" karo, naya
+      banao, GITHUB_PAT update karo.
+    - 90 din baad token expire hoga, github ✘ dikhega. Naya token banao,
+      sirf GITHUB_PAT badlo (step 2), MCP dobara add nahi karna.
+    - Claude GitHub pe kuch likhe (PR, issue, push) to woh permission
+      maangta hai. Bina padhe "allow" mat karna.
+    - Hatana ho: claude mcp remove github --scope user, aur
+      [Environment]::SetEnvironmentVariable('GITHUB_PAT', $null, 'User')
+
+
+------------------------------------------------------------
+10. LINKS
+------------------------------------------------------------
+    - Claude Code MCP docs    https://code.claude.com/docs/en/mcp
+    - GitHub MCP server       https://github.com/github/github-mcp-server
+    - Fine-grained token      https://github.com/settings/personal-access-tokens/new
+    - gh CLI                  https://cli.github.com
+    - 3 Claude setups         NOTES/ai/claude-code/multiple-claude-accounts.txt
