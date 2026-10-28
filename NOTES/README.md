@@ -43,7 +43,7 @@ NOTES/
 │   ├── claude-code/           Claude Code ka setup aur providers
 │   │   ├── 21st-dev-mcp-setup.txt  21st.dev MCP Claude me jodna (UI components)
 │   │   ├── fullstack-engineer-skill.txt Mera backend/UI standards skill: kahan hai, kab trigger hota hai
-│   │   ├── github-mcp-setup.txt    Main claude ko GitHub se jodna: token, MCP, gh CLI
+│   │   ├── github-mcp-setup.txt    Beginner guide: main claude ko GitHub se jodna (token, MCP, gh)
 │   │   ├── multiple-claude-accounts.txt Do alag Claude accounts ek saath chalana (CLAUDE_CONFIG_DIR)
 │   │   ├── openrouter-claude.txt   OpenRouter se Claude, kab use karein, behtar options
 │   │   ├── openrouter-free-models.txt OpenRouter ke free models (:free) aur $0 coding setup
