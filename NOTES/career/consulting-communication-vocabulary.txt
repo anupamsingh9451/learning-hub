@@ -1,0 +1,131 @@
+PROFESSIONAL CONSULTING VOCABULARY & CLIENT COMMUNICATION
+========================================================
+Topic: career, communication, consulting, soft-skills, professional-english
+Date: 28-10-2026
+Time: 15:05
+Status: reference / practical guide
+Source: High-authority consulting vocabulary & client communication
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    Casual dev shabdon (issue, idea, people, project) ko high-authority
+    consulting terms (problem statement, hypothesis, stakeholders,
+    engagement) me convert karke client meetings aur updates me 10x
+    zyada professional aur confident dikhne ki practical guide.
+
+
+------------------------------------------------------------
+2. CORE CONSULTING VOCABULARY
+------------------------------------------------------------
+    Normal Word      Premium Consulting Term    Simple Hinglish Meaning
+    -----------      -----------------------    -----------------------
+    Issue            Problem Statement          Problem ko clear, precise aur
+                                                specific banana.
+    Idea             Hypothesis                 Aisi assumption jise test ya
+                                                data se validate karna hai.
+    People           Stakeholders               Project, decision ya outcome
+                                                se jude sabhi log (client, team).
+    Findings         Insights                   Raw data ya information se
+                                                nikla meaningful conclusion.
+    Output           Deliverables               Client ko milne wale agreed final
+                                                results / features / docs.
+    Project          Engagement                 Client ke saath ek defined,
+                                                professional assignment/contract.
+
+
+------------------------------------------------------------
+3. IN TERMS KO PROFESSIONALLY KAISE USE KAREIN (EXAMPLES)
+------------------------------------------------------------
+
+1. Issue  -->  Problem Statement
+   Normal:
+   "We have an issue with the dashboard."
+   Professional:
+   "The problem statement is that dashboard loading times are affecting
+   user productivity."
+
+2. Idea  -->  Hypothesis
+   Normal:
+   "I have an idea to improve performance."
+   Professional:
+   "My hypothesis is that implementing lazy loading will reduce the
+   initial page load time."
+
+3. People  -->  Stakeholders
+   Normal:
+   "We need to talk to the people involved."
+   Professional:
+   "We need to align with the key stakeholders before finalizing the
+   requirements."
+
+4. Findings  -->  Insights
+   Normal:
+   "These are our findings from testing."
+   Professional:
+   "Our key insights indicate that API response time is the primary
+   performance bottleneck."
+
+5. Output  -->  Deliverables
+   Normal:
+   "I will share the output tomorrow."
+   Professional:
+   "The key deliverables will include the implementation, test results,
+   and technical documentation."
+
+6. Project  -->  Engagement
+   Normal:
+   "We are working on a new project."
+   Professional:
+   "We are initiating a new client engagement focused on modernizing
+   the LMS platform."
+
+
+------------------------------------------------------------
+4. 10 BONUS CONSULTING PHRASES FOR DAILY WORK
+------------------------------------------------------------
+    Instead of saying...       Try saying...
+    --------------------       -------------
+    I think                    My assessment is...
+    Maybe                      One possibility is...
+    Let's start                Let's establish the scope...
+    We need to fix this        We need to address the root cause...
+    I will check               I will validate this...
+    What do you want?          What is the desired outcome?
+    This is not working        The current approach is not meeting the
+                               requirements...
+    We have completed it       The agreed deliverables have been completed...
+    Any updates?               Could you share the current status and key
+                               blockers?
+    We should do this          My recommendation is to...
+
+
+------------------------------------------------------------
+5. REAL SOFTWARE DEVELOPMENT EXAMPLE (BEFORE VS AFTER)
+------------------------------------------------------------
+
+Casual Dev Way:
+    "I found an issue in the LMS. I have an idea to fix it. I will talk
+    to people and complete the project."
+
+Professional Consultant / Senior Dev Way:
+    "My initial assessment identified a problem statement related to LMS
+    performance. My hypothesis is that optimizing API calls and
+    introducing lazy loading will improve the user experience. I will align
+    with the relevant stakeholders, validate the approach through testing,
+    and deliver the agreed improvements as part of this engagement."
+
+
+------------------------------------------------------------
+6. GOLDEN RULE / MINDSET
+------------------------------------------------------------
+    - Premium communication ka matlab difficult ya complicated English bolna
+      nahi hai.
+    - Iska matlab apni baat ko CLEAR, SPECIFIC, EVIDENCE-BASED aur
+      CONFIDENT banana hai.
+    - Har normal word ko zabardasti replace nahi karna:
+      * "Hypothesis" tabhi bolo jab assumption ko data ya testing se
+        validate karna ho.
+      * "Engagement" tabhi bolo jab client assignment ya formal contract
+        ke context me baat ho rahi ho.

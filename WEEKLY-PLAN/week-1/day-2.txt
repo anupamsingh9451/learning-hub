@@ -48,7 +48,7 @@ Column ka matlab:
 Ye Week 12 tak KHAALI rahegi. Bas abhi bana ke rakh do, taaki jab time aaye to
 system ready ho.
 
-Kahan rakhein: D:\credentials\career-2027\notes\ me rakh sakte ho. (Note:
+Kahan rakhein: <secure-dir>\career-2027\notes\ me rakh sakte ho. (Note:
 .xlsx binary file hai, git me chalegi, bas diff nahi dikhega.)
 
 

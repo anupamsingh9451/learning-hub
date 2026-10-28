@@ -104,5 +104,5 @@ Status: installed / teeno setups me
       ka pehla step kaam nahi karega.
     - Skill sirf standards deta hai. Asli task (kya banana hai) alag se
       batana padega.
-    - Isme koi password ya key nahi hai. MCP ke credentials D:\credentials
+    - Isme koi password ya key nahi hai. MCP ke credentials <secure-credentials-dir>
       me hi rehne chahiye.

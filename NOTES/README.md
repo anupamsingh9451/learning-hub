@@ -29,7 +29,8 @@ NOTES/
 ├── python/
 │   └── python-repos.txt
 ├── career/
-│   └── high-paying-skills.txt 5 skills, 90 din plan, pehla client/job
+│   ├── high-paying-skills.txt 5 skills, 90 din plan, pehla client/job
+│   └── consulting-communication-vocabulary.txt Premium consulting terms, professional dev communication
 ├── git/
 │   └── gitkeep.txt            .gitkeep kya hai, khaali folder kaise rakhein
 ├── ai/

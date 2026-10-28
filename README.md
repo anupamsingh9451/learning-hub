@@ -61,7 +61,7 @@ PUSH.bat  # double-click karo
 
 > [!CAUTION]
 > Koi **password, API key, `.pem`, client data** yahan NAHI.
-> Ye repo public bhi ho sakta hai. Credentials sirf `D:\credentials` me rakhein.
+> Ye repo public bhi ho sakta hai. Credentials sirf external secure credentials folder me rakhein.
 > `sync.ps1` commit se pehle secret jaisi lines check karta hai.
 
 - Notes aur docs `.txt` me, isi format me (`TITLE`, `=====`, `------` sections).

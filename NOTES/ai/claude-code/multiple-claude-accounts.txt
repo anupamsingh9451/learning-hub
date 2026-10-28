@@ -93,7 +93,7 @@ Source: Claude Code docs (https://code.claude.com/docs/en/authentication.md)
 
     2. VS Code (Personal) - Desktop Shortcut / `code-personal`:
        - Uses custom data dir: C:\Users\Anupam Singh\.vscode-personal
-       - Account: anupamsingh9451@gmail.com (Personal)
+       - Account: your-email@gmail.com (Personal)
        - Extension Settings me pre-configured:
          CLAUDE_CONFIG_DIR = C:\Users\Anupam Singh\.claude-personal
 

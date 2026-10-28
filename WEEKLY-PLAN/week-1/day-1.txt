@@ -9,7 +9,7 @@ AAJ KA GOAL (ek line me):
 
 AAJ KE END TAK YE HONA CHAHIYE:
     [ ] Saare tools install aur sahi version me
-    [ ] D:\credentials\career-2027 repo GitHub pe (private) push
+    [ ] <secure-dir>\career-2027 repo GitHub pe (private) push
     [ ] learning-log.md me 4 baseline scores (1–5)
     [ ] Decide: normal track ya fast track (PHP score 4/5 = fast track)
 
@@ -51,7 +51,7 @@ STEP 2 – career-2027 REPO BANAO (0:15 – 0:30)
 Ye repo tumhari 6 mahine ki "diary + practice copy" hai.
 
 Banana hai:
-    D:\credentials\career-2027\
+    <secure-dir>\career-2027\
     ├── notes\
     ├── exercises\week01\
     ├── capstone\           (sirf EduAssist ke notes/decisions – code NAHI)
@@ -59,8 +59,8 @@ Banana hai:
     └── .gitignore          (andar 2 line:  vendor/   aur   .env )
 
 PowerShell me:
-    mkdir D:\credentials\career-2027
-    cd D:\credentials\career-2027
+    mkdir <secure-dir>\career-2027
+    cd <secure-dir>\career-2027
     mkdir notes, exercises\week01, capstone
     New-Item learning-log.md, .gitignore
 

@@ -106,6 +106,7 @@ Source: https://bit.ly/3UAZU6S  (Instagram creator @woke_engineer ka links page,
     30) Vibe Coding a Real SaaS: 15-Layer Playbook            PDF   [padha]
         https://drive.google.com/file/d/1YQHMjKmWpsES3vAAnmxzTbS5Mv9yS0pf/view
         Note: NOTES/ai/saas-15-layer-playbook.txt
+        Local copy: RESOURCES/pdf/vibe-coding-real-saas-playbook.pdf
 
     Isi creator ke jo resources maine padh ke note banaye:
         - 3D product website (AURIX guide)  NOTES/ai/ai-3d-product-website.txt

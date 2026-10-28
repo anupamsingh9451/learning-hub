@@ -86,7 +86,7 @@ Sunday setup ko bhi log karo, bas heading me "Phase 0" likh do.
 ------------------------------------------------------------
 5. HAFTE KE END TAK FOLDER STRUCTURE AISA DIKHEGA
 ------------------------------------------------------------
-D:\credentials\career-2027\
+<secure-dir>\career-2027\
     ├── .gitignore              (vendor/ aur .env)
     ├── learning-log.md         (roz ki diary)
     ├── notes\

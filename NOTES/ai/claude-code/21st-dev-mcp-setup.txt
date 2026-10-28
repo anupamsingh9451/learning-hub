@@ -1,0 +1,163 @@
+21ST.DEV (MAGIC MCP) SETUP IN CLAUDE
+====================================
+Topic: ai, claude-code, claude-desktop, mcp, 21st-dev, ui-ux, react, tailwind
+Date: 28-10-2026
+Time: 14:58
+Status: documented / step-by-step guide
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    21st.dev (pehle Magic MCP naam se jaana jata tha) ek Model Context
+    Protocol (MCP) server hai jo Claude ko 10,000+ designer-made React,
+    Tailwind CSS aur shadcn/ui components, animations aur brand SVG logos
+    se seedha connect karta hai.
+
+    Ise add karne ke baad Claude ko zero se UI nahi banana padta—wo
+    21st.dev se production-ready components search karke seedha tumhare
+    codebase me daal sakta hai.
+
+
+------------------------------------------------------------
+2. YEH KYUN CHAHIYE (BENEFITS)
+------------------------------------------------------------
+    1. No "AI Slop": Claude generic aur boring UI banane ke bajaye
+       professional designers ke banaye sleek components use karta hai.
+    2. Instant Component Search: Terminal me hi search kar leta hai:
+       "pricing table", "animated hero background", "bento grid", etc.
+    3. SVG Logos: Brand logos (Stripe, GitHub, Google, etc.) turant SVG
+       format me laakar code me embed kar deta hai.
+    4. Fast Prototyping: v0 jaisa experience direct terminal/editor me
+       milta hai.
+
+
+------------------------------------------------------------
+3. PREREQUISITES
+------------------------------------------------------------
+    1. Node.js & npm installed hona chahiye.
+    2. 21st.dev par ek free account (https://21st.dev).
+    3. Claude Code CLI ya Claude Desktop app.
+
+
+------------------------------------------------------------
+4. STEP-BY-STEP SETUP GUIDE
+------------------------------------------------------------
+
+--- STEP 1: 21st CLI Install Karo ---
+Terminal (PowerShell ya CMD) open karo aur globally CLI install karo:
+
+    npm install -g @21st-dev/cli
+
+
+--- STEP 2: 21st Account Login Karo ---
+Terminal me run karo:
+
+    21st login
+
+    Yeh command tumhara browser kholega.
+    Apne 21st.dev account se authorize karo.
+    Token automatically tumhare system par save ho jayega:
+    (~/.config/21st ya Windows me AppData/UserProfile me).
+
+
+--- STEP 3: Claude Code me Add Karo ---
+
+Option A: Automated Setup (Sabse Aasan)
+Terminal me run karo:
+
+    npx @21st-dev/cli@latest init --client claude
+
+    Yeh Claude Code ke configuration me 21st MCP server ko
+    automatically inject kar dega.
+
+Option B: Manual Command (Claude Code CLI se)
+Agar tum Claude Code CLI ke andar ho ya direct command chalana chahte ho:
+
+    claude mcp add 21st npx -y @21st-dev/cli@latest
+
+    (Note: Tum direct SSE endpoint bhi use kar sakte ho:
+     claude mcp add --transport sse 21st https://21st.dev/api/mcp)
+
+
+--- STEP 4: 21st Agent Skill Install Karo (Recommended) ---
+21st ka apna ek custom agent skill bhi aata hai jo Claude ko behtar
+tarike se sikhata hai ki components kaise search aur use karne hain:
+
+    npx @21st-dev/cli install-skill
+
+
+--- STEP 5: Claude Desktop App me Add Karna (Agar Desktop App use karte ho) ---
+Agar tum Claude Desktop (Windows app) me bhi 21st chahte ho:
+
+1. Config file open karo:
+   Win + R dabao aur enter karo:
+   %APPDATA%\Claude\claude_desktop_config.json
+
+2. Us JSON file me `mcpServers` ke andar `21st` add kar do:
+
+{
+  "mcpServers": {
+    "21st": {
+      "command": "npx",
+      "args": ["-y", "@21st-dev/cli@latest"]
+    }
+  }
+}
+
+3. File save karke Claude Desktop ko completely restart karo.
+
+
+------------------------------------------------------------
+5. MULTIPLE CLAUDE ACCOUNTS KE LIYE SETUP
+------------------------------------------------------------
+    Agar tumhare paas multiple Claude Code setups hain
+    (e.g., .claude, .claude-personal, .claude-openrouter):
+
+    Har setup ke session me jaakar ya unke respective config me
+    MCP register karna padta hai:
+
+    Method 1:
+    Har account wale session me ek baar run karo:
+    > /mcp add 21st npx -y @21st-dev/cli@latest
+
+    Method 2:
+    Unke respective config files (`~/.claude.json` ya config dir me)
+    check karo ki `mcpServers` me `21st` entry visible hai.
+
+
+------------------------------------------------------------
+6. KAISE TEST AUR USE KAREIN (EXAMPLE PROMPTS)
+------------------------------------------------------------
+Setup hone ke baad Claude Code ya Claude Desktop open karo aur check karo:
+
+Check Status:
+    Claude session me type karo:
+    /mcp
+    Wahan "21st" running / connected dikhai dega.
+
+Kaise Kaam Karwayen (Prompts):
+
+1. Component dhoondh ke add karwana:
+   "Find a modern pricing table with monthly/yearly toggle on 21st.dev
+   and add it to my Next.js components folder."
+
+2. Hero section ya animations:
+   "Find an animated gradient hero background from 21st and integrate it."
+
+3. Logos mangwana:
+   "Search 21st for Stripe, GitHub and Supabase SVG logos and place
+   them in my TechStack component."
+
+4. Multiple variants banana:
+   "Draft 3 different variations of a testimonial section using 21st AI."
+
+
+------------------------------------------------------------
+7. SUMMARY CHECKLIST
+------------------------------------------------------------
+[ ] npm i -g @21st-dev/cli
+[ ] 21st login
+[ ] npx @21st-dev/cli@latest init --client claude
+[ ] npx @21st-dev/cli install-skill (optional but good)
+[ ] Test prompt: "Search 21st for an animated navbar component"
