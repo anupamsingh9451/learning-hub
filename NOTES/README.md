@@ -40,6 +40,7 @@ NOTES/
 │   │   └── multiple-antigravity-accounts.txt Do alag Antigravity accounts ek saath chalana (--user-data-dir)
 │   ├── claude-seo-skills.txt      Claude SEO Skills: technical audits, GEO/AEO, schema, keywords (Notion blueprint)
 │   ├── claude-code/           Claude Code ka setup aur providers
+│   │   ├── fullstack-engineer-skill.txt Mera backend/UI standards skill: kahan hai, kab trigger hota hai
 │   │   ├── multiple-claude-accounts.txt Do alag Claude accounts ek saath chalana (CLAUDE_CONFIG_DIR)
 │   │   ├── openrouter-claude.txt   OpenRouter se Claude, kab use karein, behtar options
 │   │   ├── openrouter-free-models.txt OpenRouter ke free models (:free) aur $0 coding setup

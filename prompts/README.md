@@ -12,7 +12,8 @@ prompts/
 ├── README.md               # Yeh master index file
 ├── master/                 # Multi-discipline cross-project master prompts
 │   ├── README.md           # Master prompts directory index
-│   └── 27-10-2026-fullstack-ui-seo-master-prompt.txt
+│   ├── 27-10-2026-fullstack-ui-seo-master-prompt.txt
+│   └── 28-10-2026-fullstack-engineer-uiux-role-prompt.txt
 ├── dev/                    # Full-Stack Application Development Prompts (dev-tools.txt)
 │   ├── README.md           # Dev prompts directory index (18 files)
 │   ├── 27-10-2026-fullstack-app-architecture.txt
@@ -127,3 +128,4 @@ prompts/
 
 ### 6. [Master Prompts (`prompts/master/`)](file:///d:/learning-hub/prompts/master/README.md)
 * [**Fullstack UI & SEO Master Prompt**](file:///d:/learning-hub/prompts/master/27-10-2026-fullstack-ui-seo-master-prompt.txt) – Single all-in-one prompt combining Refero, Supahero, Scrolltide, Navbar Gallery, CTA Gallery, Footer Design, 3D Icons, and Claude SEO Skills.
+* [**Full-Stack Engineer & UI/UX Role Prompt**](file:///d:/learning-hub/prompts/master/28-10-2026-fullstack-engineer-uiux-role-prompt.txt) – Session-wide role directive: Laravel + Frappe/ERPNext + Next.js standards, MCP-first workflow, 32px compact design system.

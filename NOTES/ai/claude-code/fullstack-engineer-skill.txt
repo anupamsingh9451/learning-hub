@@ -1,0 +1,108 @@
+FULLSTACK-ENGINEER SKILL (CLAUDE CODE)
+=====================================
+Topic: ai, claude-code, skills, laravel, frappe, nextjs
+Date: 28-10-2026
+Time: 12:32
+Status: installed / teeno setups me
+
+
+------------------------------------------------------------
+1. EK LINE ME
+------------------------------------------------------------
+    Mera full-stack + UI/UX role prompt ab Claude Code ka ek "skill" hai.
+    Jab bhi koi backend ya UI task aata hai, Claude ise khud load kar leta
+    hai, mujhe prompt paste nahi karna padta.
+
+
+------------------------------------------------------------
+2. SKILL KYA HOTA HAI
+------------------------------------------------------------
+    Skill ek folder hota hai jisme ek SKILL.md file hoti hai. Uske upar ek
+    "description" likhi hoti hai. Claude har task pe sab skills ki
+    description dekhta hai. Jo task se match kare, uski poori SKILL.md
+    padh ke usi hisaab se kaam karta hai.
+
+    Fark samjho:
+    - CLAUDE.md   : har session me hamesha load (har kaam pe lagega).
+    - Skill       : sirf jab task description se match kare.
+    - Subagent    : alag context me alag agent chalta hai, result laake
+                    deta hai. Yahan woh nahi chahiye tha, kyunki standards
+                    usi session ke code pe lagne chahiye.
+
+    Isliye skill best fit hai: Laravel ya React ka kaam ho to lage,
+    baaki kaam (notes, email) me beech me na aaye.
+
+
+------------------------------------------------------------
+3. KAHAN INSTALL HAI
+------------------------------------------------------------
+    Mere 3 Claude setups hain, teeno me same file daali hai:
+
+    C:\Users\Anupam Singh\.claude\skills\fullstack-engineer\SKILL.md
+    C:\Users\Anupam Singh\.claude-personal\skills\fullstack-engineer\SKILL.md
+    C:\Users\Anupam Singh\.claude-openrouter\skills\fullstack-engineer\SKILL.md
+
+    Yeh user-level skills hain, yaani har project me available. Kisi ek
+    project ke liye chahiye ho to <project>\.claude\skills\ me rakhte hain.
+
+    Original prompt (copy-paste wala version) repo me yahan hai:
+    prompts\master\28-10-2026-fullstack-engineer-uiux-role-prompt.txt
+
+
+------------------------------------------------------------
+4. KAB TRIGGER HOTA HAI
+------------------------------------------------------------
+    Description me yeh sab likha hai, inme se koi bhi kaam ho to load hoga:
+    - Laravel: controllers, FormRequest, API Resource, Eloquent,
+      migrations, Policies
+    - Frappe / ERPNext: DocTypes, hooks, whitelisted APIs
+    - MySQL / MariaDB / PostgreSQL schema ya queries
+    - React / Next.js (App Router, Server Components, Server Actions)
+    - Inertia.js, Tailwind, shadcn/ui, forms, dashboards, pages, REST APIs
+
+    Khud se chalana ho to Claude Code me likho:  /fullstack-engineer
+    Ya bolo: "fullstack-engineer skill use karke ... banao"
+
+
+------------------------------------------------------------
+5. SKILL ME KYA RULES HAIN (SHORT ME)
+------------------------------------------------------------
+    1. MCP pehle: 21st.dev se UI component, Playwright / DevTools se test,
+       MySQL / Postgres MCP se schema check, Frappe /api/v2/mcp.
+    2. Laravel: thin controller, FormRequest, JsonResource envelope,
+       Policies, eager loading, DB::transaction.
+    3. Frappe: core DocType edit nahi, Custom Field / hooks, whitelist +
+       has_permission, frappe.qb.
+    4. Next.js: Server Components pehle, 'use client' sirf leaf pe, Server
+       Actions + Zod, TanStack Query, Zustand.
+    5. Design: 32px (h-8) controls, glassmorphic, WCAG 2.1 AA.
+    6. Output: pattern batao, poora code do, verification steps batao.
+
+    Original prompt se 3 cheezein maine add ki hain:
+    - Project ka apna CLAUDE.md aur existing code style pehle. Skill ke
+      rules sirf khaali jagah bharte hain.
+    - Koi MCP server connect nahi hai to Claude saaf bataye, aur jo check
+      hua hi nahi use "ho gaya" na bole.
+    - Database MCP sirf local / staging DB pe, production pe kabhi nahi.
+
+
+------------------------------------------------------------
+6. KAISE BADLEIN / CHECK KAREIN
+------------------------------------------------------------
+    - Rule badalna ho: teeno jagah ki SKILL.md same rakho. Ek me edit
+      karke baaki do me copy kar do.
+    - Check karna ho ki dikh raha hai: Claude Code me / type karo, list me
+      "fullstack-engineer" aana chahiye. Naya session kholna pad sakta hai.
+    - Band karna ho: folder delete kar do (ya kahin aur move kar do).
+
+
+------------------------------------------------------------
+7. DHYAN RAKHNE WALI BAATEIN
+------------------------------------------------------------
+    - 21st.dev MCP abhi (28-10-2026) connect nahi ho raha tha
+      ("ENOTFOUND 21st.dev"). /mcp me check karke theek karo, warna skill
+      ka pehla step kaam nahi karega.
+    - Skill sirf standards deta hai. Asli task (kya banana hai) alag se
+      batana padega.
+    - Isme koi password ya key nahi hai. MCP ke credentials D:\credentials
+      me hi rehne chahiye.
